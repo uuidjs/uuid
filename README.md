@@ -1,17 +1,18 @@
 # node-uuid
 
-Generate RFC4122(v4) UUID strings.
+Generate standards-compliant UUID strings.
 
-This module is a distillation of the UUID work detailed at
-(broofa.com)[http://www.broofa.com/2008/09/javascript-uuid-function/].  It
-provides a fast, pure-JS, UUID method that will work on most JS platforms.
+This module is a distillation of the UUID work detailed at [broofa.com](http://www.broofa.com/2008/09/javascript-uuid-function/).  It provides a fast, pure-JS, method for generating RFC4122(v4) UUIDS, and will work on most JS platforms.
 
 Before installing this, you should probably also look atNikhil Marathe's
-(uuid)[https://bitbucket.org/nikhilm/uuidjs] module.  It's uses the native
+[uuid module](https://bitbucket.org/nikhilm/uuidjs).  It's uses the native
 libuuid API to support generation of both string and binary forms of UUIDs, and
-is ~1.5X faster. (But it's *only* 1.5X faster :-) ).
+is ~1.5X faster. (But it's *only* 1.5X faster  - node-uuid can generate &gt;
+    200K strings/second on a modern system).
 
-But if working in browsers is important to you, this may be the code for you.
+## Installation
+
+    npm install node-uuid
 
 ## Usage
 
