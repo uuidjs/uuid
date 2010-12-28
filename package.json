@@ -1,0 +1,12 @@
+{
+  "name"          : "node-uuid",
+  "description"   : "Pure JS support for RFC4122(v4) UUIDs (plus a non-RFC utility for generating more compact uids",
+  "url"           : "http://github.com/broofa/node-uuid",
+  "keywords"      : ["uuid", "guid", "rfc4122"],
+  "author"        : "Robert Kieffer <robert@broofa.com>",
+  "contributors"  : [],
+  "dependencies"  : [],
+  "lib"           : ".",
+  "main"          : "lib/uuid.js",
+  "version"       : "0.1.0"
+}
