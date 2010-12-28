@@ -7,6 +7,9 @@ function bench(f, msg, n) {
   console.log(msg + ': ' + (n / (t / 1000) | 0) + ' times per second');
 }
 
-bench(require('../uuid'), 'node-uuid', 1e5);
+var n = 1e5;
+// Benchmark node-uuid against other uuid libraries
+bench(require('../uuid'), 'node-uuid', n);
 
-bench(require('uuid').generate, 'uuid.js', 1e5);
+// 'uuid' from https://bitbucket.org/nikhilm/uuidjs
+bench(require('uuid').generate, 'uuid.js', n);
