@@ -14,5 +14,14 @@ So why this module?  Because there are platforms where libuuid may not be availa
 
 ## Usage
 
+### In node.js
+
     var uuid = require('node-uuid');
     var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+
+### In browser
+
+    <script src="uuid.js"></script>
+    <script>
+      var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+    <script>
