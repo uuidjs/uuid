@@ -7,6 +7,6 @@
   "contributors"  : [],
   "dependencies"  : [],
   "lib"           : ".",
-  "main"          : "lib/uuid.js",
+  "main"          : "./uuid.js",
   "version"       : "1.0.0"
 }
