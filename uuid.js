@@ -14,10 +14,10 @@
   *     var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
   *   <script>
   */
-  var CHARS = '0123456789ABCDEF'.split('');
+  var CHARS = '0123456789ABCDEF'.split(''), _id=new Array(36);
   function uuid() {
     var chars = CHARS, id = new Array(36);
-    var id = [36], rnd, r, h = 8;
+    var id = _id, rnd, r, h = 8;
     for (var i = 0, j = 0; i < 36; i++) {
       if (i == h) {
         // Insert hyphens where needed
