@@ -8,7 +8,7 @@ function bench(f, msg, n) {
     f();
   }
   var t = Date.now() - start;
-  console.log(msg + ': ' + (n / (t / 1000) | 0) + ' times per second');
+  console.log(msg + ': ' + (n / (t / 1000) | 0) + ' uuids/second');
 }
 
 var n = 5e5;

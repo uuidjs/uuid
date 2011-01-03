@@ -1,7 +1,7 @@
 /*
 Test performance of native C UUID generation
 
-To Compile: cc -luuid native.c -o native
+To Compile: cc -luuid benchmark-native.c -o benchmark-native
 */
 
 #include <stdio.h>
