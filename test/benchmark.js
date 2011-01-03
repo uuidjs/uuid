@@ -12,9 +12,10 @@ function bench(f, msg, n) {
 }
 
 var n = 5e5;
-// 'uuid' from https://bitbucket.org/nikhilm/uuidjs
-bench(require('uuid').generate, 'uuid.js', n);
 
 // Benchmark node-uuid against other uuid libraries
 bench(require('../uuid'), 'node-uuid', n);
+
+// 'uuid' from https://bitbucket.org/nikhilm/uuidjs
+bench(require('uuid').generate, 'uuid.js', n);
 
