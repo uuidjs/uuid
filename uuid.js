@@ -16,8 +16,9 @@
   */
   var CHARS = '0123456789ABCDEF'.split(''), _id=new Array(36);
   function uuid() {
-    var chars = CHARS, id = new Array(36);
+    var chars = CHARS;
     var id = _id, rnd, r, h = 8;
+
     for (var i = 0, j = 0; i < 36; i++) {
       if (i == h) {
         // Insert hyphens where needed

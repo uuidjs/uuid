@@ -1,5 +1,15 @@
-var assert = require('assert').ok;
-var uuid = require('../uuid');
+if (typeof(uuid) == 'undefined') {
+  uuid = require('../uuid');
+}
+
+function log(msg) {
+  if (typeof(document) != 'undefined') {
+    document.write('<div>' + msg + '</div>');
+  }
+  if (typeof(console) != 'undefined') {
+    console.log(msg);
+  }
+}
 
 var UUID_FORMAT = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}/;
 
@@ -25,13 +35,13 @@ function divergence(actual, ideal) {
   return Math.round(100*100*(actual - ideal)/ideal)/100;
 }
 
-console.log( 'The following histogram shows the number of times each digit \
+log( 'The following chart shows the number of times each digit \
 appeared in a sampling of ' + N + ' uuids, along with the percent divergence \
 from the expected value for an ideal random number source.  Certains digits are \
 expected to appear more often.  Specifically, "4" is always used at index 14, \
 and only "8", "9", "A", and "B" are allowed at index 19.\n \
----------------- \
 ');
+log('- - - - - - - - - - -');
 
 // Check randomness
 for (var i = 0; i < 16; i++) {
@@ -54,7 +64,7 @@ for (var i = 0; i < 16; i++) {
 
   // Draw bar using UTF squares (just for grins)
   var s = n/max*50 | 0;
-  while (s--) bar += '\u25FB';
+  while (s--) bar += '=';
 
-  console.log(c + ': ' + bar + ' ' + counts[c] + ' (' + d + '%)');
+  log(c + ' |' + bar + '| ' + counts[c] + ' (' + d + '%)');
 }
