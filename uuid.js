@@ -14,31 +14,51 @@
   *     var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
   *   <script>
   */
-  var CHARS = '0123456789ABCDEF'.split(''), _id=new Array(36);
+  var CHARS = '0123456789ABCDEF'.split('');
+  var _id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.split('');
   function uuid() {
-    var chars = CHARS;
-    var id = _id, rnd, r, h = 8;
+    var c = CHARS, id = _id, i = 0, r = Math.random()*0x100000000;
 
-    for (var i = 0, j = 0; i < 36; i++) {
-      if (i == h) {
-        // Insert hyphens where needed
-        id[i] = '-';
-        h = h < 23 ? h+5 : -1;
-      } else if (i==14) {
-        // RFC4122 (sec 4.1.3) requires this
-        id[i] = '4';
-      } else {            // Set random bits
-        // Minimize calls to [the expensive] Math.random() method
-        if (j == 0) {
-          rnd = Math.random()*0x100000000;
-        }
-        var r = rnd & 0xf;
-        rnd = rnd >>> 4;
-        j = (j + 1) & 0x7;
+    // i = 0
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4; r = Math.random()*0x100000000;
 
-        id[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
-      }
-    }
+    i++; // i = 9
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+
+    i += 2; // i = 15
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4; r = Math.random()*0x100000000;
+
+    i++; // i = 19
+    id[i++] = c[r & 0x3 | 0x8]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+
+    i++; // i = 24
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4; r = Math.random()*0x100000000;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
+    id[i++] = c[r & 0xf]; r = r >>> 4;
 
     return id.join('');
   };

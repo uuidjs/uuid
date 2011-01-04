@@ -2,14 +2,11 @@
 
 Generate standards-compliant UUID strings.
 
-This module is a distillation of the UUID work detailed at
-[broofa.com](http://www.broofa.com/2008/09/javascript-uuid-function/).  It
-provides a fast, pure-JS, method for generating RFC4122(v4) UUIDS and will
-work on any JS platform.
+This module provides a fast (possibly *the* fastest?), pure-JS, method for generating [RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It is designed to work in both node.js and all major browsers.
 
-Before installing this, you should probably also look at Nikhil Marathe's [uuid module](https://bitbucket.org/nikhilm/uuidjs).  It's uses the native libuuid API to support generation of both string and binary forms of UUIDs, and is slightly faster. (But it's *only* slightly faster - on my 2.66GHz Macbook Pro using the test/benchmark.js script node-uuid clocked in at 452K uuids/sec, compared to uuidjs at 535K uuids/sec.)
+You might also consider Nikhil Marathe's [uuid module](https://bitbucket.org/nikhilm/uuidjs).  It uses the native libuuid API to support generation of both string and binary forms of UUIDs, and is slightly faster. (But it's *only* slightly faster - on my 2.66GHz Macbook Pro, using test/benchmark.js, node-uuid clocked in at ~590K uuids/sec. Contrast to uuidjs, at ~620K uuids/sec.)
 
-So why this module?  There are platforms where the libuuid API may not be available, and having a fast, light-weight alternative is always nice.
+So why node-uuid?  Generating UUIDs should be a fast, should conform to the RFC spec, and should work in any JS environment.  It is surprisingly easy to write a UUID generator that fails to meet one or more of these goals.  This was a fun challenge and the result leverages some interesting nuances (such as minimizing calls to random() and caching function-local references to the various arrays).  I hope you find the result useful.
 
 ## Installation
 
@@ -40,3 +37,9 @@ The provided test verifies the syntax of 100K generated uuids to make sure they 
 ### In browser
 
     Open test/test.html
+
+## Implementation notes
+
+This is a continuation of the UUID work detailed at [broofa.com](http://www.broofa.com/2008/09/javascript-uuid-function/).
+
+The code has gone through quite a few iterations, with the most recent coming from Cory Ondrejka's suggestion to unroll the for-loop I'd been using previously.  At first glance this may appear to bloat the code a bit, the end result is code that is 30% faster and, when gzip'ed, 30% *smaller* than featured previously.  Go figure.
