@@ -44,9 +44,32 @@ This module provides a fast (possibly the fastest?) solution for generating stri
 
 ## Testing
 
-test/test.js generates performance data (similar to test/benchmark.js). It also verifies the syntax of 100K string UUIDs, and logs the distribution of hex digits found therein.
+test/test.js generates performance data (similar to test/benchmark.js). It also verifies the syntax of 100K string UUIDs, and logs the distribution of hex digits found therein.  For example:
 
-(BTW, if someone wants to do the calculation to determine what a statistically significant deviation would be, I'll gladly add that to the the test.)
+    - - - Performance Data - - -
+    uuid(): 1052631 uuids/second
+    uuid('binary'): 680272 uuids/second
+    uuid('binary', buffer): 2702702 uuids/second
+
+    - - - Distribution of Hex Digits (% deviation from ideal) - - -
+    0 |================================| 187705 (0.11%)
+    1 |================================| 187880 (0.2%)
+    2 |================================| 186875 (-0.33%)
+    3 |================================| 186847 (-0.35%)
+    4 |==================================================| 287433 (-0.02%)
+    5 |================================| 187910 (0.22%)
+    6 |================================| 188172 (0.36%)
+    7 |================================| 187350 (-0.08%)
+    8 |====================================| 211994 (-0.24%)
+    9 |====================================| 212664 (0.08%)
+    A |=====================================| 213185 (0.32%)
+    B |=====================================| 212877 (0.18%)
+    C |================================| 187445 (-0.03%)
+    D |================================| 186737 (-0.41%)
+    E |================================| 187155 (-0.18%)
+    F |================================| 187771 (0.14%)
+
+Note that the increased values for 4 and 8-B are expected as part of the RFC4122 syntax (and are accounted for in the deviation calculation). BTW, if someone wants to do the calculation to determine what a statistically significant deviation would be, I'll gladly add that to the test.
 
 ### In browser
 
