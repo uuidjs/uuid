@@ -97,6 +97,6 @@ node-uuid is designed to be fast.  That said, the target platform is node.js, wh
 
 The uuidjs() entries are for Nikhil Marathe's [uuidjs module](https://bitbucket.org/nikhilm/uuidjs), and are provided for comparison.  uuidjs is a wrapper around the native libuuid library.
 
-### In node.js
+### In browser
 
 node-uuid performance varies dramatically across browsers.  For comprehensive test results, please [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
