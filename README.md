@@ -10,37 +10,37 @@ This module provides a fast (possibly the fastest?) solution for generating stri
 
 ### In browser
 
-   <script src="uuid.js"></script>
+    <script src="uuid.js"></script>
 
 ### In node.js
 
-   var uuid = require('node-uuid');
+    var uuid = require('node-uuid');
 
 ## Usage
 
 ### Generate a String UUID
 
-   var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+    var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
 
 ### Generate a Binary UUID
 
-   // Simple form - allocates a Buffer/Array for you
-   var buf = uuid('binary');
-   // node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
-   // browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+    // Simple form - allocates a Buffer/Array for you
+    var buf = uuid('binary');
+    // node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+    // browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
 
-   // Provide your own Buffer or Array
-   var buf = new Array(16);
-   uuid('binary', buf); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
-   var buf = new Buffer(16);
-   uuid('binary', buf); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+    // Provide your own Buffer or Array
+    var buf = new Array(16);
+    uuid('binary', buf); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+    var buf = new Buffer(16);
+    uuid('binary', buf); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
 
-   // Provide your own Buffer/Array, plus specify offset
-   // (e.g. here we fill an array with 3 uuids)
-   var buf = new Buffer(16 \* 3);
-   uuid('binary', id, 0);
-   uuid('binary', id, 16);
-   uuid('binary', id, 32);
+    // Provide your own Buffer/Array, plus specify offset
+    // (e.g. here we fill an array with 3 uuids)
+    var buf = new Buffer(16 \* 3);
+    uuid('binary', id, 0);
+    uuid('binary', id, 16);
+    uuid('binary', id, 32);
 
 ## Testing
 
