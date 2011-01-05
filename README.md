@@ -1,8 +1,6 @@
 # node-uuid
 
-Generate standards-compliant UUID strings.
-
-This module provides a fast (possibly the fastest?) solution for generating string and binary [RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It runs in node.js and all major browsers.
+Simple, fast generation of RFC4122[RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It runs in node.js and all major browsers.
 
 ## Installation
 
