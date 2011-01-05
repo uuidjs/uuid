@@ -2,6 +2,9 @@ if (typeof(uuid) == 'undefined') {
   uuid = require('../uuid');
 }
 
+var UUID_FORMAT = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}/;
+var N = 1e5;
+
 function log(msg) {
   if (typeof(document) != 'undefined') {
     document.write('<div>' + msg + '</div>');
@@ -11,15 +14,31 @@ function log(msg) {
   }
 }
 
-var UUID_FORMAT = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}/;
+function rate(msg, t) {
+  log(msg + ': ' + (N / (Date.now() - t) * 1e3 | 0) + ' uuids/second');
+}
 
-var N = 1e5;
+// Perf tests
+log('- - - Performance Data - - -');
+for (var i = 0, t = Date.now(); i < N; i++) uuid();
+rate('uuid()', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid('binary');
+rate('uuid(\'binary\')', t);
+var buf = new uuid.BufferClass(16);
+for (var i = 0, t = Date.now(); i < N; i++) uuid('binary', buf);
+rate('uuid(\'binary\', buffer)', t);
+
 var counts = {}, max = 0;
 
+var b  = new uuid.BufferClass(16);
 for (var i = 0; i < N; i++) {
   id = uuid();
   if (!UUID_FORMAT.test(id)) {
     throw Error(id + ' is not a valid UUID string');
+  }
+
+  if (id != uuid.unparse(uuid.parse(id))) {
+    throw Error(id + ' does not parse/unparse');
   }
 
   // Count digits for our randomness check
@@ -35,13 +54,7 @@ function divergence(actual, ideal) {
   return Math.round(100*100*(actual - ideal)/ideal)/100;
 }
 
-log( 'The following chart shows the number of times each digit \
-appeared in a sampling of ' + N + ' uuids, along with the percent divergence \
-from the expected value for an ideal random number source.  Certains digits are \
-expected to appear more often.  Specifically, "4" is always used at index 14, \
-and only "8", "9", "A", and "B" are allowed at index 19.\n \
-');
-log('- - - - - - - - - - -');
+log('<br />- - - Distribution of Hex Digits (% deviation from ideal) - - -');
 
 // Check randomness
 for (var i = 0; i < 16; i++) {
