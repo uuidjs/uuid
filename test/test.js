@@ -2,7 +2,7 @@ if (typeof(uuid) == 'undefined') {
   uuid = require('../uuid');
 }
 
-var UUID_FORMAT = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}/;
+var UUID_FORMAT = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89a-fAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}/;
 var N = 1e5;
 
 function log(msg) {
@@ -58,7 +58,7 @@ log('<br />- - - Distribution of Hex Digits (% deviation from ideal) - - -');
 
 // Check randomness
 for (var i = 0; i < 16; i++) {
-  var c = i.toString(16).toUpperCase();
+  var c = i.toString(16);
   var bar = '', n = counts[c], p = Math.round(n/max*100|0);
 
   // 1-3,5-8, and D-F: 1:16 odds over 30 digits

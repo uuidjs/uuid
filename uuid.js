@@ -15,14 +15,14 @@
   var toString = [];
   var toNumber = {};
   for (var i = 0; i < 256; i++) {
-    toString[i] = (i + 0x100).toString(16).substr(1).toUpperCase();
+    toString[i] = (i + 0x100).toString(16).substr(1);
     toNumber[toString[i]] = i;
   }
 
   function parse(s) {
     var buf = new BufferClass(16);
     var i = 0, ton = toNumber;
-    s.toUpperCase().replace(/[0-9A-F][0-9A-F]/g, function(octet) {
+    s.toLowerCase().replace(/[0-9a-f][0-9a-f]/g, function(octet) {
       buf[i++] = toNumber[octet];
     });
     return buf;
