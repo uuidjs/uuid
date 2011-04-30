@@ -38,32 +38,31 @@
            tos[b[13]] + tos[b[14]] + tos[b[15]];
   }
 
+  var b32 = 0x100000000, ff = 0xff;
   function uuid(fmt, buf, offset) {
-    var b32 = 0x100000000, ff = 0xff;
-
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
     r = Math.random()*b32;
     b[i++] = r & ff;
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
     r = Math.random()*b32;
     b[i++] = r & ff;
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
-    b[i++] = (r=r>>>8) & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
+    b[i++] = r>>>24 & ff;
     r = Math.random()*b32;
     b[i++] = r & 0x3f | 0x80; // See RFC4122 sect. 4.4
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
     r = Math.random()*b32;
     b[i++] = r & ff;
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & ff;
-    b[i++] = (r=r>>>8) & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
 
     return fmt === undefined ? unparse(b) : b;
   };
