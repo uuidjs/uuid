@@ -43,7 +43,7 @@
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    r = Math.random()*b32;
+    var r = Math.random()*b32;
     b[i++] = r & ff;
     b[i++] = r>>>8 & ff;
     b[i++] = r>>>16 & ff;
