@@ -1,5 +1,5 @@
-if (typeof(uuid) == 'undefined') {
-  uuid = require('../uuid');
+if (typeof(UUID) == 'undefined') {
+  UUID = require('../uuid');
 }
 
 var UUID_FORMAT = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}/;
@@ -18,21 +18,23 @@ function rate(msg, t) {
   log(msg + ': ' + (N / (Date.now() - t) * 1e3 | 0) + ' uuids/second');
 }
 
+var uuid = new UUID();
+
 // Perf tests
 log('- - - Performance Data - - -');
-for (var i = 0, t = Date.now(); i < N; i++) uuid();
-rate('uuid()', t);
-for (var i = 0, t = Date.now(); i < N; i++) uuid('binary');
-rate('uuid(\'binary\')', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid.generate();
+rate('uuid.generate()', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid.generate('binary');
+rate('uuid.generate(\'binary\')', t);
 var buf = new uuid.BufferClass(16);
-for (var i = 0, t = Date.now(); i < N; i++) uuid('binary', buf);
-rate('uuid(\'binary\', buffer)', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid.generate('binary', buf);
+rate('uuid.generate(\'binary\', buffer)', t);
 
 var counts = {}, max = 0;
 
 var b  = new uuid.BufferClass(16);
 for (var i = 0; i < N; i++) {
-  id = uuid();
+  id = uuid.generate();
   if (!UUID_FORMAT.test(id)) {
     throw Error(id + ' is not a valid UUID string');
   }
