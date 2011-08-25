@@ -38,34 +38,49 @@
            tos[b[13]] + tos[b[14]] + tos[b[15]];
   }
 
-  var b32 = 0x100000000, ff = 0xff;
+  var ff = 0xff;
+
+  // Feature detect for the WHATWG crypto API. See
+  // http://wiki.whatwg.org/wiki/Crypto
+  var useCrypto = this.crypto && crypto.getRandomValues;
+  var rnds = useCrypto ? new Uint32Array(4) : new Array(4);
+console.log(useCrypto);
   function uuid(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    var r = Math.random()*b32;
+    if (useCrypto) {
+      crypto.getRandomValues(rnds);
+    } else {
+      rnds[0] = Math.random()*0x100000000;
+      rnds[1] = Math.random()*0x100000000;
+      rnds[2] = Math.random()*0x100000000;
+      rnds[3] = Math.random()*0x100000000;
+    }
+
+    var r = rnds[0];
     b[i++] = r & ff;
     b[i++] = r>>>8 & ff;
     b[i++] = r>>>16 & ff;
     b[i++] = r>>>24 & ff;
-    r = Math.random()*b32;
+    r = rnds[1];
     b[i++] = r & ff;
     b[i++] = r>>>8 & ff;
     b[i++] = r>>>16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
     b[i++] = r>>>24 & ff;
-    r = Math.random()*b32;
+    r = rnds[2];
     b[i++] = r & 0x3f | 0x80; // See RFC4122 sect. 4.4
     b[i++] = r>>>8 & ff;
     b[i++] = r>>>16 & ff;
     b[i++] = r>>>24 & ff;
-    r = Math.random()*b32;
+    r = rnds[3];
     b[i++] = r & ff;
     b[i++] = r>>>8 & ff;
     b[i++] = r>>>16 & ff;
     b[i++] = r>>>24 & ff;
 
     return fmt === undefined ? unparse(b) : b;
-  };
+  }
 
   uuid.parse = parse;
   uuid.unparse = unparse;
@@ -77,4 +92,4 @@
     // In browser? Set as top-level function
     this.uuid = uuid;
   }
-})();
+}());
