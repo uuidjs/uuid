@@ -21,7 +21,7 @@
 
   function parse(s) {
     var buf = new BufferClass(16);
-    var i = 0, ton = toNumber;
+    var i = 0;
     s.toLowerCase().replace(/[0-9a-f][0-9a-f]/g, function(octet) {
       buf[i++] = toNumber[octet];
     });
