@@ -44,7 +44,7 @@
   // http://wiki.whatwg.org/wiki/Crypto
   var useCrypto = this.crypto && crypto.getRandomValues;
   var rnds = useCrypto ? new Uint32Array(4) : new Array(4);
-console.log(useCrypto);
+
   function uuid(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
