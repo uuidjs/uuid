@@ -1,6 +1,6 @@
 # node-uuid
 
-Simple, fast generation of RFC4122[RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It runs in node.js and all major browsers.
+Simple, fast generation of [RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It runs in node.js and all major browsers.
 
 ## Installation
 
@@ -91,7 +91,7 @@ node.js users can also run the node-uuid .vs. uuid.js benchmark:
 
 ### In node.js
 
-node-uuid is designed to be fast.  That said, the target platform is node.js, where it is screaming fast.  Here's what I get on my 2.66GHz Macbook Pro for the test/benchmark.js script:
+node-uuid is designed to be fast.  That said, the target platform is node.js, where it is screaming fast.  Here's what I get on an Intel Core i7 950 @ 3.07GHz for the test/benchmark.js script:
 
     # v4
     nodeuuid(): 1577287 uuids/second
