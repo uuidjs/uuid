@@ -9,6 +9,8 @@ function rate(msg, t) {
     ' uuids/second');
 }
 
+console.log('# v4');
+
 // node-uuid - string form
 for (var i = 0, t = Date.now(); i < N; i++) nodeuuid();
 rate('nodeuuid()', t);
@@ -30,6 +32,9 @@ rate('uuid(\'binary\')', t);
 // uuid-js - string form
 for (var i = 0, t = Date.now(); i < N; i++) uuidjs.create(4);
 rate('uuidjs.create(4)', t);
+
+console.log('');
+console.log('# v1');
 
 // node-uuid - v1 string form
 for (var i = 0, t = Date.now(); i < N; i++) nodeuuid.v1();
