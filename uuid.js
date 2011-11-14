@@ -82,6 +82,8 @@
     return fmt === undefined ? unparse(b) : b;
   }
 
+  // Inspired by https://github.com/LiosK/UUID.js
+  // and http://docs.python.org/library/uuid.html
   function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
