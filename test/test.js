@@ -2,7 +2,7 @@ if (typeof(uuid) == 'undefined') {
   uuid = require('../uuid');
 }
 
-var UUID_FORMAT = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89a-fAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}/;
+var UUID_FORMAT = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}/;
 var N = 1e5;
 
 function log(msg) {
