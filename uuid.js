@@ -82,9 +82,74 @@
     return fmt === undefined ? unparse(b) : b;
   }
 
+  function v1(fmt, buf, offset) {
+    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+    var i = buf && offset || 0;
+
+    if (useCrypto) {
+      crypto.getRandomValues(rnds);
+    } else {
+      rnds[0] = Math.random()*0x100000000;
+      rnds[1] = Math.random()*0x100000000;
+      rnds[2] = Math.random()*0x100000000;
+    }
+
+    // Timestamp, see 4.1.4
+    // 12219292800000 is the number seconds between
+    // UUID epoch 1582-10-15 00:00:00 and UNIX epoch.
+    var now = (new Date().getTime());
+    var timestamp = now + 12219292800000;
+    var tl = ((timestamp & 0xfffffff) * 10000) % 0x100000000;
+    var tmh = ((timestamp / 0x100000000) * 10000) & 0xfffffff;
+    var tm = tmh & 0xffff;
+    var th = tmh >> 16;
+    var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
+
+    // Clock sequence, see 4.1.5.
+    // Use 14 bit random unsigned integer, see 4.2.2.
+    var cs = rnds[0] & 0x3fff; // Cut down 32 bit random integer to 14 bit
+    var csl = cs & 0xff;
+    var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
+
+    // time_low
+    b[i++] = tl>>>24 & ff;
+    b[i++] = tl>>>16 & ff;
+    b[i++] = tl>>>8 & ff;
+    b[i++] = tl & ff;
+
+    // time_mid
+    b[i++] = tm>>>8 & ff;
+    b[i++] = tm & ff;
+
+    // time_high_and_version
+    b[i++] = thav>>>8 & ff;
+    b[i++] = thav & ff;
+
+    // clock_seq_hi_and_reserved
+    b[i++] = cshar;
+
+    // clock_seq_low
+    b[i++] = csl;
+
+    // Use randomly generated node instead of mac address. RFC suggests
+    // generating a 47 bit random integer, but we're limited to 32 bit in js.
+    var r = rnds[1];
+    b[i++] = r & ff | 0x01; // Set multicast bit, see 4.1.6.
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
+
+    r = rnds[2];
+    b[i++] = r & ff;
+    b[i++] = r>>>8 & ff;
+
+    return fmt === undefined ? unparse(b) : b;
+  }
+
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
+  uuid.v1 = v1;
 
   if (typeof(module) != 'undefined') {
     module.exports = uuid;
