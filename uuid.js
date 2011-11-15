@@ -96,15 +96,14 @@
     node[1] = Math.random()*0x10000;
   }
 
+  // Used to track time-reversals for updating the clock_seq
+  var last = new Date().getTime();
+  // clock_seq
+  var cs = false;
+
   function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
-
-    if (useCrypto) {
-      crypto.getRandomValues(rnds);
-    } else {
-      rnds[0] = Math.random()*0x100000000;
-    }
 
     // Timestamp, see 4.1.4
     // 12219292800000 is the number of milliseconds between
@@ -118,8 +117,18 @@
     var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
 
     // Clock sequence, see 4.1.5.
-    // Use 14 bit random unsigned integer, see 4.2.2.
-    var cs = rnds[0] & 0x3fff; // Cut down 32 bit random integer to 14 bit
+    if (now <= last || cs === false) { // check for time-reversal and reset cs
+      // Use 14 bit random unsigned integer, see 4.2.2.
+      if (useCrypto) {
+        crypto.getRandomValues(rnds);
+      } else {
+        rnds[0] = Math.random()*0x100000000;
+      }
+      cs = rnds[0] & 0x3fff; // Cut down 32 bit random integer to 14 bit
+    } else {
+      cs++;
+    }
+    last = now;
     var csl = cs & 0xff;
     var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
 
