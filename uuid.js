@@ -97,7 +97,7 @@
     }
 
     // Timestamp, see 4.1.4
-    // 12219292800000 is the number milliseconds between
+    // 12219292800000 is the number of milliseconds between
     // UUID epoch 1582-10-15 00:00:00 and UNIX epoch.
     var now = (new Date().getTime());
     var timestamp = now + 12219292800000;
