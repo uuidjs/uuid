@@ -84,6 +84,18 @@
 
   // Inspired by https://github.com/LiosK/UUID.js
   // and http://docs.python.org/library/uuid.html
+
+  // Generate a node value for this instance. Use a randomly generated node
+  // instead of a mac address. RFC suggests generating a 47 bit random integer,
+  // but we're limited to 32 bit in js. So we use a 32 bit random and a 16 bit.
+  var node = useCrypto ? new Uint32Array(2) : new Array(2);
+  if (useCrypto) {
+    crypto.getRandomValues(node);
+  } else {
+    node[0] = Math.random()*0x100000000;
+    node[1] = Math.random()*0x10000;
+  }
+
   function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
@@ -92,8 +104,6 @@
       crypto.getRandomValues(rnds);
     } else {
       rnds[0] = Math.random()*0x100000000;
-      rnds[1] = Math.random()*0x100000000;
-      rnds[2] = Math.random()*0x100000000;
     }
 
     // Timestamp, see 4.1.4
@@ -133,17 +143,14 @@
     // clock_seq_low
     b[i++] = csl;
 
-    // Use randomly generated node instead of mac address. RFC suggests
-    // generating a 47 bit random integer, but we're limited to 32 bit in js.
-    var r = rnds[1];
-    b[i++] = r & ff | 0x01; // Set multicast bit, see 4.1.6.
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    // node
+    b[i++] = node[0] & ff | 0x01; // Set multicast bit, see 4.1.6 and 4.5
+    b[i++] = node[0]>>>8 & ff;
+    b[i++] = node[0]>>>16 & ff;
+    b[i++] = node[0]>>>24 & ff;
 
-    r = rnds[2];
-    b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
+    b[i++] = node[1] & ff;
+    b[i++] = node[1]>>>8 & ff;
 
     return fmt === undefined ? unparse(b) : b;
   }
