@@ -87,14 +87,21 @@
 
   // Generate a node value for this instance. Use a randomly generated node
   // instead of a mac address. RFC suggests generating a 47 bit random integer,
-  // but we're limited to 32 bit in js. So we use a 32 bit random and a 16 bit.
-  var node = useCrypto ? new Uint32Array(2) : new Array(2);
+  // but we're limited to 32 bit in js, so we just use two 32 bit.
   if (useCrypto) {
-    crypto.getRandomValues(node);
+    crypto.getRandomValues(rnds);
   } else {
-    node[0] = Math.random()*0x100000000;
-    node[1] = Math.random()*0x10000;
+    rnds[0] = Math.random() * 0x100000000;
+    rnds[1] = Math.random() * 0x100000000;
   }
+  var node = [
+    rnds[0] & ff | 0x01, // Set multicast bit, see 4.1.6 and 4.5
+    rnds[0]>>>8 & ff,
+    rnds[0]>>>16 & ff,
+    rnds[0]>>>24 & ff,
+    rnds[1] & ff,
+    rnds[1]>>>8 & ff
+  ];
 
   // Used to track time-reversals for updating the clock_seq
   var last = new Date().getTime();
@@ -153,13 +160,13 @@
     b[i++] = csl;
 
     // node
-    b[i++] = node[0] & ff | 0x01; // Set multicast bit, see 4.1.6 and 4.5
-    b[i++] = node[0]>>>8 & ff;
-    b[i++] = node[0]>>>16 & ff;
-    b[i++] = node[0]>>>24 & ff;
-
-    b[i++] = node[1] & ff;
-    b[i++] = node[1]>>>8 & ff;
+    var n = 0;
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
 
     return fmt === undefined ? unparse(b) : b;
   }
