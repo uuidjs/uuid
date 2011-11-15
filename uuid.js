@@ -1,6 +1,6 @@
 (function() {
   /*
-  * Generate a RFC4122(v4) UUID
+  * Generate RFC4122 (v1 and v4) UUIDs
   *
   * Documentation at https://github.com/broofa/node-uuid
   */
