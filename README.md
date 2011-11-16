@@ -107,9 +107,9 @@ node.js users can also run the node-uuid .vs. uuid.js benchmark:
 node-uuid is designed to be fast.  That said, the target platform is node.js, where it is screaming fast.  Here's what I get on an Intel Core i7 950 @ 3.07GHz for the test/benchmark.js script:
 
     # v4
-    nodeuuid(): 1577287 uuids/second
-    nodeuuid('binary'): 1033057 uuids/second
-    nodeuuid('binary', buffer): 3012048 uuids/second
+    nodeuuid.v1(): 1577287 uuids/second
+    nodeuuid.v1('binary'): 1033057 uuids/second
+    nodeuuid.v1('binary', buffer): 3012048 uuids/second
     uuid(): 266808 uuids/second
     uuid('binary'): 302480 uuids/second
     uuidjs.create(4): 360750 uuids/second
