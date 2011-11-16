@@ -1,6 +1,6 @@
 # node-uuid
 
-Simple, fast generation of [RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It runs in node.js and all major browsers.
+Simple, fast generation of [RFC4122 (v1 and v4)](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.  It runs in node.js and all major browsers.
 
 ## Installation
 
