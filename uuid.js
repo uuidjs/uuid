@@ -45,43 +45,6 @@
   var useCrypto = this.crypto && crypto.getRandomValues;
   var rnds = useCrypto ? new Uint32Array(4) : new Array(4);
 
-  function uuid(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
-    var i = buf && offset || 0;
-
-    if (useCrypto) {
-      crypto.getRandomValues(rnds);
-    } else {
-      rnds[0] = Math.random()*0x100000000;
-      rnds[1] = Math.random()*0x100000000;
-      rnds[2] = Math.random()*0x100000000;
-      rnds[3] = Math.random()*0x100000000;
-    }
-
-    var r = rnds[0];
-    b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
-    r = rnds[1];
-    b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
-    b[i++] = r>>>24 & ff;
-    r = rnds[2];
-    b[i++] = r & 0x3f | 0x80; // See RFC4122 sect. 4.4
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
-    r = rnds[3];
-    b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
-
-    return fmt === undefined ? unparse(b) : b;
-  }
-
   // Inspired by https://github.com/LiosK/UUID.js
   // and http://docs.python.org/library/uuid.html
 
@@ -171,10 +134,49 @@
     return fmt === undefined ? unparse(b) : b;
   }
 
+  function v4(fmt, buf, offset) {
+    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+    var i = buf && offset || 0;
+
+    if (useCrypto) {
+      crypto.getRandomValues(rnds);
+    } else {
+      rnds[0] = Math.random()*0x100000000;
+      rnds[1] = Math.random()*0x100000000;
+      rnds[2] = Math.random()*0x100000000;
+      rnds[3] = Math.random()*0x100000000;
+    }
+
+    var r = rnds[0];
+    b[i++] = r & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
+    r = rnds[1];
+    b[i++] = r & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
+    b[i++] = r>>>24 & ff;
+    r = rnds[2];
+    b[i++] = r & 0x3f | 0x80; // See RFC4122 sect. 4.4
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
+    r = rnds[3];
+    b[i++] = r & ff;
+    b[i++] = r>>>8 & ff;
+    b[i++] = r>>>16 & ff;
+    b[i++] = r>>>24 & ff;
+
+    return fmt === undefined ? unparse(b) : b;
+  }
+
+  var uuid = v4;
+  uuid.v1 = v1;
+  uuid.v4 = v4;
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
-  uuid.v1 = v1;
 
   if (typeof(module) != 'undefined') {
     module.exports = uuid;

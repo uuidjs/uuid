@@ -23,13 +23,13 @@ function rate(msg, t) {
 
 // Perf tests
 log('- - - Performance Data - - -');
-for (var i = 0, t = Date.now(); i < N; i++) uuid();
-rate('uuid()', t);
-for (var i = 0, t = Date.now(); i < N; i++) uuid('binary');
-rate('uuid(\'binary\')', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid.v4();
+rate('uuid.v4()', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid.v4('binary');
+rate('uuid.v4(\'binary\')', t);
 var buf = new uuid.BufferClass(16);
-for (var i = 0, t = Date.now(); i < N; i++) uuid('binary', buf);
-rate('uuid(\'binary\', buffer)', t);
+for (var i = 0, t = Date.now(); i < N; i++) uuid.v4('binary', buf);
+rate('uuid.v4(\'binary\', buffer)', t);
 for (var i = 0, t = Date.now(); i < N; i++) uuid.v1();
 rate('uuid.v1()', t);
 for (var i = 0, t = Date.now(); i < N; i++) uuid.v1('binary');
@@ -39,7 +39,7 @@ for (var i = 0, t = Date.now(); i < N; i++) uuid.v1('binary', buf);
 rate('uuid.v1(\'binary\', buffer)', t);
 
 var generators = {
-  4: uuid,
+  4: uuid.v4,
   1: uuid.v1
 };
 for (var version in generators) {

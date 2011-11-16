@@ -12,15 +12,15 @@ function rate(msg, t) {
 console.log('# v4');
 
 // node-uuid - string form
-for (var i = 0, t = Date.now(); i < N; i++) nodeuuid();
-rate('nodeuuid()', t);
+for (var i = 0, t = Date.now(); i < N; i++) nodeuuid.v4();
+rate('nodeuuid.v4()', t);
 
-for (var i = 0, t = Date.now(); i < N; i++) nodeuuid('binary');
-rate('nodeuuid(\'binary\')', t);
+for (var i = 0, t = Date.now(); i < N; i++) nodeuuid.v4('binary');
+rate('nodeuuid.v4(\'binary\')', t);
 
 var buffer = new nodeuuid.BufferClass(16);
-for (var i = 0, t = Date.now(); i < N; i++) nodeuuid('binary', buffer);
-rate('nodeuuid(\'binary\', buffer)', t);
+for (var i = 0, t = Date.now(); i < N; i++) nodeuuid.v4('binary', buffer);
+rate('nodeuuid.v4(\'binary\', buffer)', t);
 
 // libuuid - string form
 for (var i = 0, t = Date.now(); i < N; i++) uuid();
