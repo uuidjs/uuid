@@ -10,9 +10,25 @@ Simple, fast generation of [RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UU
 
     <script src="uuid.js"></script>
 
+Enables:
+
+    uuid.v1(); // -> v1 uuid
+    uuid.v4(); // -> v4 uuid
+
 ### In node.js
 
+    var uuid = require('node-uuid').v1;
+    uuid(); // -> v1 uuid
+
+    // ... or ...
+    var uuid = require('node-uuid').v4;
+    uuid(); // -> v4 uuid
+
+    // ... or ...
     var uuid = require('node-uuid');
+    uuid(); // -> v4 uuid (deprecated, use one of the methods below)
+    uuid.v1(); // -> v1 uuid
+    uuid.v4(); // -> v4 uuid
 
 ## Usage
 
@@ -40,17 +56,14 @@ Simple, fast generation of [RFC4122(v4)](http://www.ietf.org/rfc/rfc4122.txt) UU
     uuid('binary', id, 16);
     uuid('binary', id, 32);
 
-    // Generate time-based v1 UUIDs (usage is exactly the same as with uuid())
-    uuid.v1();
-
 ## Testing
 
 test/test.js generates performance data (similar to test/benchmark.js). It also verifies the syntax of 100K string UUIDs, and logs the distribution of hex digits found therein.  For example:
 
     - - - Performance Data - - -
-    uuid(): 1470588 uuids/second
-    uuid('binary'): 1041666 uuids/second
-    uuid('binary', buffer): 3125000 uuids/second
+    uuid.v4(): 1470588 uuids/second
+    uuid.v4('binary'): 1041666 uuids/second
+    uuid.v4('binary', buffer): 3125000 uuids/second
     uuid.v1(): 869565 uuids/second
     uuid.v1('binary'): 625000 uuids/second
     uuid.v1('binary', buffer): 1123595 uuids/second
