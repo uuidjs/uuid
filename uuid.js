@@ -48,15 +48,17 @@
   // Inspired by https://github.com/LiosK/UUID.js
   // and http://docs.python.org/library/uuid.html
 
-  // Generate a node value for this instance. Use a randomly generated node
-  // instead of a mac address. RFC suggests generating a 47 bit random integer,
-  // but we're limited to 32 bit in js, so we just use two 32 bit.
   if (useCrypto) {
     crypto.getRandomValues(rnds);
   } else {
     rnds[0] = Math.random() * 0x100000000;
     rnds[1] = Math.random() * 0x100000000;
+    rnds[2] = Math.random() * 0x100000000;
   }
+
+  // Generate a node value for this instance. Use a randomly generated node
+  // instead of a mac address. RFC suggests generating a 47 bit random integer,
+  // but we're limited to 32 bit in js, so we just use two 32 bit.
   var node = [
     rnds[0] & ff | 0x01, // Set multicast bit, see 4.1.6 and 4.5
     rnds[0]>>>8 & ff,
@@ -66,10 +68,11 @@
     rnds[1]>>>8 & ff
   ];
 
-  // Used to track time-reversals for updating the clock_seq
+  // Used to track time-regressions for updating the clock_seq
   var last = new Date().getTime();
-  // clock_seq
-  var cs = false;
+  // Use 14 bit random unsigned integer to initialize clock_seq, see 4.2.2.
+  var cs = rnds[2] & 0x3fff; // Cut down 32 bit random integer to 14 bit
+  console.log(cs);
 
   function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
@@ -86,16 +89,8 @@
     var th = tmh >> 16;
     var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
 
-    // Clock sequence, see 4.1.5.
-    if (now <= last || cs === false) { // check for time-reversal and reset cs
-      // Use 14 bit random unsigned integer, see 4.2.2.
-      if (useCrypto) {
-        crypto.getRandomValues(rnds);
-      } else {
-        rnds[0] = Math.random()*0x100000000;
-      }
-      cs = rnds[0] & 0x3fff; // Cut down 32 bit random integer to 14 bit
-    } else {
+    // Increment clock_seq if clock is set backwards, see 4.1.5.
+    if (now < last) {
       cs++;
     }
     last = now;
