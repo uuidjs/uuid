@@ -1,9 +1,16 @@
 (function() {
   /*
-  * Generate a RFC4122(v4) UUID
+  * Generate RFC4122 (v1 and v4) UUIDs
   *
   * Documentation at https://github.com/broofa/node-uuid
   */
+
+  // 12219292800000 is the number of milliseconds between UUID epoch
+  // 1582-10-15 00:00:00 and UNIX epoch 1970-01-01 00:00:00.
+  var EPOCH_OFFSET = 12219292800000;
+
+  // Number of 100ns ticks of the actual resolution of the system's clock
+  var UUIDS_PER_TICK = 10000;
 
   // Use node.js Buffer class if available, otherwise use the Array class
   var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
@@ -45,43 +52,139 @@
   var useCrypto = this.crypto && crypto.getRandomValues;
   var rnds = useCrypto ? new Uint32Array(4) : new Array(4);
 
-  function uuid(fmt, buf, offset) {
+  if (useCrypto) {
+    crypto.getRandomValues(rnds);
+  } else {
+    rnds[0] = Math.random() * 0x100000000;
+    rnds[1] = Math.random() * 0x100000000;
+    rnds[2] = Math.random() * 0x100000000;
+  }
+
+  // Generate a node value for this instance. Use a randomly generated node
+  // instead of a mac address. RFC suggests generating a 47 bit random integer,
+  // but we're limited to 32 bit in js, so we just use two 32 bit.
+  var node = [
+    rnds[0] & ff | 0x01, // Set multicast bit, see 4.1.6 and 4.5
+    rnds[0] >>> 8 & ff,
+    rnds[0] >>> 16 & ff,
+    rnds[0] >>> 24 & ff,
+    rnds[1] & ff,
+    rnds[1] >>> 8 & ff
+  ];
+
+  // Use 14 bit random unsigned integer to initialize clock_seq, see 4.2.2.
+  var cs = rnds[2] & 0x3fff; // Cut down 32 bit random integer to 14 bit
+
+  // Used to track time-regressions for updating the clock_seq
+  var last = 0;
+
+  // Number of UUIDs that have been created during the current millisecond-
+  // interval. Used to simulate higher clock resolution as suggested in 4.2.1.2.
+  var count = 0;
+
+  // Inspired by https://github.com/LiosK/UUID.js
+  // and http://docs.python.org/library/uuid.html
+  function v1(fmt, buf, offset) {
+    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+    var i = buf && offset || 0;
+
+    // Get current time and simulate higher clock resolution
+    var now = (new Date().getTime()) + EPOCH_OFFSET;
+    count = (now === last) ? count + 1 : 0;
+
+    // Per 4.2.1.2, if time regresses we bump the clock sequence.
+    // (Or if we're generating more than 10k uuids/sec - an extremely unlikely
+    // case the RFC doesn't address)
+    if (now < last || count > UUIDS_PER_TICK) {
+      cs++;
+      count = 0;
+    }
+    last = now;
+
+    // Timestamp, see 4.1.4
+    var timestamp = now;
+    var tl = ((timestamp & 0xfffffff) * 10000 + count) % 0x100000000;
+    var tmh = ((timestamp / 0x100000000) * 10000) & 0xfffffff;
+    var tm = tmh & 0xffff;
+    var th = tmh >> 16;
+    var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
+
+    // Clock sequence
+    var csl = cs & 0xff;
+    var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
+
+    // time_low
+    b[i++] = tl >>> 24 & ff;
+    b[i++] = tl >>> 16 & ff;
+    b[i++] = tl >>> 8 & ff;
+    b[i++] = tl & ff;
+
+    // time_mid
+    b[i++] = tm >>> 8 & ff;
+    b[i++] = tm & ff;
+
+    // time_high_and_version
+    b[i++] = thav >>> 8 & ff;
+    b[i++] = thav & ff;
+
+    // clock_seq_hi_and_reserved
+    b[i++] = cshar;
+
+    // clock_seq_low
+    b[i++] = csl;
+
+    // node
+    var n = 0;
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+    b[i++] = node[n++];
+
+    return fmt === undefined ? unparse(b) : b;
+  }
+
+  function v4(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
     if (useCrypto) {
       crypto.getRandomValues(rnds);
     } else {
-      rnds[0] = Math.random()*0x100000000;
-      rnds[1] = Math.random()*0x100000000;
-      rnds[2] = Math.random()*0x100000000;
-      rnds[3] = Math.random()*0x100000000;
+      rnds[0] = Math.random() * 0x100000000;
+      rnds[1] = Math.random() * 0x100000000;
+      rnds[2] = Math.random() * 0x100000000;
+      rnds[3] = Math.random() * 0x100000000;
     }
 
     var r = rnds[0];
     b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & ff;
+    b[i++] = r >>> 24 & ff;
     r = rnds[1];
     b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
+    b[i++] = r >>> 24 & ff;
     r = rnds[2];
     b[i++] = r & 0x3f | 0x80; // See RFC4122 sect. 4.4
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & ff;
+    b[i++] = r >>> 24 & ff;
     r = rnds[3];
     b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & ff;
+    b[i++] = r >>> 24 & ff;
 
     return fmt === undefined ? unparse(b) : b;
   }
 
+  var uuid = v4;
+  uuid.v1 = v1;
+  uuid.v4 = v4;
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
