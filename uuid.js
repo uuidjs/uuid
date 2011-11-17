@@ -5,6 +5,9 @@
   * Documentation at https://github.com/broofa/node-uuid
   */
 
+  // Number of 100ns ticks of the actual resolution of the system's clock
+  var UUIDS_PER_TICK = 9999;
+
   // Use node.js Buffer class if available, otherwise use the Array class
   var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
 
@@ -45,9 +48,6 @@
   var useCrypto = this.crypto && crypto.getRandomValues;
   var rnds = useCrypto ? new Uint32Array(4) : new Array(4);
 
-  // Inspired by https://github.com/LiosK/UUID.js
-  // and http://docs.python.org/library/uuid.html
-
   if (useCrypto) {
     crypto.getRandomValues(rnds);
   } else {
@@ -73,16 +73,36 @@
   // Use 14 bit random unsigned integer to initialize clock_seq, see 4.2.2.
   var cs = rnds[2] & 0x3fff; // Cut down 32 bit random integer to 14 bit
 
+  // Number of UUIDs that have been created during the current millisecond-
+  // interval. Used to simulate higher clock resolution as suggested in 4.2.1.2.
+  var count = 0;
+
+  // Inspired by https://github.com/LiosK/UUID.js
+  // and http://docs.python.org/library/uuid.html
   function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
+    // Get current time and simulate higher clock resolution
+    var now;
+    while (true) {
+      now = new Date().getTime();
+      if (now !== last) {
+        count = 0;
+        break;
+      }
+      if (count < UUIDS_PER_TICK) {
+        count++;
+        break;
+      }
+      // wait in case we're too fast
+    }
+
     // Timestamp, see 4.1.4
     // 12219292800000 is the number of milliseconds between
     // UUID epoch 1582-10-15 00:00:00 and UNIX epoch.
-    var now = (new Date().getTime());
     var timestamp = now + 12219292800000;
-    var tl = ((timestamp & 0xfffffff) * 10000) % 0x100000000;
+    var tl = ((timestamp & 0xfffffff) * 10000 + count) % 0x100000000;
     var tmh = ((timestamp / 0x100000000) * 10000) & 0xfffffff;
     var tm = tmh & 0xffff;
     var th = tmh >> 16;
