@@ -61,11 +61,11 @@
   // but we're limited to 32 bit in js, so we just use two 32 bit.
   var node = [
     rnds[0] & ff | 0x01, // Set multicast bit, see 4.1.6 and 4.5
-    rnds[0]>>>8 & ff,
-    rnds[0]>>>16 & ff,
-    rnds[0]>>>24 & ff,
+    rnds[0] >>> 8 & ff,
+    rnds[0] >>> 16 & ff,
+    rnds[0] >>> 24 & ff,
     rnds[1] & ff,
-    rnds[1]>>>8 & ff
+    rnds[1] >>> 8 & ff
   ];
 
   // Used to track time-regressions for updating the clock_seq
@@ -117,17 +117,17 @@
     var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
 
     // time_low
-    b[i++] = tl>>>24 & ff;
-    b[i++] = tl>>>16 & ff;
-    b[i++] = tl>>>8 & ff;
+    b[i++] = tl >>> 24 & ff;
+    b[i++] = tl >>> 16 & ff;
+    b[i++] = tl >>> 8 & ff;
     b[i++] = tl & ff;
 
     // time_mid
-    b[i++] = tm>>>8 & ff;
+    b[i++] = tm >>> 8 & ff;
     b[i++] = tm & ff;
 
     // time_high_and_version
-    b[i++] = thav>>>8 & ff;
+    b[i++] = thav >>> 8 & ff;
     b[i++] = thav & ff;
 
     // clock_seq_hi_and_reserved
@@ -155,32 +155,32 @@
     if (useCrypto) {
       crypto.getRandomValues(rnds);
     } else {
-      rnds[0] = Math.random()*0x100000000;
-      rnds[1] = Math.random()*0x100000000;
-      rnds[2] = Math.random()*0x100000000;
-      rnds[3] = Math.random()*0x100000000;
+      rnds[0] = Math.random() * 0x100000000;
+      rnds[1] = Math.random() * 0x100000000;
+      rnds[2] = Math.random() * 0x100000000;
+      rnds[3] = Math.random() * 0x100000000;
     }
 
     var r = rnds[0];
     b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & ff;
+    b[i++] = r >>> 24 & ff;
     r = rnds[1];
     b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & 0x0f | 0x40; // See RFC4122 sect. 4.1.3
+    b[i++] = r >>> 24 & ff;
     r = rnds[2];
     b[i++] = r & 0x3f | 0x80; // See RFC4122 sect. 4.4
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & ff;
+    b[i++] = r >>> 24 & ff;
     r = rnds[3];
     b[i++] = r & ff;
-    b[i++] = r>>>8 & ff;
-    b[i++] = r>>>16 & ff;
-    b[i++] = r>>>24 & ff;
+    b[i++] = r >>> 8 & ff;
+    b[i++] = r >>> 16 & ff;
+    b[i++] = r >>> 24 & ff;
 
     return fmt === undefined ? unparse(b) : b;
   }
