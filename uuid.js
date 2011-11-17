@@ -5,8 +5,12 @@
   * Documentation at https://github.com/broofa/node-uuid
   */
 
+  // 12219292800000 is the number of milliseconds between UUID epoch
+  // 1582-10-15 00:00:00 and UNIX epoch 1970-01-01 00:00:00.
+  var EPOCH_OFFSET = 12219292800000;
+
   // Number of 100ns ticks of the actual resolution of the system's clock
-  var UUIDS_PER_TICK = 9999;
+  var UUIDS_PER_TICK = 10000;
 
   // Use node.js Buffer class if available, otherwise use the Array class
   var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
@@ -69,7 +73,7 @@
   ];
 
   // Used to track time-regressions for updating the clock_seq
-  var last = new Date().getTime();
+  var last = 0;
   // Use 14 bit random unsigned integer to initialize clock_seq, see 4.2.2.
   var cs = rnds[2] & 0x3fff; // Cut down 32 bit random integer to 14 bit
 
@@ -84,35 +88,27 @@
     var i = buf && offset || 0;
 
     // Get current time and simulate higher clock resolution
-    var now;
-    while (true) {
-      now = new Date().getTime();
-      if (now !== last) {
-        count = 0;
-        break;
-      }
-      if (count < UUIDS_PER_TICK) {
-        count++;
-        break;
-      }
-      // wait in case we're too fast
+    var now = (new Date().getTime()) + EPOCH_OFFSET;
+    count = (now === last) ? count + 1 : 0;
+
+    // Per 4.2.1.2, if time regresses we bump the clock sequence.
+    // (Or if we're generating more than 10k uuids/sec - an extremely unlikely
+    // case the RFC doesn't address)
+    if (now < last || count > UUIDS_PER_TICK) {
+      cs++;
+      count = 0;
     }
+    last = now;
 
     // Timestamp, see 4.1.4
-    // 12219292800000 is the number of milliseconds between
-    // UUID epoch 1582-10-15 00:00:00 and UNIX epoch.
-    var timestamp = now + 12219292800000;
+    var timestamp = now;
     var tl = ((timestamp & 0xfffffff) * 10000 + count) % 0x100000000;
     var tmh = ((timestamp / 0x100000000) * 10000) & 0xfffffff;
     var tm = tmh & 0xffff;
     var th = tmh >> 16;
     var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
 
-    // Increment clock_seq if clock is set backwards, see 4.1.5.
-    if (now < last) {
-      cs++;
-    }
-    last = now;
+    // Clock sequence
     var csl = cs & 0xff;
     var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
 
