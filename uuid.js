@@ -71,14 +71,14 @@
   // clock_seq
   var cs = false;
 
-  function v1(fmt, buf, offset, now) {
+  function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
     // Timestamp, see 4.1.4
     // 12219292800000 is the number of milliseconds between
     // UUID epoch 1582-10-15 00:00:00 and UNIX epoch.
-    now = now || (new Date().getTime());
+    var now = (new Date().getTime());
     var timestamp = now + 12219292800000;
     var tl = ((timestamp & 0xfffffff) * 10000) % 0x100000000;
     var tmh = ((timestamp / 0x100000000) * 10000) & 0xfffffff;
