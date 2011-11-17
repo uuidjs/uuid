@@ -3,7 +3,12 @@ var assert = require('assert'),
     uuidjs = require('uuid-js'),
     libuuid = require('uuid').generate,
     util = require('util'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    os = require('os');
+
+// On Mac Os X / macports there's only the ossp-uuid package that provides uuid
+// On Linux there's uuid-runtime which provides uuidgen
+var uuidCmd = os.type() === 'Darwin' ? 'uuid -1' : 'uuidgen -t';
 
 function compare(ids) {
   var sorted = ([].concat(ids)).sort();
@@ -45,6 +50,6 @@ var cb = function(err, stdout, stderr) {
   last();
 };
 var next = function() {
-  exec('uuid -1', cb);
+  exec(uuidCmd, cb);
 };
 next();
