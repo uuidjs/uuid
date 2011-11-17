@@ -52,9 +52,9 @@ Enables:
     // Provide your own Buffer/Array, plus specify offset
     // (e.g. here we fill an array with 3 uuids)
     var buf = new Buffer(16 \* 3);
-    uuid('binary', id, 0);
-    uuid('binary', id, 16);
-    uuid('binary', id, 32);
+    uuid('binary', buf, 0);
+    uuid('binary', buf, 16);
+    uuid('binary', buf, 32);
 
 ## Testing
 
