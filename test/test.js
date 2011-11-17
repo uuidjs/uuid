@@ -21,6 +21,14 @@ function rate(msg, t) {
   log(msg + ': ' + (N / (Date.now() - t) * 1e3 | 0) + ' uuids/second');
 }
 
+// Test time order of v1 uuids
+var ids = [];
+while (ids.length < 1e4) ids.push(uuid.v1());
+var sorted = ([].concat(ids)).sort();
+if (sorted.toString() !== ids.toString()) {
+  log('Sort order of 10000 v1 uuids was incorrect!');
+}
+
 // Perf tests
 log('- - - Performance Data - - -');
 for (var i = 0, t = Date.now(); i < N; i++) uuid.v4();
