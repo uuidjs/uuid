@@ -72,10 +72,11 @@
     rnds[1] >>> 8 & ff
   ];
 
-  // Used to track time-regressions for updating the clock_seq
-  var last = 0;
   // Use 14 bit random unsigned integer to initialize clock_seq, see 4.2.2.
   var cs = rnds[2] & 0x3fff; // Cut down 32 bit random integer to 14 bit
+
+  // Used to track time-regressions for updating the clock_seq
+  var last = 0;
 
   // Number of UUIDs that have been created during the current millisecond-
   // interval. Used to simulate higher clock resolution as suggested in 4.2.1.2.
