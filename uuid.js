@@ -72,7 +72,6 @@
   var last = new Date().getTime();
   // Use 14 bit random unsigned integer to initialize clock_seq, see 4.2.2.
   var cs = rnds[2] & 0x3fff; // Cut down 32 bit random integer to 14 bit
-  console.log(cs);
 
   function v1(fmt, buf, offset) {
     var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
