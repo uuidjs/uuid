@@ -84,13 +84,21 @@
 
   // Inspired by https://github.com/LiosK/UUID.js
   // and http://docs.python.org/library/uuid.html
-  function v1(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+  function v1(options, buf, offset) {
+    if (typeof options === 'string') { // backwards compatibility
+      options = {format: options};
+    }
+    options = options || {};
+
+    var b = options.format != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
     // Get current time and simulate higher clock resolution
-    var now = (new Date().getTime()) + EPOCH_OFFSET;
+    var now = (options.timestamp !== undefined ?
+               options.timestamp :
+               new Date().getTime()) + EPOCH_OFFSET;
     count = (now === last) ? count + 1 : 0;
+    count = options.count || count;
 
     // Per 4.2.1.2, if time regresses we bump the clock sequence.
     // (Or if we're generating more than 10k uuids/sec - an extremely unlikely
@@ -110,6 +118,7 @@
     var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
 
     // Clock sequence
+    cs = (options.clockseq !== undefined) ? options.clockseq : cs;
     var csl = cs & 0xff;
     var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
 
@@ -134,6 +143,7 @@
     b[i++] = csl;
 
     // node
+    node = options.node || node;
     var n = 0;
     b[i++] = node[n++];
     b[i++] = node[n++];
@@ -142,20 +152,29 @@
     b[i++] = node[n++];
     b[i++] = node[n++];
 
-    return fmt === undefined ? unparse(b) : b;
+    return options.format === undefined ? unparse(b) : b;
   }
 
-  function v4(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+  function v4(options, buf, offset) {
+    if (typeof options === 'string') { // backwards compatibility
+      options = {format: options};
+    }
+    options = options || {};
+
+    var b = options.format != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    if (useCrypto) {
-      crypto.getRandomValues(rnds);
+    if (options.random) {
+      rnds = options.random;
     } else {
-      rnds[0] = Math.random() * 0x100000000;
-      rnds[1] = Math.random() * 0x100000000;
-      rnds[2] = Math.random() * 0x100000000;
-      rnds[3] = Math.random() * 0x100000000;
+      if (useCrypto) {
+        crypto.getRandomValues(rnds);
+      } else {
+        rnds[0] = Math.random() * 0x100000000;
+        rnds[1] = Math.random() * 0x100000000;
+        rnds[2] = Math.random() * 0x100000000;
+        rnds[3] = Math.random() * 0x100000000;
+      }
     }
 
     var r = rnds[0];
@@ -179,7 +198,7 @@
     b[i++] = r >>> 16 & ff;
     b[i++] = r >>> 24 & ff;
 
-    return fmt === undefined ? unparse(b) : b;
+    return options.format === undefined ? unparse(b) : b;
   }
 
   var uuid = v4;
