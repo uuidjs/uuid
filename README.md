@@ -73,6 +73,28 @@ var options = {
 
 If `options` is a string it is interpreted as the `format` option.
 
+Using the `options` parameter you can get the UUIDs that would sort first and last for a given millisecond timestamp.
+This is useful whenever you need to find UUIDs that have been generated during a certain timespan.
+
+```javascript
+var now = Date().getTime();
+var first = uuid.v1({
+  timestamp: now,
+  count: 0,
+  clockseq: 0,
+  node: [0, 0, 0, 0, 0, 0]
+});
+var last = uuid.v1({
+  timestamp: now,
+  count: 9999,
+  clockseq: 0x3fff, // 14bit
+  node: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
+});
+// first: 038ee0a0-11df-11e1-8000-000000000000
+// last:  038f07af-11df-11e1-bfff-ffffffffffff
+```
+
+
 ## Testing
 
 test/test.js generates performance data (similar to test/benchmark.js). It also verifies the syntax of 100K string UUIDs, and logs the distribution of hex digits found therein.  For example:
