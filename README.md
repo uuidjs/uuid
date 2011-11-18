@@ -64,7 +64,7 @@ uuid.v4('binary', buffer, 32);
 
 ### Options
 
-There are several options that can be passed to the uuid() functions:
+There are several options that can be passed to `v1()` and `v4()`:
 
 ```javascript
 var options = {
@@ -83,7 +83,7 @@ Using the `options` parameter you can get the UUIDs that would sort first and la
 This is useful whenever you need to find UUIDs that have been generated during a certain timespan.
 
 ```javascript
-var now = Date().getTime();
+var now = new Date().getTime();
 var first = uuid.v1({
   timestamp: now,
   count: 0,
