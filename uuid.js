@@ -145,17 +145,26 @@
     return fmt === undefined ? unparse(b) : b;
   }
 
-  function v4(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+  function v4(options, buf, offset) {
+    if (typeof options === 'string') { // backwards compatibility
+      options = {format: options};
+    }
+    options = options || {};
+
+    var b = options.format != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    if (useCrypto) {
-      crypto.getRandomValues(rnds);
+    if (options.random) {
+      rnds = options.random;
     } else {
-      rnds[0] = Math.random() * 0x100000000;
-      rnds[1] = Math.random() * 0x100000000;
-      rnds[2] = Math.random() * 0x100000000;
-      rnds[3] = Math.random() * 0x100000000;
+      if (useCrypto) {
+        crypto.getRandomValues(rnds);
+      } else {
+        rnds[0] = Math.random() * 0x100000000;
+        rnds[1] = Math.random() * 0x100000000;
+        rnds[2] = Math.random() * 0x100000000;
+        rnds[3] = Math.random() * 0x100000000;
+      }
     }
 
     var r = rnds[0];
@@ -179,7 +188,7 @@
     b[i++] = r >>> 16 & ff;
     b[i++] = r >>> 24 & ff;
 
-    return fmt === undefined ? unparse(b) : b;
+    return options.format === undefined ? unparse(b) : b;
   }
 
   var uuid = v4;
