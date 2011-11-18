@@ -47,5 +47,11 @@ var uuidFirst = uuid.v1({
   clockseq: 0,
   node: [0, 0, 0, 0, 0, 0]
 });
+var uuidLast = uuid.v1({
+  timestamp: 0,
+  clockseq: 0x3fff,
+  node: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
+});
 
 console.log(uuidFirst);
+console.log(uuidLast);
