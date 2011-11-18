@@ -34,27 +34,44 @@ Enables:
 
 ### Generate a String UUID
 
-    var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+    var id = uuid([options, [buffer, [offset]]]); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
 
 ### Generate a Binary UUID
 
     // Simple form - allocates a Buffer/Array for you
-    var buf = uuid('binary');
+    var buffer = uuid('binary');
     // node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
     // browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
 
     // Provide your own Buffer or Array
-    var buf = new Array(16);
-    uuid('binary', buf); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
-    var buf = new Buffer(16);
-    uuid('binary', buf); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+    var buffer = new Array(16);
+    uuid('binary', buffer); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+    var buffer = new Buffer(16);
+    uuid('binary', buffer); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
 
     // Provide your own Buffer/Array, plus specify offset
     // (e.g. here we fill an array with 3 uuids)
-    var buf = new Buffer(16 \* 3);
-    uuid('binary', buf, 0);
-    uuid('binary', buf, 16);
-    uuid('binary', buf, 32);
+    var buffer = new Buffer(16 \* 3);
+    uuid('binary', buffer, 0);
+    uuid('binary', buffer, 16);
+    uuid('binary', buffer, 32);
+
+### Options
+
+There are several options that can be passed to the uuid() functions:
+
+```javascript
+var options = {
+  format: (String),    // (v1/v4) 'binary' or 'string'
+  random: (Array),     // (v1/v4) array of four 32bit random #'s to use instead of rnds
+  timestamp: (Number), // (v1) timestamp to use (in UNIX epoch)
+  clockseq: (Number),  // (v1) clockseq to use
+  node: (Array),       // (v1) node. Array of hexoctets, e.g. a MAC-address
+  count (Number)       // (v1) UUID count for this ms-interval to use
+};
+```
+
+If `options` is a string it is interpreted as the `format` option.
 
 ## Testing
 
