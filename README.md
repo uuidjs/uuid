@@ -58,6 +58,10 @@ uuid('binary', buffer); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 
 var buffer = new Buffer(16);
 uuid('binary', buffer); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
 
+// You can let node-uuid decide whether to use Buffer or Array
+var buffer = new uuid.BufferClass(16);
+uuid('binary', buffer); // -> see above, depending on the environment
+
 // Provide your own Buffer/Array, plus specify offset
 // (e.g. here we fill an array with 3 uuids)
 var buffer = new Buffer(16 \* 3);
