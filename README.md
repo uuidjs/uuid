@@ -64,7 +64,7 @@ uuid('binary', buffer); // -> see above, depending on the environment
 
 // Provide your own Buffer/Array, plus specify offset
 // (e.g. here we fill an array with 3 uuids)
-var buffer = new Buffer(16 \* 3);
+var buffer = new Buffer(16 * 3);
 uuid('binary', buffer, 0);
 uuid('binary', buffer, 16);
 uuid('binary', buffer, 32);
