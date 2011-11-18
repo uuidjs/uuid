@@ -104,6 +104,17 @@ var last = uuid.v1({
 // last:  038f07af-11df-11e1-bfff-ffffffffffff
 ```
 
+### Helpers
+
+node-uuid provides helper-functions for converting UUIDs between buffer/array and string representations:
+
+```javascript
+var binary = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10');
+// -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
+var string = uuid.unparse(binary);
+// -> '797ff043-11eb-11e1-80d6-510998755d10'
+```
+
 
 ## Testing
 
