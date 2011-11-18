@@ -140,6 +140,7 @@
     b[i++] = csl;
 
     // node
+    node = options.node || node;
     var n = 0;
     b[i++] = node[n++];
     b[i++] = node[n++];
