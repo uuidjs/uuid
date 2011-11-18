@@ -98,6 +98,7 @@
                options.timestamp :
                new Date().getTime()) + EPOCH_OFFSET;
     count = (now === last) ? count + 1 : 0;
+    count = options.count || count;
 
     // Per 4.2.1.2, if time regresses we bump the clock sequence.
     // (Or if we're generating more than 10k uuids/sec - an extremely unlikely

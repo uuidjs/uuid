@@ -42,16 +42,57 @@ assert.ok(uuidTwentyeightdayslater.slice(19, 23) < uuidNow.slice(19, 23), 'clock
 
 
 // Get first possible v1 uuid for the current millisecond
+var now = new Date().getTime();
+var onemsafter = new Date(now + 1).getTime();
+
 var uuidFirst = uuid.v1({
-  timestamp: 0,
+  timestamp: now,
   clockseq: 0,
   node: [0, 0, 0, 0, 0, 0]
 });
 var uuidLast = uuid.v1({
-  timestamp: 0,
+  timestamp: now,
+  count: 9999,
   clockseq: 0x3fff,
   node: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
 });
 
+console.log('');
+console.log('First uuid of timestamp: %d', now);
 console.log(uuidFirst);
+console.log('Last uuid of timestamp: %d', now);
 console.log(uuidLast);
+
+var uuidFirstLater = uuid.v1({
+  timestamp: onemsafter,
+  clockseq: 0,
+  node: [0, 0, 0, 0, 0, 0]
+});
+var uuidLastLater = uuid.v1({
+  timestamp: onemsafter,
+  count: 9999,
+  clockseq: 0x3fff,
+  node: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
+});
+
+console.log('');
+console.log('First uuid of timestamp: %d', now);
+console.log(uuidFirstLater);
+console.log('Last uuid of timestamp: %d', now);
+console.log(uuidLastLater);
+
+// Check that there is exactly 1 tick between lastUUI and firstUUID of the
+// next millisecond interval (this test is sloppy since it fails if time_mid
+// or time_hi change when we changed the timestamp by one ms. If we want to
+// include that case, we cannot use parseInt() since our integers become
+// > 32bit):
+var before = uuidLast.split('-');
+before = before[0];
+var after = uuidFirstLater.split('-');
+after = after[0];
+
+var diff = parseInt(after, 16) - parseInt(before, 16);
+console.log('');
+console.log('Test if theres exactly one 100ns interval between the last uuid ');
+console.log('of the current 100ms interval and the first uuid of the next: %d', diff);
+assert.strictEqual(diff, 1, 'Not exactly one tick between last and nextFirst');
