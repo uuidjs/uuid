@@ -1,4 +1,4 @@
-if (typeof(uuid) == 'undefined') {
+if (!this.uuid && this.require) {
   uuid = require('../uuid');
 }
 
