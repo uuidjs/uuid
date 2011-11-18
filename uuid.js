@@ -12,6 +12,14 @@
   // Number of 100ns ticks of the actual resolution of the system's clock
   var UUIDS_PER_TICK = 10000;
 
+  // Minimum clock sequence
+  var CLOCK_SEQUENCE_MIN = 0;
+
+  // Maximum clock sequence
+  var CLOCK_SEQUENCE_MAX = 16383;
+
+
+
   // Use node.js Buffer class if available, otherwise use the Array class
   var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
 
@@ -193,6 +201,9 @@
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
+  // TODO: change these with a better naming proposal
+  uuid.firstSeq = CLOCK_SEQUENCE_MIN;
+  uuid.lastSeq = CLOCK_SEQUENCE_MAX;
 
   if (typeof(module) != 'undefined') {
     module.exports = uuid;
