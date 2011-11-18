@@ -36,6 +36,15 @@ compare(ids);
 
 // Betwenn uuidToday and uuidTenhoursago the clock is set backwards, so we
 // expect the clock_seq to increase by one
-assert.ok(uuidToday[22] < uuidTenhoursago[22], 'clock_seq was not increased');
+assert.ok(uuidToday.slice(19, 23) < uuidTenhoursago.slice(19, 23), 'clock_seq was not increased');
 // Same for uuidNow since we set the clock to a future value inbetween
-assert.ok(uuidTwentyeightdayslater[22] < uuidNow[22], 'clock_seq was not increased');
+assert.ok(uuidTwentyeightdayslater.slice(19, 23) < uuidNow.slice(19, 23), 'clock_seq was not increased');
+
+
+// Get first possible v1 uuid for the current millisecond
+var uuidFirst = uuid.v1({
+  clockseq: 0,
+  node: 0
+});
+
+console.log(uuidFirst);

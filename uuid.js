@@ -115,6 +115,7 @@
     var thav = (th & 0xfff) | 0x1000; // Set version, see 4.1.3
 
     // Clock sequence
+    cs = (options.clockseq !== undefined) ? options.clockseq : cs;
     var csl = cs & 0xff;
     var cshar = (cs >>> 8) | 0x80; // Set the variant, see 4.2.2
 
