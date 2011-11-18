@@ -5,7 +5,7 @@ function compare(ids) {
   console.log(ids);
   for (var i = 0; i < ids.length; i++) {
     var id = ids[i].split('-');
-    id = [id[2], id[1], id[0], id[3], id[4]].join('');
+    id = [id[2], id[1], id[0]].join('');
     ids[i] = id;
   }
   var sorted = ([].concat(ids)).sort();
