@@ -146,15 +146,16 @@ Note that the increased values for 4 and 8-B are expected as part of the RFC4122
 
 ### In browser
 
-    Open test/test.html
+Open test/test.html
 
 ### In node.js
 
-    > node test/test.js
+    node test/test.js
 
-node.js users can also run the node-uuid .vs. uuid.js benchmark:
+node.js users can also run the node-uuid vs. uuid vs. uuid-js benchmark:
 
-    > node test/benchmark.js
+    npm install uuid uuid-js
+    node test/benchmark.js
 
 ## Performance
 
