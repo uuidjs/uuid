@@ -4,7 +4,9 @@
   "url"           : "http://github.com/broofa/node-uuid",
   "keywords"      : ["uuid", "guid", "rfc4122"],
   "author"        : "Robert Kieffer <robert@broofa.com>",
-  "contributors"  : [],
+  "contributors"  : [
+    {"name": "Christoph Tavan <dev@tavan.de>", "github": "https://github.com/ctavan"}
+  ],
   "dependencies"  : [],
   "lib"           : ".",
   "main"          : "./uuid.js",
