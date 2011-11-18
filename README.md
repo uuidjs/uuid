@@ -8,53 +8,63 @@ Simple, fast generation of [RFC4122 (v1 and v4)](http://www.ietf.org/rfc/rfc4122
 
 ### In browser
 
-    <script src="uuid.js"></script>
+```html
+<script src="uuid.js"></script>
+```
 
 Enables:
 
-    uuid.v1(); // -> v1 uuid
-    uuid.v4(); // -> v4 uuid
+```javascript
+uuid.v1(); // -> v1 uuid
+uuid.v4(); // -> v4 uuid
+```
 
 ### In node.js
 
-    var uuid = require('node-uuid').v1;
-    uuid(); // -> v1 uuid
+```javascript
+var uuid = require('node-uuid').v1;
+uuid(); // -> v1 uuid
 
-    // ... or ...
-    var uuid = require('node-uuid').v4;
-    uuid(); // -> v4 uuid
+// ... or ...
+var uuid = require('node-uuid').v4;
+uuid(); // -> v4 uuid
 
-    // ... or ...
-    var uuid = require('node-uuid');
-    uuid(); // -> v4 uuid (deprecated, use one of the methods below)
-    uuid.v1(); // -> v1 uuid
-    uuid.v4(); // -> v4 uuid
+// ... or ...
+var uuid = require('node-uuid');
+uuid(); // -> v4 uuid (deprecated, use one of the methods below)
+uuid.v1(); // -> v1 uuid
+uuid.v4(); // -> v4 uuid
+```
 
 ## Usage
 
 ### Generate a String UUID
 
-    var id = uuid([options, [buffer, [offset]]]); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+```javascript
+var id = uuid([options, [buffer, [offset]]]); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+```
 
 ### Generate a Binary UUID
 
-    // Simple form - allocates a Buffer/Array for you
-    var buffer = uuid('binary');
-    // node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
-    // browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+```javascript
+// Simple form - allocates a Buffer/Array for you
+var buffer = uuid('binary');
+// node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+// browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
 
-    // Provide your own Buffer or Array
-    var buffer = new Array(16);
-    uuid('binary', buffer); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
-    var buffer = new Buffer(16);
-    uuid('binary', buffer); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+// Provide your own Buffer or Array
+var buffer = new Array(16);
+uuid('binary', buffer); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+var buffer = new Buffer(16);
+uuid('binary', buffer); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
 
-    // Provide your own Buffer/Array, plus specify offset
-    // (e.g. here we fill an array with 3 uuids)
-    var buffer = new Buffer(16 \* 3);
-    uuid('binary', buffer, 0);
-    uuid('binary', buffer, 16);
-    uuid('binary', buffer, 32);
+// Provide your own Buffer/Array, plus specify offset
+// (e.g. here we fill an array with 3 uuids)
+var buffer = new Buffer(16 \* 3);
+uuid('binary', buffer, 0);
+uuid('binary', buffer, 16);
+uuid('binary', buffer, 32);
+```
 
 ### Options
 
