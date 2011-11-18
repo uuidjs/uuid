@@ -139,7 +139,7 @@
     var time = 0;  // JS time (msecs since Unix epoch)
     var time2 = 0; // Additional time offset, in 100's of nanosecs
 
-    // Get time (uuid epoch)
+    // Get time & time2
     if (options.time == null) {
       // Per 4.2.1.2, use uuid count to simulate higher resolution clock
       // Get current time and simulate higher clock resolution
@@ -164,10 +164,8 @@
       time = options.time + EPOCH_OFFSET;
       time2 = options.time2 || 0;
     }
-
     // Per 4.1.4, timestamp composition
     // time is uuid epoch time in _msecs_
-console.log('time:', time.toString(16));
     var tl = ((time & 0xfffffff) * 10000 + time2) % 0x100000000;
     var tmh = ((time / 0x100000000) * 10000) & 0xfffffff;
     var tm = tmh & 0xffff, th = tmh >> 16;
