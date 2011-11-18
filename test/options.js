@@ -43,6 +43,7 @@ assert.ok(uuidTwentyeightdayslater.slice(19, 23) < uuidNow.slice(19, 23), 'clock
 
 // Get first possible v1 uuid for the current millisecond
 var uuidFirst = uuid.v1({
+  timestamp: 0,
   clockseq: 0,
   node: [0, 0, 0, 0, 0, 0]
 });

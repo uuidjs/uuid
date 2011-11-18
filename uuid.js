@@ -94,7 +94,9 @@
     var i = buf && offset || 0;
 
     // Get current time and simulate higher clock resolution
-    var now = (options.timestamp || new Date().getTime()) + EPOCH_OFFSET;
+    var now = (options.timestamp !== undefined ?
+               options.timestamp :
+               new Date().getTime()) + EPOCH_OFFSET;
     count = (now === last) ? count + 1 : 0;
 
     // Per 4.2.1.2, if time regresses we bump the clock sequence.
