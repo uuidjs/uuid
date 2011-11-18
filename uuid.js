@@ -84,12 +84,17 @@
 
   // Inspired by https://github.com/LiosK/UUID.js
   // and http://docs.python.org/library/uuid.html
-  function v1(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+  function v1(options, buf, offset) {
+    if (typeof options === 'string') { // backwards compatibility
+      options = {format: options};
+    }
+    options = options || {};
+
+    var b = options.format != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
     // Get current time and simulate higher clock resolution
-    var now = (new Date().getTime()) + EPOCH_OFFSET;
+    var now = (options.timestamp || new Date().getTime()) + EPOCH_OFFSET;
     count = (now === last) ? count + 1 : 0;
 
     // Per 4.2.1.2, if time regresses we bump the clock sequence.
@@ -142,7 +147,7 @@
     b[i++] = node[n++];
     b[i++] = node[n++];
 
-    return fmt === undefined ? unparse(b) : b;
+    return options.format === undefined ? unparse(b) : b;
   }
 
   function v4(options, buf, offset) {
