@@ -8,53 +8,109 @@ Simple, fast generation of [RFC4122 (v1 and v4)](http://www.ietf.org/rfc/rfc4122
 
 ### In browser
 
-    <script src="uuid.js"></script>
-
-Enables:
-
-    uuid.v1(); // -> v1 uuid
-    uuid.v4(); // -> v4 uuid
+```html
+<script src="uuid.js"></script>
+```
 
 ### In node.js
 
-    var uuid = require('node-uuid').v1;
-    uuid(); // -> v1 uuid
+```javascript
+var uuid = require('node-uuid');
+uuid.v1(); // -> v1 uuid
+uuid.v4(); // -> v4 uuid
 
-    // ... or ...
-    var uuid = require('node-uuid').v4;
-    uuid(); // -> v4 uuid
+// ... or if you just need to generate uuids of one type and don't need helpers ...
+var uuid = require('node-uuid').v1;
+uuid(); // -> v1 uuid
 
-    // ... or ...
-    var uuid = require('node-uuid');
-    uuid(); // -> v4 uuid (deprecated, use one of the methods below)
-    uuid.v1(); // -> v1 uuid
-    uuid.v4(); // -> v4 uuid
+// ... or ...
+var uuid = require('node-uuid').v4;
+uuid(); // -> v4 uuid
+```
 
 ## Usage
 
 ### Generate a String UUID
 
-    var id = uuid(); // -> '92329D39-6F5C-4520-ABFC-AAB64544E172'
+```javascript
+var id = uuid.v4([options, [buffer, [offset]]]); // -> '92329d39-6f5c-4520-abfc-aab64544e172'
+```
 
 ### Generate a Binary UUID
 
-    // Simple form - allocates a Buffer/Array for you
-    var buf = uuid('binary');
-    // node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
-    // browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+```javascript
+// Simple form - allocates a Buffer/Array for you
+var buffer = uuid.v4('binary');
+// node.js -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+// browser -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
 
-    // Provide your own Buffer or Array
-    var buf = new Array(16);
-    uuid('binary', buf); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
-    var buf = new Buffer(16);
-    uuid('binary', buf); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
+// Provide your own Buffer or Array
+var buffer = new Array(16);
+uuid.v4('binary', buffer); // -> [8, 80, 5, 200, 156, 178, 76, 7, 172, 7, 209, 79, 185, 245, 4, 81]
+var buffer = new Buffer(16);
+uuid.v4('binary', buffer); // -> <Buffer 08 50 05 c8 9c b2 4c 07 ac 07 d1 4f b9 f5 04 51>
 
-    // Provide your own Buffer/Array, plus specify offset
-    // (e.g. here we fill an array with 3 uuids)
-    var buf = new Buffer(16 \* 3);
-    uuid('binary', buf, 0);
-    uuid('binary', buf, 16);
-    uuid('binary', buf, 32);
+// Let node-uuid decide whether to use Buffer or Array
+var buffer = new uuid.BufferClass(16);
+uuid.v4('binary', buffer); // -> see above, depending on the environment
+
+// Provide your own Buffer/Array, plus specify offset
+// (e.g. here we fill an array with 3 uuids)
+var buffer = new Buffer(16 * 3);
+uuid.v4('binary', buffer, 0);
+uuid.v4('binary', buffer, 16);
+uuid.v4('binary', buffer, 32);
+```
+
+### Options
+
+There are several options that can be passed to `v1()` and `v4()`:
+
+```javascript
+var options = {
+  format: (String),    // (v1/v4) 'binary' or 'string'
+  random: (Array),     // (v1/v4) array of four 32bit random #'s to use instead of rnds
+  timestamp: (Number), // (v1) timestamp to use (in UNIX epoch)
+  clockseq: (Number),  // (v1) clockseq to use
+  node: (Array),       // (v1) node. Array of hexoctets, e.g. a MAC-address
+  count (Number)       // (v1) UUID count for this ms-interval to use
+};
+```
+
+If `options` is a string it is interpreted as the `format` option.
+
+Using the `options` parameter you can get the UUIDs that would sort first and last for a given millisecond timestamp.
+This is useful whenever you need to find UUIDs that have been generated during a certain timespan.
+
+```javascript
+var now = new Date().getTime();
+var first = uuid.v1({
+  timestamp: now,
+  count: 0,
+  clockseq: 0,
+  node: [0, 0, 0, 0, 0, 0]
+});
+var last = uuid.v1({
+  timestamp: now,
+  count: 9999,
+  clockseq: 0x3fff, // 14bit
+  node: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
+});
+// first: 038ee0a0-11df-11e1-8000-000000000000
+// last:  038f07af-11df-11e1-bfff-ffffffffffff
+```
+
+### Helpers
+
+node-uuid provides helper-functions for converting UUIDs between buffer/array and string representations:
+
+```javascript
+var binary = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10');
+// -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
+var string = uuid.unparse(binary);
+// -> '797ff043-11eb-11e1-80d6-510998755d10'
+```
+
 
 ## Testing
 
@@ -90,15 +146,16 @@ Note that the increased values for 4 and 8-B are expected as part of the RFC4122
 
 ### In browser
 
-    Open test/test.html
+Open test/test.html
 
 ### In node.js
 
-    > node test/test.js
+    node test/test.js
 
-node.js users can also run the node-uuid .vs. uuid.js benchmark:
+node.js users can also run the node-uuid vs. uuid vs. uuid-js benchmark:
 
-    > node test/benchmark.js
+    npm install uuid uuid-js
+    node test/benchmark.js
 
 ## Performance
 

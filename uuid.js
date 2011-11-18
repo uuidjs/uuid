@@ -4,7 +4,7 @@
  * Documentation at https://github.com/broofa/node-uuid
  */
 (function() {
-  // WHATWG crypto api support.
+  // Use WHATWG crypto api if available, otherwise shim it
   // http://wiki.whatwg.org/wiki/Crypto
   //
   // (Create a static _rnds array here as well, which lets us avoid per-uuid
@@ -42,6 +42,10 @@
    * This is a loose parser.  It parses the first 16 octet pairs it as hex
    * values.  If fewer than 16 are found, any remaining entries in the array
    * are set to zero.
+   *
+   * @param s (String) string to parse.
+   * @param buf (Array|Buffer) Optional buffer to capture parsed values in
+   * @param offset (Number) Optional starting offset into buf
    */
   function parse(s, buf, offset) {
     var buf = buf || new BufferClass(16), i = offset || 0, ii = 0;
@@ -61,6 +65,9 @@
 
   /**
    * Generate a uuid string from octet array
+   *
+   * @param buf (Array|Buffer) Optional buffer to pull octets from
+   * @param offset (Number) Optional starting offset into buf
    */
   function unparse(buf, offset) {
     var oth = _octetToHex, b = buf, i = offset || 0;
@@ -75,7 +82,7 @@
   }
 
   /**
-   * Create and return a 47-bit random node id
+   * Create and return octets for a 47-bit random node id
    */
   function _randomNodeId() {
     crypto.getRandomValues(_rnds);
@@ -108,47 +115,66 @@
   var UUIDS_PER_TICK = 10000;
 
   // Per 4.5, use a random node id
-  var nodeId = _randomNodeId();
+  var _nodeId = _randomNodeId();
 
   // Per 4.2.2, use 14 bit random unsigned integer to initialize clock_seq
-  var cs = _rnds[2] & 0x3fff;
+  var _clockSeq = _rnds[2] & 0x3fff;
 
   // Time of previous uuid creation
-  var last = 0;
+  var _last = 0;
 
   // # of UUIDs that have been created during current time tick
-  var count = 0;
+  var _count = 0;
 
-  // Documentation at https://github.com/broofa/node-uuid
-  function v1(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+  /**
+   * See docs at https://github.com/broofa/node-uuid
+   */
+  function v1(options, buf, offset) {
+    options = typeof(options) == 'string' ? {format: options} : options || {};
+
+    var b = options.format != 'binary' ? _buf :
+            (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    // Get current time (uuid epoch)
-    // Per 4.2.1.2, use uuid count to simulate higher resolution clock
-    // Get current time and simulate higher clock resolution
-    var now = (new Date().getTime()) + EPOCH_OFFSET;
-    count = (now === last) ? count + 1 : 0;
+    var time = 0;  // JS time (msecs since Unix epoch)
+    var time2 = 0; // Additional time offset, in 100's of nanosecs
 
-    // Per 4.2.1.2 If generator overruns, throw an error
-    // (*Highly* unlikely - requires generating > 10M uuids/sec)
-    if (count > UUIDS_PER_TICK) {
-      throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
+    // Get time (uuid epoch)
+    if (options.time == null) {
+      // Per 4.2.1.2, use uuid count to simulate higher resolution clock
+      // Get current time and simulate higher clock resolution
+      time = new Date().getTime() + EPOCH_OFFSET;
+      _count = (time == _last) ? _count + 1 : 0;
+
+      // Per 4.2.1.2 If generator overruns, throw an error
+      // (*Highly* unlikely - requires generating > 10M uuids/sec)
+      if (_count > UUIDS_PER_TICK) {
+        throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
+      }
+
+      // Per 4.2.1.2, if time regresses bump the clock sequence.
+      if (time < _last) {
+        _clockSeq++;
+        _count = 0;
+      }
+
+      _last = time;
+      time2 = _count;
+    } else {
+      time = options.time + EPOCH_OFFSET;
+      time2 = options.time2 || 0;
     }
-
-    // Per 4.2.1.2, if time regresses bump the clock sequence.
-    if (now < last) {
-      cs++;
-      count = 0;
-    }
-
-    last = now;
 
     // Per 4.1.4, timestamp composition
-    var tl = ((now & 0xfffffff) * 10000 + count) % 0x100000000;
-    var tmh = (((now + count/10000) / 0x100000000) * 10000) & 0xfffffff;
+    // time is uuid epoch time in _msecs_
+console.log('time:', time.toString(16));
+    var tl = ((time & 0xfffffff) * 10000 + time2) % 0x100000000;
+    var tmh = ((time / 0x100000000) * 10000) & 0xfffffff;
     var tm = tmh & 0xffff, th = tmh >> 16;
     var thav = (th & 0xfff) | 0x1000; // Set version, per 4.1.3
+
+    // Clock sequence
+    var cs = options.clockseq != null ? options.clockseq : _clockSeq;
 
     // time_low
     b[i++] = tl >>> 24 & 0xff;
@@ -170,26 +196,30 @@
     // clock_seq_low
     b[i++] = cs & 0xff;
 
-    var n = 0;
-    b[i++] = nodeId[n++];
-    b[i++] = nodeId[n++];
-    b[i++] = nodeId[n++];
-    b[i++] = nodeId[n++];
-    b[i++] = nodeId[n++];
-    b[i++] = nodeId[n++];
+    // node
+    var node = options.node || _nodeId;
+    for (var n = 0; n < 6; n++) {
+      b[i + n] = node[n];
+    }
 
-    return fmt === undefined ? unparse(b) : b;
+    return options.format === undefined ? unparse(b) : b;
   }
 
   //
   // v4 UUID support
   //
 
-  function v4(fmt, buf, offset) {
-    var b = fmt != 'binary' ? _buf : (buf ? buf : new BufferClass(16));
+  /**
+   * See docs at https://github.com/broofa/node-uuid
+   */
+  function v4(options, buf, offset) {
+    options = typeof(options) == 'string' ? {format: options} : options || {};
+
+    var b = options.format != 'binary' ? _buf :
+            (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    crypto.getRandomValues(_rnds);
+    var rnds = options.random || crypto.getRandomValues(_rnds);
 
     // v4 ideas are all random bits
     for (var c = 0 ; c < 16; c++) {
@@ -201,7 +231,7 @@
     b[i + 6] = (b[i + 6] & 0x0f) | 0x40; // Per RFC4122 sect. 4.1.3
     b[i + 8] = (b[i + 8] & 0x3f) | 0x80; // Per RFC4122 sect. 4.4
 
-    return fmt === undefined ? unparse(b) : b;
+    return options.format === undefined ? unparse(b) : b;
   }
 
   var uuid = v4;
@@ -211,5 +241,9 @@
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
 
-  return this.module ? this.module = uuid : this.uuid = uuid;
+  if (typeof(module) != 'undefined') {
+    module.exports = uuid;
+  } else {
+    this.uuid = uuid;
+  }
 }());
