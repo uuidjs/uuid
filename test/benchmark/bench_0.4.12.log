@@ -1,0 +1,130 @@
+# v4
+nodeuuid.v4(): 678426 uuids/second
+nodeuuid.v4('binary'): 548847 uuids/second
+nodeuuid.v4('binary', buffer): 1154734 uuids/second
+uuid(): 624219 uuids/second
+uuid('binary'): 802568 uuids/second
+uuidjs.create(4): 197784 uuids/second
+
+# v1
+nodeuuid.v1(): 582072 uuids/second
+nodeuuid.v1('binary'): 364431 uuids/second
+nodeuuid.v1('binary', buffer): 950570 uuids/second
+uuidjs.create(1): 122819 uuids/second
+# v4
+nodeuuid.v4(): 678426 uuids/second
+nodeuuid.v4('binary'): 546448 uuids/second
+nodeuuid.v4('binary', buffer): 1165501 uuids/second
+uuid(): 624219 uuids/second
+uuid('binary'): 796178 uuids/second
+uuidjs.create(4): 196540 uuids/second
+
+# v1
+nodeuuid.v1(): 578703 uuids/second
+nodeuuid.v1('binary'): 351617 uuids/second
+nodeuuid.v1('binary', buffer): 976562 uuids/second
+uuidjs.create(1): 122399 uuids/second
+# v4
+nodeuuid.v4(): 677506 uuids/second
+nodeuuid.v4('binary'): 545851 uuids/second
+nodeuuid.v4('binary', buffer): 1157407 uuids/second
+uuid(): 621890 uuids/second
+uuid('binary'): 821018 uuids/second
+uuidjs.create(4): 200400 uuids/second
+
+# v1
+nodeuuid.v1(): 553097 uuids/second
+nodeuuid.v1('binary'): 350385 uuids/second
+nodeuuid.v1('binary', buffer): 878734 uuids/second
+uuidjs.create(1): 121477 uuids/second
+# v4
+nodeuuid.v4(): 682128 uuids/second
+nodeuuid.v4('binary'): 544662 uuids/second
+nodeuuid.v4('binary', buffer): 1162790 uuids/second
+uuid(): 622665 uuids/second
+uuid('binary'): 780031 uuids/second
+uuidjs.create(4): 194779 uuids/second
+
+# v1
+nodeuuid.v1(): 539374 uuids/second
+nodeuuid.v1('binary'): 348189 uuids/second
+nodeuuid.v1('binary', buffer): 841750 uuids/second
+uuidjs.create(1): 119731 uuids/second
+# v4
+nodeuuid.v4(): 680272 uuids/second
+nodeuuid.v4('binary'): 551267 uuids/second
+nodeuuid.v4('binary', buffer): 1160092 uuids/second
+uuid(): 623441 uuids/second
+uuid('binary'): 800000 uuids/second
+uuidjs.create(4): 197083 uuids/second
+
+# v1
+nodeuuid.v1(): 611995 uuids/second
+nodeuuid.v1('binary'): 356887 uuids/second
+nodeuuid.v1('binary', buffer): 982318 uuids/second
+uuidjs.create(1): 123701 uuids/second
+# v4
+nodeuuid.v4(): 675675 uuids/second
+nodeuuid.v4('binary'): 546448 uuids/second
+nodeuuid.v4('binary', buffer): 1162790 uuids/second
+uuid(): 621890 uuids/second
+uuid('binary'): 798722 uuids/second
+uuidjs.create(4): 198649 uuids/second
+
+# v1
+nodeuuid.v1(): 553709 uuids/second
+nodeuuid.v1('binary'): 342465 uuids/second
+nodeuuid.v1('binary', buffer): 841750 uuids/second
+uuidjs.create(1): 120772 uuids/second
+# v4
+nodeuuid.v4(): 679347 uuids/second
+nodeuuid.v4('binary'): 548245 uuids/second
+nodeuuid.v4('binary', buffer): 1162790 uuids/second
+uuid(): 625000 uuids/second
+uuid('binary'): 797448 uuids/second
+uuidjs.create(4): 196386 uuids/second
+
+# v1
+nodeuuid.v1(): 576036 uuids/second
+nodeuuid.v1('binary'): 346020 uuids/second
+nodeuuid.v1('binary', buffer): 978473 uuids/second
+uuidjs.create(1): 122399 uuids/second
+# v4
+nodeuuid.v4(): 675675 uuids/second
+nodeuuid.v4('binary'): 551267 uuids/second
+nodeuuid.v4('binary', buffer): 1160092 uuids/second
+uuid(): 621118 uuids/second
+uuid('binary'): 803858 uuids/second
+uuidjs.create(4): 192455 uuids/second
+
+# v1
+nodeuuid.v1(): 570776 uuids/second
+nodeuuid.v1('binary'): 350631 uuids/second
+nodeuuid.v1('binary', buffer): 924214 uuids/second
+uuidjs.create(1): 121743 uuids/second
+# v4
+nodeuuid.v4(): 664893 uuids/second
+nodeuuid.v4('binary'): 530785 uuids/second
+nodeuuid.v4('binary', buffer): 1108647 uuids/second
+uuid(): 610500 uuids/second
+uuid('binary'): 792393 uuids/second
+uuidjs.create(4): 195848 uuids/second
+
+# v1
+nodeuuid.v1(): 584112 uuids/second
+nodeuuid.v1('binary'): 366837 uuids/second
+nodeuuid.v1('binary', buffer): 974658 uuids/second
+uuidjs.create(1): 120948 uuids/second
+# v4
+nodeuuid.v4(): 641848 uuids/second
+nodeuuid.v4('binary'): 547045 uuids/second
+nodeuuid.v4('binary', buffer): 1160092 uuids/second
+uuid(): 600961 uuids/second
+uuid('binary'): 815660 uuids/second
+uuidjs.create(4): 194325 uuids/second
+
+# v1
+nodeuuid.v1(): 571428 uuids/second
+nodeuuid.v1('binary'): 357653 uuids/second
+nodeuuid.v1('binary', buffer): 920810 uuids/second
+uuidjs.create(1): 121094 uuids/second
