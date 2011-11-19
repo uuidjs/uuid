@@ -141,15 +141,19 @@
             (buf ? buf : new BufferClass(16));
     var i = buf && offset || 0;
 
-    var time = 0;  // JS time (msecs since Unix epoch)
-    var timesubms = 0; // Additional time offset, in 100's of nanosecs
+    // JS Numbers don't have sufficient resolution for keeping time in
+    // 100-nanosecond units, as spec'ed by the RFC, so we kind of kludge things
+    // here by tracking time in JS-msec units, with a second var for the
+    // additional 100-nanosecond units to add to the millisecond-based time.
+    var msecs = 0; // JS time (msecs since Unix epoch)
+    var nsecs = 0; // Additional time (100-nanosecond units), added to msecs
 
-    // Get time & timesubms
-    if (options.time == null) {
+    // Get msecs & nsecs
+    if (options.msecs == null) {
       // Per 4.2.1.2, use uuid count to simulate higher resolution clock
       // Get current time and simulate higher clock resolution
-      time = new Date().getTime() + EPOCH_OFFSET;
-      _count = (time == _last) ? _count + 1 : 0;
+      msecs = new Date().getTime() + EPOCH_OFFSET;
+      _count = (msecs == _last) ? _count + 1 : 0;
 
       // Per 4.2.1.2 If generator overruns, throw an error
       // (*Highly* unlikely - requires generating > 10M uuids/sec)
@@ -158,21 +162,21 @@
       }
 
       // Per 4.2.1.2, if time regresses bump the clock sequence.
-      if (time < _last) {
+      if (msecs < _last) {
         _clockSeq++;
         _count = 0;
       }
 
-      _last = time;
-      timesubms = _count;
+      _last = msecs;
+      nsecs = _count;
     } else {
-      time = options.time + EPOCH_OFFSET;
-      timesubms = options.timesubms || 0;
+      msecs = options.msecs + EPOCH_OFFSET;
+      nsecs = options.nsecs || 0;
     }
     // Per 4.1.4, timestamp composition
     // time is uuid epoch time in _msecs_
-    var tl = ((time & 0xfffffff) * 10000 + timesubms) % 0x100000000;
-    var tmh = ((time / 0x100000000) * 10000) & 0xfffffff;
+    var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+    var tmh = ((msecs / 0x100000000) * 10000) & 0xfffffff;
     var tm = tmh & 0xffff, th = tmh >> 16;
     var thav = (th & 0xfff) | 0x1000; // Set version, per 4.1.3
 

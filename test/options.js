@@ -24,17 +24,17 @@ compare('uuids with current time', [
 // Verify ordering of ids created with explicit times
 var t = 1321644961388; // "Fri Nov 18 2011 11:36:01.388 GMT-0800 (PST)"
 compare('uuids with time option', [
-  uuid.v1({time: t - 10*3600*1000}),
-  uuid.v1({time: t - 1}),
-  uuid.v1({time: t}),
-  uuid.v1({time: t + 1}),
-  uuid.v1({time: t + 28*24*3600*1000}),
+  uuid.v1({msecs: t - 10*3600*1000}),
+  uuid.v1({msecs: t - 1}),
+  uuid.v1({msecs: t}),
+  uuid.v1({msecs: t + 1}),
+  uuid.v1({msecs: t + 28*24*3600*1000}),
 ]);
 
 console.log('Verify explicit options produce expected id');
 var id = uuid.v1({
-  time: 1321651533573,
-  timesubms: 5432,
+  msecs: 1321651533573,
+  nsecs: 5432,
   clockseq: 0x385c,
   node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
 });
@@ -47,8 +47,8 @@ console.log('... verified');
 // that case, we cannot use parseInt() since our integers become
 // > 32bit):
 console.log('Verify 1ns separation between adjacent uuids');
-var u0 = uuid.v1({time: t, timesubms: 9999});
-var u1 = uuid.v1({time: t + 1});
+var u0 = uuid.v1({msecs: t, nsecs: 9999});
+var u1 = uuid.v1({msecs: t + 1});
 
 var before = u0.split('-')[0], after = u1.split('-')[0];
 var dt = parseInt(after, 16) - parseInt(before, 16);
