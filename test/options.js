@@ -34,7 +34,7 @@ compare('uuids with time option', [
 console.log('Verify explicit options produce expected id');
 var id = uuid.v1({
   time: 1321651533573,
-  time2: 5432,
+  timesubms: 5432,
   clockseq: 0x385c,
   node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
 });
@@ -47,7 +47,7 @@ console.log('... verified');
 // that case, we cannot use parseInt() since our integers become
 // > 32bit):
 console.log('Verify 1ns separation between adjacent uuids');
-var u0 = uuid.v1({time: t, time2: 9999});
+var u0 = uuid.v1({time: t, timesubms: 9999});
 var u1 = uuid.v1({time: t + 1});
 
 var before = u0.split('-')[0], after = u1.split('-')[0];
