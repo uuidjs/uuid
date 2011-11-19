@@ -22,7 +22,7 @@
           _rnds[i] = Math.random() * 0x100000000;
         }
       }
-    }
+    };
   }
 
   // Use node.js Buffer class if available, otherwise use the Array class
@@ -39,7 +39,7 @@
   /**
    * Parse a uuid string into it's component octets.
    *
-   * This is a loose parser.  It parses the first 16 octet pairs it as hex
+   * This is a loose parser.  It parses the first 16 octet pairs as hex
    * values.  If fewer than 16 are found, any remaining entries in the array
    * are set to zero.
    *
@@ -48,7 +48,9 @@
    * @param offset (Number) Optional starting offset into buf
    */
   function parse(s, buf, offset) {
-    var buf = buf || new BufferClass(16), i = offset || 0, ii = 0;
+    var buf = buf || new BufferClass(16),
+        i = offset || 0,
+        ii = 0;
     s.toLowerCase().replace(/[0-9a-f]{2}/g, function(octet) {
       if (ii < 16) { // Don't overflow!
         buf[i + ii++] = _hexToOctet[octet];
@@ -57,7 +59,7 @@
 
     // Zero out remaining octets if string was short
     while (ii < 16) {
-      buf[i+ii] = 0;
+      buf[i + ii] = 0;
     }
 
     return buf;
@@ -70,7 +72,9 @@
    * @param offset (Number) Optional starting offset into buf
    */
   function unparse(buf, offset) {
-    var oth = _octetToHex, b = buf, i = offset || 0;
+    var oth = _octetToHex,
+        b = buf,
+        i = offset || 0;
     return  oth[b[i + 0]] + oth[b[i + 1]] +
             oth[b[i + 2]] + oth[b[i + 3]] + '-' +
             oth[b[i + 4]] + oth[b[i + 5]] + '-' +
@@ -82,7 +86,8 @@
   }
 
   /**
-   * Create and return octets for a 47-bit random node id
+   * Create and return octets for a 48-bit node id:
+   * 47 bits random, 1 bit (multicast) set to 1
    */
   function _randomNodeId() {
     crypto.getRandomValues(_rnds);
@@ -111,7 +116,7 @@
   var EPOCH_OFFSET = 12219292800000;
 
   // Per 4.1.4 - UUID time has 100ns resolution
-  // Per 4.2.1.2 - Count of uuids may be used low resolution clocks
+  // Per 4.2.1.2 - Count of uuids may be used with low resolution clocks
   var UUIDS_PER_TICK = 10000;
 
   // Per 4.5, use a random node id
@@ -123,7 +128,7 @@
   // Time of previous uuid creation
   var _last = 0;
 
-  // # of UUIDs that have been created during current time tick
+  // # of UUIDs that have been created during current millisecond time tick
   var _count = 0;
 
   /**
@@ -137,9 +142,9 @@
     var i = buf && offset || 0;
 
     var time = 0;  // JS time (msecs since Unix epoch)
-    var time2 = 0; // Additional time offset, in 100's of nanosecs
+    var timesubms = 0; // Additional time offset, in 100's of nanosecs
 
-    // Get time & time2
+    // Get time & timesubms
     if (options.time == null) {
       // Per 4.2.1.2, use uuid count to simulate higher resolution clock
       // Get current time and simulate higher clock resolution
@@ -148,7 +153,7 @@
 
       // Per 4.2.1.2 If generator overruns, throw an error
       // (*Highly* unlikely - requires generating > 10M uuids/sec)
-      if (_count > UUIDS_PER_TICK) {
+      if (_count == UUIDS_PER_TICK) {
         throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
       }
 
@@ -159,14 +164,14 @@
       }
 
       _last = time;
-      time2 = _count;
+      timesubms = _count;
     } else {
       time = options.time + EPOCH_OFFSET;
-      time2 = options.time2 || 0;
+      timesubms = options.timesubms || 0;
     }
     // Per 4.1.4, timestamp composition
     // time is uuid epoch time in _msecs_
-    var tl = ((time & 0xfffffff) * 10000 + time2) % 0x100000000;
+    var tl = ((time & 0xfffffff) * 10000 + timesubms) % 0x100000000;
     var tmh = ((time / 0x100000000) * 10000) & 0xfffffff;
     var tm = tmh & 0xffff, th = tmh >> 16;
     var thav = (th & 0xfff) | 0x1000; // Set version, per 4.1.3
@@ -200,7 +205,7 @@
       b[i + n] = node[n];
     }
 
-    return options.format === undefined ? unparse(b) : b;
+    return options.format == null ? unparse(b) : b;
   }
 
   //
@@ -221,7 +226,8 @@
 
     // v4 ideas are all random bits
     for (var c = 0 ; c < 16; c++) {
-      var ri = c >> 2, rb = (c & 0x03) * 8;
+      var ri = c >> 2,
+          rb = (c & 0x03) * 8;
       b[i + c] = _rnds[ri] >>> rb & 0xff;
     }
 
@@ -229,7 +235,7 @@
     b[i + 6] = (b[i + 6] & 0x0f) | 0x40; // Per RFC4122 sect. 4.1.3
     b[i + 8] = (b[i + 8] & 0x3f) | 0x80; // Per RFC4122 sect. 4.4
 
-    return options.format === undefined ? unparse(b) : b;
+    return options.format == null ? unparse(b) : b;
   }
 
   var uuid = v4;
