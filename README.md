@@ -70,10 +70,10 @@ There are several options that can be passed to `v1()` and `v4()`:
 var options = {
   format: (String),    // (v1/v4) 'binary' or 'string'
   random: (Array),     // (v1/v4) array of four 32bit random #'s to use instead of rnds
-  timestamp: (Number), // (v1) timestamp to use (in UNIX epoch)
+  time: (Number),      // (v1) timestamp to use (in UNIX epoch, in msec)
+  timesubms: (Number), // (v1) number of 100ns intervals since msec time
   clockseq: (Number),  // (v1) clockseq to use
-  node: (Array),       // (v1) node. Array of hexoctets, e.g. a MAC-address
-  count (Number)       // (v1) UUID count for this ms-interval to use
+  node: (Array)        // (v1) node. Array of hexoctets, e.g. a MAC-address
 };
 ```
 
@@ -85,14 +85,14 @@ This is useful whenever you need to find UUIDs that have been generated during a
 ```javascript
 var now = new Date().getTime();
 var first = uuid.v1({
-  timestamp: now,
-  count: 0,
+  time: now,
+  timesubms: 0,
   clockseq: 0,
   node: [0, 0, 0, 0, 0, 0]
 });
 var last = uuid.v1({
-  timestamp: now,
-  count: 9999,
+  time: now,
+  timesubms: 9999,
   clockseq: 0x3fff, // 14bit
   node: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff]
 });
