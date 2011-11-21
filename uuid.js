@@ -79,15 +79,15 @@
 
   /** See docs at https://github.com/broofa/node-uuid */
   function unparse(buf, offset) {
-    var i = (buf && offset) || 0, bth = _byteToHex;
-    return  bth[buf[i + 0]] + bth[buf[i + 1]] +
-            bth[buf[i + 2]] + bth[buf[i + 3]] + '-' +
-            bth[buf[i + 4]] + bth[buf[i + 5]] + '-' +
-            bth[buf[i + 6]] + bth[buf[i + 7]] + '-' +
-            bth[buf[i + 8]] + bth[buf[i + 9]] + '-' +
-            bth[buf[i + 10]] + bth[buf[i + 11]] +
-            bth[buf[i + 12]] + bth[buf[i + 13]] +
-            bth[buf[i + 14]] + bth[buf[i + 15]];
+    var i = offset || 0, bth = _byteToHex;
+    return  bth[buf[i++]] + bth[buf[i++]] +
+            bth[buf[i++]] + bth[buf[i++]] + '-' +
+            bth[buf[i++]] + bth[buf[i++]] + '-' +
+            bth[buf[i++]] + bth[buf[i++]] + '-' +
+            bth[buf[i++]] + bth[buf[i++]] + '-' +
+            bth[buf[i++]] + bth[buf[i++]] +
+            bth[buf[i++]] + bth[buf[i++]] +
+            bth[buf[i++]] + bth[buf[i++]];
   }
 
   // Pre allocate array for constructing uuids
@@ -230,6 +230,10 @@
 
     return buf || unparse(rnds);
   }
+
+  //
+  // Export API
+  //
 
   var uuid = v4;
   uuid.v1 = v1;
