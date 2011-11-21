@@ -175,4 +175,6 @@ npm install uuid uuid-js
 node test/benchmark.js
 ```
 
+For a complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki][https://github.com/broofa/node-uuid/wiki/Benchmark]
+
 For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
