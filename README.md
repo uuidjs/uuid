@@ -4,10 +4,11 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
-* Version 1 (time-based) and version 4 (random) UUID generation
-* Very good performance (~1M+ UUIDs/second on "modern" hardware)
-* Pure JS runs in both node.js and all browsers.
-* Uses cryptographically strong random # generation (where available)
+* Generate RFC4122 version 1 or version 4 UUIDs
+* Uses cryptographically strong APIs for random # generation where available
+* High performance - Capable of generating 1M+ UUIDs/second
+* Pure JS runs in node.js and all browsers.
+* 1.1KB minified and gzip'ed
 
 ## Getting Started
 
@@ -41,13 +42,15 @@ uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 
 ### uuid.v1([`options` [, `buffer` [, `offset`]]])
 
-Generate and return a RFC4122 v1 (timestamp-based) UUID.
+Generate and return a version 1 UUID.
 
+* `options` - (Object) Optional uuid state to apply. Properties may include:
 
-* `options.node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomnly generated ID.  See note 2.
-* `options.clockseq` - (Number between 0 - 0x3fff) RFC clock sequence.  Default: An internally maintained clockseq is used.
-* `options.msecs` - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used.  See note 3.
-* `options.nsecs` - (Number between 0-9999) additional time, in 100-nanosecond. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
+  * `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomnly generated ID.  See note 2.
+  * `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence.  Default: An internally maintained clockseq is used.
+  * `msecs` - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used.  See note 3.
+  * `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
+
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 * `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
@@ -55,8 +58,7 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 
 Notes:
 
-1. For backward compatibility with v1.2, `options` may be a string, "binary", to indicate the UUID should be returned as an Array or Buffer of bytes.  As this option is largely redundant with the `buffer` argument, this feature has been deprecated and will be removed in future versions.)
-1. The randomly generated node id is guaranteed to remain constant only for the lifetime of the current JS runtime.
+1. The randomly generated node id is only guaranteed to stay constant for the lifetime of the current JS runtime. (Future versions of this module may use persistent storage mechanisms to extend this guarantee.)
 1. Specifying the `msecs` option bypasses the internal logic for ensuring id uniqueness.  In this case you may want to also provide `clockseq` and `nsecs` options as well.
 
 Example: Generate string UUID with fully-specified options
@@ -67,31 +69,34 @@ uuid.v1({
   clockseq: 0x1234,
   msecs: new Date('2011-11-01'),
   nsecs: 5678
-});
-// -> "710b962e-041c-11e1-9234-0123456789ab"
+});   // -> "710b962e-041c-11e1-9234-0123456789ab"
 ```
 
-Example: Generate two binary IDs in a single buffer
+Example: In-place generation of two binary IDs
 
 ```javascript
-var buffer = new Array(32); // (or 'new Buffer' in node.js)
-uuid.v1(null, buffer, 0);
-uuid.v1(null, buffer, 16);
+// In browsers: 'new Array(32)'
+var buffer = new Buffer(32).fill(0);  // -> <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00>
+uuid.v1(null, buffer, 0);             // -> <Buffer 02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00>
+uuid.v1(null, buffer, 16);            // -> <Buffer 02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 02 a3 1c b0 14 32 11 e1 85 58 0b 48 8e 4f c1 15>
+
+// Optionally use uuid.unparse() to get stringify the ids
+uuid.unparse(buffer);                 // -> '02a2ce90-1432-11e1-8558-0b488e4fc115'
+uuid.unparse(buffer, 16)              // -> '02a31cb0-1432-11e1-8558-0b488e4fc115'
 ```
 
 ### uuid.v4([`options` [, `buffer` [, `offset`]]])
 
 Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
-* `options.random` - (Number[16]) Array of 16 random 8-bit values.  Default: randomly generated.
+* `options` - (Object) Optional uuid state to apply. Properties may include:
+
+  * `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values
+
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 * `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
 Returns `buffer`, if specified, otherwise the string form of the UUID
-
-Notes:
-
-1. For backward compatibility with v1.2, `options` may be a string, "binary", to indicate the UUID should be returned as an Array or Buffer of bytes.  As this option is largely redundant with the `buffer` argument, this feature has been deprecated and will be removed in future versions.)
 
 Example: Generate string UUID with fully-specified options
 
@@ -105,12 +110,12 @@ uuid.v4({
 // -> "109156be-c4fb-41ea-b1b4-efe1671c5836"
 ```
 
-Example: Generate two binary IDs in a single buffer
+Example: Generate two IDs in a single buffer
 
 ```javascript
 var buffer = new Array(32); // (or 'new Buffer' in node.js)
-uuid.v1(null, buffer, 0);
-uuid.v1(null, buffer, 16);
+uuid.v4(null, buffer, 0);
+uuid.v4(null, buffer, 16);
 ```
 
 ### uuid.parse(id[, buffer[, offset]])
@@ -124,9 +129,9 @@ Parse and unparse UUIDs
 
 Example parsing and unparsing a UUID string
 ```javascript
-var binary = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10');
+var bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10');
 // -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
-var string = uuid.unparse(binary);
+var string = uuid.unparse(bytes);
 // -> '797ff043-11eb-11e1-80d6-510998755d10'
 ```
 
@@ -143,8 +148,17 @@ var myUuid = uuid.noConflict();
 myUuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 ```
 
-### uuid.BufferClass (deprecated)
-The class of container for storing byte representations of UUIDs.  Available as part of v1.2, deprecated in v1.3, this property will likely be removed in future versions.
+## Deprecated APIs
+
+Support for the following v1.2 APIs is available in v1.3, but is deprecated and will be removed in the next major version.
+
+### uuid([format [, buffer [, offset]]])
+
+Use uuid.v4() instead.  The `format` argument has been replaced by the `options` argument, however you may still pass 'binary' to specify that a binary uuid be generated.
+
+### uuid.BufferClass
+
+The class of container to create when generating binary uuid data.  No replacement API is available.
 
 ## Testing
 
@@ -162,7 +176,7 @@ In Browser
 open test/test.html
 ```
 
-### Performance
+### Benchmarking
 
 Requires node.js
 
