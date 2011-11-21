@@ -41,7 +41,7 @@ uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 
 ### uuid.v1([`options` [, `buffer` [, `offset`]]])
 
-Generate and return a version 1 UUID.
+Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
 * `options` - (Object) Optional uuid state to apply. Properties may include:
 
@@ -86,7 +86,7 @@ uuid.unparse(buffer, 16)              // -> '02a31cb0-1432-11e1-8558-0b488e4fc11
 
 ### uuid.v4([`options` [, `buffer` [, `offset`]]])
 
-Generate and return a RFC4122 v1 (timestamp-based) UUID.
+Generate and return a RFC4122 v4 UUID.
 
 * `options` - (Object) Optional uuid state to apply. Properties may include:
 
@@ -182,7 +182,7 @@ npm install uuid uuid-js
 node test/benchmark.js
 ```
 
-For a more complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki][https://github.com/broofa/node-uuid/wiki/Benchmark]
+For a more complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki](https://github.com/broofa/node-uuid/wiki/Benchmark)
 
 For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
 
@@ -190,6 +190,6 @@ For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-
 
 v1.3: Includes
 
-* Support for version 1 ids, thanks to @ctavan!
+* Support for version 1 ids, thanks to [@ctavan](https://github.com/ctavan)!
 * Support for node.js crypto API
 * De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code
