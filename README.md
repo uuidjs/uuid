@@ -154,11 +154,11 @@ Support for the following v1.2 APIs is available in v1.3, but is deprecated and 
 
 ### uuid([format [, buffer [, offset]]])
 
-Use uuid.v4() instead.  The `format` argument has been replaced by the `options` argument, however you may still pass 'binary' to specify that a binary uuid be generated.
+uuid() has become uuid.v4(), and the `format` argument is now implicit in the `buffer` argument. (i.e. if you specify a buffer, the format is assumed to be binary).
 
 ### uuid.BufferClass
 
-The class of container to create when generating binary uuid data.  No replacement API is available.
+The class of container created when generating binary uuid data if no buffer argument is specified.  This is expected to go away, with no replacement API.
 
 ## Testing
 
