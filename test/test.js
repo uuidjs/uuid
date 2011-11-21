@@ -2,7 +2,7 @@ if (!this.uuid) {
   uuid = require('../uuid');
 }
 
-var N = 1e5;
+var N = 1e4;
 
 function log(msg) {
   if (typeof(document) != 'undefined') {

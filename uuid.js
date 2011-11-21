@@ -6,20 +6,20 @@
 (function() {
   var _global = this;
 
-  // Random # function (Feature detected below)
-  var _randomBytes;
+  // Random number generator (feature-detected below)
+  var _rng;
 
   // node.js 'crypto' API
   // http://nodejs.org/docs/v0.6.2/api/crypto.html#randomBytes
   try {
-    _randomBytes = require('crypto').randomBytes;
+    _rng = require('crypto').randomBytes;
   } catch (e) {}
 
-  // WHATWG crypto api - http://wiki.whatwg.org/wiki/Crypto
-  // Available on Chrome
-  if (!_randomBytes && _global.crypto && crypto.getRandomValues) {
+  // WHATWG crypto api, available in Chrome
+  // http://wiki.whatwg.org/wiki/Crypto
+  if (!_rng && _global.crypto && crypto.getRandomValues) {
     var _rnds = new Uint32Array(4), _rndBytes = new Array(16);
-    var _randomBytes = function() {
+    var _rng = function() {
       // Get 32-bit rnds
       crypto.getRandomValues(_rnds);
 
@@ -31,16 +31,19 @@
     };
   }
 
-  if (!_randomBytes) {
-    // Math.random - Our least desirable option since there's no guarantee
-    // around cryptographic quality
+  // Math.random - least desirable option since it does not guarantee
+  // cryptographic quality.
+  if (!_rng) {
     var _rndBytes = new Array(16);
-    _randomBytes = function() {
+    _rng = function() {
+      var r, b = _rndBytes, i = 0;
+
       for (var i = 0, r; i < 16; i++) {
-        if (c & 0x03 == 0) r = Math.random() * 0x100000000;
-        _rndBytes[i] = _rnds[i >> 2] >>> ((i & 0x03) * 8) & 0xff;
+        if ((i & 0x03) == 0) r = Math.random() * 0x100000000;
+        b[i] = r >>> ((i & 0x03) << 3) & 0xff;
       }
-      return _rndBytes;
+
+      return b;
     };
   }
 
@@ -58,7 +61,8 @@
   /** See docs at https://github.com/broofa/node-uuid */
   function parse(s, buf, offset) {
     var i = (buf && offset) || 0, ii = 0;
-    buf = buf || new BufferClass(16),
+
+    buf = buf || [];
     s.toLowerCase().replace(/[0-9a-f]{2}/g, function(byte) {
       if (ii < 16) { // Don't overflow!
         buf[i + ii++] = _hexToByte[byte];
@@ -86,11 +90,8 @@
             bth[buf[i + 14]] + bth[buf[i + 15]];
   }
 
-  // Pre allocate array used to construct uuid (avoids doing this for each id)
+  // Pre allocate array for constructing uuids
   var _buffer = new BufferClass(16);
-
-  // Options to use when none specified
-  var _defaultOptions = {};
 
   //
   // v1 UUID support
@@ -102,12 +103,8 @@
   // Per 4.1.4 - Offset (in msecs) from JS time to UUID (gregorian) time
   var EPOCH_OFFSET = 12219292800000;
 
-  // Per 4.1.4 - UUID time has 100ns resolution
-  // Per 4.2.1.2 - Count of uuids may be used with low resolution clocks
-  var UUIDS_PER_TICK = 10000;
-
   // random #'s we need to init node and clockseq
-  var _seedBytes = _randomBytes(10);
+  var _seedBytes = _rng(10);
 
   // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
   var _nodeId = [
@@ -126,15 +123,10 @@
 
   /** See docs at https://github.com/broofa/node-uuid */
   function v1(options, buf, offset) {
-    // Deprecated - v1.2 'format' argument support
     var i = buf && offset || 0;
-    if (typeof(options) == 'string') {
-      buf = options == 'binary' ? new BufferClass(16) : null;
-      options = null;
-    }
     var b = buf || _buffer;
 
-    options = options || _defaultOptions;
+    options = options || {};
 
     // JS Numbers aren't capable of representing time in the RFC-specified
     // 100-nanosecond units. To deal with this, we represent time as the usual
@@ -154,7 +146,7 @@
       msecs = new Date().getTime() + EPOCH_OFFSET;
 
       if (msecs < _last) {
-        // Clock regression - Per 4.2.1.2, bump the clock sequence
+        // Clock regression - Per 4.2.1.2, increment clock seq
         _clockSeq++;
         _count = 0;
       } else {
@@ -164,40 +156,40 @@
       }
       _last = msecs;
 
-      // Per 4.2.1.2 If generator overruns, throw an error
-      // (*Highly* unlikely - requires generating > 10M uuids/sec)
-      if (_count == UUIDS_PER_TICK) {
+      // Per 4.2.1.2 If generator creates more than one id per uuid 100-ns
+      // interval, throw an error
+      // (Requires generating > 10M uuids/sec. While unlikely, it's not
+      // entirely inconceivable given the benchmark results we're getting)
+      if (_count >= 10000) {
         throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
       }
 
       nsecs = _count;
     }
-    // Per 4.1.4, timestamp composition
-    // time is uuid epoch time in _msecs_
-    var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-    var tmh = ((msecs / 0x100000000) * 10000) & 0xfffffff;
-    var tm = tmh & 0xffff, th = tmh >> 16;
-    var thav = (th & 0xfff) | 0x1000; // Per 4.1.3 - set version
 
-    // Clock sequence
-    var cs = options.clockseq != null ? options.clockseq : _clockSeq;
+    // Per 4.1.4, timestamp composition
 
     // time_low
+    var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
     b[i++] = tl >>> 24 & 0xff;
     b[i++] = tl >>> 16 & 0xff;
     b[i++] = tl >>> 8 & 0xff;
     b[i++] = tl & 0xff;
 
     // time_mid
-    b[i++] = tm >>> 8 & 0xff;
-    b[i++] = tm & 0xff;
+    var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
+    b[i++] = tmh >>> 8 & 0xff;
+    b[i++] = tmh & 0xff;
 
     // time_high_and_version
-    b[i++] = thav >>> 8 & 0xff;
-    b[i++] = thav & 0xff;
+    b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+    b[i++] = tmh >>> 16 & 0xff;
+
+    // Clock sequence
+    var cs = options.clockseq != null ? options.clockseq : _clockSeq;
 
     // clock_seq_hi_and_reserved (Per 4.2.2 - include variant)
-    b[i++] = (cs >>> 8) | 0x80;
+    b[i++] = cs >>> 8 | 0x80;
 
     // clock_seq_low
     b[i++] = cs & 0xff;
@@ -217,28 +209,27 @@
 
   /** See docs at https://github.com/broofa/node-uuid */
   function v4(options, buf, offset) {
-    // Deprecated - v1.2 'format' argument support
+    // Deprecated - 'format' argument, as supported in v1.2
     var i = buf && offset || 0;
     if (typeof(options) == 'string') {
       buf = options == 'binary' ? new BufferClass(16) : null;
       options = null;
     }
 
-    var rnds = options && options.random || _randomBytes(16);
+    var rnds = options && options.random || _rng(16);
 
     // Per 4.4, set bits for version and clock_seq_hi_and_reserved
     rnds[6] = (rnds[6] & 0x0f) | 0x40;
     rnds[8] = (rnds[8] & 0x3f) | 0x80;
 
-    // Copy bytes into buffer, if provided
+    // Copy bytes to buffer, if provided
     if (buf) {
       for (var ii = 0; ii < 16; ii++) {
         buf[offset + ii] = rnds[ii];
       }
-      return buf;
     }
 
-    return unparse(rnds);
+    return buf || unparse(rnds);
   }
 
   var uuid = v4;
