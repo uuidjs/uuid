@@ -5,10 +5,9 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 Features:
 
 * Generate RFC4122 version 1 or version 4 UUIDs
-* Uses cryptographically strong APIs for random # generation where available
-* High performance - Capable of generating 1M+ UUIDs/second
-* Pure JS runs in node.js and all browsers.
-* 1.1KB minified and gzip'ed
+* Runs in node.js and all browsers.
+* Cryptographically strong random # generation on supporting platforms
+* 1.1K minified and gzip'ed
 
 ## Getting Started
 
@@ -185,6 +184,14 @@ npm install uuid uuid-js
 node test/benchmark.js
 ```
 
-For a complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki][https://github.com/broofa/node-uuid/wiki/Benchmark]
+For a more complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki][https://github.com/broofa/node-uuid/wiki/Benchmark]
 
 For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
+
+### Release notes
+
+v1.3: Includes
+
+* Support for version 1 ids, thanks to @ctavan!
+* Support for node.js crypto API
+* De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code

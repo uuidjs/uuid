@@ -6,20 +6,20 @@
 (function() {
   var _global = this;
 
-  // Pseudo-random number generation function
-  var _prng;
+  // Random number generator (feature-detected below)
+  var _rng;
 
   // node.js 'crypto' API
   // http://nodejs.org/docs/v0.6.2/api/crypto.html#randomBytes
   try {
-    _prng = require('crypto').randomBytes;
+    _rng = require('crypto').randomBytes;
   } catch (e) {}
 
-  // WHATWG crypto api - http://wiki.whatwg.org/wiki/Crypto
-  // Available on Chrome
-  if (!_prng && _global.crypto && crypto.getRandomValues) {
+  // WHATWG crypto api, available in Chrome
+  // http://wiki.whatwg.org/wiki/Crypto
+  if (!_rng && _global.crypto && crypto.getRandomValues) {
     var _rnds = new Uint32Array(4), _rndBytes = new Array(16);
-    var _prng = function() {
+    var _rng = function() {
       // Get 32-bit rnds
       crypto.getRandomValues(_rnds);
 
@@ -31,11 +31,11 @@
     };
   }
 
-  if (!_prng) {
-    // Math.random - Our least desirable option since there's no guarantee
-    // around cryptographic quality
+  // Math.random - least desirable option since it does not guarantee
+  // cryptographic quality.
+  if (!_rng) {
     var _rndBytes = new Array(16);
-    _prng = function() {
+    _rng = function() {
       var r, b = _rndBytes, i = 0;
 
       for (var i = 0, r; i < 16; i++) {
@@ -107,7 +107,7 @@
   var EPOCH_OFFSET = 12219292800000;
 
   // random #'s we need to init node and clockseq
-  var _seedBytes = _prng(10);
+  var _seedBytes = _rng(10);
 
   // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
   var _nodeId = [
@@ -219,7 +219,7 @@
       options = null;
     }
 
-    var rnds = options && options.random || _prng(16);
+    var rnds = options && options.random || _rng(16);
 
     // Per 4.4, set bits for version and clock_seq_hi_and_reserved
     rnds[6] = (rnds[6] & 0x0f) | 0x40;

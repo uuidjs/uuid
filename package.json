@@ -1,6 +1,6 @@
 {
   "name"          : "node-uuid",
-  "description"   : "Fast, pure-js generation of RFC4122 (v1 and v4) UUIDs.",
+  "description"   : "Rigorous implementation of RFC4122 (v1 and v4) UUIDs.",
   "url"           : "http://github.com/broofa/node-uuid",
   "keywords"      : ["uuid", "guid", "rfc4122"],
   "author"        : "Robert Kieffer <robert@broofa.com>",
