@@ -43,23 +43,21 @@ uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 
 Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
-* **`options`** - (Object) Object with one or more of the following properties (note 1):
 
-  * **`node`** (Number[6]) Array of 6 bytes to use for the node field (per 4.1.6). Default: An internally generated node ID is used (note 2).
-  * **`clockseq`** - (Number between 0 - 0x3fff) RFC clock sequence.  Default: An internally maintained clockseq is used.
-  * **`msecs`** - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used (note 3)
-  * **`nsecs`** - (Number between 0-9999) additional time, in 100-nanosecond. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
+* `options.node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomnly generated ID.  See note 2.
+* `options.clockseq` - (Number between 0 - 0x3fff) RFC clock sequence.  Default: An internally maintained clockseq is used.
+* `options.msecs` - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used.  See note 3.
+* `options.nsecs` - (Number between 0-9999) additional time, in 100-nanosecond. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
+* `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+* `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
-* **`buffer`** - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-* **`offset`** - (Number) Starting index in `buffer` at which to begin writing.
-
-_Returns_ `buffer`, if specified, otherwise the string form of the UUID
+Returns `buffer`, if specified, otherwise the string form of the UUID
 
 Notes:
 
 1. For backward compatibility with v1.2, `options` may be a string, "binary", to indicate the UUID should be returned as an Array or Buffer of bytes.  As this option is largely redundant with the `buffer` argument, this feature has been deprecated and will be removed in future versions.)
-1. Currently the internally generated node id is guaranteed to remain constant only for the lifetime of the current JS runtime. Currentl  Future versions of this module may guarantee
-1. Providing the `msecs` option disables the internal logic for ensuring id uniqueness!  It may make sense to also provide `clockseq` and `nsecs` options as well in this case.
+1. The randomly generated node id is guaranteed to remain constant only for the lifetime of the current JS runtime.
+1. Specifying the `msecs` option bypasses the internal logic for ensuring id uniqueness.  In this case you may want to also provide `clockseq` and `nsecs` options as well.
 
 Example: Generate string UUID with fully-specified options
 
@@ -85,14 +83,11 @@ uuid.v1(null, buffer, 16);
 
 Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
-* **`options`** - (Object) Object with one or more of the following properties (note 1):
+* `options.random` - (Number[16]) Array of 16 random 8-bit values.  Default: randomly generated.
+* `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+* `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
-  * **`random`** - (Number[16]) Array of 16 random 8-bit values.  Default: values generated randomly.
-
-* **`buffer`** - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-* **`offset`** - (Number) Starting index in `buffer` at which to begin writing.
-
-_Returns_ `buffer`, if specified, otherwise the string form of the UUID
+Returns `buffer`, if specified, otherwise the string form of the UUID
 
 Notes:
 
@@ -123,9 +118,9 @@ uuid.v1(null, buffer, 16);
 
 Parse and unparse UUIDs
 
-  * **`id`** - (String) UUID(-like) string
-  * **`buffer`** - (Array | Buffer) Array or buffer where UUID bytes are to be written. Default: A new Array or Buffer is used
-  * **`offset`** - (Number) Starting index in `buffer` at which to begin writing. Default: 0
+  * `id` - (String) UUID(-like) string
+  * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written. Default: A new Array or Buffer is used
+  * `offset` - (Number) Starting index in `buffer` at which to begin writing. Default: 0
 
 Example parsing and unparsing a UUID string
 ```javascript
@@ -139,9 +134,10 @@ var string = uuid.unparse(binary);
 
 (Browsers only) Set `uuid` property back to it's previous value.
 
-_Returns_ the node-uuid object.
+Returns the node-uuid object.
 
 Example:
+
 ```javascript
 var myUuid = uuid.noConflict();
 myUuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
