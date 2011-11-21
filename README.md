@@ -114,7 +114,7 @@ var string = uuid.unparse(binary);
 
 ## Testing
 
-test/test.js generates performance data (similar to test/benchmark.js). It also verifies the syntax of 100K string UUIDs, and logs the distribution of hex digits found therein.  For example:
+`test/test.js` generates performance data (similar to `benchmark/benchmark.js`). It also verifies the syntax of 100K string UUIDs, and logs the distribution of hex digits found therein.  For example:
 
     - - - Performance Data - - -
     uuid.v4(): 1470588 uuids/second
@@ -146,38 +146,21 @@ Note that the increased values for 4 and 8-B are expected as part of the RFC4122
 
 ### In browser
 
-Open test/test.html
+Open `test/test.html`
 
 ### In node.js
 
-    node test/test.js
-
-node.js users can also run the node-uuid vs. uuid vs. uuid-js benchmark:
-
-    npm install uuid uuid-js
-    node test/benchmark.js
+```
+node test/test.js
+node test/options.js
+```
 
 ## Performance
 
 ### In node.js
 
-node-uuid is designed to be fast.  That said, the target platform is node.js, where it is screaming fast.  Here's what I get on an Intel Core i7 950 @ 3.07GHz for the test/benchmark.js script:
-
-    # v4
-    nodeuuid.v4(): 1577287 uuids/second
-    nodeuuid.v4('binary'): 1033057 uuids/second
-    nodeuuid.v4('binary', buffer): 3012048 uuids/second
-    uuid(): 266808 uuids/second
-    uuid('binary'): 302480 uuids/second
-    uuidjs.create(4): 360750 uuids/second
-    # v1
-    nodeuuid.v1(): 905797 uuids/second
-    nodeuuid.v1('binary'): 557413 uuids/second
-    nodeuuid.v1('binary', buffer): 1240694 uuids/second
-    uuidjs.create(1): 201369 uuids/second
-
-The uuid() entries are for Nikhil Marathe's [uuid module](https://bitbucket.org/nikhilm/uuidjs), the uuidjs() entries are for Patrick Negri's [uuid-js module](https://github.com/pnegri/uuid-js), and they are provided for comparison. uuid is a wrapper around the native libuuid library, uuid-js is a pure javascript implementation based on [UUID.js](https://github.com/LiosK/UUID.js) by LiosK.
+node-uuid is designed to be fast. That said, the target platform is node.js, where it is screaming fast. You can find out more about how to benchmark node-uuid in `benchmark/README.md` or just have a look at our results: https://github.com/broofa/node-uuid/wiki/Benchmark
 
 ### In browser
 
-node-uuid performance varies dramatically across browsers.  For comprehensive test results, please [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
+node-uuid performance varies dramatically across browsers. For comprehensive test results, please [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
