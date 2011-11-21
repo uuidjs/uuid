@@ -127,11 +127,10 @@ Parse and unparse UUIDs
   * `offset` - (Number) Starting index in `buffer` at which to begin writing. Default: 0
 
 Example parsing and unparsing a UUID string
+
 ```javascript
-var bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10');
-// -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
-var string = uuid.unparse(bytes);
-// -> '797ff043-11eb-11e1-80d6-510998755d10'
+var bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10'); // -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
+var string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
 ```
 
 ### uuid.noConflict()
