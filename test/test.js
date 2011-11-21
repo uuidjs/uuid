@@ -1,26 +1,90 @@
 if (!this.uuid) {
+  // node.js
   uuid = require('../uuid');
 }
 
-var N = 1e4;
+//
+// x-platform log/assert shims
+//
 
-function log(msg) {
+function _log(msg, type) {
+  type = type || 'log';
+
   if (typeof(document) != 'undefined') {
-    document.write('<div>' + msg.replace(/\n/g, '<br />') + '</div>');
+    document.write('<div class="' + type + '">' + msg.replace(/\n/g, '<br />') + '</div>');
   }
   if (typeof(console) != 'undefined') {
-    console.log(msg);
+    console[type](msg);
   }
 }
 
-// Get %'age an actual value differs from the ideal value
-function divergence(actual, ideal) {
-  return Math.round(100*100*(actual - ideal)/ideal)/100;
+function log(msg) {_log(msg, 'log');}
+function warn(msg) {_log(msg, 'warn');}
+function error(msg) {_log(msg, 'error');}
+
+function assert(res, msg) {
+  if (!res) {
+    error('Fail: ' + msg);
+  } else {
+    log('Pass: ' + msg);
+  }
 }
 
-function rate(msg, t) {
-  log(msg + ': ' + (N / (Date.now() - t) * 1e3 | 0) + ' uuids/second');
+//
+// Unit tests
+//
+
+function compare(name, ids) {
+  ids = ids.map(function(id) {
+    return id.split('-').reverse().join('-');
+  }).sort();
+  var sorted = ([].concat(ids)).sort();
+
+  assert(sorted.toString() == ids.toString(), name + ' have expected order');
 }
+
+// Verify ordering of v1 ids created using default behavior
+compare('uuids with current time', [
+  uuid.v1(),
+  uuid.v1(),
+  uuid.v1(),
+  uuid.v1(),
+  uuid.v1()
+]);
+
+// Verify ordering of v1 ids created with explicit times
+var t = 1321644961388; // "Fri Nov 18 2011 11:36:01.388 GMT-0800 (PST)"
+compare('uuids with time option', [
+  uuid.v1({msecs: t - 10*3600*1000}),
+  uuid.v1({msecs: t - 1}),
+  uuid.v1({msecs: t}),
+  uuid.v1({msecs: t + 1}),
+  uuid.v1({msecs: t + 28*24*3600*1000}),
+]);
+
+var id = uuid.v1({
+  msecs: 1321651533573,
+  nsecs: 5432,
+  clockseq: 0x385c,
+  node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
+});
+assert(id == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
+
+// Check that there is exactly 1 tick between lastUUID and firstUUID of the
+// next millisecond interval (this test is sloppy since it fails if time_mid
+// or time_hi change when we changed the time by one ms. If we want to include
+// that case, we cannot use parseInt() since our integers become
+// > 32bit):
+var u0 = uuid.v1({msecs: t, nsecs: 9999});
+var u1 = uuid.v1({msecs: t + 1});
+
+var before = u0.split('-')[0], after = u1.split('-')[0];
+var dt = parseInt(after, 16) - parseInt(before, 16);
+assert(dt === 1, '1ns separation between adjacent uuids');
+
+//
+// Per tests
+//
 
 var generators = {
   v1: uuid.v1,
@@ -32,29 +96,15 @@ var UUID_FORMAT = {
   v4: /[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i
 };
 
-// Test time order of v1 uuids
-var ids = [];
-while (ids.length < 1e4) ids.push(uuid.v1());
-var sorted = ([].concat(ids)).sort();
-if (sorted.toString() !== ids.toString()) {
-  log('Sort order of 10000 v1 uuids was incorrect!');
+var N = 1e4;
+
+// Get %'age an actual value differs from the ideal value
+function divergence(actual, ideal) {
+  return Math.round(100*100*(actual - ideal)/ideal)/100;
 }
 
-// Perf tests
-log('- - - Performance Data - - -');
-for (var version in generators) {
-  log('\n' + version + ' UUIDs');
-  var generator = generators[version];
-  var buf = new uuid.BufferClass(16);
-
-  for (var i = 0, t = Date.now(); i < N; i++) generator();
-  rate('uuid.' + version + '()', t);
-
-  for (var i = 0, t = Date.now(); i < N; i++) generator('binary');
-  rate('uuid.' + version + '(\'binary\')', t);
-
-  for (var i = 0, t = Date.now(); i < N; i++) generator('binary', buf);
-  rate('uuid.' + version + '(\'binary\', buffer)', t);
+function rate(msg, t) {
+  log(msg + ': ' + (N / (Date.now() - t) * 1e3 | 0) + ' uuids\/second');
 }
 
 for (var version in generators) {
@@ -62,30 +112,33 @@ for (var version in generators) {
   var generator = generators[version];
   var format = UUID_FORMAT[version];
 
-  log('- - - Checking ' + N + ' ' + version + ' uuids - - -');
-  for (var i = 0; i < N; i++) {
+  log('\nSanity check ' + N + ' ' + version + ' uuids');
+  for (var i = 0, ok = 0; i < N; i++) {
     id = generator();
     if (!format.test(id)) {
       throw Error(id + ' is not a valid UUID string');
     }
 
     if (id != uuid.unparse(uuid.parse(id))) {
-      throw Error(id + ' does not parse/unparse');
+      assert(fail, id + ' is not a valid id');
     }
 
     // Count digits for our randomness check
-    var digits = id.replace(/-/g, '').split('');
-    for (var j = digits.length-1; j >= 0; j--) {
-      var c = digits[j];
-      max = Math.max(max, counts[c] = (counts[c] || 0) + 1);
+    if (version == 'v4') {
+      var digits = id.replace(/-/g, '').split('');
+      for (var j = digits.length-1; j >= 0; j--) {
+        var c = digits[j];
+        max = Math.max(max, counts[c] = (counts[c] || 0) + 1);
+      }
     }
   }
 
-  // Only check randomness for v4 UUIDs
+  // Check randomness for v4 UUIDs
   if (version == 'v4') {
-    log('\nv4 PRNG quality check: Distribution of Hex Digits (% deviation from ideal) - - -');
+    // Pick (empirically chosen) limit that we get worried about randomness.
+    var limit = 2*100*Math.sqrt(1/N); // (Purely empirical choice, this!)
+    log('\nChecking v4 randomness.  Distribution of Hex Digits (% deviation from ideal)');
 
-    // Check randomness
     for (var i = 0; i < 16; i++) {
       var c = i.toString(16);
       var bar = '', n = counts[c], p = Math.round(n/max*100|0);
@@ -108,7 +161,24 @@ for (var version in generators) {
       var s = n/max*50 | 0;
       while (s--) bar += '=';
 
-      log(c + ' |' + bar + '| ' + counts[c] + ' (' + d + '%)');
+      assert(Math.abs(d) < limit, c + ' |' + bar + '| ' + counts[c] + ' (' + d + '% < ' + limit + '%)');
     }
   }
 }
+
+// Perf tests
+for (var version in generators) {
+  log('\nPerformance testing ' + version + ' UUIDs');
+  var generator = generators[version];
+  var buf = new uuid.BufferClass(16);
+
+  for (var i = 0, t = Date.now(); i < N; i++) generator();
+  rate('uuid.' + version + '()', t);
+
+  for (var i = 0, t = Date.now(); i < N; i++) generator('binary');
+  rate('uuid.' + version + '(\'binary\')', t);
+
+  for (var i = 0, t = Date.now(); i < N; i++) generator('binary', buf);
+  rate('uuid.' + version + '(\'binary\', buffer)', t);
+}
+

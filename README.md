@@ -166,7 +166,6 @@ In node.js
 ```
 > cd test
 > node uuid.js
-> node options.js
 ```
 
 In Browser
