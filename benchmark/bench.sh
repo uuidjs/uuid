@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # for a given node version run:
-# for i in {0..9}; do node test/benchmark.js >> bench_0.4.12.log; done;
+# for i in {0..9}; do node benchmark.js >> bench_0.6.2.log; done;
 
 PATTERNS=('nodeuuid.v1()' "nodeuuid.v1('binary'," 'nodeuuid.v4()' "nodeuuid.v4('binary'," "uuid()" "uuid('binary')" 'uuidjs.create(1)' 'uuidjs.create(4)')
 FILES=(node_uuid_v1_string node_uuid_v1_buf node_uuid_v4_string node_uuid_v4_buf libuuid_v4_string libuuid_v4_binary uuidjs_v1_string uuidjs_v4_string)
