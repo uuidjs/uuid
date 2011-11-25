@@ -186,10 +186,14 @@ For a more complete discussion of node-uuid performance, please see the `benchma
 
 For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
 
-### Release notes
+## Release notes
 
 v1.3: Includes
 
 * Support for version 1 ids, thanks to [@ctavan](https://github.com/ctavan)!
 * Support for node.js crypto API
 * De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code
+
+## Disclaimer
+
+Be warned: Chuck Norris got the same uuid twice!
