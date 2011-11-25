@@ -198,4 +198,4 @@ v1.3: Includes
 
 ## Disclaimer
 
-Chuck Norris got the same uuid twice!
+Be warned: Chuck Norris got the same uuid twice!
