@@ -45,9 +45,9 @@ Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
 * `options` - (Object) Optional uuid state to apply. Properties may include:
 
-  * `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomnly generated ID.  See note 2.
+  * `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomnly generated ID.  See note 1.
   * `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence.  Default: An internally maintained clockseq is used.
-  * `msecs` - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used.  See note 3.
+  * `msecs` - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used.  See note 2.
   * `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
 
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
@@ -74,10 +74,10 @@ uuid.v1({
 Example: In-place generation of two binary IDs
 
 ```javascript
-// In browsers: 'new Array(32)'
-var buffer = new Buffer(32).fill(0);  // -> <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00>
-uuid.v1(null, buffer, 0);             // -> <Buffer 02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00>
-uuid.v1(null, buffer, 16);            // -> <Buffer 02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 02 a3 1c b0 14 32 11 e1 85 58 0b 48 8e 4f c1 15>
+// Generate two ids in an array
+var arr = new Array(32); // -> []
+uuid.v1(null, arr, 0);   // -> [02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15]
+uuid.v1(null, arr, 16);  // -> [02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 02 a3 1c b0 14 32 11 e1 85 58 0b 48 8e 4f c1 15]
 
 // Optionally use uuid.unparse() to get stringify the ids
 uuid.unparse(buffer);                 // -> '02a2ce90-1432-11e1-8558-0b488e4fc115'
