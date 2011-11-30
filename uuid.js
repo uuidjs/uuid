@@ -71,7 +71,7 @@
 
     // Zero out remaining bytes if string was short
     while (ii < 16) {
-      buf[i + ii] = 0;
+      buf[i + ii++] = 0;
     }
 
     return buf;
