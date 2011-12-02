@@ -7,7 +7,7 @@ Features:
 * Generate RFC4122 version 1 or version 4 UUIDs
 * Runs in node.js and all browsers.
 * Cryptographically strong random # generation on supporting platforms
-* 1.1K minified and gzip'ed
+* 1.1K minified and gzip'ed  (Want something smaller?  Check this [crazy shit](https://gist.github.com/982883) out! )
 
 ## Getting Started
 
