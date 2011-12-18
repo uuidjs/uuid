@@ -62,6 +62,12 @@ compare('uuids with time option', [
   uuid.v1({msecs: t + 28*24*3600*1000}),
 ]);
 
+// Verify v1 ids created during same millisecond are different
+assert(
+  uuid.v1({msecs: t}) != uuid.v1({msecs: t}),
+  'IDs created at same msec are different'
+);
+
 var id = uuid.v1({
   msecs: 1321651533573,
   nsecs: 5432,
