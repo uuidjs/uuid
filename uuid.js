@@ -136,7 +136,7 @@
 
     if (msecs < _last) {
       // Clock regression - Per 4.2.1.2, increment clock seq
-      _clockSeq++;
+      _clockSeq = (_clockSeq + 1) & 0x3fff
       _count = 0;
     } else {
       // Per 4.2.1.2, use a count of uuid's generated during the current
