@@ -3,9 +3,9 @@
 # for a given node version run:
 # for i in {0..9}; do node benchmark.js >> bench_0.6.2.log; done;
 
-PATTERNS=('nodeuuid.v1()' "nodeuuid.v1('binary'," 'nodeuuid.v4()' "nodeuuid.v4('binary'," "uuid()" "uuid('binary')" 'uuidjs.create(1)' 'uuidjs.create(4)')
-FILES=(node_uuid_v1_string node_uuid_v1_buf node_uuid_v4_string node_uuid_v4_buf libuuid_v4_string libuuid_v4_binary uuidjs_v1_string uuidjs_v4_string)
-INDICES=(2 3 2 3 2 2 2 2)
+PATTERNS=('nodeuuid.v1()' "nodeuuid.v1('binary'," 'nodeuuid.v4()' "nodeuuid.v4('binary'," "uuid()" "uuid('binary')" 'uuidjs.create(1)' 'uuidjs.create(4)' '140byte')
+FILES=(node_uuid_v1_string node_uuid_v1_buf node_uuid_v4_string node_uuid_v4_buf libuuid_v4_string libuuid_v4_binary uuidjs_v1_string uuidjs_v4_string 140byte_es)
+INDICES=(2 3 2 3 2 2 2 2 2)
 VERSIONS=$( ls bench_*.log | sed -e 's/^bench_\([0-9\.]*\)\.log/\1/' | tr "\\n" " " )
 TMPJOIN="tmp_join"
 OUTPUT="bench_results.txt"
