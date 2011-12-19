@@ -139,27 +139,31 @@
     // additional 100-nanosecond unit offset (set below)
     var msecs = (options.msecs || new Date().getTime()) + EPOCH_OFFSET;
 
-    if (msecs < _last) {
+    // Additional 100-nanosecond units offset
+    var nsecs = options.nsecs || _count;
+
+    if (msecs + nsecs < _last) {
       // Clock regression - Per 4.2.1.2, increment clock seq
       _clockSeq = (_clockSeq + 1) & 0x3fff
       _count = 0;
     } else {
       // Per 4.2.1.2, use a count of uuid's generated during the current
       // clock cycle to simulate higher resolution clock
-      _count = (msecs == _last) ? _count + 1 : 0;
+      _count = (msecs + nsecs == _last) ? _count + 1 : 0;
     }
-    _last = msecs;
 
     // Per 4.2.1.2 If generator creates more than one id per uuid 100-ns
     // interval, throw an error
     // (Requires generating > 10M uuids/sec. While unlikely, it's not
     // entirely inconceivable given the benchmark results we're getting)
-    if (_count >= 10000) {
+    if (_count >= 10000 || (options.nsecs !== undefined && _count > 0)) {
       throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
     }
 
     // Additional 100-nanosecond units offset
     var nsecs = options.nsecs || _count;
+
+    _last = msecs + nsecs;
 
     // Per 4.1.4, timestamp composition
 
