@@ -62,6 +62,34 @@ compare('uuids with time option', [
   uuid.v1({msecs: t + 28*24*3600*1000}),
 ]);
 
+// Verify v1 ids created during same millisecond are different
+assert(
+  uuid.v1({msecs: t}) != uuid.v1({msecs: t}),
+  'IDs created at same msec are different'
+);
+
+// Verify that this node can never produce 2 UUIDs within the same 100ns interval
+var tn = 10;
+var thrown = false;
+try {
+  uuid.v1({msecs: t, nsecs: tn});
+  uuid.v1({msecs: t, nsecs: tn});
+} catch(e) {
+  thrown = true;
+}
+assert(
+  thrown === true,
+  'IDs created at same 100 nsec throw an error'
+);
+
+// Verify that also a regression by 100ns increments the clockseq
+var uidtn = uuid.v1({msecs: t, nsecs: tn});
+var uidtnb = uuid.v1({msecs: t, nsecs: tn-1});
+assert(
+  parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
+  'IDs created at t and t - 100ns have different clockseq'
+);
+
 var id = uuid.v1({
   msecs: 1321651533573,
   nsecs: 5432,
