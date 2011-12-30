@@ -8,7 +8,7 @@ Features:
 * Runs in node.js and all browsers.
 * Cryptographically strong random # generation on supporting platforms
 * 1.1K minified and gzip'ed  (Want something smaller?  Check this [crazy shit](https://gist.github.com/982883) out! )
-* [Annotated source code](./docs/uuid.html)
+* [Annotated source code](http://broofa.github.com/node-uuid/docs/uuid.html)
 
 ## Getting Started
 
