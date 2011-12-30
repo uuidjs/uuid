@@ -68,6 +68,53 @@ assert(
   'IDs created at same msec are different'
 );
 
+// Verify that this node can never produce 2 UUIDs within the same 100ns interval
+var tn = 0;
+var thrown = false;
+try {
+  uuid.v1({msecs: t, nsecs: tn});
+  uuid.v1({msecs: t, nsecs: tn});
+} catch(e) {
+  thrown = true;
+}
+assert(
+  thrown === true,
+  'IDs created at same 100 nsec throw an error (nsecs = 0)'
+);
+
+// Same as above but tn > 0
+tn = 10;
+thrown = false;
+try {
+  uuid.v1({msecs: t, nsecs: tn});
+  uuid.v1({msecs: t, nsecs: tn});
+} catch(e) {
+  thrown = true;
+}
+assert(
+  thrown === true,
+  'IDs created at same 100 nsec throw an error (nsecs > 0)'
+);
+
+// Verify that also a regression by 100ns increments the clockseq
+tn = 0;
+var uidtn = uuid.v1({msecs: t, nsecs: tn});
+var uidtnb = uuid.v1({msecs: t, nsecs: tn-1});
+assert(
+  parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
+  'IDs created at t and t - 100ns have different clockseq (nsec = 0)'
+);
+// Verify that also a regression by 100ns increments the clockseq, also passing
+// a ms-tick
+tn = 100;
+var uidtn = uuid.v1({msecs: t, nsecs: tn});
+var uidtnb = uuid.v1({msecs: t, nsecs: tn-1});
+assert(
+  parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
+  'IDs created at t and t - 100ns have different clockseq (nsec > 0)'
+);
+
+// Set everything explicitly
 var id = uuid.v1({
   msecs: 1321651533573,
   nsecs: 5432,
