@@ -8,6 +8,7 @@ Features:
 * Runs in node.js and all browsers.
 * Cryptographically strong random # generation on supporting platforms
 * 1.1K minified and gzip'ed  (Want something smaller?  Check this [crazy shit](https://gist.github.com/982883) out! )
+* [Annotated source code](./docs/uuid.html)
 
 ## Getting Started
 
@@ -91,6 +92,7 @@ Generate and return a RFC4122 v4 UUID.
 * `options` - (Object) Optional uuid state to apply. Properties may include:
 
   * `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values
+  * `rng` - (Function) Random # generator to use.  Options include `uuid.mathRNG` (all platforms), `uuid.nodeRNG` (node.js only), and `uuid.whatwgRNG` (WebKit browsers only),
 
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 * `offset` - (Number) Starting index in `buffer` at which to begin writing.

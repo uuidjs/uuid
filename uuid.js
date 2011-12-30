@@ -1,51 +1,61 @@
-/*
- * Generate RFC4122 (v1 and v4) UUIDs
- *
- * Documentation at https://github.com/broofa/node-uuid
- */
+//     node-uuid/uuid.js
+//
+//     Copyright (c) 2010 Robert Kieffer
+//     Dual licensed under the MIT and GPL licenses.
+//     Documentation and details at https://github.com/broofa/node-uuid
 (function() {
   var _global = this;
 
-  // Random number generator (feature-detected below)
-  var _rng;
+  // Random # generation is vital for avoiding uuid collisions, but there's no
+  // silver bullet option since Math.random isn't guaranteed to be
+  // "cryptographic quality".  Instead, we feature-detect based on API
+  // availability.
+  //
+  // (Each RNG API is normalized here to return 128-bits (16 bytes) of random
+  // data)
+  var mathRNG, nodeRNG, whatwgRNG;
 
-  // node.js 'crypto' API
-  // http://nodejs.org/docs/v0.6.2/api/crypto.html#randomBytes
-  try {
-    _rng = require('crypto').randomBytes;
-  } catch (e) {}
+  // Math.random-based RNG.  All browsers, fast (~1M/sec), but not guaranteed
+  // to be cryptographic quality.
+  var _rndBytes = new Array(16);
+  mathRNG = function() {
+    var r, b = _rndBytes, i = 0;
 
-  // WHATWG crypto api, available in Chrome
-  // http://wiki.whatwg.org/wiki/Crypto
-  if (!_rng && _global.crypto && crypto.getRandomValues) {
-    var _rnds = new Uint32Array(4), _rndBytes = new Array(16);
-    var _rng = function() {
-      // Get 32-bit rnds
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) == 0) r = Math.random() * 0x100000000;
+      b[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return b;
+  }
+
+  // WHATWG crypto-based RNG (http://wiki.whatwg.org/wiki/Crypto).  Currently
+  // only in WebKit browsers, moderately fast (~100K/sec), guaranteed
+  // cryptographic quality
+  if (_global.crypto && crypto.getRandomValues) {
+    var _rnds = new Uint32Array(4);
+    whatwgRNG = function() {
       crypto.getRandomValues(_rnds);
 
-      // Unpack into byte array
       for (var c = 0 ; c < 16; c++) {
         _rndBytes[c] = _rnds[c >> 2] >>> ((c & 0x03) * 8) & 0xff;
       }
       return _rndBytes;
-    };
+    }
   }
 
-  // Math.random - least desirable option since it does not guarantee
-  // cryptographic quality.
-  if (!_rng) {
-    var _rndBytes = new Array(16);
-    _rng = function() {
-      var r, b = _rndBytes, i = 0;
-
-      for (var i = 0, r; i < 16; i++) {
-        if ((i & 0x03) == 0) r = Math.random() * 0x100000000;
-        b[i] = r >>> ((i & 0x03) << 3) & 0xff;
-      }
-
-      return b;
+  // Node.js crypto-based RNG
+  // (http://nodejs.org/docs/v0.6.2/api/crypto.html#randomBytes).
+  // node.js only, slow (~10K/sec), guaranteed cryptographic quality
+  try {
+    var _rb = require('crypto').randomBytes;
+    nodeRNG = function() {
+      return _rb(16);
     };
-  }
+  } catch (e) {}
+
+  // Pick the RNG to use, preferring quality over speed
+  var _rng = nodeRNG || whatwgRNG || mathRNG;
 
   // Buffer class to use
   var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
@@ -58,7 +68,7 @@
     _hexToByte[_byteToHex[i]] = i;
   }
 
-  /** See docs at https://github.com/broofa/node-uuid */
+  // **`parse()` - Parse a UUID into it's component bytes**
   function parse(s, buf, offset) {
     var i = (buf && offset) || 0, ii = 0;
 
@@ -77,7 +87,7 @@
     return buf;
   }
 
-  /** See docs at https://github.com/broofa/node-uuid */
+  // **`unparse()` - Convert UUID byte array (ala parse()) into a string**
   function unparse(buf, offset) {
     var i = offset || 0, bth = _byteToHex;
     return  bth[buf[i++]] + bth[buf[i++]] +
@@ -90,21 +100,16 @@
             bth[buf[i++]] + bth[buf[i++]];
   }
 
-  // Pre allocate array for constructing uuids
-  var _buffer = new BufferClass(16);
-
-  //
-  // v1 UUID support
+  // **`v1()` - Generate time-based UUID**
   //
   // Inspired by https://github.com/LiosK/UUID.js
   // and http://docs.python.org/library/uuid.html
-  //
 
   // Per 4.1.4 - Offset (in msecs) from JS time to UUID (gregorian) time
   var EPOCH_OFFSET = 12219292800000;
 
   // random #'s we need to init node and clockseq
-  var _seedBytes = _rng(10);
+  var _seedBytes = _rng();
 
   // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
   var _nodeId = [
@@ -121,10 +126,10 @@
   // Count of UUIDs created during current time tick
   var _count = 0;
 
-  /** See docs at https://github.com/broofa/node-uuid */
+  // See https://github.com/broofa/node-uuid for API details
   function v1(options, buf, offset) {
     var i = buf && offset || 0;
-    var b = buf || _buffer;
+    var b = buf || [];
 
     options = options || {};
 
@@ -169,29 +174,29 @@
 
     // Per 4.1.4, timestamp composition
 
-    // time_low
+    // `time_low`
     var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
     b[i++] = tl >>> 24 & 0xff;
     b[i++] = tl >>> 16 & 0xff;
     b[i++] = tl >>> 8 & 0xff;
     b[i++] = tl & 0xff;
 
-    // time_mid
+    // `time_mid`
     var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
     b[i++] = tmh >>> 8 & 0xff;
     b[i++] = tmh & 0xff;
 
-    // time_high_and_version
+    // `time_high_and_version`
     b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
     b[i++] = tmh >>> 16 & 0xff;
 
     // Clock sequence
     var cs = options.clockseq != null ? options.clockseq : _clockSeq;
 
-    // clock_seq_hi_and_reserved (Per 4.2.2 - include variant)
+    // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
     b[i++] = cs >>> 8 | 0x80;
 
-    // clock_seq_low
+    // `clock_seq_low`
     b[i++] = cs & 0xff;
 
     // node
@@ -203,21 +208,22 @@
     return buf ? buf : unparse(b);
   }
 
-  //
-  // v4 UUID support
-  //
+  // **`v4()` - Generate random UUID**
 
-  /** See docs at https://github.com/broofa/node-uuid */
+  // See https://github.com/broofa/node-uuid for API details
   function v4(options, buf, offset) {
     // Deprecated - 'format' argument, as supported in v1.2
     var i = buf && offset || 0;
+
     if (typeof(options) == 'string') {
       buf = options == 'binary' ? new BufferClass(16) : null;
       options = null;
     }
+    options = options || {};
 
-    var rnds = options && options.random || _rng(16);
-    // Per 4.4, set bits for version and clock_seq_hi_and_reserved
+    var rnds = options.random || (options.rng || _rng)();
+
+    // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
     rnds[6] = (rnds[6] & 0x0f) | 0x40;
     rnds[8] = (rnds[8] & 0x3f) | 0x80;
 
@@ -231,10 +237,7 @@
     return buf || unparse(rnds);
   }
 
-  //
-  // Export API
-  //
-
+  // Export public API
   var uuid = v4;
   uuid.v1 = v1;
   uuid.v4 = v4;
@@ -242,10 +245,19 @@
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
 
+  // Export RNG options
+  uuid.mathRNG = mathRNG;
+  uuid.nodeRNG = nodeRNG;
+  uuid.whatwgRNG = whatwgRNG;
+
   if (typeof(module) != 'undefined') {
+    // Play nice with node.js
     module.exports = uuid;
   } else {
+    // Play nice with browsers
     var _previousRoot = _global.uuid;
+
+    // **`noConflict()` - (browser only) to reset global 'uuid' var**
     uuid.noConflict = function() {
       _global.uuid = _previousRoot;
       return uuid;

@@ -145,8 +145,9 @@ for (var version in generators) {
 
   // Check randomness for v4 UUIDs
   if (version == 'v4') {
-    // Pick (empirically chosen) limit that we get worried about randomness.
-    var limit = 2*100*Math.sqrt(1/N); // (Purely empirical choice, this!)
+    // Limit that we get worried about randomness. (Purely empirical choice, this!)
+    var limit = 2*100*Math.sqrt(1/N);
+
     log('\nChecking v4 randomness.  Distribution of Hex Digits (% deviation from ideal)');
 
     for (var i = 0; i < 16; i++) {
@@ -182,8 +183,20 @@ for (var version in generators) {
   var generator = generators[version];
   var buf = new uuid.BufferClass(16);
 
-  for (var i = 0, t = Date.now(); i < N; i++) generator();
-  rate('uuid.' + version + '()', t);
+  if (version == 'v4') {
+    ['mathRNG', 'whatwgRNG', 'nodeRNG'].forEach(function(rng) {
+      if (uuid[rng]) {
+        var options = {rng: uuid[rng]};
+        for (var i = 0, t = Date.now(); i < N; i++) generator(options);
+        rate('uuid.' + version + '() with ' + rng, t);
+      } else {
+        log('uuid.' + version + '() with ' + rng + ': not defined');
+      }
+    });
+  } else {
+    for (var i = 0, t = Date.now(); i < N; i++) generator();
+    rate('uuid.' + version + '()', t);
+  }
 
   for (var i = 0, t = Date.now(); i < N; i++) generator('binary');
   rate('uuid.' + version + '(\'binary\')', t);
@@ -191,4 +204,3 @@ for (var version in generators) {
   for (var i = 0, t = Date.now(); i < N; i++) generator('binary', buf);
   rate('uuid.' + version + '(\'binary\', buffer)', t);
 }
-
