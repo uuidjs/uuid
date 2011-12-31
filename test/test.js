@@ -24,7 +24,7 @@ function error(msg) {_log(msg, 'error');}
 
 function assert(res, msg) {
   if (!res) {
-    error('Fail: ' + msg);
+    error('FAIL: ' + msg);
   } else {
     log('Pass: ' + msg);
   }
@@ -33,6 +33,9 @@ function assert(res, msg) {
 //
 // Unit tests
 //
+
+// Verify ordering of v1 ids created with explicit times
+var TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
 
 function compare(name, ids) {
   ids = ids.map(function(id) {
@@ -53,68 +56,37 @@ compare('uuids with current time', [
 ]);
 
 // Verify ordering of v1 ids created with explicit times
-var t = 1321644961388; // "Fri Nov 18 2011 11:36:01.388 GMT-0800 (PST)"
 compare('uuids with time option', [
-  uuid.v1({msecs: t - 10*3600*1000}),
-  uuid.v1({msecs: t - 1}),
-  uuid.v1({msecs: t}),
-  uuid.v1({msecs: t + 1}),
-  uuid.v1({msecs: t + 28*24*3600*1000}),
+  uuid.v1({msecs: TIME - 10*3600*1000}),
+  uuid.v1({msecs: TIME - 1}),
+  uuid.v1({msecs: TIME}),
+  uuid.v1({msecs: TIME + 1}),
+  uuid.v1({msecs: TIME + 28*24*3600*1000}),
 ]);
 
-// Verify v1 ids created during same millisecond are different
 assert(
-  uuid.v1({msecs: t}) != uuid.v1({msecs: t}),
+  uuid.v1({msecs: TIME}) != uuid.v1({msecs: TIME}),
   'IDs created at same msec are different'
 );
 
-// Verify that this node can never produce 2 UUIDs within the same 100ns interval
-var tn = 0;
+// Verify throw if too many ids created
 var thrown = false;
 try {
-  uuid.v1({msecs: t, nsecs: tn});
-  uuid.v1({msecs: t, nsecs: tn});
-} catch(e) {
+  uuid.v1({msecs: TIME, nsecs: 10000});
+} catch (e) {
   thrown = true;
 }
-assert(
-  thrown === true,
-  'IDs created at same 100 nsec throw an error (nsecs = 0)'
-);
+assert(thrown, 'Exception thrown when > 10K ids created in 1 ms');
 
-// Same as above but tn > 0
-tn = 10;
-thrown = false;
-try {
-  uuid.v1({msecs: t, nsecs: tn});
-  uuid.v1({msecs: t, nsecs: tn});
-} catch(e) {
-  thrown = true;
-}
-assert(
-  thrown === true,
-  'IDs created at same 100 nsec throw an error (nsecs > 0)'
-);
-
-// Verify that also a regression by 100ns increments the clockseq
-tn = 0;
-var uidtn = uuid.v1({msecs: t, nsecs: tn});
-var uidtnb = uuid.v1({msecs: t, nsecs: tn-1});
+// Verify clock regression bumps clockseq
+var uidtn = uuid.v1({msecs: TIME, nsecs: 10});
+var uidtnb = uuid.v1({msecs: TIME, nsecs: 9});
 assert(
   parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
-  'IDs created at t and t - 100ns have different clockseq (nsec = 0)'
-);
-// Verify that also a regression by 100ns increments the clockseq, also passing
-// a ms-tick
-tn = 100;
-var uidtn = uuid.v1({msecs: t, nsecs: tn});
-var uidtnb = uuid.v1({msecs: t, nsecs: tn-1});
-assert(
-  parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
-  'IDs created at t and t - 100ns have different clockseq (nsec > 0)'
+  'Clock regression increments the clockseq'
 );
 
-// Set everything explicitly
+// Verify explicit options produce expected id
 var id = uuid.v1({
   msecs: 1321651533573,
   nsecs: 5432,
@@ -123,17 +95,13 @@ var id = uuid.v1({
 });
 assert(id == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
 
-// Check that there is exactly 1 tick between lastUUID and firstUUID of the
-// next millisecond interval (this test is sloppy since it fails if time_mid
-// or time_hi change when we changed the time by one ms. If we want to include
-// that case, we cannot use parseInt() since our integers become
-// > 32bit):
-var u0 = uuid.v1({msecs: t, nsecs: 9999});
-var u1 = uuid.v1({msecs: t + 1});
+// Verify adjacent ids across a msec boundary are 1 time unit apart
+var u0 = uuid.v1({msecs: TIME, nsecs: 9999});
+var u1 = uuid.v1({msecs: TIME + 1, nsecs: 0});
 
 var before = u0.split('-')[0], after = u1.split('-')[0];
 var dt = parseInt(after, 16) - parseInt(before, 16);
-assert(dt === 1, '1ns separation between adjacent uuids');
+assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
 
 //
 // Test parse/unparse
