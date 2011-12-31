@@ -100,9 +100,6 @@
   // and http://docs.python.org/library/uuid.html
   //
 
-  // Per 4.1.4 - Offset (in msecs) from JS time to UUID (gregorian) time
-  var EPOCH_OFFSET = 12219292800000;
-
   // random #'s we need to init node and clockseq
   var _seedBytes = _rng(10);
 
@@ -113,13 +110,10 @@
   ];
 
   // Per 4.2.2, randomize (14 bit) clockseq
-  var _clockSeq = (_seedBytes[6] << 8 | _seedBytes[7]) & 0x3fff;
+  var _clockseq = (_seedBytes[6] << 8 | _seedBytes[7]) & 0x3fff;
 
   // Previous uuid creation time
-  var _last = 0;
-
-  // Count of UUIDs created during current time tick
-  var _count = 0;
+  var _lastMSecs = 0, _lastNSecs = 0;
 
   /** See docs at https://github.com/broofa/node-uuid */
   function v1(options, buf, offset) {
@@ -128,39 +122,45 @@
 
     options = options || {};
 
-    // JS Numbers aren't capable of representing time in the RFC-specified
-    // 100-nanosecond units. To deal with this, we represent time using two
-    // values: 'msecs', as the usual JS milliseconds (here), and 'nsecs', an
-    // additional 100-nanosecond unit offset (set below)
-    var msecs = (options.msecs || new Date().getTime()) + EPOCH_OFFSET;
+    var clockseq = options.clockseq != null ? options.clockseq : _clockseq;
 
-    // Additional 100-nanosecond units offset
-    var nsecs = options.nsecs || _count;
+    // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+    // 1582-10-15 00:00.  JSNumbers aren't precise enough for this, so time is
+    // represented here as 'msecs' (integer milliseconds) and 'nsecs'
+    // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+    var msecs = options.msecs != null ? options.msecs : new Date().getTime();
 
-    if (msecs + nsecs < _last) {
-      // Clock regression - Per 4.2.1.2, increment clock seq
-      _clockSeq = (_clockSeq + 1) & 0x3fff
-      _count = 0;
-    } else {
-      // Per 4.2.1.2, use a count of uuid's generated during the current
-      // clock cycle to simulate higher resolution clock
-      _count = (msecs + nsecs == _last) ? _count + 1 : 0;
-    }
+    // Per 4.2.1.2, use count of uuid's generated during the current clock
+    // cycle to simulate higher resolution clock
+    var nsecs = options.nsecs != null ? options.nsecs : _lastNSecs + 1;
 
-    // Per 4.2.1.2 If generator creates more than one id per uuid 100-ns
+    // Per 4.2.1.2 If generator creates more than one uuid per 100-ns
     // interval, throw an error
-    // (Requires generating > 10M uuids/sec. While unlikely, it's not
-    // entirely inconceivable given the benchmark results we're getting)
-    if (_count >= 10000 || (options.nsecs !== undefined && _count > 0)) {
+    if (nsecs >= 10000) {
       throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
     }
 
-    // Additional 100-nanosecond units offset
-    var nsecs = options.nsecs || _count;
+    // Time since last uuid creation (in msecs)
+    var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
 
-    _last = msecs + nsecs;
+    // Per 4.2.1.2, Bump clockseq on clock regression (but only if clockseq
+    // isn't specified as an option)
+    if (dt < 0 && options.clockseq == null) {
+      clockseq = clockseq + 1 & 0x3fff;
+    }
 
-    // Per 4.1.4, timestamp composition
+    // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+    // time interval (but only if nsecs isn't specified as an option)
+    if ((dt < 0 || msecs > _lastMSecs) && options.nsecs == null) {
+      nsecs = 0;
+    }
+
+    _lastMSecs = msecs;
+    _lastNSecs = nsecs;
+    _clockseq = clockseq;
+
+    // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+    msecs += 12219292800000;
 
     // time_low
     var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
@@ -178,14 +178,11 @@
     b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
     b[i++] = tmh >>> 16 & 0xff;
 
-    // Clock sequence
-    var cs = options.clockseq != null ? options.clockseq : _clockSeq;
-
     // clock_seq_hi_and_reserved (Per 4.2.2 - include variant)
-    b[i++] = cs >>> 8 | 0x80;
+    b[i++] = clockseq >>> 8 | 0x80;
 
     // clock_seq_low
-    b[i++] = cs & 0xff;
+    b[i++] = clockseq & 0xff;
 
     // node
     var node = options.node || _nodeId;
