@@ -61,14 +61,6 @@ if (uuidjs) {
 for (var i = 0, t = Date.now(); i < N; i++) 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(s,r){r=Math.random()*16|0;return (s=='x'?r:r&0x3|0x8).toString(16)});
 rate('140byte.es_v4', t);
 
-// 140byte.es
-for (var i = 0, t = Date.now(); i < N; i++) 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(s,r){r=Math.random()*16|0;return (s=='x'?r:r&0x3|0x8).toString(16)});
-rate('140byte.es_v4', t);
-
-// 140byte.es
-for (var i = 0, t = Date.now(); i < N; i++) 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(s,r){r=Math.random()*16|0;return (s=='x'?r:r&0x3|0x8).toString(16)});
-rate('140byte.es_v4', t);
-
 console.log('');
 console.log('# v1');
 
