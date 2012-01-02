@@ -79,11 +79,19 @@ try {
 assert(thrown, 'Exception thrown when > 10K ids created in 1 ms');
 
 // Verify clock regression bumps clockseq
+var uidt = uuid.v1({msecs: TIME});
+var uidtb = uuid.v1({msecs: TIME - 1});
+assert(
+  parseInt(uidtb.split('-')[3], 16) - parseInt(uidt.split('-')[3], 16) === 1,
+  'Clock regression by msec increments the clockseq'
+);
+
+// Verify clock regression bumps clockseq
 var uidtn = uuid.v1({msecs: TIME, nsecs: 10});
 var uidtnb = uuid.v1({msecs: TIME, nsecs: 9});
 assert(
   parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
-  'Clock regression increments the clockseq'
+  'Clock regression by nsec increments the clockseq'
 );
 
 // Verify explicit options produce expected id
