@@ -43,7 +43,7 @@
   // Node.js only, moderately fast, high quality
   try {
     var _rb = require('crypto').randomBytes;
-    nodeRNG = function() {
+    nodeRNG = _rb && function() {
       return _rb(16);
     };
   } catch (e) {}
