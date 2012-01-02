@@ -139,12 +139,6 @@
     // cycle to simulate higher resolution clock
     var nsecs = options.nsecs != null ? options.nsecs : _lastNSecs + 1;
 
-    // Per 4.2.1.2 If generator creates more than one uuid per 100-ns
-    // interval, throw an error
-    if (nsecs >= 10000) {
-      throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
-    }
-
     // Time since last uuid creation (in msecs)
     var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
 
@@ -158,6 +152,12 @@
     // time interval (but only if nsecs isn't specified as an option)
     if ((dt < 0 || msecs > _lastMSecs) && options.nsecs == null) {
       nsecs = 0;
+    }
+
+    // Per 4.2.1.2 If generator creates more than one uuid per 100-ns
+    // interval, throw an error
+    if (nsecs >= 10000) {
+      throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
     }
 
     _lastMSecs = msecs;
