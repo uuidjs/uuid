@@ -6,17 +6,13 @@
 (function() {
   var _global = this;
 
-  // Random # generation is vital for avoiding uuid collisions, but there's no
-  // silver bullet option since Math.random isn't guaranteed to be
-  // "cryptographic quality".  Instead, we feature-detect based on API
-  // availability.
-  //
-  // (Each RNG API is normalized here to return 128-bits (16 bytes) of random
-  // data)
+  // Unique ID creation requires a high quality random # generator, but
+  // Math.random() does not guarantee "cryptographic quality".  So we feature
+  // detect for more robust APIs, normalizing each method to return 128-bits
+  // (16 bytes) of random data.
   var mathRNG, nodeRNG, whatwgRNG;
 
-  // Math.random-based RNG.  All browsers, fast (~1M/sec), but not guaranteed
-  // to be cryptographic quality.
+  // Math.random()-based RNG.  All platforms, very fast, unknown quality
   var _rndBytes = new Array(16);
   mathRNG = function() {
     var r, b = _rndBytes, i = 0;
@@ -29,9 +25,8 @@
     return b;
   }
 
-  // WHATWG crypto-based RNG (http://wiki.whatwg.org/wiki/Crypto).  Currently
-  // only in WebKit browsers, moderately fast (~100K/sec), guaranteed
-  // cryptographic quality
+  // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
+  // WebKit only (currently), moderately fast, high quality
   if (_global.crypto && crypto.getRandomValues) {
     var _rnds = new Uint32Array(4);
     whatwgRNG = function() {
@@ -44,9 +39,8 @@
     }
   }
 
-  // Node.js crypto-based RNG
-  // (http://nodejs.org/docs/v0.6.2/api/crypto.html#randomBytes).
-  // node.js only, slow (~10K/sec), guaranteed cryptographic quality
+  // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
+  // Node.js only, moderately fast, high quality
   try {
     var _rb = require('crypto').randomBytes;
     nodeRNG = function() {
@@ -54,7 +48,7 @@
     };
   } catch (e) {}
 
-  // Pick the RNG to use, preferring quality over speed
+  // Select RNG with best quality
   var _rng = nodeRNG || whatwgRNG || mathRNG;
 
   // Buffer class to use
@@ -130,8 +124,8 @@
     var clockseq = options.clockseq != null ? options.clockseq : _clockseq;
 
     // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-    // 1582-10-15 00:00.  JSNumbers aren't precise enough for this, so time is
-    // represented here as 'msecs' (integer milliseconds) and 'nsecs'
+    // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+    // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
     // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
     var msecs = options.msecs != null ? options.msecs : new Date().getTime();
 
@@ -142,20 +136,18 @@
     // Time since last uuid creation (in msecs)
     var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
 
-    // Per 4.2.1.2, Bump clockseq on clock regression (but only if clockseq
-    // isn't specified as an option)
+    // Per 4.2.1.2, Bump clockseq on clock regression
     if (dt < 0 && options.clockseq == null) {
       clockseq = clockseq + 1 & 0x3fff;
     }
 
     // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-    // time interval (but only if nsecs isn't specified as an option)
+    // time interval
     if ((dt < 0 || msecs > _lastMSecs) && options.nsecs == null) {
       nsecs = 0;
     }
 
-    // Per 4.2.1.2 If generator creates more than one uuid per 100-ns
-    // interval, throw an error
+    // Per 4.2.1.2 Throw error if too many uuids are requested
     if (nsecs >= 10000) {
       throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
     }

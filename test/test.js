@@ -14,7 +14,12 @@ function _log(msg, type) {
     document.write('<div class="' + type + '">' + msg.replace(/\n/g, '<br />') + '</div>');
   }
   if (typeof(console) != 'undefined') {
-    console[type](msg);
+    var color = {
+      log: '\033[30m',
+      warn: '\033[33m',
+      error: '\033[31m'
+    }
+    console[type](color[type] + msg + color.log);
   }
 }
 
