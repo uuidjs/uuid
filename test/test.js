@@ -15,7 +15,7 @@ function _log(msg, type) {
   }
   if (typeof(console) != 'undefined') {
     var color = {
-      log: '\033[30m',
+      log: '\033[39m',
       warn: '\033[33m',
       error: '\033[31m'
     }
