@@ -7,7 +7,7 @@
   "contributors"  : [
     {"name": "Christoph Tavan <dev@tavan.de>", "github": "https://github.com/ctavan"}
   ],
-  "dependencies"  : [],
+  "dependencies"  : {},
   "lib"           : ".",
   "main"          : "./uuid.js",
   "version"       : "1.3.3"
