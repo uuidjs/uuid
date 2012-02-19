@@ -67,9 +67,9 @@
     var i = (buf && offset) || 0, ii = 0;
 
     buf = buf || [];
-    s.toLowerCase().replace(/[0-9a-f]{2}/g, function(byte) {
+    s.toLowerCase().replace(/[0-9a-f]{2}/g, function(oct) {
       if (ii < 16) { // Don't overflow!
-        buf[i + ii++] = _hexToByte[byte];
+        buf[i + ii++] = _hexToByte[oct];
       }
     });
 
