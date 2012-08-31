@@ -41,12 +41,17 @@
 
   // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
   // Node.js only, moderately fast, high quality
-  try {
-    var _rb = require('crypto').randomBytes;
-    nodeRNG = _rb && function() {
-      return _rb(16);
-    };
-  } catch (e) {}
+  //
+  // This block crashes when loaded as an AMD in Safari, so wrap it in a
+  // conditional so it won't get executed if we're loading the module as an AMD.
+  if (typeof(module) !== 'undefined') {
+    try {
+      var _rb = require('crypto').randomBytes;
+      nodeRNG = _rb && function() {
+        return _rb(16);
+      };
+    } catch (e) {}
+  }
 
   // Select RNG with best quality
   var _rng = nodeRNG || whatwgRNG || mathRNG;
@@ -235,6 +240,11 @@
   if (typeof(module) != 'undefined') {
     // Play nice with node.js
     module.exports = uuid;
+  } else if (typeof(define) != 'undefined') {
+    // Call define() if this is being loaded as an AMD for compatibility
+    define(function(require, exports, module) {
+      module.exports = uuid;
+    });
   } else {
     // Play nice with browsers
     var _previousRoot = _global.uuid;
