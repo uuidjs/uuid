@@ -235,6 +235,10 @@
   if (typeof(module) != 'undefined') {
     // Play nice with node.js
     module.exports = uuid;
+  } else if (typeof define === 'function' && define.amd) {
+    define(function() {
+      return uuid;
+    });
   } else {
     // Play nice with browsers
     var _previousRoot = _global.uuid;
