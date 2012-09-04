@@ -1,55 +1,56 @@
-//     node-uuid/uuid.js
+//     uuid.js
 //
-//     Copyright (c) 2010 Robert Kieffer
-//     Dual licensed under the MIT and GPL licenses.
-//     Documentation and details at https://github.com/broofa/node-uuid
+//     (c) 2010-2012 Robert Kieffer
+//     MIT License
+//     https://github.com/broofa/node-uuid
 (function() {
   var _global = this;
 
-  // Unique ID creation requires a high quality random # generator, but
-  // Math.random() does not guarantee "cryptographic quality".  So we feature
-  // detect for more robust APIs, normalizing each method to return 128-bits
-  // (16 bytes) of random data.
-  var mathRNG, nodeRNG, whatwgRNG;
-
-  // Math.random()-based RNG.  All platforms, very fast, unknown quality
-  var _rndBytes = new Array(16);
-  mathRNG = function() {
-    var r, b = _rndBytes, i = 0;
-
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) == 0) r = Math.random() * 0x100000000;
-      b[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return b;
-  }
-
-  // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
-  // WebKit only (currently), moderately fast, high quality
-  if (_global.crypto && crypto.getRandomValues) {
-    var _rnds = new Uint32Array(4);
-    whatwgRNG = function() {
-      crypto.getRandomValues(_rnds);
-
-      for (var c = 0 ; c < 16; c++) {
-        _rndBytes[c] = _rnds[c >> 2] >>> ((c & 0x03) * 8) & 0xff;
-      }
-      return _rndBytes;
-    }
-  }
+  // Unique ID creation requires a high quality random # generator.  We feature
+  // detect to determine the best RNG source, normalizing to a function that
+  // returns 128-bits of randomness, since that's what's usually required
+  var _rng;
 
   // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
-  // Node.js only, moderately fast, high quality
-  try {
-    var _rb = require('crypto').randomBytes;
-    nodeRNG = _rb && function() {
-      return _rb(16);
-    };
-  } catch (e) {}
+  //
+  // Moderately fast, high quality
+  if (typeof(require) == 'function') {
+    try {
+      var _rb = require('crypto').randomBytes;
+      _rng = _rb && function() {return _rb(16);};
+    } catch(e) {}
+  }
 
-  // Select RNG with best quality
-  var _rng = nodeRNG || whatwgRNG || mathRNG;
+  if (!_rng && _global.crypto && crypto.getRandomValues) {
+    // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
+    //
+    // Moderately fast, high quality
+    var _rnds8 = new Array(16), _rnds32 = new Uint32Array(4);
+    _rng = function whatwgRNG() {
+      crypto.getRandomValues(_rnds32);
+
+      for (var c = 0 ; c < 16; c++) {
+        _rnds8[c] = _rnds32[c >> 2] >>> ((c & 0x03) * 8) & 0xff;
+      }
+      return _rnds8;
+    };
+  }
+
+  if (!_rng) {
+    // Math.random()-based (RNG)
+    //
+    // If all else fails, use Math.random().  It's fast, but is of unspecified
+    // quality.
+    var  _rnds = new Array(16);
+    _rng = function() {
+      for (var i = 0, r; i < 16; i++) {
+        if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+        _rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+      }
+
+      return _rnds;
+    };
+  }
 
   // Buffer class to use
   var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
@@ -227,23 +228,22 @@
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
 
-  // Export RNG options
-  uuid.mathRNG = mathRNG;
-  uuid.nodeRNG = nodeRNG;
-  uuid.whatwgRNG = whatwgRNG;
-
-  if (typeof(module) != 'undefined') {
-    // Play nice with node.js
+  if (_global.define && define.amd) {
+    // Publish as AMD module
+    define(function() {return uuid;});
+  } else if (typeof(module) != 'undefined' && module.exports) {
+    // Publish as node.js module
     module.exports = uuid;
   } else {
-    // Play nice with browsers
+    // Publish as global (in browsers)
     var _previousRoot = _global.uuid;
 
     // **`noConflict()` - (browser only) to reset global 'uuid' var**
     uuid.noConflict = function() {
       _global.uuid = _previousRoot;
       return uuid;
-    }
+    };
+
     _global.uuid = uuid;
   }
 }());
