@@ -118,6 +118,10 @@ uuid.v4(null, buffer, 0);
 uuid.v4(null, buffer, 16);
 ```
 
+### uuid.empty()
+
+Return an empty UUID, that is `00000000-0000-0000-0000-000000000000`.
+
 ### uuid.parse(id[, buffer[, offset]])
 ### uuid.unparse(buffer[, offset])
 
