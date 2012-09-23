@@ -219,10 +219,15 @@
     return buf || unparse(rnds);
   }
 
+  function empty() {
+    return '00000000-0000-0000-0000-000000000000';
+  }
+
   // Export public API
   var uuid = v4;
   uuid.v1 = v1;
   uuid.v4 = v4;
+  uuid.empty = empty;
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
