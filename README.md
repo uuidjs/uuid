@@ -165,7 +165,7 @@ In node.js
 
 ```
 > cd test
-> node uuid.js
+> node test.js
 ```
 
 In Browser
@@ -180,7 +180,7 @@ Requires node.js
 
 ```
 npm install uuid uuid-js
-node test/benchmark.js
+node benchmark/benchmark.js
 ```
 
 For a more complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki](https://github.com/broofa/node-uuid/wiki/Benchmark)
