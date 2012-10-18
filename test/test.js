@@ -18,7 +18,7 @@ function _log(msg, type) {
       log: '\033[39m',
       warn: '\033[33m',
       error: '\033[31m'
-    }
+    };
     console[type](color[type] + msg + color.log);
   }
 }
@@ -66,7 +66,7 @@ compare('uuids with time option', [
   uuid.v1({msecs: TIME - 1}),
   uuid.v1({msecs: TIME}),
   uuid.v1({msecs: TIME + 1}),
-  uuid.v1({msecs: TIME + 28*24*3600*1000}),
+  uuid.v1({msecs: TIME + 28*24*3600*1000})
 ]);
 
 assert(
@@ -217,20 +217,8 @@ for (var version in generators) {
   var generator = generators[version];
   var buf = new uuid.BufferClass(16);
 
-  if (version == 'v4') {
-    ['mathRNG', 'whatwgRNG', 'nodeRNG'].forEach(function(rng) {
-      if (uuid[rng]) {
-        var options = {rng: uuid[rng]};
-        for (var i = 0, t = Date.now(); i < N; i++) generator(options);
-        rate('uuid.' + version + '() with ' + rng, t);
-      } else {
-        log('uuid.' + version + '() with ' + rng + ': not defined');
-      }
-    });
-  } else {
-    for (var i = 0, t = Date.now(); i < N; i++) generator();
-    rate('uuid.' + version + '()', t);
-  }
+  for (var i = 0, t = Date.now(); i < N; i++) generator();
+  rate('uuid.' + version + '()', t);
 
   for (var i = 0, t = Date.now(); i < N; i++) generator('binary');
   rate('uuid.' + version + '(\'binary\')', t);
