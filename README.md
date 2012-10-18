@@ -189,6 +189,10 @@ For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-
 
 ## Release notes
 
+v1.4
+* Improved module context detection
+* Removed public RNG functions
+
 v1.3.2:
 * Improve tests and handling of v1() options (Issue #24)
 * Expose RNG option to allow for perf testing with different generators
