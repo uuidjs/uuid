@@ -25,13 +25,9 @@
     // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
     //
     // Moderately fast, high quality
-    var _rnds8 = new Array(16), _rnds32 = new Uint32Array(4);
+    var _rnds8 = new Uint8Array(16);
     _rng = function whatwgRNG() {
-      crypto.getRandomValues(_rnds32);
-
-      for (var c = 0 ; c < 16; c++) {
-        _rnds8[c] = _rnds32[c >> 2] >>> ((c & 0x03) * 8) & 0xff;
-      }
+      crypto.getRandomValues(_rnds8);
       return _rnds8;
     };
   }
