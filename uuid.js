@@ -1,8 +1,8 @@
 //     uuid.js
 //
-//     (c) 2010-2012 Robert Kieffer
-//     MIT License
-//     https://github.com/broofa/node-uuid
+//     Copyright (c) 2010-2012 Robert Kieffer
+//     MIT License - http://opensource.org/licenses/mit-license.php
+
 (function() {
   var _global = this;
 
