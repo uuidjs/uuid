@@ -242,4 +242,4 @@
 
     _global.uuid = uuid;
   }
-}());
+}).call(this);
