@@ -218,7 +218,6 @@
 
   function hashUUID(hashFn, options, buffer, offset) {
     var i, v;
-    var crypto = require('crypto');
     var output = buffer || new Buffer(16);
     offset = offset || 0;
     options = options || {};
@@ -234,16 +233,16 @@
       options.ns = parse(options.ns, new Buffer(16));
     }
 
-    var md5 = crypto.createHash(hashFn);
-    md5.update(options.ns || '');
-    md5.update(options.data || '');
+    var hash = require('crypto').createHash(hashFn);
+    hash.update(options.ns || '');
+    hash.update(options.data || '');
 
     switch (hashFn) {
       case 'md5': v = 0x30; break;
       case 'sha1': v = 0x50; break;
     }
 
-    output.write(md5.digest(), offset, 16, 'binary');
+    output.write(hash.digest(), offset, 16, 'binary');
     output[offset + 8] = output[offset + 8] & 0x3f | 0xa0; // set variant
     output[offset + 6] = output[offset + 6] & 0x0f | v; // set version
 
