@@ -261,6 +261,13 @@
     return hashUUID('sha1', options, buffer, offset);
   }
 
+  var namespaces = {
+    DNS: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+    URL: '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
+    OID: '6ba7b812-9dad-11d1-80b4-00c04fd430c8',
+    X500: '6ba7b814-9dad-11d1-80b4-00c04fd430c8'
+  };
+
   // Export public API
   var uuid = v4;
   uuid.v1 = v1;
@@ -270,6 +277,7 @@
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
+  uuid.ns = namespaces;
 
   if (_global.define && define.amd) {
     // Publish as AMD module

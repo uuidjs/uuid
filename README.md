@@ -35,13 +35,13 @@ Then create some ids ...
 uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 
 // Generate a v3 (md5) id
-uuid.v3({ns: '6ba7b810-9dad-11d1-80b4-00c04fd430c8', data: 'nodejs.org'}); // -> '5c8024b3-5a3d-31e4-b965-b3fc0e5bc8bf'
+uuid.v3({ns: uuid.ns.DNS, data: 'nodejs.org'}); // -> '5c8024b3-5a3d-31e4-b965-b3fc0e5bc8bf'
 
 // Generate a v4 (random) id
 uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 
 // Generate a v5 (sha1) id
-uuid.v5({ns: '6ba7b810-9dad-11d1-80b4-00c04fd430c8', data: 'nodejs.org'}); // -> 'd34bc706-e2c6-5e9b-ac25-3bfae9d985fd'
+uuid.v5({ns: uuid.ns.DNS, data: 'nodejs.org'}); // -> 'd34bc706-e2c6-5e9b-ac25-3bfae9d985fd'
 
 ```
 
@@ -180,6 +180,17 @@ Example:
 ```javascript
 var myUuid = uuid.noConflict();
 myUuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+```
+
+### uuid.ns
+
+For convenience, an object containing common pre-defined namespace UUIDs (for v3 and v5)
+
+```javascript
+uuid.ns.DNS;  // -> '6ba7b810-9dad-11d1-80b4-00c04fd430c8'
+uuid.ns.URL;  // -> '6ba7b811-9dad-11d1-80b4-00c04fd430c8'
+uuid.ns.OID;  // -> '6ba7b812-9dad-11d1-80b4-00c04fd430c8'
+uuid.ns.X500; // -> '6ba7b814-9dad-11d1-80b4-00c04fd430c8'
 ```
 
 ## Deprecated APIs
