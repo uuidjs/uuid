@@ -216,13 +216,64 @@
     return buf || unparse(rnds);
   }
 
+  function hashUUID(hashFn, options, buffer, offset) {
+    var i, v;
+    var output = buffer || new Buffer(16);
+    offset = offset || 0;
+    options = options || {};
+
+    if (!options.data) {
+      for (i=0; i<16; i++) {
+        output[i] = 0;
+      }
+      return buffer || unparse(output);
+    }
+
+    if (typeof options.ns === 'string') {
+      options.ns = parse(options.ns, new Buffer(16));
+    }
+
+    var hash = require('crypto').createHash(hashFn);
+    hash.update(options.ns || '');
+    hash.update(options.data || '');
+
+    switch (hashFn) {
+      case 'md5': v = 0x30; break;
+      case 'sha1': v = 0x50; break;
+    }
+
+    output.write(hash.digest(), offset, 16, 'binary');
+    output[offset + 8] = output[offset + 8] & 0x3f | 0xa0; // set variant
+    output[offset + 6] = output[offset + 6] & 0x0f | v; // set version
+
+    return buffer || unparse(output);
+  }
+
+  function v3(options, buffer, offset) {
+    return hashUUID('md5', options, buffer, offset);
+  }
+
+  function v5(options, buffer, offset) {
+    return hashUUID('sha1', options, buffer, offset);
+  }
+
+  var namespaces = {
+    DNS: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+    URL: '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
+    OID: '6ba7b812-9dad-11d1-80b4-00c04fd430c8',
+    X500: '6ba7b814-9dad-11d1-80b4-00c04fd430c8'
+  };
+
   // Export public API
   var uuid = v4;
   uuid.v1 = v1;
+  uuid.v3 = v3;
   uuid.v4 = v4;
+  uuid.v5 = v5;
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
+  uuid.ns = namespaces;
 
   if (_global.define && define.amd) {
     // Publish as AMD module
