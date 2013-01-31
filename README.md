@@ -4,7 +4,7 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
-* Generate RFC4122 version 1 or version 4 UUIDs
+* Generate RFC4122 version 1, 3, 4 or 5 UUIDs
 * Runs in node.js and all browsers.
 * Cryptographically strong random # generation on supporting platforms
 * 1.1K minified and gzip'ed  (Want something smaller?  Check this [crazy shit](https://gist.github.com/982883) out! )
@@ -34,8 +34,15 @@ Then create some ids ...
 // Generate a v1 (time-based) id
 uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 
+// Generate a v3 (md5) id
+uuid.v3({ns: '6ba7b810-9dad-11d1-80b4-00c04fd430c8', data: 'nodejs.org'}); // -> '5c8024b3-5a3d-31e4-b965-b3fc0e5bc8bf'
+
 // Generate a v4 (random) id
 uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+
+// Generate a v5 (sha1) id
+uuid.v5({ns: '6ba7b810-9dad-11d1-80b4-00c04fd430c8', data: 'nodejs.org'}); // -> 'd34bc706-e2c6-5e9b-ac25-3bfae9d985fd'
+
 ```
 
 ## API
@@ -84,6 +91,20 @@ uuid.unparse(buffer);    // -> '02a2ce90-1432-11e1-8558-0b488e4fc115'
 uuid.unparse(buffer, 16) // -> '02a31cb0-1432-11e1-8558-0b488e4fc115'
 ```
 
+### uuid.v3(`options` [, `buffer` [, `offset`]])
+
+Generate and return a RFC4122 v3 UUID. Requires node.js.
+
+* `options` - (Object) Data to use when generating UUID:
+
+  * `ns` - (String | Buffer) Optional namespace UUID.
+  * `data` - (String | Buffer) Object to hash. If ommitted, the nil UUID will be returned
+
+* `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+* `offset` - (Number) Starting index in `buffer` at which to begin writing.
+
+Returns `buffer`, if specified, otherwise the string form of the UUID
+
 ### uuid.v4([`options` [, `buffer` [, `offset`]]])
 
 Generate and return a RFC4122 v4 UUID.
@@ -117,6 +138,20 @@ var buffer = new Array(32); // (or 'new Buffer' in node.js)
 uuid.v4(null, buffer, 0);
 uuid.v4(null, buffer, 16);
 ```
+
+### uuid.v5(`options` [, `buffer` [, `offset`]])
+
+Generate and return a RFC4122 v5 UUID. Requires node.js.
+
+* `options` - (Object) Data to use when generating UUID:
+
+  * `ns` - (String | Buffer) Optional namespace UUID.
+  * `data` - (String | Buffer) Object to hash. If ommitted, the nil UUID will be returned
+
+* `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+* `offset` - (Number) Starting index in `buffer` at which to begin writing.
+
+Returns `buffer`, if specified, otherwise the string form of the UUID
 
 ### uuid.parse(id[, buffer[, offset]])
 ### uuid.unparse(buffer[, offset])

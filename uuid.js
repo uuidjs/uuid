@@ -216,10 +216,57 @@
     return buf || unparse(rnds);
   }
 
+  function hashUUID(hashFn, options, buffer, offset) {
+    if (!crypto) {
+      throw new Error('Node crypto required');
+    }
+
+    var i, v;
+    var output = buffer || new Buffer(16);
+    offset = offset || 0;
+    options = options || {};
+
+    if (!options.data) {
+      for (i=0; i<16; i++) {
+        output[i] = 0;
+      }
+      return buffer || unparse(output);
+    }
+
+    if (typeof options.ns === 'string') {
+      options.ns = parse(options.ns, new Buffer(16));
+    }
+
+    var md5 = crypto.createHash(hashFn);
+    md5.update(options.ns || '');
+    md5.update(options.data || '');
+
+    switch (hashFn) {
+      case 'md5': v = 0x30; break;
+      case 'sha1': v = 0x50; break;
+    }
+
+    output.write(md5.digest(), offset, 16, 'binary');
+    output[offset + 8] = output[offset + 8] & 0x3f | 0xa0; // set variant
+    output[offset + 6] = output[offset + 6] & 0x0f | v; // set version
+
+    return buffer || unparse(output);
+  }
+
+  function v3(options, buffer, offset) {
+    return hashUUID('md5', options, buffer, offset);
+  }
+
+  function v5(options, buffer, offset) {
+    return hashUUID('sha1', options, buffer, offset);
+  }
+
   // Export public API
   var uuid = v4;
   uuid.v1 = v1;
+  uuid.v3 = v3;
   uuid.v4 = v4;
+  uuid.v5 = v5;
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
