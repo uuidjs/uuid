@@ -217,11 +217,8 @@
   }
 
   function hashUUID(hashFn, options, buffer, offset) {
-    if (!crypto) {
-      throw new Error('Node crypto required');
-    }
-
     var i, v;
+    var crypto = require('crypto');
     var output = buffer || new Buffer(16);
     offset = offset || 0;
     options = options || {};
