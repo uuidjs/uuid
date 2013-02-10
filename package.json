@@ -5,10 +5,22 @@
   "keywords"      : ["uuid", "guid", "rfc4122"],
   "author"        : "Robert Kieffer <robert@broofa.com>",
   "contributors"  : [
-    {"name": "Christoph Tavan <dev@tavan.de>", "github": "https://github.com/ctavan"}
+    {
+      "name": "Christoph Tavan <dev@tavan.de>",
+      "github": "https://github.com/ctavan"
+    }
   ],
   "lib"           : ".",
   "main"          : "./uuid.js",
-  "repository"    : { "type" : "git", "url" : "https://github.com/broofa/node-uuid.git" },
+  "devDependencies": {
+    "mocha": "1.8.0"
+  },
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository"    : {
+    "type" : "git",
+    "url" : "https://github.com/broofa/node-uuid.git"
+  },
   "version"       : "1.4.0"
 }
