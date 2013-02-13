@@ -189,15 +189,18 @@ For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-
 
 ## Release notes
 
-v1.4
+### 1.4.0
+
 * Improved module context detection
 * Removed public RNG functions
 
-v1.3.2:
+### 1.3.2
+
 * Improve tests and handling of v1() options (Issue #24)
 * Expose RNG option to allow for perf testing with different generators
 
-v1.3:
+### 1.3.0
+
 * Support for version 1 ids, thanks to [@ctavan](https://github.com/ctavan)!
 * Support for node.js crypto API
 * De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code
