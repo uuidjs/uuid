@@ -1,4 +1,4 @@
-# node-uuid
+# uuid
 
 Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
@@ -21,16 +21,12 @@ Install it in your browser:
 Or in node.js:
 
 ```
-npm install node-uuid
+npm install uuid
 ```
 
 ```javascript
-var uuid = require('node-uuid');
-```
+var uuid = require('uuid');
 
-Then create some ids ...
-
-```javascript
 // Generate a v1 (time-based) id
 uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 
@@ -138,7 +134,7 @@ var string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
 
 (Browsers only) Set `uuid` property back to it's previous value.
 
-Returns the node-uuid object.
+Returns the uuid object.
 
 Example:
 
@@ -183,7 +179,7 @@ npm install uuid uuid-js
 node benchmark/benchmark.js
 ```
 
-For a more complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki](https://github.com/broofa/node-uuid/wiki/Benchmark)
+For a more complete discussion of uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki](https://github.com/broofa/uuid/wiki/Benchmark)
 
 For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
 
