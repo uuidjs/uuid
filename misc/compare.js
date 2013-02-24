@@ -1,7 +1,6 @@
 var assert = require('assert'),
-    nodeuuid = require('../uuid'),
+    nodeuuid = require('../'),
     uuidjs = require('uuid-js'),
-    libuuid = require('uuid').generate,
     util = require('util'),
     exec = require('child_process').exec,
     os = require('os');
