@@ -18,6 +18,9 @@
   "scripts": {
     "test": "mocha test/test.js"
   },
+  "browser": {
+    "./rng.js": "./rng-browser.js"
+  },
   "repository"    : {
     "type" : "git",
     "url" : "https://github.com/broofa/node-uuid.git"
