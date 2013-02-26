@@ -7,9 +7,11 @@ var TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
 
 function compare(name, ids) {
   test(name, function() {
-    ids = ids.map(function(id) {
-      return id.split('-').reverse().join('-');
-    }).sort();
+    // avoid .map for older browsers
+    for (var i=0 ; i<ids.length ; ++i) {
+      ids[i] = ids[i].split('-').reverse().join('-');
+    }
+    ids = ids.sort();
     var sorted = ([].concat(ids)).sort();
 
     assert(sorted.toString() == ids.toString(), name + ' have expected order');
