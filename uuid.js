@@ -78,29 +78,29 @@ function v1(options, buf, offset) {
 
   options = options || {};
 
-  var clockseq = options.clockseq != null ? options.clockseq : _clockseq;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
 
   // UUID timestamps are 100 nano-second units since the Gregorian epoch,
   // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
   // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
   // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  var msecs = options.msecs != null ? options.msecs : new Date().getTime();
+  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
 
   // Per 4.2.1.2, use count of uuid's generated during the current clock
   // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs != null ? options.nsecs : _lastNSecs + 1;
+  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
 
   // Time since last uuid creation (in msecs)
   var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
 
   // Per 4.2.1.2, Bump clockseq on clock regression
-  if (dt < 0 && options.clockseq == null) {
+  if (dt < 0 && options.clockseq === undefined) {
     clockseq = clockseq + 1 & 0x3fff;
   }
 
   // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
   // time interval
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs == null) {
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
     nsecs = 0;
   }
 
