@@ -135,6 +135,17 @@ var bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10'); // -> <Buffer 79
 var string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
 ```
 
+### uuid.validate(str)
+
+Check whether a given string is a valid UUID
+
+  * `str` - (String) UUID(-like) string
+
+```javascript
+uuid.validate('797ff043-11eb-11e1-80d6-510998755d10'); // -> true
+uuid.validate('some-invalid-uuid-1234567890-1234567'); // -> false
+```
+
 ### uuid.noConflict()
 
 (Browsers only) Set `uuid` property back to it's previous value.
