@@ -91,6 +91,11 @@
             bth[buf[i++]] + bth[buf[i++]];
   }
 
+  // **`validate(str)` - Test whether given string a valid UUID**
+  function validate(str) {
+    return /[0-9a-f]{22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i.test(str);
+  }
+
   // **`v1()` - Generate time-based UUID**
   //
   // Inspired by https://github.com/LiosK/UUID.js
@@ -222,6 +227,7 @@
   uuid.v4 = v4;
   uuid.parse = parse;
   uuid.unparse = unparse;
+  uuid.validate = validate;
   uuid.BufferClass = BufferClass;
 
   if (typeof define === 'function' && define.amd) {
