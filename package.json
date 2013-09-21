@@ -7,6 +7,9 @@
   "contributors"  : [
     {"name": "Christoph Tavan <dev@tavan.de>", "github": "https://github.com/ctavan"}
   ],
+  "scripts": {
+    "test": "node test/test.js"
+  },
   "lib"           : ".",
   "main"          : "./uuid.js",
   "repository"    : { "type" : "git", "url" : "https://github.com/broofa/node-uuid.git" },

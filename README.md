@@ -165,8 +165,7 @@ The class of container created when generating binary uuid data if no buffer arg
 In node.js
 
 ```
-> cd test
-> node test.js
+npm test
 ```
 
 In Browser
