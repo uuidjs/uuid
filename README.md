@@ -1,6 +1,6 @@
-# uuid [![Build Status](https://secure.travis-ci.org/shtylman/node-uuid.png?branch=master)](http://travis-ci.org/shtylman/node-uuid) #
+# uuid [![Build Status](https://secure.travis-ci.org/defunctzombie/node-uuid.png?branch=master)](http://travis-ci.org/defunctzombie/node-uuid) #
 
-[![browser support](https://ci.testling.com/shtylman/node-uuid.png)](https://ci.testling.com/shtylman/node-uuid)
+[![browser support](https://ci.testling.com/defunctzombie/node-uuid.png)](https://ci.testling.com/defunctzombie/node-uuid)
 
 Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
