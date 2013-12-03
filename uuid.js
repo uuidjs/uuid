@@ -224,12 +224,12 @@
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
 
-  if (_global.define && define.amd) {
-    // Publish as AMD module
-    define(function() {return uuid;});
-  } else if (typeof(module) != 'undefined' && module.exports) {
+  if (typeof(module) != 'undefined' && module.exports) {
     // Publish as node.js module
     module.exports = uuid;
+  } else if (_global.define && define.amd) {
+    // Publish as AMD module
+    define(function() {return uuid;});
   } else {
     // Publish as global (in browsers)
     var _previousRoot = _global.uuid;
