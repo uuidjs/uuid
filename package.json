@@ -7,6 +7,12 @@
   "contributors"  : [
     {"name": "Christoph Tavan <dev@tavan.de>", "github": "https://github.com/ctavan"}
   ],
+  "dependencies": {
+    "nopt": "2.1.2"
+  },
+  "bin": {
+    "uuid": "./bin/uuid"
+  },
   "scripts": {
     "test": "node test/test.js"
   },

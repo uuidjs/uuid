@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+var nopt = require('nopt');
+var path = require('path');
+var uuid = require(path.join(__dirname, '..'));
+
+var options = nopt({}, {}, process.argv);
+
+if (options.help) {
+  console.log('\n  USAGE: uuid [version] [options]\n\n');
+  console.log('  options:\n');
+  console.log('  --help                     Display this message and exit\n');
+  process.exit(0);
+}
+
+var version = options.argv.remain[0];
+
+if (version == null) {
+  console.log(uuid());
+  process.exit(0);
+}
+
+if (version !== 'v1' && version !== 'v4') {
+  console.error('Version must be RFC4122 version 1 or version 4, denoted as "v1" or "v4"');
+  process.exit(1);
+}
+
+console.log(uuid[version]());
+process.exit(0);
