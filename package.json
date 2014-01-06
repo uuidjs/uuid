@@ -7,6 +7,9 @@
   "contributors"  : [
     {"name": "Christoph Tavan <dev@tavan.de>", "github": "https://github.com/ctavan"}
   ],
+  "bin": {
+    "uuid": "./bin/uuid"
+  },
   "scripts": {
     "test": "node test/test.js"
   },
