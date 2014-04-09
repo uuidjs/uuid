@@ -235,6 +235,7 @@
   uuid.v4 = v4;
   uuid.parse = parse;
   uuid.unparse = unparse;
+  uuid.unparseGuid = unparseGuid;
   uuid.BufferClass = BufferClass;
 
   if (typeof define === 'function' && define.amd) {
