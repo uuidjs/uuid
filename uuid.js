@@ -90,6 +90,19 @@
             bth[buf[i++]] + bth[buf[i++]] +
             bth[buf[i++]] + bth[buf[i++]];
   }
+  
+  // **`unparseGuid()` - Convert GUID byte array (using little-edianness for data 1 to 3) into a string**
+  function unparseGuid(buf, offset) {
+    var i = offset || 0, bth = _byteToHex;
+    return  bth[buf[i + 3]] + bth[buf[i + 2]] +
+            bth[buf[i + 1]] + bth[buf[i + 0]] + '-' +
+            bth[buf[i + 5]] + bth[buf[i + 4]] + '-' +
+            bth[buf[i + 7]] + bth[buf[i + 6]] + '-' +
+            bth[buf[i + 8]] + bth[buf[i + 9]] + '-' +
+            bth[buf[i + 10]] + bth[buf[i + 11]] +
+            bth[buf[i + 12]] + bth[buf[i + 13]] +
+            bth[buf[i + 14]] + bth[buf[i + 15]];
+  }
 
   // **`v1()` - Generate time-based UUID**
   //
@@ -222,6 +235,7 @@
   uuid.v4 = v4;
   uuid.parse = parse;
   uuid.unparse = unparse;
+  uuid.unparseGuid = unparseGuid;
   uuid.BufferClass = BufferClass;
 
   if (typeof define === 'function' && define.amd) {
