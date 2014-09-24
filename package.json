@@ -8,6 +8,10 @@
     {
       "name": "Christoph Tavan <dev@tavan.de>",
       "github": "https://github.com/ctavan"
+    },
+    {
+      "name": "Vincent Voyer <vincent@zeroload.net>",
+      "github": "https://github.com/vvo"
     }
   ],
   "main"          : "./uuid.js",
@@ -18,7 +22,8 @@
     "test": "mocha test/test.js"
   },
   "browser": {
-    "./rng.js": "./rng-browser.js"
+    "./rng.js": "./rng-browser.js",
+    "./buffer.js": "./buffer-browser.js"
   },
   "repository"    : {
     "type" : "git",

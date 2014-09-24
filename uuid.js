@@ -8,8 +8,10 @@
 // returns 128-bits of randomness, since that's what's usually required
 var _rng = require('./rng');
 
-// Buffer class to use
-var BufferClass = typeof(Buffer) == 'function' ? Buffer : Array;
+// Buffer class to use,
+// we can't use `Buffer || Array` otherwise Buffer would be
+// shimmed by browserify and added to the browser build
+var BufferClass = require('./buffer');
 
 // Maps for number <-> hex string conversion
 var _byteToHex = [];
