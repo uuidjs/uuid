@@ -177,8 +177,9 @@ open test/test.html
 Requires node.js
 
 ```
-npm install uuid uuid-js
-node benchmark/benchmark.js
+cd benchmark/
+npm i
+node benchmark.js
 ```
 
 For a more complete discussion of uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki](https://github.com/broofa/uuid/wiki/Benchmark)
