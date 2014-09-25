@@ -1,10 +1,14 @@
 {
-  "name"          : "uuid",
-  "version"       : "1.4.1",
-  "description"   : "Rigorous implementation of RFC4122 (v1 and v4) UUIDs.",
-  "keywords"      : ["uuid", "guid", "rfc4122"],
-  "author"        : "Robert Kieffer <robert@broofa.com>",
-  "contributors"  : [
+  "name": "uuid",
+  "version": "1.4.2",
+  "description": "Rigorous implementation of RFC4122 (v1 and v4) UUIDs.",
+  "keywords": [
+    "uuid",
+    "guid",
+    "rfc4122"
+  ],
+  "author": "Robert Kieffer <robert@broofa.com>",
+  "contributors": [
     {
       "name": "Christoph Tavan <dev@tavan.de>",
       "github": "https://github.com/ctavan"
@@ -14,7 +18,7 @@
       "github": "https://github.com/vvo"
     }
   ],
-  "main"          : "./uuid.js",
+  "main": "./uuid.js",
   "devDependencies": {
     "mocha": "1.8.0"
   },
@@ -25,9 +29,9 @@
     "./rng.js": "./rng-browser.js",
     "./buffer.js": "./buffer-browser.js"
   },
-  "repository"    : {
-    "type" : "git",
-    "url" : "https://github.com/shtylman/node-uuid.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shtylman/node-uuid.git"
   },
   "testling": {
     "browsers": [
