@@ -178,7 +178,7 @@ Requires node.js
 
 ```
 cd benchmark/
-npm i
+npm install
 node benchmark.js
 ```
 
