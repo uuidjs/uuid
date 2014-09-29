@@ -26,8 +26,7 @@
     "test": "mocha test/test.js"
   },
   "browser": {
-    "./rng.js": "./rng-browser.js",
-    "./buffer.js": "./buffer-browser.js"
+    "./rng.js": "./rng-browser.js"
   },
   "repository": {
     "type": "git",

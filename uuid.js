@@ -8,11 +8,6 @@
 // returns 128-bits of randomness, since that's what's usually required
 var _rng = require('./rng');
 
-// Buffer class to use,
-// we can't use `Buffer || Array` otherwise Buffer would be
-// shimmed by browserify and added to the browser build
-var BufferClass = require('./buffer');
-
 // Maps for number <-> hex string conversion
 var _byteToHex = [];
 var _hexToByte = {};
@@ -157,7 +152,7 @@ function v4(options, buf, offset) {
   var i = buf && offset || 0;
 
   if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new BufferClass(16) : null;
+    buf = options == 'binary' ? new Array(16) : null;
     options = null;
   }
   options = options || {};
@@ -184,6 +179,5 @@ uuid.v1 = v1;
 uuid.v4 = v4;
 uuid.parse = parse;
 uuid.unparse = unparse;
-uuid.BufferClass = BufferClass;
 
 module.exports = uuid;
