@@ -3,6 +3,9 @@
 //     Copyright (c) 2010-2012 Robert Kieffer
 //     MIT License - http://opensource.org/licenses/mit-license.php
 
+var microtime = require('microtime');
+var bignum = require('bignum');
+
 (function() {
   var _global = this;
 
@@ -124,11 +127,14 @@
     // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
     // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
     // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-    var msecs = options.msecs != null ? options.msecs : new Date().getTime();
+    var _curTime = microtime.nowStruct();
+    var msecs = options.msecs != null ? options.msecs :
+        _curTime[0] * 1000 + Math.floor(_curTime[1] / 1000);
 
     // Per 4.2.1.2, use count of uuid's generated during the current clock
     // cycle to simulate higher resolution clock
-    var nsecs = options.nsecs != null ? options.nsecs : _lastNSecs + 1;
+    var _nextNSecs = (_curTime[1] % 1000) * 10;
+    var nsecs = options.nsecs != null ? options.nsecs : _nextNSecs;
 
     // Time since last uuid creation (in msecs)
     var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
@@ -140,9 +146,9 @@
 
     // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
     // time interval
-    if ((dt < 0 || msecs > _lastMSecs) && options.nsecs == null) {
-      nsecs = 0;
-    }
+    //if ((dt < 0 || msecs > _lastMSecs) && options.nsecs == null) {
+    //  nsecs = 0;
+    //}
 
     // Per 4.2.1.2 Throw error if too many uuids are requested
     if (nsecs >= 10000) {
@@ -154,10 +160,11 @@
     _clockseq = clockseq;
 
     // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+    //console.log('new ', msecs, nsecs);
     msecs += 12219292800000;
 
     // `time_low`
-    var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+    var tl = ((msecs >>> 0) * 10000 + nsecs) % 0x100000000;
     b[i++] = tl >>> 24 & 0xff;
     b[i++] = tl >>> 16 & 0xff;
     b[i++] = tl >>> 8 & 0xff;
@@ -216,7 +223,7 @@
     return buf || unparse(rnds);
   }
 
-  // extracts time (msecs) from v1 type uuid 
+  // extracts time (msecs) from v1 type uuid
   function v1time(buf, offset) {
 
     var msec = 0, nsec = 0;
@@ -234,24 +241,26 @@
     tl |= ( b[i++] & 0xff ) << 8;
     tl |=   b[i++] & 0xff ;
 
-      // `time_mid`
-      var tmh = 0;
-      tmh |= ( b[i++] & 0xff ) << 8;
-      tmh |=   b[i++] & 0xff;
+    // `time_mid`
+    var tmh = 0;
+    tmh |= ( b[i++] & 0xff ) << 8;
+    tmh |=   b[i++] & 0xff;
 
-      // `time_high_minus_version`
-      tmh |= ( b[i++] & 0xf ) << 24; 
-      tmh |= ( b[i++] & 0xff ) << 16;
+    // `time_high_minus_version`
+    tmh |= ( b[i++] & 0xf ) << 24;
+    tmh |= ( b[i++] & 0xff ) << 16;
 
-      // account for the sign bit
-      msec = 1.0 * ( ( tl >>> 1 ) * 2 + ( ( tl & 0x7fffffff ) % 2 ) ) / 10000.0;
-      msec += 1.0 * ( ( tmh >>> 1 ) * 2 + ( ( tmh & 0x7fffffff ) % 2 ) ) * 0x100000000 / 10000.0;
-      
-      // Per 4.1.4 - Convert from Gregorian epoch to unix epoch
-    msec -= 12219292800000;
-      
-    // getting the nsec. they are not needed now though 
-    // nsec = ( tl & 0xfffffff ) % 10000;
+    // (tl >>> 0) to interpret tl as unsigned. tmh can't be signed, as the
+    // highest byte is & 0xf above.
+    nsec = bignum(tl >>> 0).add(bignum(tmh).mul(0x100000000));
+
+    // Per 4.1.4 - Convert from Gregorian epoch to unix epoch
+    nsec = nsec.sub(122192928000000000);
+
+    msec = nsec.toNumber() / 10000;
+
+    // Recover exact nanosecond fraction
+    // nsec = nsec.mod(10000).toNumber());
 
     return msec;
   }
