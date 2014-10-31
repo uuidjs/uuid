@@ -131,7 +131,7 @@
     var nsecs = options.nsecs != null ? options.nsecs : _lastNSecs + 1;
 
     // Time since last uuid creation (in msecs)
-    var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
+    var dt = (msecs - _lastMSecs);
 
     // Per 4.2.1.2, Bump clockseq on clock regression
     if (dt < 0 && options.clockseq == null) {
