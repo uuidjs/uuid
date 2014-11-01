@@ -1,4 +1,4 @@
-# uuid [![Build Status](https://secure.travis-ci.org/defunctzombie/node-uuid.png?branch=master)](http://travis-ci.org/defunctzombie/node-uuid) #
+# uuid [![Build Status](https://secure.travis-ci.org/defunctzombie/node-uuid.svg?branch=master)](http://travis-ci.org/defunctzombie/node-uuid) #
 
 [![browser support](https://ci.testling.com/defunctzombie/node-uuid.png)](https://ci.testling.com/defunctzombie/node-uuid)
 
