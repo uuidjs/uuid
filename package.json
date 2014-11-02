@@ -12,6 +12,10 @@
     {
       "name": "Christoph Tavan <dev@tavan.de>",
       "github": "https://github.com/ctavan"
+    },
+    {
+      "name": "Gabriel Wicke <gwicke@wikimedia.org>",
+      "github": "https://github.com/gwicke"
     }
   ],
   "bin": {
