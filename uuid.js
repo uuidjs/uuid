@@ -225,6 +225,9 @@ var bignum = require('bignum');
 
   // extracts time (msecs) from v1 type uuid
   function v1time(buf, offset) {
+    if (typeof buf === 'string') {
+        buf = parse(buf);
+    }
 
     var msec = 0, nsec = 0;
     var i = buf && offset || 0;
