@@ -59,6 +59,16 @@
     _hexToByte[_byteToHex[i]] = i;
   }
 
+  // Force _hexToByte to be changed to fast-property object in V8
+  (function toFastProperties(obj) {
+    /*jshint -W027*/
+    function f() {}
+    f.prototype = obj;
+    return f;
+    eval(obj);
+  }(_hexToByte));
+
+
   // **`parse()` - Parse a UUID into it's component bytes**
   function parse(s, buf, offset) {
     var i = (buf && offset) || 0, ii = 0;
