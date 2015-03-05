@@ -16,7 +16,7 @@
   "lib"           : ".",
   "main"          : "./uuid.js",
   "repository"    : { "type" : "git", "url" : "https://github.com/broofa/node-uuid.git" },
-  "version"       : "1.4.2",
+  "version"       : "1.4.3",
   "licenses": [
     {
       "type": "MIT",
