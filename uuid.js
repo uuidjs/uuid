@@ -11,6 +11,9 @@
   // returns 128-bits of randomness, since that's what's usually required
   var _rng;
 
+  // Allow for MSIE11 msCrypto
+  var _crypto = _global.crypto || _global.msCrypto;
+
   // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
   //
   // Moderately fast, high quality
@@ -21,13 +24,13 @@
     } catch(e) {}
   }
 
-  if (!_rng && _global.crypto && crypto.getRandomValues) {
+  if (!_rng && _crypto && _crypto.getRandomValues) {
     // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
     //
     // Moderately fast, high quality
     var _rnds8 = new Uint8Array(16);
     _rng = function whatwgRNG() {
-      crypto.getRandomValues(_rnds8);
+      _crypto.getRandomValues(_rnds8);
       return _rnds8;
     };
   }
