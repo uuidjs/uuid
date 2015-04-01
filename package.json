@@ -18,6 +18,7 @@
       "github": "https://github.com/vvo"
     }
   ],
+  "license": "MIT",
   "main": "./uuid.js",
   "devDependencies": {
     "mocha": "1.8.0"
