@@ -11,11 +11,14 @@
     "uuid": "./bin/uuid"
   },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "coverage": "nyc npm test && nyc report"
   },
   "lib"           : ".",
   "main"          : "./uuid.js",
   "repository"    : { "type" : "git", "url" : "https://github.com/broofa/node-uuid.git" },
   "version"       : "1.4.2",
-  "license"       : "MIT"
+  "license"       : "MIT",
+  "devDependencies": { "nyc": "^2.2.0" }
+
 }
