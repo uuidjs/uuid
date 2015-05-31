@@ -17,7 +17,7 @@
   // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
   //
   // Moderately fast, high quality
-  if (typeof(_global.require) == 'function') {
+  if (typeof(_global.require) == 'function' && typeof(module) != 'undefined' && module.exports) {
     try {
       var _rb = _global.require('crypto').randomBytes;
       _rng = _rb && function() {return _rb(16);};
