@@ -188,6 +188,10 @@ For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-
 
 ## Release notes
 
+### 2.0.0
+ 
+* Removed uuid.BufferClass
+
 ### 1.4.0
 
 * Improved module context detection
