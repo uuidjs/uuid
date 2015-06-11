@@ -32,7 +32,6 @@
   },
   "version": "1.4.1",
   "dependencies": {
-    "bignum": "^0.9.0",
     "microtime": ">=0.4.0"
   },
   "licenses": [
