@@ -1,6 +1,5 @@
 {
   "name": "node-uuid",
-  "version": "1.4.2",
   "homepage": "https://github.com/broofa/node-uuid",
   "authors": [
     "Robert Kieffer <robert@broofa.com>"
