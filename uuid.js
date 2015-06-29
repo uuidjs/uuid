@@ -4,7 +4,6 @@
 //     MIT License - http://opensource.org/licenses/mit-license.php
 
 var microtime = require('microtime');
-var bignum = require('bignum');
 
 (function() {
   var _global = this;
@@ -253,19 +252,25 @@ var bignum = require('bignum');
     tmh |= ( b[i++] & 0xf ) << 24;
     tmh |= ( b[i++] & 0xff ) << 16;
 
-    // (tl >>> 0) to interpret tl as unsigned. tmh can't be signed, as the
-    // highest byte is & 0xf above.
-    nsec = bignum(tl >>> 0).add(bignum(tmh).mul(0x100000000));
+    // Long division by 10000.
+    // Note that 10000*(2^32) doesn't overflow a 53-bit JS integer.
+    var msec_h = (tmh / 10000) >>> 0; // integer division
+    var remainder = (0x100000000 * (tmh % 10000) + tl);
+    var msec_l =  (remainder / 10000) >>> 0; // integer division
+    // Adjust from gregorian epoch to unix epoch
+    msec_h -= 2845;
+    msec_l -= 110842880;
+    // The number of milliseconds since the unix epoch doesn't overflow
+    // a 53-bit integer for over 100,000 years.
+    msec = msec_h * 0x100000000 + msec_l;
+    nsec = remainder % 10000; // exact count of "100ns" intervals past the msec
 
-    // Per 4.1.4 - Convert from Gregorian epoch to unix epoch
-    nsec = nsec.sub(122192928000000000);
-
-    msec = nsec.toNumber() / 10000;
-
-    // Recover exact nanosecond fraction
-    // nsec = nsec.mod(10000).toNumber());
-
-    return msec;
+    // JavaScript has 53-bit signed integers.  The number of 100ns intervals
+    // since the epoch overflows at `new Date(Math.pow(2,53)/10000)` =
+    // Fri Jul 17 1998.  But we can keep microsecond accuracy until
+    // `new Date(Math.pow(2,53)/10000)` = Tue Jun 05 2255.
+    // Use floating point here to gradually lose sub-millisecond accuracy
+    return msec + ( nsec / 10000 );
   }
 
   // Export public API
