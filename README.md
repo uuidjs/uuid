@@ -153,10 +153,6 @@ Support for the following v1.2 APIs is available in v1.3, but is deprecated and 
 
 uuid() has become uuid.v4(), and the `format` argument is now implicit in the `buffer` argument. (i.e. if you specify a buffer, the format is assumed to be binary).
 
-### uuid.BufferClass
-
-The class of container created when generating binary uuid data if no buffer argument is specified.  This is expected to go away, with no replacement API.
-
 ## Testing
 
 In node.js
