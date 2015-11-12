@@ -228,6 +228,15 @@ For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-
 
 ## Release notes
 
+### 1.4.6
+
+* Properly detect node crypto and whatwg crypto
+* Workaround phantomjs/browserify bug
+* Explicit check for `window` rather implicit this-global
+* Issue warning if Math.random() is being used
+* "use strict";
+* A few jshint / stylistic updates (=== and such)
+
 ### 1.4.0
 
 * Improved module context detection
