@@ -19,7 +19,7 @@
   // Moderately fast, high quality
   if ('function' === typeof require) {
     try {
-      var _rb = _global.require('crypto').randomBytes;
+      var _rb = require('crypto').randomBytes;
       _rng = _rb && function() {return _rb(16);};
     } catch(e) {}
   }
@@ -226,6 +226,7 @@
   uuid.parse = parse;
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
+  uuid._rng = _rng;
 
   if (typeof(module) != 'undefined' && module.exports) {
     // Publish as node.js module
@@ -233,7 +234,7 @@
   } else  if (typeof define === 'function' && define.amd) {
     // Publish as AMD module
     define(function() {return uuid;});
- 
+
 
   } else {
     // Publish as global (in browsers)
