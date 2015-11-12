@@ -7,7 +7,9 @@ Features:
 * Generate RFC4122 version 1 or version 4 UUIDs
 * Runs in node.js and all browsers.
 * Registered as a [ComponentJS](https://github.com/component/component) [component](https://github.com/component/component/wiki/Components) ('broofa/node-uuid').
-* Cryptographically strong random # generation on supporting platforms
+* Cryptographically strong random # generation
+  * `crypto.randomBytes(n)` in node.js
+  * `window.crypto.getRandomValues(ta)` in [supported browsers](https://developer.mozilla.org/en-US/docs/Web/API/RandomSource/getRandomValues#Browser_Compatibility)
 * 1.1K minified and gzip'ed  (Want something smaller?  Check this [crazy shit](https://gist.github.com/982883) out! )
 * [Annotated source code](http://broofa.github.com/node-uuid/docs/uuid.html)
 * Comes with a Command Line Interface for generating uuids on the command line
