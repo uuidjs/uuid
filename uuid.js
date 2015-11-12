@@ -3,16 +3,17 @@
 //     Copyright (c) 2010-2012 Robert Kieffer
 //     MIT License - http://opensource.org/licenses/mit-license.php
 
-(function() {
-  var _global = this;
+/*global window, require, define */
+(function(_window) {
+  'use strict';
 
   // Unique ID creation requires a high quality random # generator.  We feature
   // detect to determine the best RNG source, normalizing to a function that
   // returns 128-bits of randomness, since that's what's usually required
-  var _rng;
+  var _rng, _mathRNG, _nodeRNG, _whatwgRNG;
 
   // Allow for MSIE11 msCrypto
-  var _crypto = _global.crypto || _global.msCrypto;
+  var _crypto = _window.crypto || _window.msCrypto;
 
   // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
   //
@@ -20,7 +21,8 @@
   if ('function' === typeof require) {
     try {
       var _rb = require('crypto').randomBytes;
-      _rng = _rb && function() {return _rb(16);};
+      _nodeRNG = _rng = _rb && function() {return _rb(16);};
+      _rng();
     } catch(e) {}
   }
 
@@ -28,11 +30,14 @@
     // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
     //
     // Moderately fast, high quality
-    var _rnds8 = new Uint8Array(16);
-    _rng = function whatwgRNG() {
-      _crypto.getRandomValues(_rnds8);
-      return _rnds8;
-    };
+    try {
+      var _rnds8 = new Uint8Array(16);
+      _whatwgRNG = _rng = function whatwgRNG() {
+        _crypto.getRandomValues(_rnds8);
+        return _rnds8;
+      };
+      _rng();
+    } catch(e) {}
   }
 
   if (!_rng) {
@@ -41,18 +46,21 @@
     // If all else fails, use Math.random().  It's fast, but is of unspecified
     // quality.
     var  _rnds = new Array(16);
-    _rng = function() {
+    _mathRNG = _rng = function() {
       for (var i = 0, r; i < 16; i++) {
-        if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+        if ((i & 0x03) === 0) { r = Math.random() * 0x100000000; }
         _rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
       }
 
       return _rnds;
     };
+    if ('undefined' !== typeof console && console.warn) {
+      console.warn("[SECURITY] node-uuid: crypto not usable, falling back to insecure Math.random()");
+    }
   }
 
   // Buffer class to use
-  var BufferClass = typeof(_global.Buffer) == 'function' ? _global.Buffer : Array;
+  var BufferClass = ('function' === typeof Buffer) ? Buffer : Array;
 
   // Maps for number <-> hex string conversion
   var _byteToHex = [];
@@ -121,17 +129,17 @@
 
     options = options || {};
 
-    var clockseq = options.clockseq != null ? options.clockseq : _clockseq;
+    var clockseq = (options.clockseq != null) ? options.clockseq : _clockseq;
 
     // UUID timestamps are 100 nano-second units since the Gregorian epoch,
     // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
     // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
     // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-    var msecs = options.msecs != null ? options.msecs : new Date().getTime();
+    var msecs = (options.msecs != null) ? options.msecs : new Date().getTime();
 
     // Per 4.2.1.2, use count of uuid's generated during the current clock
     // cycle to simulate higher resolution clock
-    var nsecs = options.nsecs != null ? options.nsecs : _lastNSecs + 1;
+    var nsecs = (options.nsecs != null) ? options.nsecs : _lastNSecs + 1;
 
     // Time since last uuid creation (in msecs)
     var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
@@ -197,8 +205,8 @@
     // Deprecated - 'format' argument, as supported in v1.2
     var i = buf && offset || 0;
 
-    if (typeof(options) == 'string') {
-      buf = options == 'binary' ? new BufferClass(16) : null;
+    if (typeof(options) === 'string') {
+      buf = (options === 'binary') ? new BufferClass(16) : null;
       options = null;
     }
     options = options || {};
@@ -227,6 +235,9 @@
   uuid.unparse = unparse;
   uuid.BufferClass = BufferClass;
   uuid._rng = _rng;
+  uuid._mathRNG = _mathRNG;
+  uuid._nodeRNG = _nodeRNG;
+  uuid._whatwgRNG = _whatwgRNG;
 
   if (typeof(module) != 'undefined' && module.exports) {
     // Publish as node.js module
@@ -238,14 +249,14 @@
 
   } else {
     // Publish as global (in browsers)
-    var _previousRoot = _global.uuid;
+    var _previousRoot = _window.uuid;
 
     // **`noConflict()` - (browser only) to reset global 'uuid' var**
     uuid.noConflict = function() {
-      _global.uuid = _previousRoot;
+      _window.uuid = _previousRoot;
       return uuid;
     };
 
-    _global.uuid = uuid;
+    _window.uuid = uuid;
   }
-}).call(this);
+})('undefined' !== typeof window ? window : {});
