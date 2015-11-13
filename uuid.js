@@ -10,53 +10,63 @@
   // Unique ID creation requires a high quality random # generator.  We feature
   // detect to determine the best RNG source, normalizing to a function that
   // returns 128-bits of randomness, since that's what's usually required
-  var _rng, _mathRNG, _nodeRNG, _whatwgRNG;
+  var _rng, _mathRNG, _nodeRNG, _whatwgRNG, _previousRoot;
 
-  // Allow for MSIE11 msCrypto
-  var _crypto = _window.crypto || _window.msCrypto;
+  function setupBrowser() {
+    // Allow for MSIE11 msCrypto
+    var _crypto = _window.crypto || _window.msCrypto;
 
-  // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
-  //
-  // Moderately fast, high quality
-  if ('undefined' === typeof window && 'function' === typeof require) {
-    try {
-      var _rb = require('crypto').randomBytes;
-      _nodeRNG = _rng = _rb && function() {return _rb(16);};
-      _rng();
-    } catch(e) {}
+    if (!_rng && _crypto && _crypto.getRandomValues) {
+      // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
+      //
+      // Moderately fast, high quality
+      try {
+        var _rnds8 = new Uint8Array(16);
+        _whatwgRNG = _rng = function whatwgRNG() {
+          _crypto.getRandomValues(_rnds8);
+          return _rnds8;
+        };
+        _rng();
+      } catch(e) {}
+    }
+
+    if (!_rng) {
+      // Math.random()-based (RNG)
+      //
+      // If all else fails, use Math.random().  It's fast, but is of unspecified
+      // quality.
+      var  _rnds = new Array(16);
+      _mathRNG = _rng = function() {
+        for (var i = 0, r; i < 16; i++) {
+          if ((i & 0x03) === 0) { r = Math.random() * 0x100000000; }
+          _rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+        }
+
+        return _rnds;
+      };
+      if ('undefined' !== typeof console && console.warn) {
+        console.warn("[SECURITY] node-uuid: crypto not usable, falling back to insecure Math.random()");
+      }
+    }
   }
 
-  if (!_rng && _crypto && _crypto.getRandomValues) {
-    // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
+  function setupNode() {
+    // Node.js crypto-based RNG - http://nodejs.org/docs/v0.6.2/api/crypto.html
     //
     // Moderately fast, high quality
-    try {
-      var _rnds8 = new Uint8Array(16);
-      _whatwgRNG = _rng = function whatwgRNG() {
-        _crypto.getRandomValues(_rnds8);
-        return _rnds8;
-      };
-      _rng();
-    } catch(e) {}
+    if ('function' === typeof require) {
+      try {
+        var _rb = require('crypto').randomBytes;
+        _nodeRNG = _rng = _rb && function() {return _rb(16);};
+        _rng();
+      } catch(e) {}
+    }
   }
 
-  if (!_rng) {
-    // Math.random()-based (RNG)
-    //
-    // If all else fails, use Math.random().  It's fast, but is of unspecified
-    // quality.
-    var  _rnds = new Array(16);
-    _mathRNG = _rng = function() {
-      for (var i = 0, r; i < 16; i++) {
-        if ((i & 0x03) === 0) { r = Math.random() * 0x100000000; }
-        _rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-      }
-
-      return _rnds;
-    };
-    if ('undefined' !== typeof console && console.warn) {
-      console.warn("[SECURITY] node-uuid: crypto not usable, falling back to insecure Math.random()");
-    }
+  if (_window) {
+    setupBrowser();
+  } else {
+    setupNode();
   }
 
   // Buffer class to use
@@ -239,17 +249,17 @@
   uuid._nodeRNG = _nodeRNG;
   uuid._whatwgRNG = _whatwgRNG;
 
-  if (typeof(module) != 'undefined' && module.exports) {
+  if (('undefined' !== typeof module) && module.exports) {
     // Publish as node.js module
     module.exports = uuid;
-  } else  if (typeof define === 'function' && define.amd) {
+  } else if (typeof define === 'function' && define.amd) {
     // Publish as AMD module
     define(function() {return uuid;});
 
 
   } else {
     // Publish as global (in browsers)
-    var _previousRoot = _window.uuid;
+    _previousRoot = _window.uuid;
 
     // **`noConflict()` - (browser only) to reset global 'uuid' var**
     uuid.noConflict = function() {
@@ -259,4 +269,4 @@
 
     _window.uuid = uuid;
   }
-})('undefined' !== typeof window ? window : {});
+})('undefined' !== typeof window ? window : null);
