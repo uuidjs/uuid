@@ -57,5 +57,5 @@
     "test": "node test/test.js"
   },
   "url": "http://github.com/broofa/node-uuid",
-  "version": "1.4.6"
+  "version": "1.4.7"
 }
