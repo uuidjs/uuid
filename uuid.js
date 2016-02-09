@@ -269,4 +269,4 @@
 
     _window.uuid = uuid;
   }
-})('undefined' !== typeof window ? window : null);
+})('undefined' !== typeof window && window.self === window ? window : null);
