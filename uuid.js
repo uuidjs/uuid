@@ -4,7 +4,7 @@
 //     MIT License - http://opensource.org/licenses/mit-license.php
 
 /*global window, require, define */
-(function(_window) {
+(function(_global) {
   'use strict';
 
   // Unique ID creation requires a high quality random # generator.  We feature
@@ -14,7 +14,7 @@
 
   function setupBrowser() {
     // Allow for MSIE11 msCrypto
-    var _crypto = _window.crypto || _window.msCrypto;
+    var _crypto = _global.crypto || _global.msCrypto;
 
     if (!_rng && _crypto && _crypto.getRandomValues) {
       // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
@@ -63,7 +63,7 @@
     }
   }
 
-  if (_window) {
+  if (_global.process ? _global.process.browser : _global) { // in a browser?
     setupBrowser();
   } else {
     setupNode();
@@ -259,14 +259,17 @@
 
   } else {
     // Publish as global (in browsers)
-    _previousRoot = _window.uuid;
+    _previousRoot = _global.uuid;
 
     // **`noConflict()` - (browser only) to reset global 'uuid' var**
     uuid.noConflict = function() {
-      _window.uuid = _previousRoot;
+      _global.uuid = _previousRoot;
       return uuid;
     };
 
-    _window.uuid = uuid;
+    _global.uuid = uuid;
   }
-})('undefined' !== typeof window ? window : null);
+})( 'undefined' !== typeof global ? global
+  : 'undefined' !== typeof window ? window
+  : null
+);
