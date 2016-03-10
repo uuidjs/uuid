@@ -33,12 +33,7 @@
     "uuid"
   ],
   "lib": ".",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/broofa/node-uuid/master/LICENSE.md"
-    }
-  ],
+  "license": "MIT",
   "main": "./uuid.js",
   "maintainers": [
     {
