@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Rigorous implementation of RFC4122 (v1 and v4) UUIDs.",
   "keywords": [
     "uuid",
