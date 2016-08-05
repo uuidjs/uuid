@@ -24,6 +24,10 @@
   "devDependencies": {
     "nyc": "^2.2.0"
   },
+  "files": [
+    "bin",
+    "uuid.js"
+  ],
   "directories": {},
   "homepage": "https://github.com/broofa/node-uuid",
   "installable": true,
