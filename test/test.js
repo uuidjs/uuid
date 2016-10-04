@@ -120,6 +120,13 @@ var dt = parseInt(after, 16) - parseInt(before, 16);
 assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
 
 //
+// Test validate
+//
+
+assert(uuid.validate('d9428888-122b-11e1-b85c-61cd3cbb3210') === true, 'Valid uuid');
+assert(uuid.validate('d9428888-11e1-b85c-61cd3cbb3210') === false, 'Invalid uuid');
+
+//
 // Test parse/unparse
 //
 
