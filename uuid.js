@@ -14,7 +14,8 @@
 
   function setupBrowser() {
     // Allow for MSIE11 msCrypto
-    var _crypto = _window.crypto || _window.msCrypto;
+    // If the window object doesn't define crypto at all, attempt to use node
+    var _crypto = _window.crypto || _window.msCrypto || setupNode();
 
     if (!_rng && _crypto && _crypto.getRandomValues) {
       // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
