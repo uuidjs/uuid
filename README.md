@@ -1,48 +1,45 @@
-# node-uuid
+# uuid [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
 
 Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
 * Generate RFC4122 version 1 or version 4 UUIDs
-* Runs in node.js and all browsers.
-* Registered as a [ComponentJS](https://github.com/component/component) [component](https://github.com/component/component/wiki/Components) ('broofa/node-uuid').
-* Cryptographically strong random # generation
-  * `crypto.randomBytes(n)` in node.js
-  * `window.crypto.getRandomValues(ta)` in [supported browsers](https://developer.mozilla.org/en-US/docs/Web/API/RandomSource/getRandomValues#Browser_Compatibility)
-* 1.1K minified and gzip'ed  (Want something smaller?  Check this [crazy shit](https://gist.github.com/982883) out! )
-* [Annotated source code](http://broofa.github.com/node-uuid/docs/uuid.html)
-* Comes with a Command Line Interface for generating uuids on the command line
+* Runs in node.js and browsers
+* Cryptographically strong random number generation on supporting platforms
+* Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883) out!)
 
-## Getting Started
+## Quickstart - nodejs
 
-Install it in your browser:
-
-```html
-<script src="uuid.js"></script>
-```
-
-Or in node.js:
-
-```
-npm install node-uuid
+```shell
+npm install uuid
 ```
 
 ```javascript
-var uuid = require('node-uuid');
-```
-
-Then create some ids ...
-
-```javascript
-// Generate a v1 (time-based) id
-uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+var uuid = require('uuid');
 
 // Generate a v4 (random) id
-uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+uuid() // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+
+// Generate a v1 (time-based) id
+uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+```
+
+## Quickstart - browser
+
+** Not recommende for production or even semi-production use. Use a bundling tool instead (i.e. webpack, browserify, rollup, etc)**
+
+[wzrd.in](https://github.com/jfhbrook/wzrd.in) will serve up any npm module after performing basic bundling and minification.
+
+```html
+<script src="https://wzrd.in/standalone/uuid@latest"></script>
 ```
 
 ## API
+
+### uuid(...)
+
+Generate a V4 uuid. See uuid.v4 documentation below.
 
 ### uuid.v1([`options` [, `buffer` [, `offset`]]])
 
@@ -142,7 +139,7 @@ var string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
 
 (Browsers only) Set `uuid` property back to it's previous value.
 
-Returns the node-uuid object.
+Returns the uuid object.
 
 Example:
 
@@ -151,104 +148,12 @@ var myUuid = uuid.noConflict();
 myUuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 ```
 
-## Deprecated APIs
-
-Support for the following v1.2 APIs is available in v1.3, but is deprecated and will be removed in the next major version.
-
-### uuid([format [, buffer [, offset]]])
-
-uuid() has become uuid.v4(), and the `format` argument is now implicit in the `buffer` argument. (i.e. if you specify a buffer, the format is assumed to be binary).
-
-### uuid.BufferClass
-
-The class of container created when generating binary uuid data if no buffer argument is specified.  This is expected to go away, with no replacement API.
-
-## Command Line Interface
-
-To use the executable, it's probably best to install this library globally.
-
-`npm install -g node-uuid`
-
-Usage:
-
-```
-USAGE: uuid [version] [options]
-
-
-options:
-
---help                     Display this message and exit
-```
-
-`version` must be an RFC4122 version that is supported by this library, which is currently version 1 and version 4 (denoted by "v1" and "v4", respectively). `version` defaults to version 4 when not supplied.
-
-### Examples
-
-```
-> uuid
-3a91f950-dec8-4688-ba14-5b7bbfc7a563
-```
-
-```
-> uuid v1
-9d0b43e0-7696-11e3-964b-250efa37a98e
-```
-
-```
-> uuid v4
-6790ac7c-24ac-4f98-8464-42f6d98a53ae
-```
-
 ## Testing
-
-In node.js
 
 ```
 npm test
 ```
 
-In Browser
+## Legacy node-uuid package
 
-```
-open test/test.html
-```
-
-### Benchmarking
-
-Requires node.js
-
-```
-npm install uuid uuid-js
-node benchmark/benchmark.js
-```
-
-For a more complete discussion of node-uuid performance, please see the `benchmark/README.md` file, and the [benchmark wiki](https://github.com/broofa/node-uuid/wiki/Benchmark)
-
-For browser performance [checkout the JSPerf tests](http://jsperf.com/node-uuid-performance).
-
-## Release notes
-
-### 1.4.6
-
-* Properly detect node crypto and whatwg crypto
-* Workaround phantomjs/browserify bug
-* Explicit check for `window` rather implicit this-global
-* Issue warning if Math.random() is being used
-* "use strict";
-* A few jshint / stylistic updates (=== and such)
-
-### 1.4.0
-
-* Improved module context detection
-* Removed public RNG functions
-
-### 1.3.2
-
-* Improve tests and handling of v1() options (Issue #24)
-* Expose RNG option to allow for perf testing with different generators
-
-### 1.3.0
-
-* Support for version 1 ids, thanks to [@ctavan](https://github.com/ctavan)!
-* Support for node.js crypto API
-* De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code
+The code for the legacy node-uuid package is available in the `node-uuid` branch.
