@@ -1,5 +1,7 @@
 # UNRELEASED
 
+  * remove .parse and .unparse
+
 # 2.0.0
 
   * Removed uuid.BufferClass

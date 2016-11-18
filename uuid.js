@@ -6,33 +6,14 @@ var _rng = require('./lib/rng');
 // Maps for number <-> hex string conversion
 var _byteToHex = [];
 var _hexToByte = {};
-for (var i = 0; i < 256; i++) {
+for (var i = 0; i < 256; ++i) {
   _byteToHex[i] = (i + 0x100).toString(16).substr(1);
   _hexToByte[_byteToHex[i]] = i;
 }
 
-// **`parse()` - Parse a UUID into it's component bytes**
-function parse(s, buf, offset) {
-  var i = (buf && offset) || 0, ii = 0;
-
-  buf = buf || [];
-  s.toLowerCase().replace(/[0-9a-f]{2}/g, function(oct) {
-    if (ii < 16) { // Don't overflow!
-      buf[i + ii++] = _hexToByte[oct];
-    }
-  });
-
-  // Zero out remaining bytes if string was short
-  while (ii < 16) {
-    buf[i + ii++] = 0;
-  }
-
-  return buf;
-}
-
-// **`unparse()` - Convert UUID byte array (ala parse()) into a string**
-function unparse(buf, offset) {
-  var i = offset || 0, bth = _byteToHex;
+function buff_to_string(buf, offset) {
+  var i = offset || 0;
+  var bth = _byteToHex;
   return  bth[buf[i++]] + bth[buf[i++]] +
           bth[buf[i++]] + bth[buf[i++]] + '-' +
           bth[buf[i++]] + bth[buf[i++]] + '-' +
@@ -132,11 +113,11 @@ function v1(options, buf, offset) {
 
   // `node`
   var node = options.node || _nodeId;
-  for (var n = 0; n < 6; n++) {
+  for (var n = 0; n < 6; ++n) {
     b[i + n] = node[n];
   }
 
-  return buf ? buf : unparse(b);
+  return buf ? buf : buff_to_string(b);
 }
 
 // **`v4()` - Generate random UUID**
@@ -160,19 +141,17 @@ function v4(options, buf, offset) {
 
   // Copy bytes to buffer, if provided
   if (buf) {
-    for (var ii = 0; ii < 16; ii++) {
+    for (var ii = 0; ii < 16; ++ii) {
       buf[i + ii] = rnds[ii];
     }
   }
 
-  return buf || unparse(rnds);
+  return buf || buff_to_string(rnds);
 }
 
 // Export public API
 var uuid = v4;
 uuid.v1 = v1;
 uuid.v4 = v4;
-uuid.parse = parse;
-uuid.unparse = unparse;
 
 module.exports = uuid;

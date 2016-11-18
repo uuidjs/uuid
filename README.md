@@ -119,35 +119,6 @@ uuid.v4(null, buffer, 0);
 uuid.v4(null, buffer, 16);
 ```
 
-### uuid.parse(id[, buffer[, offset]])
-### uuid.unparse(buffer[, offset])
-
-Parse and unparse UUIDs
-
-  * `id` - (String) UUID(-like) string
-  * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written. Default: A new Array or Buffer is used
-  * `offset` - (Number) Starting index in `buffer` at which to begin writing. Default: 0
-
-Example parsing and unparsing a UUID string
-
-```javascript
-const bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10'); // -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
-const string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
-```
-
-### uuid.noConflict()
-
-(Browsers only) Set `uuid` property back to it's previous value.
-
-Returns the uuid object.
-
-Example:
-
-```javascript
-const myUuid = uuid.noConflict();
-myUuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
-```
-
 ## Testing
 
 ```
