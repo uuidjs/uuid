@@ -16,7 +16,7 @@ npm install uuid
 ```
 
 ```javascript
-var uuid = require('uuid');
+const uuid = require('uuid');
 
 // Generate a v4 (random) id
 uuid() // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
@@ -76,7 +76,7 @@ Example: In-place generation of two binary IDs
 
 ```javascript
 // Generate two ids in an array
-var arr = new Array(32); // -> []
+const arr = new Array(32); // -> []
 uuid.v1(null, arr, 0);   // -> [02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15]
 uuid.v1(null, arr, 16);  // -> [02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 02 a3 1c b0 14 32 11 e1 85 58 0b 48 8e 4f c1 15]
 
@@ -114,7 +114,7 @@ uuid.v4({
 Example: Generate two IDs in a single buffer
 
 ```javascript
-var buffer = new Array(32); // (or 'new Buffer' in node.js)
+const buffer = new Array(32); // (or 'new Buffer' in node.js)
 uuid.v4(null, buffer, 0);
 uuid.v4(null, buffer, 16);
 ```
@@ -131,8 +131,8 @@ Parse and unparse UUIDs
 Example parsing and unparsing a UUID string
 
 ```javascript
-var bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10'); // -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
-var string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
+const bytes = uuid.parse('797ff043-11eb-11e1-80d6-510998755d10'); // -> <Buffer 79 7f f0 43 11 eb 11 e1 80 d6 51 09 98 75 5d 10>
+const string = uuid.unparse(bytes); // -> '797ff043-11eb-11e1-80d6-510998755d10'
 ```
 
 ### uuid.noConflict()
@@ -144,7 +144,7 @@ Returns the uuid object.
 Example:
 
 ```javascript
-var myUuid = uuid.noConflict();
+const myUuid = uuid.noConflict();
 myUuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 ```
 
