@@ -32,7 +32,7 @@ uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 [wzrd.in](https://github.com/jfhbrook/wzrd.in) will serve up any npm module after performing basic bundling and minification.
 
 ```html
-<script src="https://wzrd.in/standalone/uuid@latest"></script>
+<script src="//wzrd.in/standalone/uuid@latest"></script>
 ```
 
 ## API
