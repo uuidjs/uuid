@@ -79,10 +79,6 @@ Example: In-place generation of two binary IDs
 const arr = new Array(32); // -> []
 uuid.v1(null, arr, 0);   // -> [02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15]
 uuid.v1(null, arr, 16);  // -> [02 a2 ce 90 14 32 11 e1 85 58 0b 48 8e 4f c1 15 02 a3 1c b0 14 32 11 e1 85 58 0b 48 8e 4f c1 15]
-
-// Optionally use uuid.unparse() to get stringify the ids
-uuid.unparse(buffer);    // -> '02a2ce90-1432-11e1-8558-0b488e4fc115'
-uuid.unparse(buffer, 16) // -> '02a31cb0-1432-11e1-8558-0b488e4fc115'
 ```
 
 ### uuid.v4([`options` [, `buffer` [, `offset`]]])
