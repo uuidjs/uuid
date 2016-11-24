@@ -1,28 +1,8 @@
 // Unique ID creation requires a high quality random # generator.  We feature
 // detect to determine the best RNG source, normalizing to a function that
 // returns 128-bits of randomness, since that's what's usually required
-var _rng = require('./lib/rng');
-
-// Maps for number <-> hex string conversion
-var _byteToHex = [];
-var _hexToByte = {};
-for (var i = 0; i < 256; ++i) {
-  _byteToHex[i] = (i + 0x100).toString(16).substr(1);
-  _hexToByte[_byteToHex[i]] = i;
-}
-
-function buff_to_string(buf, offset) {
-  var i = offset || 0;
-  var bth = _byteToHex;
-  return  bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]];
-}
+var rng = require('./lib/rng');
+var bytesToUuid = require('./lib/bytesToUuid');
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -30,7 +10,7 @@ function buff_to_string(buf, offset) {
 // and http://docs.python.org/library/uuid.html
 
 // random #'s we need to init node and clockseq
-var _seedBytes = _rng();
+var _seedBytes = rng();
 
 // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
 var _nodeId = [
@@ -117,41 +97,7 @@ function v1(options, buf, offset) {
     b[i + n] = node[n];
   }
 
-  return buf ? buf : buff_to_string(b);
+  return buf ? buf : bytesToUuid(b);
 }
 
-// **`v4()` - Generate random UUID**
-
-// See https://github.com/broofa/node-uuid for API details
-function v4(options, buf, offset) {
-  // Deprecated - 'format' argument, as supported in v1.2
-  var i = buf && offset || 0;
-
-  if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new Array(16) : null;
-    options = null;
-  }
-  options = options || {};
-
-  var rnds = options.random || (options.rng || _rng)();
-
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    for (var ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
-    }
-  }
-
-  return buf || buff_to_string(rnds);
-}
-
-// Export public API
-var uuid = v4;
-uuid.v1 = v1;
-uuid.v4 = v4;
-
-module.exports = uuid;
+module.exports = v1;

@@ -1,6 +1,6 @@
 {
   "name": "node-uuid",
-  "repo": "broofa/node-uuid",
+  "repo": "kelektiv/node-uuid",
   "description": "Rigorous implementation of RFC4122 (v1 and v4) UUIDs.",
   "version": "1.4.7",
   "author": "Robert Kieffer <robert@broofa.com>",
@@ -17,9 +17,8 @@
   ],
   "dependencies": {},
   "development": {},
-  "main": "uuid.js",
   "scripts": [
-    "uuid.js"
+    "index.js"
   ],
   "license": "MIT"
 }
