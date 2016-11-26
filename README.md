@@ -25,16 +25,21 @@ const uuidV4 = require('uuid/v4');
 uuidV4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 ```
 
-## Quickstart - CDN
+## Quickstart - Pre-packaged (Not recommended)
 
-`browserify`-ed versions of this module can be included directly via [wzrd.in](https://github.com/jfhbrook/wzrd.in).
+Browser-ready versions of this module are available via [wzrd.in](https://github.com/jfhbrook/wzrd.in).
 
 ```html
 <script src="http://wzrd.in/standalone/uuid@latest"></script>
 
+<script>
 uuid.v1(); // -> v1 UUID
 uuid.v4(); // -> v4 UUID
+</script>
 ```
+
+(Note: Do not do this in production.  Just don't.  wzrd.in is a great service, but if you're deploying a "real" service you should be using a packaging tool like browserify or webpack.  If you do go this route you would be well advised to link to a specific version instead of `uuid@latest` to avoid having your code break when we roll out breaking changes.)
+
 
 ## API
 
