@@ -7,33 +7,39 @@ Features:
 * Generate RFC4122 version 1 or version 4 UUIDs
 * Runs in node.js and browsers
 * Cryptographically strong random number generation on supporting platforms
-* Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883) out!)
+* Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883)!)
 
-## Quickstart - nodejs
+## Quickstart - CommonJS (Recommended)
 
 ```shell
 npm install uuid
 ```
 
 ```javascript
-const uuid = require('uuid');
+// Generate a v1 UUID (time-based)
+const uuidV1 = require('uuid/v1');
+uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 
-// Generate a v4 (random) id
-uuid() // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
-
-// Generate a v1 (time-based) id
-uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+// Generate a v4 UUID (random)
+const uuidV4 = require('uuid/v4');
+uuidV4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 ```
 
-## Quickstart - browser
+## Quickstart - Pre-packaged for browsers (Not recommended)
 
-**Not recommended for production or even semi-production use. Use a bundling tool instead (i.e. webpack, browserify, rollup, etc)**
-
-[wzrd.in](https://github.com/jfhbrook/wzrd.in) will serve up any npm module after performing basic bundling and minification.
+Browser-ready versions of this module are available via [wzrd.in](https://github.com/jfhbrook/wzrd.in).
 
 ```html
 <script src="http://wzrd.in/standalone/uuid@latest"></script>
+
+<script>
+uuid.v1(); // -> v1 UUID
+uuid.v4(); // -> v4 UUID
+</script>
 ```
+
+(Note: Do not do this in production.  Just don't.  wzrd.in is a great service, but if you're deploying a "real" service you should be using a packaging tool like browserify or webpack.  If you do go this route you would be well advised to link to a specific version instead of `uuid@latest` to avoid having your code break when we roll out breaking changes.)
+
 
 ## API
 

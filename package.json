@@ -8,7 +8,6 @@
     "rfc4122"
   ],
   "license": "MIT",
-  "main": "./uuid.js",
   "bin": {
     "uuid": "./bin/uuid"
   },
