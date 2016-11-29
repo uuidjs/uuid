@@ -1,4 +1,4 @@
-# UNRELEASED
+# 3.0.1 (2016-11-28)
 
   * split uuid versions into separate files
 
