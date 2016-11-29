@@ -1,3 +1,7 @@
+# UNRELEASED
+
+  * split uuid versions into separate files
+
 # 3.0.0 (2016-11-17)
 
   * remove .parse and .unparse
