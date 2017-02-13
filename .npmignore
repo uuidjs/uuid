@@ -1,0 +1,6 @@
+test/
+benchmark/
+.nyc_output/
+.npmignore
+bower.json
+component.json
