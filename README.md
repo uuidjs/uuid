@@ -29,7 +29,7 @@ uuidV4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 const uuid = require('uuid');
 uuid.isValid(uuidV1()); // => true
 uuid.isValid(uuidV4()); // => true
-uuis.isValid('bogus'); // => false
+uuid.isValid('bogus!'); // => false
 ```
 
 ## Quickstart - Pre-packaged for browsers (Not recommended)
