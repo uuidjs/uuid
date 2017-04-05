@@ -2,6 +2,8 @@
 
 Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
+[![NPM version](http://img.shields.io/npm/v/node-uuid.svg)](https://www.npmjs.org/package/node-uuid)
+
 Features:
 
 * Generate RFC4122 version 1 or version 4 UUIDs
