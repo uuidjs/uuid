@@ -66,9 +66,10 @@ test('sha1 browser', function() {
 test('v5', function() {
   var v5 = require('../v5');
 
-  console.log(v5('hello.example.com', v5.DNS));
-  console.log(v5('http://example.com/hello', v5.URL));
-  console.log(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'));
+  // Expect to get the same results as http://tools.adjet.org/uuid-v5
+  assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
+  assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
+  assert.equal(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
 });
 
 
