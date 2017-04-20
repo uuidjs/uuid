@@ -18,10 +18,14 @@
     "test": "mocha test/test.js"
   },
   "browser": {
-    "./lib/rng.js": "./lib/rng-browser.js"
+    "./lib/rng.js": "./lib/rng-browser.js",
+    "./lib/sha1.js": "./lib/sha1-browser.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kelektiv/node-uuid.git"
+  },
+  "dependencies": {
+    "blueimp-md5": "2.7.0"
   }
 }
