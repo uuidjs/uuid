@@ -24,8 +24,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kelektiv/node-uuid.git"
-  },
-  "dependencies": {
-    "blueimp-md5": "2.7.0"
   }
 }
