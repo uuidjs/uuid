@@ -2,7 +2,7 @@
 // detect to determine the best RNG source, normalizing to a function that
 // returns 128-bits of randomness, since that's what's usually required
 var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
+var formatter = require('./lib/formatter');
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -97,7 +97,7 @@ function v1(options, buf, offset) {
     b[i + n] = node[n];
   }
 
-  return buf ? buf : bytesToUuid(b);
+  return buf ? buf : formatter(b);
 }
 
 module.exports = v1;
