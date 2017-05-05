@@ -1,5 +1,5 @@
 var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
+var formatter = require('./lib/formatter');
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -23,7 +23,7 @@ function v4(options, buf, offset) {
     }
   }
 
-  return buf || bytesToUuid(rnds);
+  return buf || formatter(rnds);
 }
 
 module.exports = v4;
