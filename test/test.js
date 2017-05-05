@@ -98,23 +98,23 @@ test('ids spanning 1ms boundary are 100ns apart', function() {
 });
 
 test('formatter creates expected format by default', function() {
-  var id_buffer = uuid.v1({
+  var uuid_in_array = uuid.v1({
     msecs: 1321651533573,
     nsecs: 5432,
     clockseq: 0x385c,
     node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
-  }, Buffer.alloc( 16 ) );
-  var id_string = uuid.formatter( id_buffer );
+  }, [] );
+  var id_string = uuid.formatter( uuid_in_array );
   assert(id_string == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Formatter created expected format by default');
 });
 
 test('formatter creates expected format with custom block sizes', function() {
-  var id_buffer = uuid.v1({
+  var uuid_in_array = uuid.v1({
     msecs: 1321651533573,
     nsecs: 5432,
     clockseq: 0x385c,
     node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
-  }, Buffer.alloc( 16 ) );
-  var id_string = uuid.formatter( id_buffer, [ 8, 8, 8, 8 ] );
+  }, [] );
+  var id_string = uuid.formatter( uuid_in_array, [ 8, 8, 8, 8 ] );
   assert(id_string == 'd9428888-122b11e1-b85c61cd-3cbb3210', 'Formatter created expected format with custom block sizes');
 });
