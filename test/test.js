@@ -5,6 +5,34 @@ var uuid = require('../');
 // Verify ordering of v1 ids created with explicit times
 var TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
 
+var HASH_SAMPLES = [
+  {
+    input: '',
+    sha1: 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
+    md5: '',
+  },
+
+  // Extended ascii chars
+  {
+    input: '\t\b\f  !\"#$%&\'()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u00A1\u00A2\u00A3\u00A4\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA\u00AB\u00AC\u00AE\u00AF\u00B0\u00B1\u00B2\u00B3\u00B4\u00B5\u00B6\u00B7\u00B8\u00B9\u00BA\u00BB\u00BC\u00BD\u00BE\u00BF\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4\u00D5\u00D6\u00D7\u00D8\u00D9\u00DA\u00DB\u00DC\u00DD\u00DE\u00DF\u00E0\u00E1\u00E2\u00E3\u00E4\u00E5\u00E6\u00E7\u00E8\u00E9\u00EA\u00EB\u00EC\u00ED\u00EE\u00EF\u00F0\u00F1\u00F2\u00F3\u00F4\u00F5\u00F6\u00F7\u00F8\u00F9\u00FA\u00FB\u00FC\u00FD\u00FE\u00FF',
+    sha1: 'ca4a426a3d536f14cfd79011e79e10d64de950a0',
+    md5: '',
+  },
+
+  // A sampling from the Unicode BMP
+  {
+    input: '\u00A5\u0104\u018F\u0256\u02B1o\u0315\u038E\u0409\u0500\u0531\u05E1\u05B6\u0920\u0903\u09A4\u0983\u0A20\u0A02\u0AA0\u0A83\u0B06\u0C05\u0C03\u1401\u16A0',
+    sha1: 'f2753ebc390e5f637e333c2a4179644a93ae9f65',
+    md5: '',
+  }
+];
+
+function hashToHex(hash) {
+  return hash.map(function(b) {
+    return (0x100 + b).toString(16).slice(-2);
+  }).join('');
+}
+
 function compare(name, ids) {
   test(name, function() {
     // avoid .map for older browsers
@@ -17,6 +45,33 @@ function compare(name, ids) {
     assert(sorted.toString() == ids.toString(), name + ' have expected order');
   });
 }
+
+test('sha1 node', function() {
+  var sha1 = require('../lib/sha1');
+
+  HASH_SAMPLES.forEach(function(sample) {
+    // Convert the sha1 Buffer to an Array here so we can call map() on it in hashToHex
+    assert.equal(hashToHex(Array.prototype.slice.apply(sha1(sample.input))), sample.sha1);
+  });
+});
+
+test('sha1 browser', function() {
+  var sha1 = require('../lib/sha1-browser');
+
+  HASH_SAMPLES.forEach(function(sample) {
+    assert.equal(hashToHex(sha1(sample.input)), sample.sha1);
+  });
+});
+
+test('v5', function() {
+  var v5 = require('../v5');
+
+  // Expect to get the same results as http://tools.adjet.org/uuid-v5
+  assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
+  assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
+  assert.equal(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
+});
+
 
 // Verify ordering of v1 ids created using default behavior
 compare('uuids with current time', [
@@ -80,7 +135,7 @@ test('explicit options product expected id', function() {
     msecs: 1321651533573,
     nsecs: 5432,
     clockseq: 0x385c,
-    node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
+    node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10]
   });
   assert(id == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
 });
