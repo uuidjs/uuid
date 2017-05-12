@@ -1,10 +1,11 @@
 # uuid [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
 
-Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
+Simple, fast generation and validation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
 * Generate RFC4122 version 1 or version 4 UUIDs
+* Check if string contains a valid UUID
 * Runs in node.js and browsers
 * Cryptographically strong random number generation on supporting platforms
 * Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883)!)
@@ -23,6 +24,12 @@ uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 // Generate a v4 UUID (random)
 const uuidV4 = require('uuid/v4');
 uuidV4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+
+// Check if a string contains a valid UUID.
+const uuid = require('uuid');
+uuid.isValid(uuidV1()); // => true
+uuid.isValid(uuidV4()); // => true
+uuid.isValid('bogus!'); // => false
 ```
 
 ## Quickstart - Pre-packaged for browsers (Not recommended)

@@ -94,3 +94,39 @@ test('ids spanning 1ms boundary are 100ns apart', function() {
   var dt = parseInt(after, 16) - parseInt(before, 16);
   assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
 });
+
+test('valid testing is case-insensitive', function() {
+  var theUuid = uuid.v4();
+  assert(uuid.isValid(theUuid.toLowerCase()));
+  assert(uuid.isValid(theUuid.toUpperCase()));
+  var mixedCaseUuid =
+    theUuid.slice(0, 10).toLowerCase() +
+    theUuid.slice(10).toUpperCase();
+  assert(uuid.isValid(mixedCaseUuid));
+});
+
+test('v1 uuids are valid', function() {
+  for (var i=0; i<100; i++) {
+    assert(uuid.isValid(uuid.v1()));
+  }
+});
+
+test('v4 uuids are valid', function() {
+  for (var i=0; i<100; i++) {
+    assert(uuid.isValid(uuid.v4()));
+  }
+});
+
+test('bogus types are not valid uuids', function() {
+  var bogusTypes = [undefined, null, 1, 1.0, NaN, Infinity, true, false, [], {}, /foo/, new Date()];
+  bogusTypes.forEach(function (bogusType) {
+    assert(!uuid.isValid(bogusType));
+  });
+});
+
+test('bogus strings are not valid uuids', function() {
+  var bogusStrings = ['', 'bogus', uuid.v4() + ' ', ' ' + uuid.v4(), uuid.v4().slice(1), uuid.v4()+'1'];
+  bogusStrings.forEach(function (bogusType) {
+    assert(!uuid.isValid(bogusType));
+  });
+});
