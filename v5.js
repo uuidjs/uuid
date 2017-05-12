@@ -14,7 +14,9 @@ function uuidToBytes(uuid) {
 function stringToBytes(str) {
   str = unescape(encodeURIComponent(str)); // UTF8 escape
   var bytes = new Array(str.length);
-  for (var i = 0; i < str.length; i++) bytes[i] = str.charCodeAt(i);
+  for (var i = 0; i < str.length; i++) {
+    bytes[i] = str.charCodeAt(i);
+  }
   return bytes;
 }
 
