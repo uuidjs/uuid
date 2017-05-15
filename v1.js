@@ -28,20 +28,20 @@ function v1(options, buf, offset) {
 
   options = options || {};
 
-  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+  var clockseq = options.clockseq || _clockseq;
 
   // UUID timestamps are 100 nano-second units since the Gregorian epoch,
   // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
   // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
   // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
+  var msecs = options.msecs || Date.now();
 
   // Per 4.2.1.2, use count of uuid's generated during the current clock
   // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+  var nsecs = options.nsecs || _lastNSecs + 1;
 
   // Time since last uuid creation (in msecs)
-  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
+  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs) / 10000;
 
   // Per 4.2.1.2, Bump clockseq on clock regression
   if (dt < 0 && options.clockseq === undefined) {
@@ -94,7 +94,7 @@ function v1(options, buf, offset) {
     b[i + n] = node[n];
   }
 
-  return buf ? buf : bytesToUuid(b);
+  return buf || bytesToUuid(b);
 }
 
 module.exports = v1;
