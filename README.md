@@ -37,7 +37,7 @@ uuidV5('http://example.com/hello', uuidV5.URL); // -> '3bbcee75-cecc-5b56-8031-b
 
 // ... using a custom namespace (defined as a previously generated uuid.  e.g.
 //     using the `uuid v4` command provided by this module, or by grabbing one
-//     at https://www.uuidgenerator.net/
+//     at https://www.uuidgenerator.net/)
 const MY_NAMESPACE = '<uuid you created as instructed above>';
 uuidV5('hello', MY_NAMESPACE); // -> '90123e1c-7512-523e-bb28-76fab9f2f73d'
 ```
