@@ -17,8 +17,8 @@ if (null == arg) {
   process.exit(0);
 }
 
-if ('v1' !== arg && 'v4' !== arg) {
-  console.error('Version must be RFC4122 version 1 or version 4, denoted as "v1" or "v4"');
+if ('v1' !== arg && 'v4' !== arg && 'v5' !== arg) {
+  console.error('Version must be RFC4122 version 1, 4, or 5 denoted as "v1", "v4", or "v5"');
   process.exit(1);
 }
 
