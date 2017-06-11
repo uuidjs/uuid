@@ -25,7 +25,7 @@ function v5(name, namespace, buf, offset) {
   if (typeof(namespace) == 'string') namespace = uuidToBytes(namespace);
 
   if (!Array.isArray(name)) throw TypeError('name must be an array of bytes');
-  if (!Array.isArray(namespace) || namespace.length != 16) throw TypeError('namespace must be an array of bytes');
+  if (!Array.isArray(namespace) || namespace.length != 16) throw TypeError('namespace must be uuid string or an Array of 16 byte values');
 
   // Per 4.3
   var bytes = sha1(namespace.concat(name));
