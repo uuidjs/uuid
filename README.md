@@ -138,6 +138,24 @@ uuid.v4(null, buffer, 0);
 uuid.v4(null, buffer, 16);
 ```
 
+### uuid.formatter(`buffer|array`)
+
+Format a uuid (in buffer or array format) to a hex string.
+
+* `buffer|array` - A buffer or array containing a uuid.
+
+Examples:
+
+```javascript
+var uuid_in_buffer = uuid.v4(null, Buffer.alloc(16));
+console.log(uuid.formatter(uuid_in_buffer));
+// -> "109156be-c4fb-41ea-b1b4-efe1671c5836"
+
+var uuid_in_array = uuid.v4(null, []);
+console.log(uuid.formatter(uuid_in_array));
+// -> "710b962e-041c-11e1-9234-0123456789ab"
+```
+
 ## Testing
 
 ```

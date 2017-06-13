@@ -1,5 +1,5 @@
 var sha1 = require('./lib/sha1-browser');
-var bytesToUuid = require('./lib/bytesToUuid');
+var formatter = require('./lib/formatter');
 
 function uuidToBytes(uuid) {
   // Note: We assume we're being passed a valid uuid string
@@ -32,7 +32,7 @@ function v5(name, namespace, buf, offset) {
   bytes[6] = (bytes[6] & 0x0f) | 0x50;
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
-  return buf || bytesToUuid(bytes);
+  return buf || formatter(bytes);
 }
 
 // Pre-defined namespaces, per Appendix C

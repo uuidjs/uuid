@@ -92,8 +92,10 @@ compare('uuids with time option', [
 ]);
 
 test('msec', function() {
+  var uid_one = uuid.v1({msecs: TIME});
+  var uid_two = uuid.v1({msecs: TIME});
   assert(
-    uuid.v1({msecs: TIME}) != uuid.v1({msecs: TIME}),
+    uid_one != uid_two,
     'IDs created at same msec are different'
   );
 });
@@ -148,4 +150,15 @@ test('ids spanning 1ms boundary are 100ns apart', function() {
   var before = u0.split('-')[0], after = u1.split('-')[0];
   var dt = parseInt(after, 16) - parseInt(before, 16);
   assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
+});
+
+test('formatter creates expected format', function() {
+  var uuid_in_array = uuid.v1({
+    msecs: 1321651533573,
+    nsecs: 5432,
+    clockseq: 0x385c,
+    node: [ 0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10 ]
+  }, [] );
+  var id_string = uuid.formatter( uuid_in_array );
+  assert(id_string == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Formatter created expected format');
 });
