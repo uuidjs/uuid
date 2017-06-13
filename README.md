@@ -4,10 +4,12 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
-* Generate RFC4122 version 1 or version 4 UUIDs
+* Generate RFC4122 version 1, 4 or 5 UUIDs
 * Runs in node.js and browsers
 * Cryptographically strong random number generation on supporting platforms
-* Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883)!)
+* Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883))
+
+\["Why no version 3?" Per RFC4122, "If backward compatibility is not an issue, SHA-1 is preferred."... I.e. use v5.]
 
 ## Quickstart - CommonJS (Recommended)
 
@@ -20,9 +22,24 @@ npm install uuid
 const uuidV1 = require('uuid/v1');
 uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 
+
 // Generate a v4 UUID (random)
 const uuidV4 = require('uuid/v4');
 uuidV4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+
+
+// Generate a v5 UUID (namespace)
+const uuidV5 = require('uuid/v5');
+
+// ... using predefined DNS namespace (for domain names)
+uuidV5('hello.example.com', v5.DNS)); // -> 'fdda765f-fc57-5604-a269-52a7df8164ec'
+
+// ... using predefined URL namespace (for, well, URLs)
+uuidV5('http://example.com/hello', v5.URL); // -> '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
+
+// ... using a custom namespace
+const MY_NAMESPACE = '(previously generated unique uuid string)';
+uuidV5('hello', MY_NAMESPACE); // -> '90123e1c-7512-523e-bb28-76fab9f2f73d'
 ```
 
 ## Quickstart - Pre-packaged for browsers (Not recommended)

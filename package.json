@@ -18,7 +18,8 @@
     "test": "mocha test/test.js"
   },
   "browser": {
-    "./lib/rng.js": "./lib/rng-browser.js"
+    "./lib/rng.js": "./lib/rng-browser.js",
+    "./lib/sha1.js": "./lib/sha1-browser.js"
   },
   "repository": {
     "type": "git",
