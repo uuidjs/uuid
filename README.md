@@ -9,8 +9,6 @@ Features:
 * Cryptographically strong random number generation on supporting platforms
 * Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883))
 
-\["Why no version 3?" Per RFC4122, "If backward compatibility is not an issue, SHA-1 is preferred."... I.e. use v5.]
-
 ## Quickstart - CommonJS (Recommended)
 
 ```shell
@@ -21,27 +19,33 @@ Then generate your uuid version of choice ...
 
 Version 1 (timestamp):
 
-    const uuidv1 = require('uuid/v1');
-    uuidv1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+```
+const uuidv1 = require('uuid/v1');
+uuidv1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+```
 
 Version 4 (random):
 
-    const uuidv4 = require('uuid/v4');
-    uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+```
+const uuidv4 = require('uuid/v4');
+uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+```
 
 Version 5 (namespace):
 
-    const uuidv5 = require('uuid/v5');
+```
+const uuidv5 = require('uuid/v5');
 
-    // ... using predefined DNS namespace (for domain names)
-    uuidv5('hello.example.com', uuidv5.DNS)); // -> 'fdda765f-fc57-5604-a269-52a7df8164ec'
+// ... using predefined DNS namespace (for domain names)
+uuidv5('hello.example.com', uuidv5.DNS)); // -> 'fdda765f-fc57-5604-a269-52a7df8164ec'
 
-    // ... using predefined URL namespace (for, well, URLs)
-    uuidv5('http://example.com/hello', uuidv5.URL); // -> '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
+// ... using predefined URL namespace (for, well, URLs)
+uuidv5('http://example.com/hello', uuidv5.URL); // -> '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
 
-    // ... using a custom namespace
-    const MY_NAMESPACE = '<UUID string you previously generated elsewhere>';
-    uuidv5('Hello, World!', MY_NAMESPACE); // -> '90123e1c-7512-523e-bb28-76fab9f2f73d'
+// ... using a custom namespace
+const MY_NAMESPACE = '<UUID string you previously generated elsewhere>';
+uuidv5('Hello, World!', MY_NAMESPACE); // -> '90123e1c-7512-523e-bb28-76fab9f2f73d'
+```
 
 ## Quickstart - Browser-ready Versions
 
