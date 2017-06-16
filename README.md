@@ -19,21 +19,21 @@ Then generate your uuid version of choice ...
 
 Version 1 (timestamp):
 
-```
+```javascript
 const uuidv1 = require('uuid/v1');
 uuidv1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 ```
 
 Version 4 (random):
 
-```
+```javascript
 const uuidv4 = require('uuid/v4');
 uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 ```
 
 Version 5 (namespace):
 
-```
+```javascript
 const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
@@ -204,7 +204,7 @@ uuidv5('world', MY_NAMESPACE);
 
 ## Testing
 
-```
+```shell
 npm test
 ```
 
@@ -215,8 +215,9 @@ The API below is available for legacy purposes and is not expected to be availab
 ```javascript
 const uuid = require('uuid');
 
-uuid.v1(...); // Alias for require('uuid/v1')
-uuid.v4(...); // Alias for require('uuid/v4')
+uuid.v1(...); // alias of uuid/v1
+uuid.v4(...); // alias of uuid/v4
+uuid(...);    // alias of uuid/v4
 
 // uuid.v5() is not supported in this API
 ```
