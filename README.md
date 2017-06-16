@@ -4,10 +4,10 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
-* Generate RFC4122 version 1, 4 or 5 UUIDs
-* Runs in node.js and browsers
-* Cryptographically strong random number generation on supporting platforms
-* Small footprint  (Want something smaller? [Check this out](https://gist.github.com/982883))
+* Support for version 1, 4 and 5 UUIDs
+* Cross-platform
+* Uses cryptographically-strong random number APIs (when available)
+* Zero-dependency, small footprint (... but not [this small](https://gist.github.com/982883))
 
 ## Quickstart - CommonJS (Recommended)
 
@@ -202,6 +202,12 @@ uuidv5('hello', MY_NAMESPACE);
 uuidv5('world', MY_NAMESPACE);
 ```
 
+## Testing
+
+```
+npm test
+```
+
 ## Deprecated / Browser-ready API
 
 The API below is available for legacy purposes and is not expected to be available post-3.X
@@ -213,12 +219,6 @@ uuid.v1(...); // Alias for require('uuid/v1')
 uuid.v4(...); // Alias for require('uuid/v4')
 
 // uuid.v5() is not supported in this API
-```
-
-## Testing
-
-```
-npm test
 ```
 
 ## Legacy node-uuid package
