@@ -171,7 +171,7 @@ uuid.v4(null, buffer, 16);
 ### Version 5
 
 ```javascript
-const uuidv5 = require('uuid/v4');
+const uuidv5 = require('uuid/v5');
 
 // Allowed arguments
 uuidv5(name, namespace);
