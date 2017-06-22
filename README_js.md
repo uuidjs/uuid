@@ -1,3 +1,6 @@
+```javascript --hide
+runmd.onRequire = path => path.replace(/^uuid/, './');
+```
 
 # uuid [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
 
@@ -20,38 +23,35 @@ Then generate your uuid version of choice ...
 
 Version 1 (timestamp):
 
-```javascript
+```javascript --context
 var uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '436139d0-5851-11e7-9697-8b2a7a86b8e5'
-
+uuidv1(); // RESULT
 ```
 
 Version 4 (random):
 
-```javascript
+```javascript --context
 var uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ 'c47b8d0d-75de-40ad-955f-1adbb740a28a'
-
+uuidv4(); // RESULT
 ```
 
 Version 5 (namespace):
 
-```javascript
+```javascript --context
 var uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
-uuidv5('hello.example.com', uuidv5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
+uuidv5('hello.example.com', uuidv5.DNS); // RESULT
 
 // ... using predefined URL namespace (for, well, URLs)
-uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
+uuidv5('http://example.com/hello', uuidv5.URL); // RESULT
 
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
 var MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
-
+uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
 ## Quickstart - Browser-ready Versions
@@ -116,25 +116,23 @@ Note: The <node> id is generated guaranteed to stay constant for the lifetime of
 
 Example: Generate string UUID with fully-specified options
 
-```javascript
+```javascript --context
 var options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678
 };
-uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
-
+uuidv1(options); // RESULT
 ```
 
 Example: In-place generation of two binary IDs
 
-```javascript
+```javascript --context
 // Generate two ids in an array
 var arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 67, 98, 75, 64, 88, 81, 17, 231, 146, 52, 139, 42, 122, 134, 184, 229 ]
-uuidv1(null, arr, 16); // ⇨ [ 67, 98, 75, 64, 88, 81, 17, 231, 146, 52, 139, 42, 122, 134, 184, 229, 67, 98, 114, 80, 88, 81, 17, 231, 146, 52, 139, 42, 122, 134, 184, 229 ]
-
+uuidv1(null, arr, 0);  // RESULT
+uuidv1(null, arr, 16); // RESULT
 ```
 
 ### Version 4
@@ -160,24 +158,22 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 
 Example: Generate string UUID with predefined `random` values
 
-```javascript
+```javascript --context
 var options = {
   random: [
     0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea,
     0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36
   ]
 };
-uuidv4(options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
-
+uuidv4(options); // RESULT
 ```
 
 Example: Generate two IDs in a single buffer
 
-```javascript
+```javascript --context
 var buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 101, 231, 163, 115, 175, 252, 76, 85, 167, 85, 178, 196, 49, 147, 47, 60 ]
-uuidv4(null, buffer, 16); // ⇨ [ 101, 231, 163, 115, 175, 252, 76, 85, 167, 85, 178, 196, 49, 147, 47, 60, 88, 124, 40, 102, 136, 73, 75, 34, 169, 9, 207, 154, 254, 248, 156, 114 ]
-
+uuidv4(null, buffer, 0);  // RESULT
+uuidv4(null, buffer, 16); // RESULT
 ```
 
 ### Version 5
@@ -202,17 +198,16 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 
 Example:
 
-```javascript
+```javascript --run
 // Generate a unique namespace (typically you would do this once, outside of
 // your project, then bake this value into your code)
 var uuidv4 = require('uuid/v4');
 var uuidv5 = require('uuid/v5');
-var MY_NAMESPACE = uuidv4();    // ⇨ '6e69b7cb-7fe2-40ed-b9db-828666a0564b'
+var MY_NAMESPACE = uuidv4();    // RESULT
 
 // Generate a couple namespace uuids
-uuidv5('hello', MY_NAMESPACE);  // ⇨ '2abf921c-443c-5901-b61f-a2c5b634679b'
-uuidv5('world', MY_NAMESPACE);  // ⇨ 'b68243b3-622f-50c6-90a3-c7b52ad5db3a'
-
+uuidv5('hello', MY_NAMESPACE);  // RESULT
+uuidv5('world', MY_NAMESPACE);  // RESULT
 ```
 
 ## Command Line
@@ -249,6 +244,3 @@ uuid(...);    // alias of uuid/v4
 ## Legacy node-uuid package
 
 The code for the legacy node-uuid package is available in the `node-uuid` branch.
-
-----
-Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
