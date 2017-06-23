@@ -79,7 +79,7 @@ test('v5', function() {
 
   // test offsets as well
   buf = new Array(19);
-  buf.fill('landmaster', 0, 3);
+  for (var i=0; i<3; ++i) buf[i] = 'landmaster';
   v5('hello.example.com', v5.DNS, buf, 3);
   assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
     return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
