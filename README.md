@@ -37,7 +37,7 @@ Version 5 (namespace):
 const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
-uuidv5('hello.example.com', uuidv5.DNS)); // -> 'fdda765f-fc57-5604-a269-52a7df8164ec'
+uuidv5('hello.example.com', uuidv5.DNS); // -> 'fdda765f-fc57-5604-a269-52a7df8164ec'
 
 // ... using predefined URL namespace (for, well, URLs)
 uuidv5('http://example.com/hello', uuidv5.URL); // -> '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
