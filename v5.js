@@ -21,6 +21,8 @@ function stringToBytes(str) {
 }
 
 function v5(name, namespace, buf, offset) {
+  var off = buf && offset || 0;
+  
   if (typeof(name) == 'string') name = stringToBytes(name);
   if (typeof(namespace) == 'string') namespace = uuidToBytes(namespace);
 
@@ -31,6 +33,12 @@ function v5(name, namespace, buf, offset) {
   var bytes = sha1(namespace.concat(name));
   bytes[6] = (bytes[6] & 0x0f) | 0x50;
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  
+  if (buf) {
+    for (var idx = 0; idx < 16; ++idx) {
+      buf[off+idx] = bytes[idx];
+    }
+  }
 
   return buf || bytesToUuid(bytes);
 }
