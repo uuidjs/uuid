@@ -70,6 +70,20 @@ test('v5', function() {
   assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
   assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
   assert.equal(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
+
+  // test the buffer functionality
+  var buf = new Array(16);
+  var testBuf = [0xfd, 0xda, 0x76, 0x5f, 0xfc, 0x57, 0x56, 0x04, 0xa2, 0x69, 0x52, 0xa7, 0xdf, 0x81, 0x64, 0xec];
+  v5('hello.example.com', v5.DNS, buf);
+  assert.ok(buf.length === testBuf.length && buf.every(function (elem, idx) { return elem === testBuf[idx]; }));
+
+  // test offsets as well
+  buf = new Array(19);
+  for (var i=0; i<3; ++i) buf[i] = 'landmaster';
+  v5('hello.example.com', v5.DNS, buf, 3);
+  assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
+    return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
+  }));
 });
 
 
