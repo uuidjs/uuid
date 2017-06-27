@@ -179,7 +179,7 @@ uuidv4(null, buffer, 16); // RESULT
 ### Version 5
 
 ```javascript
-var uuidv5 = require('uuid/v4');
+var uuidv5 = require('uuid/v5');
 
 // Incantations
 uuidv5(name, namespace);

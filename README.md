@@ -22,7 +22,7 @@ Version 1 (timestamp):
 
 ```javascript
 var uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '436139d0-5851-11e7-9697-8b2a7a86b8e5'
+uuidv1(); // ⇨ '72164140-5b4d-11e7-9234-f94a466131fa'
 
 ```
 
@@ -30,7 +30,7 @@ Version 4 (random):
 
 ```javascript
 var uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ 'c47b8d0d-75de-40ad-955f-1adbb740a28a'
+uuidv4(); // ⇨ 'ae6c0c32-5035-43fb-b869-0a758ce1ca5e'
 
 ```
 
@@ -132,8 +132,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 var arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 67, 98, 75, 64, 88, 81, 17, 231, 146, 52, 139, 42, 122, 134, 184, 229 ]
-uuidv1(null, arr, 16); // ⇨ [ 67, 98, 75, 64, 88, 81, 17, 231, 146, 52, 139, 42, 122, 134, 184, 229, 67, 98, 114, 80, 88, 81, 17, 231, 146, 52, 139, 42, 122, 134, 184, 229 ]
+uuidv1(null, arr, 0);  // ⇨ [ 114, 22, 182, 112, 91, 77, 17, 231, 146, 52, 249, 74, 70, 97, 49, 250 ]
+uuidv1(null, arr, 16); // ⇨ [ 114, 22, 182, 112, 91, 77, 17, 231, 146, 52, 249, 74, 70, 97, 49, 250, 114, 22, 182, 113, 91, 77, 17, 231, 146, 52, 249, 74, 70, 97, 49, 250 ]
 
 ```
 
@@ -175,15 +175,15 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 var buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 101, 231, 163, 115, 175, 252, 76, 85, 167, 85, 178, 196, 49, 147, 47, 60 ]
-uuidv4(null, buffer, 16); // ⇨ [ 101, 231, 163, 115, 175, 252, 76, 85, 167, 85, 178, 196, 49, 147, 47, 60, 88, 124, 40, 102, 136, 73, 75, 34, 169, 9, 207, 154, 254, 248, 156, 114 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 0, 80, 12, 81, 66, 195, 73, 102, 183, 155, 166, 7, 156, 8, 2, 48 ]
+uuidv4(null, buffer, 16); // ⇨ [ 0, 80, 12, 81, 66, 195, 73, 102, 183, 155, 166, 7, 156, 8, 2, 48, 232, 224, 39, 13, 154, 18, 68, 157, 166, 88, 93, 106, 73, 171, 223, 89 ]
 
 ```
 
 ### Version 5
 
 ```javascript
-var uuidv5 = require('uuid/v4');
+var uuidv5 = require('uuid/v5');
 
 // Incantations
 uuidv5(name, namespace);
@@ -207,11 +207,11 @@ Example:
 // your project, then bake this value into your code)
 var uuidv4 = require('uuid/v4');
 var uuidv5 = require('uuid/v5');
-var MY_NAMESPACE = uuidv4();    // ⇨ '6e69b7cb-7fe2-40ed-b9db-828666a0564b'
+var MY_NAMESPACE = uuidv4();    // ⇨ '50050e0a-b282-47d0-a1b6-d3d7875c8202'
 
 // Generate a couple namespace uuids
-uuidv5('hello', MY_NAMESPACE);  // ⇨ '2abf921c-443c-5901-b61f-a2c5b634679b'
-uuidv5('world', MY_NAMESPACE);  // ⇨ 'b68243b3-622f-50c6-90a3-c7b52ad5db3a'
+uuidv5('hello', MY_NAMESPACE);  // ⇨ 'cd8eea2d-fcb3-5ff7-acc6-8a68ac9625d1'
+uuidv5('world', MY_NAMESPACE);  // ⇨ 'a0224e2a-273d-5bb5-8f5b-722638d10595'
 
 ```
 
