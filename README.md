@@ -171,7 +171,7 @@ uuid.v4(null, buffer, 16);
 ### Version 5
 
 ```javascript
-const uuidv5 = require('uuid/v4');
+const uuidv5 = require('uuid/v5');
 
 // Allowed arguments
 uuidv5(name, namespace);
@@ -179,7 +179,7 @@ uuidv5(name, namespace, buffer);
 uuidv5(name, namespace, buffer, offset);
 ```
 
-Generate and return a RFC4122 v4 UUID.
+Generate and return a RFC4122 v5 UUID.
 
 * `name` - (String | Array[]) "name" to create UUID with
 * `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
