@@ -21,23 +21,23 @@ Then generate your uuid version of choice ...
 Version 1 (timestamp):
 
 ```javascript
-var uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '59ba7520-5cd9-11e7-9d00-2d24d43111cb'
+const uuidv1 = require('uuid/v1');
+uuidv1(); // ⇨ '75d7e030-5cd9-11e7-9234-2d24d43111cb'
 
 ```
 
 Version 4 (random):
 
 ```javascript
-var uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ '04faf73f-5a6b-48d4-9481-f03368eb5782'
+const uuidv4 = require('uuid/v4');
+uuidv4(); // ⇨ '7248d964-6ca3-4711-a5fd-92a37c3d937d'
 
 ```
 
 Version 5 (namespace):
 
 ```javascript
-var uuidv5 = require('uuid/v5');
+const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
 uuidv5('hello.example.com', uuidv5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
@@ -49,7 +49,7 @@ uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
-var MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
 
 ```
@@ -90,7 +90,7 @@ uuidv5('http://example.com/hello', uuidv5.URL); // -> v5 UUID
 ### Version 1
 
 ```javascript
-var uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuid/v1');
 
 // Incantations
 uuidv1();
@@ -117,13 +117,13 @@ Note: The <node> id is generated guaranteed to stay constant for the lifetime of
 Example: Generate string UUID with fully-specified options
 
 ```javascript
-var options = {
+const v1options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678
 };
-uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
+uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
 
 ```
 
@@ -131,16 +131,16 @@ Example: In-place generation of two binary IDs
 
 ```javascript
 // Generate two ids in an array
-var arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 89, 187, 56, 112, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203 ]
-uuidv1(null, arr, 16); // ⇨ [ 89, 187, 56, 112, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203, 89, 187, 95, 128, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203 ]
+const arr = new Array();
+uuidv1(null, arr, 0);  // ⇨ [ 117, 216, 124, 112, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203 ]
+uuidv1(null, arr, 16); // ⇨ [ 117, 216, 124, 112, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203, 117, 216, 124, 113, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203 ]
 
 ```
 
 ### Version 4
 
 ```javascript
-var uuidv4 = require('uuid/v4')
+const uuidv4 = require('uuid/v4')
 
 // Incantations
 uuidv4();
@@ -161,29 +161,29 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 Example: Generate string UUID with predefined `random` values
 
 ```javascript
-var options = {
+const v4options = {
   random: [
     0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea,
     0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36
   ]
 };
-uuidv4(options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
+uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
 
 ```
 
 Example: Generate two IDs in a single buffer
 
 ```javascript
-var buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 164, 236, 231, 188, 89, 93, 72, 254, 155, 94, 242, 166, 0, 235, 25, 45 ]
-uuidv4(null, buffer, 16); // ⇨ [ 164, 236, 231, 188, 89, 93, 72, 254, 155, 94, 242, 166, 0, 235, 25, 45, 73, 3, 95, 92, 114, 19, 73, 11, 175, 168, 47, 42, 74, 193, 128, 164 ]
+const buffer = new Array();
+uuidv4(null, buffer, 0);  // ⇨ [ 152, 79, 119, 75, 197, 171, 69, 69, 149, 136, 228, 229, 58, 89, 81, 91 ]
+uuidv4(null, buffer, 16); // ⇨ [ 152, 79, 119, 75, 197, 171, 69, 69, 149, 136, 228, 229, 58, 89, 81, 91, 113, 87, 4, 31, 72, 124, 64, 206, 132, 220, 2, 49, 27, 161, 127, 88 ]
 
 ```
 
 ### Version 5
 
 ```javascript
-var uuidv5 = require('uuid/v5');
+const uuidv5 = require('uuid/v5');
 
 // Incantations
 uuidv5(name, namespace);
@@ -205,13 +205,13 @@ Example:
 ```javascript
 // Generate a unique namespace (typically you would do this once, outside of
 // your project, then bake this value into your code)
-var uuidv4 = require('uuid/v4');
-var uuidv5 = require('uuid/v5');
-var MY_NAMESPACE = uuidv4();    // ⇨ '424081a2-c02e-4309-a76e-f9a4be3f5f07'
+const uuidv4 = require('uuid/v4');
+const uuidv5 = require('uuid/v5');
+const MY_NAMESPACE = uuidv4();    // ⇨ 'd0a8466a-2c3b-43ce-877f-ed4c6ed4dd92'
 
 // Generate a couple namespace uuids
-uuidv5('hello', MY_NAMESPACE);  // ⇨ '30ef63ad-f6fe-5d95-88ee-d9b1ee21a859'
-uuidv5('world', MY_NAMESPACE);  // ⇨ 'c04edcdf-9f3b-5217-a22d-3ad3d32a0ae0'
+uuidv5('hello', MY_NAMESPACE);  // ⇨ '97d12ec9-1aca-5216-afd4-50338da5b1b2'
+uuidv5('world', MY_NAMESPACE);  // ⇨ 'f81013ca-6799-5191-8643-bcc91cb3ea76'
 
 ```
 
@@ -237,7 +237,7 @@ npm test
 The API below is available for legacy purposes and is not expected to be available post-3.X
 
 ```javascript
-var uuid = require('uuid');
+const uuid = require('uuid');
 
 uuid.v1(...); // alias of uuid/v1
 uuid.v4(...); // alias of uuid/v4

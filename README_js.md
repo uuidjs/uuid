@@ -24,21 +24,21 @@ Then generate your uuid version of choice ...
 Version 1 (timestamp):
 
 ```javascript --context
-var uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuid/v1');
 uuidv1(); // RESULT
 ```
 
 Version 4 (random):
 
 ```javascript --context
-var uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid/v4');
 uuidv4(); // RESULT
 ```
 
 Version 5 (namespace):
 
 ```javascript --context
-var uuidv5 = require('uuid/v5');
+const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
 uuidv5('hello.example.com', uuidv5.DNS); // RESULT
@@ -50,7 +50,7 @@ uuidv5('http://example.com/hello', uuidv5.URL); // RESULT
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
-var MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
@@ -90,7 +90,7 @@ uuidv5('http://example.com/hello', uuidv5.URL); // -> v5 UUID
 ### Version 1
 
 ```javascript
-var uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuid/v1');
 
 // Incantations
 uuidv1();
@@ -117,20 +117,20 @@ Note: The <node> id is generated guaranteed to stay constant for the lifetime of
 Example: Generate string UUID with fully-specified options
 
 ```javascript --context
-var options = {
+const v1options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678
 };
-uuidv1(options); // RESULT
+uuidv1(v1options); // RESULT
 ```
 
 Example: In-place generation of two binary IDs
 
 ```javascript --context
 // Generate two ids in an array
-var arr = new Array();
+const arr = new Array();
 uuidv1(null, arr, 0);  // RESULT
 uuidv1(null, arr, 16); // RESULT
 ```
@@ -138,7 +138,7 @@ uuidv1(null, arr, 16); // RESULT
 ### Version 4
 
 ```javascript
-var uuidv4 = require('uuid/v4')
+const uuidv4 = require('uuid/v4')
 
 // Incantations
 uuidv4();
@@ -159,19 +159,19 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 Example: Generate string UUID with predefined `random` values
 
 ```javascript --context
-var options = {
+const v4options = {
   random: [
     0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea,
     0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36
   ]
 };
-uuidv4(options); // RESULT
+uuidv4(v4options); // RESULT
 ```
 
 Example: Generate two IDs in a single buffer
 
 ```javascript --context
-var buffer = new Array();
+const buffer = new Array();
 uuidv4(null, buffer, 0);  // RESULT
 uuidv4(null, buffer, 16); // RESULT
 ```
@@ -179,7 +179,7 @@ uuidv4(null, buffer, 16); // RESULT
 ### Version 5
 
 ```javascript
-var uuidv5 = require('uuid/v5');
+const uuidv5 = require('uuid/v5');
 
 // Incantations
 uuidv5(name, namespace);
@@ -201,9 +201,9 @@ Example:
 ```javascript --run
 // Generate a unique namespace (typically you would do this once, outside of
 // your project, then bake this value into your code)
-var uuidv4 = require('uuid/v4');
-var uuidv5 = require('uuid/v5');
-var MY_NAMESPACE = uuidv4();    // RESULT
+const uuidv4 = require('uuid/v4');
+const uuidv5 = require('uuid/v5');
+const MY_NAMESPACE = uuidv4();    // RESULT
 
 // Generate a couple namespace uuids
 uuidv5('hello', MY_NAMESPACE);  // RESULT
@@ -232,7 +232,7 @@ npm test
 The API below is available for legacy purposes and is not expected to be available post-3.X
 
 ```javascript
-var uuid = require('uuid');
+const uuid = require('uuid');
 
 uuid.v1(...); // alias of uuid/v1
 uuid.v4(...); // alias of uuid/v4
