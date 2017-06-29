@@ -22,7 +22,7 @@ Version 1 (timestamp):
 
 ```javascript
 var uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '72164140-5b4d-11e7-9234-f94a466131fa'
+uuidv1(); // ⇨ '59ba7520-5cd9-11e7-9d00-2d24d43111cb'
 
 ```
 
@@ -30,7 +30,7 @@ Version 4 (random):
 
 ```javascript
 var uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ 'ae6c0c32-5035-43fb-b869-0a758ce1ca5e'
+uuidv4(); // ⇨ '04faf73f-5a6b-48d4-9481-f03368eb5782'
 
 ```
 
@@ -132,8 +132,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 var arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 114, 22, 182, 112, 91, 77, 17, 231, 146, 52, 249, 74, 70, 97, 49, 250 ]
-uuidv1(null, arr, 16); // ⇨ [ 114, 22, 182, 112, 91, 77, 17, 231, 146, 52, 249, 74, 70, 97, 49, 250, 114, 22, 182, 113, 91, 77, 17, 231, 146, 52, 249, 74, 70, 97, 49, 250 ]
+uuidv1(null, arr, 0);  // ⇨ [ 89, 187, 56, 112, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203 ]
+uuidv1(null, arr, 16); // ⇨ [ 89, 187, 56, 112, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203, 89, 187, 95, 128, 92, 217, 17, 231, 146, 52, 45, 36, 212, 49, 17, 203 ]
 
 ```
 
@@ -175,8 +175,8 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 var buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 0, 80, 12, 81, 66, 195, 73, 102, 183, 155, 166, 7, 156, 8, 2, 48 ]
-uuidv4(null, buffer, 16); // ⇨ [ 0, 80, 12, 81, 66, 195, 73, 102, 183, 155, 166, 7, 156, 8, 2, 48, 232, 224, 39, 13, 154, 18, 68, 157, 166, 88, 93, 106, 73, 171, 223, 89 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 164, 236, 231, 188, 89, 93, 72, 254, 155, 94, 242, 166, 0, 235, 25, 45 ]
+uuidv4(null, buffer, 16); // ⇨ [ 164, 236, 231, 188, 89, 93, 72, 254, 155, 94, 242, 166, 0, 235, 25, 45, 73, 3, 95, 92, 114, 19, 73, 11, 175, 168, 47, 42, 74, 193, 128, 164 ]
 
 ```
 
@@ -207,11 +207,11 @@ Example:
 // your project, then bake this value into your code)
 var uuidv4 = require('uuid/v4');
 var uuidv5 = require('uuid/v5');
-var MY_NAMESPACE = uuidv4();    // ⇨ '50050e0a-b282-47d0-a1b6-d3d7875c8202'
+var MY_NAMESPACE = uuidv4();    // ⇨ '424081a2-c02e-4309-a76e-f9a4be3f5f07'
 
 // Generate a couple namespace uuids
-uuidv5('hello', MY_NAMESPACE);  // ⇨ 'cd8eea2d-fcb3-5ff7-acc6-8a68ac9625d1'
-uuidv5('world', MY_NAMESPACE);  // ⇨ 'a0224e2a-273d-5bb5-8f5b-722638d10595'
+uuidv5('hello', MY_NAMESPACE);  // ⇨ '30ef63ad-f6fe-5d95-88ee-d9b1ee21a859'
+uuidv5('world', MY_NAMESPACE);  // ⇨ 'c04edcdf-9f3b-5217-a22d-3ad3d32a0ae0'
 
 ```
 
