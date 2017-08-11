@@ -22,7 +22,7 @@ Version 1 (timestamp):
 
 ```javascript
 const uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ 'af3da1c0-5cd9-11e7-8401-fb7c0283f80c'
+uuidv1(); // ⇨ '985123a0-7e4f-11e7-9022-fb7190c856e4'
 
 ```
 
@@ -30,7 +30,7 @@ Version 4 (random):
 
 ```javascript
 const uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ 'f71c9fb3-2e34-46ee-bec3-d9baee2077ae'
+uuidv4(); // ⇨ 'df7cca36-3d7a-40f4-8f06-ae03cc22f045'
 
 ```
 
@@ -132,8 +132,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 const arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 175, 62, 101, 16, 92, 217, 17, 231, 146, 52, 251, 124, 2, 131, 248, 12 ]
-uuidv1(null, arr, 16); // ⇨ [ 175, 62, 101, 16, 92, 217, 17, 231, 146, 52, 251, 124, 2, 131, 248, 12, 175, 62, 140, 32, 92, 217, 17, 231, 146, 52, 251, 124, 2, 131, 248, 12 ]
+uuidv1(null, arr, 0);  // ⇨ [ 152, 81, 152, 208, 126, 79, 17, 231, 146, 52, 251, 113, 144, 200, 86, 228 ]
+uuidv1(null, arr, 16); // ⇨ [ 152, 81, 152, 208, 126, 79, 17, 231, 146, 52, 251, 113, 144, 200, 86, 228, 152, 81, 191, 224, 126, 79, 17, 231, 146, 52, 251, 113, 144, 200, 86, 228 ]
 
 ```
 
@@ -175,8 +175,8 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 const buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 18, 243, 219, 176, 63, 68, 75, 4, 191, 73, 152, 234, 209, 41, 234, 116 ]
-uuidv4(null, buffer, 16); // ⇨ [ 18, 243, 219, 176, 63, 68, 75, 4, 191, 73, 152, 234, 209, 41, 234, 116, 91, 123, 222, 237, 118, 107, 76, 253, 134, 5, 17, 10, 186, 29, 236, 188 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 217, 119, 223, 141, 202, 93, 66, 3, 178, 198, 149, 37, 232, 4, 107, 241 ]
+uuidv4(null, buffer, 16); // ⇨ [ 217, 119, 223, 141, 202, 93, 66, 3, 178, 198, 149, 37, 232, 4, 107, 241, 218, 189, 231, 45, 208, 56, 70, 125, 142, 27, 46, 27, 183, 9, 8, 202 ]
 
 ```
 
@@ -191,7 +191,7 @@ uuidv5(name, namespace, buffer);
 uuidv5(name, namespace, buffer, offset);
 ```
 
-Generate and return a RFC4122 v4 UUID.
+Generate and return a RFC4122 v5 UUID.
 
 * `name` - (String | Array[]) "name" to create UUID with
 * `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
@@ -207,11 +207,11 @@ Example:
 // your project, then bake this value into your code)
 const uuidv4 = require('uuid/v4');
 const uuidv5 = require('uuid/v5');
-const MY_NAMESPACE = uuidv4();    // ⇨ '6e0aeafd-c8cd-4b8c-a1b2-91619e471280'
+const MY_NAMESPACE = uuidv4();    // ⇨ '8dc079dd-0313-4563-864f-008eb45bf87f'
 
 // Generate a couple namespace uuids
-uuidv5('hello', MY_NAMESPACE);  // ⇨ '7e9e76e9-eab0-5365-82a6-b7de7ebb1675'
-uuidv5('world', MY_NAMESPACE);  // ⇨ 'ba5e57dc-379d-53ba-9b8f-999185f40df2'
+uuidv5('hello', MY_NAMESPACE);  // ⇨ 'c506b68b-ed29-5662-bb90-7f43e624e333'
+uuidv5('world', MY_NAMESPACE);  // ⇨ '669a6357-2584-534e-84bb-ac69f1c8ef44'
 
 ```
 

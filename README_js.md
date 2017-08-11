@@ -187,7 +187,7 @@ uuidv5(name, namespace, buffer);
 uuidv5(name, namespace, buffer, offset);
 ```
 
-Generate and return a RFC4122 v4 UUID.
+Generate and return a RFC4122 v5 UUID.
 
 * `name` - (String | Array[]) "name" to create UUID with
 * `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
