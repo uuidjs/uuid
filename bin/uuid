@@ -33,7 +33,6 @@ switch (version) {
   case 'v5':
     var uuidV5 = require('../v5');
 
-    var isHex = false;
     var name = args.shift();
     if (name === '--hex'){
         name = Buffer.from(args.shift(), 'hex');
