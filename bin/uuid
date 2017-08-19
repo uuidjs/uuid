@@ -40,6 +40,8 @@ switch (version) {
 
     if (namespace == 'URL') namespace = uuidV5.URL;
     if (namespace == 'DNS') namespace = uuidV5.DNS;
+    if (namespace == 'OID') namespace = uuidV5.OID;
+    if (namespace == 'X500') namespace = uuidV5.X500;
 
     console.log(uuidV5(name, namespace));
     break;

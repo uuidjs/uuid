@@ -70,6 +70,8 @@ test('v5', function() {
   assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
   assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
   assert.equal(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
+  assert.equal(v5('hello', v5.OID), '4d71d03f-f19b-5d9e-8523-9628ba18063c');
+  assert.equal(v5('hello', v5.X500), 'feddb5c6-6b33-5dd7-a4d8-fb98254f583f');
 
   // test the buffer functionality
   var buf = new Array(16);

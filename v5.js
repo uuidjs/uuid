@@ -46,5 +46,7 @@ function v5(name, namespace, buf, offset) {
 // Pre-defined namespaces, per Appendix C
 v5.DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 v5.URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+v5.OID = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
+v5.X500 = '6ba7b814-9dad-11d1-80b4-00c04fd430c8';
 
 module.exports = v5;
