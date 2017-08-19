@@ -20,10 +20,19 @@ function stringToBytes(str) {
   return bytes;
 }
 
+function bufferToBytes(buf) {
+  var bytes = new Array(buf.length);
+  for (var i = 0; i < buf.length; i++) {
+    bytes[i] = buf.readUInt8(i);
+  }
+  return bytes;
+}
+
 function v5(name, namespace, buf, offset) {
   var off = buf && offset || 0;
   
-  if (typeof(name) == 'string') name = stringToBytes(name);
+  if (typeof(Buffer) !== 'undefined' && typeof(name) == 'object' && name instanceof Buffer) name = bufferToBytes(name); // begin by testing for the Buffer type because browsers will not necessarily have it defined
+  else if (typeof(name) == 'string') name = stringToBytes(name);
   if (typeof(namespace) == 'string') namespace = uuidToBytes(namespace);
 
   if (!Array.isArray(name)) throw TypeError('name must be an array of bytes');

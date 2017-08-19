@@ -73,6 +73,12 @@ test('v5', function() {
   assert.equal(v5('hello', v5.OID), '4d71d03f-f19b-5d9e-8523-9628ba18063c');
   assert.equal(v5('hello', v5.X500), 'feddb5c6-6b33-5dd7-a4d8-fb98254f583f');
 
+  // Test different input formats
+  assert.equal(v5('hello', v5.OID), '4d71d03f-f19b-5d9e-8523-9628ba18063c');
+  assert.equal(v5([0x68, 0x65, 0x6c, 0x6c, 0x6f], v5.OID), '4d71d03f-f19b-5d9e-8523-9628ba18063c');
+  assert.equal(v5(Buffer.from('68656c6c6f','hex'), v5.OID), '4d71d03f-f19b-5d9e-8523-9628ba18063c');
+
+
   // test the buffer functionality
   var buf = new Array(16);
   var testBuf = [0xfd, 0xda, 0x76, 0x5f, 0xfc, 0x57, 0x56, 0x04, 0xa2, 0x69, 0x52, 0xa7, 0xdf, 0x81, 0x64, 0xec];

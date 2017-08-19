@@ -6,7 +6,7 @@ function usage() {
   console.log('  uuid');
   console.log('  uuid v1');
   console.log('  uuid v4');
-  console.log('  uuid v5 <name> <namespace uuid>');
+  console.log('  uuid v5 [--hex] <name> <namespace uuid>');
   console.log('  uuid --help');
   console.log('\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122');
 }
@@ -33,7 +33,11 @@ switch (version) {
   case 'v5':
     var uuidV5 = require('../v5');
 
+    var isHex = false;
     var name = args.shift();
+    if (name === '--hex'){
+        name = Buffer.from(args.shift(), 'hex');
+    }
     var namespace = args.shift();
     assert(name != null, 'v5 name not specified');
     assert(namespace != null, 'v5 namespace not specified');
