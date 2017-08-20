@@ -189,8 +189,10 @@ uuidv5(name, namespace, buffer, offset);
 
 Generate and return a RFC4122 v5 UUID.
 
-* `name` - (String | Array[]) "name" to create UUID with
+* `name` - (String | Array[] | Buffer) "name" to create UUID with
 * `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
+
+    There are four namespaces as defined in RFC4122 that are conveniently accessible (as properties of the required `uuid/v5` object): `DNS`, `URL`, `OID` (ISO OID), `X500` (X.500 DN)
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 * `offset` - (Number) Starting index in `buffer` at which to begin writing. Default = 0
 
@@ -215,8 +217,27 @@ uuidv5('world', MY_NAMESPACE);  // RESULT
 UUIDs can be generated from the command line with the `uuid` command.
 
 ```shell
+$ uuid --help
+Usage:
+  uuid
+  uuid v1
+  uuid v4
+  uuid v5 [--encoding=<encoding>] <name> <namespace uuid>
+      <encoding> Specifies the encoding of <name>, valid values (in node v8): ascii, utf8, utf16le, ucs2, base64, latin1, binary, hex
+      <namespace uuid> Must either be a valid UUID or a shortcut for the 4 predefined UUIDs according to RFC4122: URL, DNS, OID, X500
+  uuid --help
+
 $ uuid
 ddeb27fb-d9a0-4624-be4d-4615062daed4
+
+$ uuid v4
+79f5832a-6f40-4c77-945d-3968bef36133
+
+$ uuid v5 --encoding=hex 68656c6c6f OID
+4d71d03f-f19b-5d9e-8523-9628ba18063c
+
+$ uuid v5 hello OID
+4d71d03f-f19b-5d9e-8523-9628ba18063c
 ```
 
 Type `uuid --help` for usage details
