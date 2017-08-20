@@ -1,6 +1,8 @@
 var sha1 = require('./lib/sha1-browser');
 var bytesToUuid = require('./lib/bytesToUuid');
 
+var bufferIsSupported = (Object.prototype.toString.call(Buffer) === '[object Function]');
+
 function uuidToBytes(uuid) {
   // Note: We assume we're being passed a valid uuid string
   var bytes = [];
@@ -31,7 +33,7 @@ function bufferToBytes(buf) {
 function v5(name, namespace, buf, offset) {
   var off = buf && offset || 0;
   
-  if (typeof(Buffer) !== 'undefined' && typeof(name) == 'object' && name instanceof Buffer) name = bufferToBytes(name); // begin by testing for the Buffer type because browsers will not necessarily have it defined
+  if (bufferIsSupported && typeof(name) == 'object' && name instanceof Buffer) name = bufferToBytes(name);
   else if (typeof(name) == 'string') name = stringToBytes(name);
   if (typeof(namespace) == 'string') namespace = uuidToBytes(namespace);
 
