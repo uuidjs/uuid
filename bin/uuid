@@ -6,9 +6,10 @@ function usage() {
   console.log('  uuid');
   console.log('  uuid v1');
   console.log('  uuid v4');
-  console.log('  uuid v5 [--hex] <name> <namespace uuid>');
+  console.log('  uuid v5 [--encoding=<encoding>] <name> <namespace uuid>');
+  console.log('      <encoding> Specifies the encoding of <name>, valid values (in node v8): ascii, utf8, utf16le, ucs2, base64, latin1, binary, hex');
+  console.log('      <namespace uuid> Must either be a valid UUID or a shortcut for the 4 predefined UUIDs according to RFC4122: URL, DNS, OID, X500');
   console.log('  uuid --help');
-  console.log('\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122');
 }
 
 var args = process.argv.slice(2);
@@ -34,8 +35,10 @@ switch (version) {
     var uuidV5 = require('../v5');
 
     var name = args.shift();
-    if (name === '--hex'){
-        name = Buffer.from(args.shift(), 'hex');
+    if (args.length == 2 && /^--encoding=([a-z0-9]+)$/.test(name)){
+      var newBuffer = (typeof Buffer.from === 'function' ? function(val,format){ return Buffer.from(val,format); } : function(val,format){ return new Buffer(val,format); });
+      var format = name.match(/^--encoding=([a-z0-9]+)$/)[1];
+      name = newBuffer(args.shift(), format);
     }
     var namespace = args.shift();
     assert(name != null, 'v5 name not specified');
