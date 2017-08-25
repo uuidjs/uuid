@@ -63,6 +63,29 @@ test('sha1 browser', function() {
   });
 });
 
+test('v3', function() {
+  var v3 = require('../v3');
+
+  // Expect to get the same results as http://tools.adjet.org/uuid-v3
+  assert.equal(v3('hello.example.com', v3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
+  assert.equal(v3('http://example.com/hello', v3.URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
+  assert.equal(v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), 'a981a0c2-68b1-35dc-bcfc-296e52ab01ec');
+
+  // test the buffer functionality
+  var buf = new Array(16);
+  var testBuf = [0x91, 0x25, 0xa8, 0xdc, 0x52, 0xee, 0x36, 0x5b, 0xa5, 0xaa, 0x81, 0xb0, 0xb3, 0x68, 0x1c, 0xf6];
+  v3('hello.example.com', v3.DNS, buf);
+  assert.ok(buf.length === testBuf.length && buf.every(function (elem, idx) { return elem === testBuf[idx]; }));
+
+  // test offsets as well
+  buf = new Array(19);
+  for (var i=0; i<3; ++i) buf[i] = 'landmaster';
+  v3('hello.example.com', v3.DNS, buf, 3);
+  assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
+    return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
+  }), "hello");
+});
+
 test('v5', function() {
   var v5 = require('../v5');
 
