@@ -8,7 +8,7 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
 Features:
 
-* Support for version 1, 4 and 5 UUIDs
+* Support for version 1, 3, 4 and 5 UUIDs
 * Cross-platform
 * Uses cryptographically-strong random number APIs (when available)
 * Zero-dependency, small footprint (... but not [this small](https://gist.github.com/982883))
@@ -26,6 +26,25 @@ Version 1 (timestamp):
 ```javascript --context
 const uuidv1 = require('uuid/v1');
 uuidv1(); // RESULT
+```
+
+Version 3 (namespace):
+
+```javascript --context
+const uuidv3 = require('uuid/v3');
+
+// ... using predefined DNS namespace (for domain names)
+uuidv3('hello.example.com', uuidv3.DNS); // RESULT
+
+// ... using predefined URL namespace (for, well, URLs)
+uuidv3('http://example.com/hello', uuidv3.URL); // RESULT
+
+// ... using a custom namespace
+//
+// Note: Custom namespaces should be a UUID string specific to your application!
+// E.g. the one here was generated using this modules `uuid` CLI.
+const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+uuidv3('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
 Version 4 (random):
@@ -64,6 +83,15 @@ For version 1 uuids:
 <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
 <script>
 uuidv1(); // -> v1 UUID
+</script>
+```
+
+For version 3 uuids:
+
+```html
+<script src="http://wzrd.in/standalone/uuid%2Fv3@latest"></script>
+<script>
+uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 </script>
 ```
 
@@ -133,6 +161,40 @@ Example: In-place generation of two binary IDs
 const arr = new Array();
 uuidv1(null, arr, 0);  // RESULT
 uuidv1(null, arr, 16); // RESULT
+```
+
+### Version 3
+
+```javascript
+const uuidv3 = require('uuid/v3');
+
+// Incantations
+uuidv3(name, namespace);
+uuidv3(name, namespace, buffer);
+uuidv3(name, namespace, buffer, offset);
+```
+
+Generate and return a RFC4122 v3 UUID.
+
+* `name` - (String | Array[]) "name" to create UUID with
+* `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
+* `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+* `offset` - (Number) Starting index in `buffer` at which to begin writing. Default = 0
+
+Returns `buffer`, if specified, otherwise the string form of the UUID
+
+Example:
+
+```javascript --run
+// Generate a unique namespace (typically you would do this once, outside of
+// your project, then bake this value into your code)
+const uuidv4 = require('uuid/v4');
+const uuidv3 = require('uuid/v3');
+const MY_NAMESPACE = uuidv4();    // RESULT
+
+// Generate a couple namespace uuids
+uuidv3('hello', MY_NAMESPACE);  // RESULT
+uuidv3('world', MY_NAMESPACE);  // RESULT
 ```
 
 ### Version 4
