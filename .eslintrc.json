@@ -7,7 +7,6 @@
     "mocha": true
   },
   "extends": ["eslint:recommended"],
-  "installedESLint": true,
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],
