@@ -48,37 +48,45 @@ function compare(name, ids) {
 
 test('nodeRNG', function() {
   var rng = require('../lib/rng');
+  assert.equal(rng.name, 'nodeRNG');
 
   var bytes = rng();
-console.log(rng.toString());
   assert.equal(bytes.length, 16);
-  bytes.forEach(function(v) {return typeof(v) == 'number'});
+
+  for (var i = 0; i < bytes.length; i++) {
+    assert.equal(typeof(bytes[i]), 'number');
+  }
 });
 
 test('browser mathRNG', function() {
   var rng = require('../lib/rng-browser');
-
   assert.equal(rng.name, 'mathRNG');
 
   var bytes = rng();
   assert.equal(bytes.length, 16);
-  bytes.forEach(function(v) {return typeof(v) == 'number'});
+
+  for (var i = 0; i < bytes.length; i++) {
+    assert.equal(typeof(bytes[i]), 'number');
+  }
 });
 
-test('browser cryptoRNG', function() {
+test('cryptoRNG', function() {
+  // We shim the web crypto API to trigger cryptoRNG code path in rng module,
+  // then unshim once we've required it
   global.crypto = {
     getRandomValues: function(arr) {
       return randomFillSync(arr);
     }
   };
-
   var rng = require('../lib/rng-browser');
-
   delete global.crypto;
 
   var bytes = rng();
   assert.equal(bytes.length, 16);
-  bytes.forEach(function(v) {return typeof(v) == 'number'});
+
+  for (var i = 0; i < bytes.length; i++) {
+    assert.equal(typeof(bytes[i]), 'number');
+  }
 });
 
 test('sha1 node', function() {
