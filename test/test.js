@@ -58,7 +58,7 @@ test('nodeRNG', function() {
   }
 });
 
-test('browser mathRNG', function() {
+test('mathRNG', function() {
   var rng = require('../lib/rng-browser');
   assert.equal(rng.name, 'mathRNG');
 
