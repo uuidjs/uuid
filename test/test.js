@@ -1,6 +1,7 @@
 var assert = require('assert');
 
 var uuid = require('../');
+var crypto = require('crypto');
 
 // Verify ordering of v1 ids created with explicit times
 var TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
@@ -71,8 +72,12 @@ test('mathRNG', function() {
 });
 
 test('cryptoRNG', function() {
+  // Clear require cache so we can monkey with it, below
+  delete require.cache[require.resolve('../lib/rng-browser')]
+
   // We shim the web crypto API to trigger cryptoRNG code path in rng module,
   // then unshim once we've required it
+  var randomFillSync = crypto.randomFillSync;
   global.crypto = {
     getRandomValues: function(arr) {
       return crypto.randomFillSync(arr);
