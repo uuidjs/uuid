@@ -42,7 +42,7 @@ function compare(name, ids) {
     ids = ids.sort();
     var sorted = ([].concat(ids)).sort();
 
-    assert(sorted.toString() == ids.toString(), name + ' have expected order');
+    assert(sorted.toString() === ids.toString(), name + ' have expected order');
   });
 }
 
@@ -75,11 +75,13 @@ test('cryptoRNG', function() {
   // then unshim once we've required it
   global.crypto = {
     getRandomValues: function(arr) {
-      return randomFillSync(arr);
+      return crypto.randomFillSync(arr);
     }
   };
   var rng = require('../lib/rng-browser');
   delete global.crypto;
+
+  assert.equal(rng.name, 'whatwgRNG');
 
   var bytes = rng();
   assert.equal(bytes.length, 16);
@@ -194,7 +196,7 @@ compare('uuids with time option', [
 
 test('msec', function() {
   assert(
-    uuid.v1({msecs: TIME}) != uuid.v1({msecs: TIME}),
+    uuid.v1({msecs: TIME}) !== uuid.v1({msecs: TIME}),
     'IDs created at same msec are different'
   );
 });
@@ -238,7 +240,7 @@ test('explicit options product expected id', function() {
     clockseq: 0x385c,
     node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10]
   });
-  assert(id == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
+  assert(id === 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
 });
 
 test('ids spanning 1ms boundary are 100ns apart', function() {
@@ -246,7 +248,8 @@ test('ids spanning 1ms boundary are 100ns apart', function() {
   var u0 = uuid.v1({msecs: TIME, nsecs: 9999});
   var u1 = uuid.v1({msecs: TIME + 1, nsecs: 0});
 
-  var before = u0.split('-')[0], after = u1.split('-')[0];
+  var before = u0.split('-')[0];
+  var after = u1.split('-')[0];
   var dt = parseInt(after, 16) - parseInt(before, 16);
   assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
 });
