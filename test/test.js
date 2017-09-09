@@ -73,14 +73,17 @@ test('mathRNG', function() {
 
 test('cryptoRNG', function() {
   // Clear require cache so we can monkey with it, below
-  delete require.cache[require.resolve('../lib/rng-browser')]
+  delete require.cache[require.resolve('../lib/rng-browser')];
 
   // We shim the web crypto API to trigger cryptoRNG code path in rng module,
   // then unshim once we've required it
-  var randomFillSync = crypto.randomFillSync;
   global.crypto = {
     getRandomValues: function(arr) {
-      return crypto.randomFillSync(arr);
+      var bytes = crypto.randomBytes(arr.length);
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = bytes[i];
+      }
+      return arr;
     }
   };
   var rng = require('../lib/rng-browser');
