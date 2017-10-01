@@ -1,4 +1,5 @@
 var assert = require('assert');
+var crypto = require('crypto');
 
 var uuidv1 = require('../v1');
 var uuidv3 = require('../v3');
@@ -18,7 +19,7 @@ var HASH_SAMPLES = [
 
   // Extended ascii chars
   {
-    input: '\t\b\f  !\"#$%&\'()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u00A1\u00A2\u00A3\u00A4\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA\u00AB\u00AC\u00AE\u00AF\u00B0\u00B1\u00B2\u00B3\u00B4\u00B5\u00B6\u00B7\u00B8\u00B9\u00BA\u00BB\u00BC\u00BD\u00BE\u00BF\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4\u00D5\u00D6\u00D7\u00D8\u00D9\u00DA\u00DB\u00DC\u00DD\u00DE\u00DF\u00E0\u00E1\u00E2\u00E3\u00E4\u00E5\u00E6\u00E7\u00E8\u00E9\u00EA\u00EB\u00EC\u00ED\u00EE\u00EF\u00F0\u00F1\u00F2\u00F3\u00F4\u00F5\u00F6\u00F7\u00F8\u00F9\u00FA\u00FB\u00FC\u00FD\u00FE\u00FF',
+    input: '\t\b\f  !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u00A1\u00A2\u00A3\u00A4\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA\u00AB\u00AC\u00AE\u00AF\u00B0\u00B1\u00B2\u00B3\u00B4\u00B5\u00B6\u00B7\u00B8\u00B9\u00BA\u00BB\u00BC\u00BD\u00BE\u00BF\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4\u00D5\u00D6\u00D7\u00D8\u00D9\u00DA\u00DB\u00DC\u00DD\u00DE\u00DF\u00E0\u00E1\u00E2\u00E3\u00E4\u00E5\u00E6\u00E7\u00E8\u00E9\u00EA\u00EB\u00EC\u00ED\u00EE\u00EF\u00F0\u00F1\u00F2\u00F3\u00F4\u00F5\u00F6\u00F7\u00F8\u00F9\u00FA\u00FB\u00FC\u00FD\u00FE\u00FF',
     sha1: 'ca4a426a3d536f14cfd79011e79e10d64de950a0',
     md5: 'e8098ec21950f841731d28749129d3ee',
   },
@@ -46,7 +47,7 @@ function compare(name, ids) {
     ids = ids.sort();
     var sorted = ([].concat(ids)).sort();
 
-    assert(sorted.toString() == ids.toString(), name + ' have expected order');
+    assert(sorted.toString() === ids.toString(), name + ' have expected order');
   });
 }
 
@@ -91,21 +92,17 @@ test('cryptoRNG', function() {
   // then unshim once we've required it
   global.crypto = {
     getRandomValues: function(arr) {
-      return randomFillSync(arr);
+      var bytes = crypto.randomBytes(arr.length);
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = bytes[i];
+      }
+      return arr;
     }
   };
   var rng = require('../lib/rng-browser');
   delete global.crypto;
 
-  assert(rng.allowDubiousRNG, 'Supports dubious RNG API');
   assert.equal(rng.name, 'whatwgRNG');
-
-  var bytes = rng();
-  assert.equal(bytes.length, 16);
-
-  for (var i = 0; i < bytes.length; i++) {
-    assert.equal(typeof(bytes[i]), 'number');
-  }
 });
 
 test('sha1 node', function() {
@@ -162,7 +159,7 @@ test('v3', function() {
   uuidv3('hello.example.com', uuidv3.DNS, buf, 3);
   assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
     return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
-  }), "hello");
+  }), 'hello');
 });
 
 test('v5', function() {
@@ -253,7 +250,7 @@ test('explicit options product expected id', function() {
     clockseq: 0x385c,
     node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10]
   });
-  assert(id == 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
+  assert(id === 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
 });
 
 test('ids spanning 1ms boundary are 100ns apart', function() {
@@ -261,7 +258,8 @@ test('ids spanning 1ms boundary are 100ns apart', function() {
   var u0 = uuidv1({msecs: TIME, nsecs: 9999});
   var u1 = uuidv1({msecs: TIME + 1, nsecs: 0});
 
-  var before = u0.split('-')[0], after = u1.split('-')[0];
+  var before = u0.split('-')[0];
+  var after = u1.split('-')[0];
   var dt = parseInt(after, 16) - parseInt(before, 16);
   assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
 });
