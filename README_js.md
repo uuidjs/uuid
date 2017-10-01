@@ -30,7 +30,7 @@ uuidv1(); // RESULT
 
 Version 3 (namespace):
 
-```javascript --context
+```javascript
 const uuidv3 = require('uuid/v3');
 
 // ... using predefined DNS namespace (for domain names)
@@ -49,14 +49,14 @@ uuidv3('Hello, World!', MY_NAMESPACE); // RESULT
 
 Version 4 (random):
 
-```javascript --context
+```javascript
 const uuidv4 = require('uuid/v4');
 uuidv4(); // RESULT
 ```
 
 Version 5 (namespace):
 
-```javascript --context
+```javascript
 const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
