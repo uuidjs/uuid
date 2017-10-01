@@ -24,17 +24,17 @@ function v1(options, buf, offset) {
   // specified.  We do this lazily to minimize issues related to insufficient
   // system entropy.  See #189
   if (node == null || clockseq == null) {
-    var seedBytes = rng();
+    var rnds = options.random || (options.rng || rng)();
     if (node == null) {
       // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
       node = _nodeId = [
-        seedBytes[0] | 0x01,
-        seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]
+        rnds[0] | 0x01,
+        rnds[1], rnds[2], rnds[3], rnds[4], rnds[5]
       ];
     }
     if (clockseq == null) {
       // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+      clockseq = _clockseq = (rnds[6] << 8 | rnds[7]) & 0x3fff;
     }
   }
 

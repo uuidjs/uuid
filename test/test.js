@@ -1,6 +1,10 @@
 var assert = require('assert');
 
-var uuid = require('../');
+var uuidv1 = require('../v1');
+var uuidv3 = require('../v3');
+var uuidv4 = require('../v4');
+var uuidv5 = require('../v5');
+var crypto = require('crypto');
 
 // Verify ordering of v1 ids created with explicit times
 var TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
@@ -49,6 +53,7 @@ function compare(name, ids) {
 test('nodeRNG', function() {
   var rng = require('../lib/rng');
   assert.equal(rng.name, 'nodeRNG');
+  assert(rng.allowDubiousRNG, 'Supports dubious RNG API');
 
   var bytes = rng();
   assert.equal(bytes.length, 16);
@@ -61,6 +66,10 @@ test('nodeRNG', function() {
 test('mathRNG', function() {
   var rng = require('../lib/rng-browser');
   assert.equal(rng.name, 'mathRNG');
+  assert(rng.allowDubiousRNG, 'Supports dubious RNG API');
+  assert.throws(rng);
+  rng.allowDubiousRNG(true);
+  assert.doesNotThrow(rng);
 
   var bytes = rng();
   assert.equal(bytes.length, 16);
@@ -71,6 +80,13 @@ test('mathRNG', function() {
 });
 
 test('cryptoRNG', function() {
+  var randomFillSync = crypto.randomFillSync;
+
+  // Purge require cache
+  Object.keys(require.cache).forEach(function(path) {
+    if (/rng-browser/.test(path)) delete require.cache[path];
+  });
+
   // We shim the web crypto API to trigger cryptoRNG code path in rng module,
   // then unshim once we've required it
   global.crypto = {
@@ -80,6 +96,9 @@ test('cryptoRNG', function() {
   };
   var rng = require('../lib/rng-browser');
   delete global.crypto;
+
+  assert(rng.allowDubiousRNG, 'Supports dubious RNG API');
+  assert.equal(rng.name, 'whatwgRNG');
 
   var bytes = rng();
   assert.equal(bytes.length, 16);
@@ -124,47 +143,47 @@ test('md5 browser', function() {
 });
 
 test('v3', function() {
-  var v3 = require('../v3');
-
   // Expect to get the same results as http://tools.adjet.org/uuid-v3
-  assert.equal(v3('hello.example.com', v3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
-  assert.equal(v3('http://example.com/hello', v3.URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
-  assert.equal(v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), 'a981a0c2-68b1-35dc-bcfc-296e52ab01ec');
+  assert.equal(uuidv3('hello.example.com', uuidv3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
+  assert.equal(uuidv3('http://example.com/hello', uuidv3.URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
+  assert.equal(uuidv3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), 'a981a0c2-68b1-35dc-bcfc-296e52ab01ec');
 
   // test the buffer functionality
   var buf = new Array(16);
   var testBuf = [0x91, 0x25, 0xa8, 0xdc, 0x52, 0xee, 0x36, 0x5b, 0xa5, 0xaa, 0x81, 0xb0, 0xb3, 0x68, 0x1c, 0xf6];
-  v3('hello.example.com', v3.DNS, buf);
-  assert.ok(buf.length === testBuf.length && buf.every(function (elem, idx) { return elem === testBuf[idx]; }));
+  uuidv3('hello.example.com', uuidv3.DNS, buf);
+  assert.ok(buf.length === testBuf.length && buf.every(function(elem, idx) {
+    return elem === testBuf[idx];
+  }));
 
   // test offsets as well
   buf = new Array(19);
   for (var i=0; i<3; ++i) buf[i] = 'landmaster';
-  v3('hello.example.com', v3.DNS, buf, 3);
+  uuidv3('hello.example.com', uuidv3.DNS, buf, 3);
   assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
     return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
   }), "hello");
 });
 
 test('v5', function() {
-  var v5 = require('../v5');
-
   // Expect to get the same results as http://tools.adjet.org/uuid-v5
-  assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
-  assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
-  assert.equal(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
+  assert.equal(uuidv5('hello.example.com', uuidv5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
+  assert.equal(uuidv5('http://example.com/hello', uuidv5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
+  assert.equal(uuidv5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
 
   // test the buffer functionality
   var buf = new Array(16);
   var testBuf = [0xfd, 0xda, 0x76, 0x5f, 0xfc, 0x57, 0x56, 0x04, 0xa2, 0x69, 0x52, 0xa7, 0xdf, 0x81, 0x64, 0xec];
-  v5('hello.example.com', v5.DNS, buf);
-  assert.ok(buf.length === testBuf.length && buf.every(function (elem, idx) { return elem === testBuf[idx]; }));
+  uuidv5('hello.example.com', uuidv5.DNS, buf);
+  assert.ok(buf.length === testBuf.length && buf.every(function(elem, idx) {
+    return elem === testBuf[idx];
+  }));
 
   // test offsets as well
   buf = new Array(19);
   for (var i=0; i<3; ++i) buf[i] = 'landmaster';
-  v5('hello.example.com', v5.DNS, buf, 3);
-  assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
+  uuidv5('hello.example.com', uuidv5.DNS, buf, 3);
+  assert.ok(buf.length === testBuf.length+3 && buf.every(function(elem, idx) {
     return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
   }));
 });
@@ -172,25 +191,25 @@ test('v5', function() {
 
 // Verify ordering of v1 ids created using default behavior
 compare('uuids with current time', [
-  uuid.v1(),
-  uuid.v1(),
-  uuid.v1(),
-  uuid.v1(),
-  uuid.v1()
+  uuidv1(),
+  uuidv1(),
+  uuidv1(),
+  uuidv1(),
+  uuidv1()
 ]);
 
 // Verify ordering of v1 ids created with explicit times
 compare('uuids with time option', [
-  uuid.v1({msecs: TIME - 10*3600*1000}),
-  uuid.v1({msecs: TIME - 1}),
-  uuid.v1({msecs: TIME}),
-  uuid.v1({msecs: TIME + 1}),
-  uuid.v1({msecs: TIME + 28*24*3600*1000})
+  uuidv1({msecs: TIME - 10*3600*1000}),
+  uuidv1({msecs: TIME - 1}),
+  uuidv1({msecs: TIME}),
+  uuidv1({msecs: TIME + 1}),
+  uuidv1({msecs: TIME + 28*24*3600*1000})
 ]);
 
 test('msec', function() {
   assert(
-    uuid.v1({msecs: TIME}) != uuid.v1({msecs: TIME}),
+    uuidv1({msecs: TIME}) !== uuidv1({msecs: TIME}),
     'IDs created at same msec are different'
   );
 });
@@ -199,7 +218,7 @@ test('exception thrown when > 10k ids created in 1ms', function() {
   // Verify throw if too many ids created
   var thrown = false;
   try {
-    uuid.v1({msecs: TIME, nsecs: 10000});
+    uuidv1({msecs: TIME, nsecs: 10000});
   } catch (e) {
     thrown = true;
   }
@@ -208,8 +227,8 @@ test('exception thrown when > 10k ids created in 1ms', function() {
 
 test('clock regression by msec', function() {
   // Verify clock regression bumps clockseq
-  var uidt = uuid.v1({msecs: TIME});
-  var uidtb = uuid.v1({msecs: TIME - 1});
+  var uidt = uuidv1({msecs: TIME});
+  var uidtb = uuidv1({msecs: TIME - 1});
   assert(
     parseInt(uidtb.split('-')[3], 16) - parseInt(uidt.split('-')[3], 16) === 1,
     'Clock regression by msec increments the clockseq'
@@ -218,8 +237,8 @@ test('clock regression by msec', function() {
 
 test('clock regression by nsec', function() {
   // Verify clock regression bumps clockseq
-  var uidtn = uuid.v1({msecs: TIME, nsecs: 10});
-  var uidtnb = uuid.v1({msecs: TIME, nsecs: 9});
+  var uidtn = uuidv1({msecs: TIME, nsecs: 10});
+  var uidtnb = uuidv1({msecs: TIME, nsecs: 9});
   assert(
     parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
     'Clock regression by nsec increments the clockseq'
@@ -228,7 +247,7 @@ test('clock regression by nsec', function() {
 
 test('explicit options product expected id', function() {
   // Verify explicit options produce expected id
-  var id = uuid.v1({
+  var id = uuidv1({
     msecs: 1321651533573,
     nsecs: 5432,
     clockseq: 0x385c,
@@ -239,10 +258,17 @@ test('explicit options product expected id', function() {
 
 test('ids spanning 1ms boundary are 100ns apart', function() {
   // Verify adjacent ids across a msec boundary are 1 time unit apart
-  var u0 = uuid.v1({msecs: TIME, nsecs: 9999});
-  var u1 = uuid.v1({msecs: TIME + 1, nsecs: 0});
+  var u0 = uuidv1({msecs: TIME, nsecs: 9999});
+  var u1 = uuidv1({msecs: TIME + 1, nsecs: 0});
 
   var before = u0.split('-')[0], after = u1.split('-')[0];
   var dt = parseInt(after, 16) - parseInt(before, 16);
   assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
+});
+
+test('legacy API', function() {
+  var uuid = require('..');
+  assert.equal(uuid.v1, uuidv1, 'uuid.v1 = uuid/v1');
+  assert.equal(uuid.v4, uuidv4, 'uuid.v4 = uuid/v4');
+  assert.equal(uuid, uuidv4, 'uuid = uuid/v4');
 });
