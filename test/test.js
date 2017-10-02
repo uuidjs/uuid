@@ -1,11 +1,9 @@
 var assert = require('assert');
-var crypto = require('crypto');
 
 var uuidv1 = require('../v1');
 var uuidv3 = require('../v3');
 var uuidv4 = require('../v4');
 var uuidv5 = require('../v5');
-var crypto = require('crypto');
 
 // Verify ordering of v1 ids created with explicit times
 var TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
@@ -36,6 +34,13 @@ function hashToHex(hash) {
   return hash.map(function(b) {
     return (0x100 + b).toString(16).slice(-2);
   }).join('');
+}
+
+// Remove a module from the CommonJS cache
+function unrequire(mod) {
+  Object.keys(require.cache).forEach(function(path) {
+    if (path.indexOf(mod) >= 0) delete require.cache[path];
+  });
 }
 
 function compare(name, ids) {
@@ -81,28 +86,19 @@ test('mathRNG', function() {
 });
 
 test('cryptoRNG', function() {
-  var randomFillSync = crypto.randomFillSync;
-
-  // Purge require cache
-  Object.keys(require.cache).forEach(function(path) {
-    if (/rng-browser/.test(path)) delete require.cache[path];
-  });
+  // Unrequire so we can test with a `crypto` shim
+  unrequire('rng-browser');
 
   // We shim the web crypto API to trigger cryptoRNG code path in rng module,
   // then unshim once we've required it
-  global.crypto = {
-    getRandomValues: function(arr) {
-      var bytes = crypto.randomBytes(arr.length);
-      for (var i = 0; i < arr.length; i++) {
-        arr[i] = bytes[i];
-      }
-      return arr;
-    }
-  };
+  global.crypto = {getRandomValues: function(arr) {}};
   var rng = require('../lib/rng-browser');
   delete global.crypto;
 
   assert.equal(rng.name, 'whatwgRNG');
+
+  // Unrequire again since we didn't actually provide a good RNG function
+  unrequire('rng-browser');
 });
 
 test('sha1 node', function() {
@@ -157,7 +153,7 @@ test('v3', function() {
   buf = new Array(19);
   for (var i=0; i<3; ++i) buf[i] = 'landmaster';
   uuidv3('hello.example.com', uuidv3.DNS, buf, 3);
-  assert.ok(buf.length === testBuf.length+3 && buf.every(function (elem, idx) {
+  assert.ok(buf.length === testBuf.length+3 && buf.every(function(elem, idx) {
     return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
   }), 'hello');
 });
