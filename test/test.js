@@ -258,3 +258,17 @@ test('ids spanning 1ms boundary are 100ns apart', function() {
   var dt = parseInt(after, 16) - parseInt(before, 16);
   assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
 });
+
+test('generated sequentially', function() {
+  var a = [null, null];
+  var list = a.map(uuid.v1);
+  assert(list.indexOf(1) === -1);
+});
+
+test('generated sequentially with a wrapper', function() {
+  var a = [null, null];
+  var list = a.map(function() {
+    return uuid.v1();
+  });
+  assert(list.indexOf(1) === -1);
+});
