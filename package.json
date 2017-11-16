@@ -13,11 +13,13 @@
   },
   "devDependencies": {
     "eslint": "4.5.0",
+    "github-release-notes": "0.13.1",
     "mocha": "3.1.2",
     "runmd": "0.1.7"
   },
   "scripts": {
     "test": "mocha test/test.js",
+    "changelog": "gren c --tags=all --generate",
     "md": "runmd --watch --output=README.md README_js.md",
     "prepare": "runmd --output=README.md README_js.md"
   },
