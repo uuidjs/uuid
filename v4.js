@@ -26,4 +26,6 @@ function v4(options, buf, offset) {
   return buf || bytesToUuid(rnds);
 }
 
+v4.NIL = '00000000-0000-0000-0000-000000000000';
+
 module.exports = v4;
