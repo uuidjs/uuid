@@ -106,4 +106,6 @@ function v1(options, buf, offset) {
   return buf ? buf : bytesToUuid(b);
 }
 
+v1.NIL = '00000000-0000-0000-0000-000000000000';
+
 module.exports = v1;
