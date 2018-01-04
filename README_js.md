@@ -23,14 +23,14 @@ Then generate your uuid version of choice ...
 
 Version 1 (timestamp):
 
-```javascript --context
+```javascript --run uuid
 const uuidv1 = require('uuid/v1');
 uuidv1(); // RESULT
 ```
 
 Version 3 (namespace):
 
-```javascript --context
+```javascript --run v3
 const uuidv3 = require('uuid/v3');
 
 // ... using predefined DNS namespace (for domain names)
@@ -49,14 +49,14 @@ uuidv3('Hello, World!', MY_NAMESPACE); // RESULT
 
 Version 4 (random):
 
-```javascript --context
+```javascript --run uuid
 const uuidv4 = require('uuid/v4');
 uuidv4(); // RESULT
 ```
 
 Version 5 (namespace):
 
-```javascript --context
+```javascript --run v5
 const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
@@ -144,7 +144,7 @@ Note: The <node> id is generated guaranteed to stay constant for the lifetime of
 
 Example: Generate string UUID with fully-specified options
 
-```javascript --context
+```javascript --run uuid
 const v1options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
@@ -156,7 +156,7 @@ uuidv1(v1options); // RESULT
 
 Example: In-place generation of two binary IDs
 
-```javascript --context
+```javascript --run uuid
 // Generate two ids in an array
 const arr = new Array();
 uuidv1(null, arr, 0);  // RESULT
@@ -220,7 +220,7 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 
 Example: Generate string UUID with predefined `random` values
 
-```javascript --context
+```javascript --run uuid
 const v4options = {
   random: [
     0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea,
@@ -232,7 +232,7 @@ uuidv4(v4options); // RESULT
 
 Example: Generate two IDs in a single buffer
 
-```javascript --context
+```javascript --run uuid
 const buffer = new Array();
 uuidv4(null, buffer, 0);  // RESULT
 uuidv4(null, buffer, 16); // RESULT
