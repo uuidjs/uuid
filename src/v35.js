@@ -1,4 +1,4 @@
-var bytesToUuid = require('./bytesToUuid');
+import bytesToUuid from './bytesToUuid';
 
 function uuidToBytes(uuid) {
   // Note: We assume we're being passed a valid uuid string
@@ -19,7 +19,7 @@ function stringToBytes(str) {
   return bytes;
 }
 
-module.exports = function(name, version, hashfunc) {
+export default function(name, version, hashfunc) {
   var generateUUID = function(value, namespace, buf, offset) {
     var off = buf && offset || 0;
 
@@ -43,7 +43,11 @@ module.exports = function(name, version, hashfunc) {
     return buf || bytesToUuid(bytes);
   };
 
-  generateUUID.name = name;
+  if (Object.getOwnPropertyDescriptor(generateUUID, 'name').configurable) {
+    Object.defineProperty(generateUUID, 'name', { value: 'name' });
+  } else {
+    generateUUID.name = name;
+  }
 
   // Pre-defined namespaces, per Appendix C
   generateUUID.DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';

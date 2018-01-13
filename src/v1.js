@@ -1,5 +1,5 @@
-var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
+import rng from './rng';
+import bytesToUuid from './bytesToUuid';
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -14,7 +14,7 @@ var _lastMSecs = 0;
 var _lastNSecs = 0;
 
 // See https://github.com/broofa/node-uuid for API details
-function v1(options, buf, offset) {
+export default function v1(options, buf, offset) {
   var i = buf && offset || 0;
   var b = buf || [];
 
@@ -105,5 +105,3 @@ function v1(options, buf, offset) {
 
   return buf ? buf : bytesToUuid(b);
 }
-
-module.exports = v1;

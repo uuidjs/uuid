@@ -1,7 +1,7 @@
-var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
+import rng from './rng';
+import bytesToUuid from './bytesToUuid';
 
-function v4(options, buf, offset) {
+export default function v4(options, buf, offset) {
   var i = buf && offset || 0;
 
   if (typeof(options) == 'string') {
@@ -25,5 +25,3 @@ function v4(options, buf, offset) {
 
   return buf || bytesToUuid(rnds);
 }
-
-module.exports = v4;

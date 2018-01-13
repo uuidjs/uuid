@@ -19,9 +19,7 @@
  * See http://pajhome.org.uk/crypt/md5 for more info.
  */
 
-'use strict';
-
-function md5(bytes) {
+export default function md5(bytes) {
   if (typeof(bytes) == 'string') {
     var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
     bytes = new Array(msg.length);
@@ -212,5 +210,3 @@ function md5hh(a, b, c, d, x, s, t) {
 function md5ii(a, b, c, d, x, s, t) {
   return md5cmn(c ^ (b | (~d)), a, b, x, s, t);
 }
-
-module.exports = md5;
