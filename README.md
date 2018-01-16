@@ -286,8 +286,44 @@ Type `uuid --help` for usage details
 ## Testing
 
 ```shell
+# Run the unit tests and browser tests:
 npm test
+
+# Just the unit tests
+npm run test:unit
+
+# Just the browser tests
+npm run test:browser
 ```
+
+### Run the tests using cloud browsers
+
+Requires a [Sauce Labs][] username and access key.
+
+```
+echo '{"user": "<username>", "key": "<access key>" }' > user.json
+npm run test:sauce
+```
+
+[Sauce Labs]: https://saucelabs.com/
+
+### Run the tests using custom configuration
+
+Browser tests scaffolded upon [webdriver.io][].
+
+Create a `wdio.conf.js`, using the sample:
+```shell
+cp test/wdio.sample.js wdio.conf.js
+```
+
+Or from scratch using `wdio config`.
+
+Run the browser tests using the config:
+```
+wdio
+```
+
+[webdriver.io]: http://webdriver.io/
 
 ----
 Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)

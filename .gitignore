@@ -1,4 +1,7 @@
+/wdio.*.js
 *.sw*
 .idea/**
 .DS_Store
 node_modules
+test/specs/*.bundle.js
+user.json

@@ -3,3 +3,5 @@ test/
 .gitignore
 .travis.yml
 .npmignore
+user.json
+wdio.*.js
