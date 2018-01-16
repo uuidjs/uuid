@@ -14,11 +14,13 @@
   "devDependencies": {
     "eslint": "4.5.0",
     "mocha": "3.1.2",
-    "runmd": "1.0.1"
+    "runmd": "1.0.1",
+    "standard-version": "4.2.0"
   },
   "scripts": {
     "test": "mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
+    "release": "standard-version",
     "prepare": "runmd --output=README.md README_js.md"
   },
   "browser": {
@@ -30,5 +32,7 @@
     "type": "git",
     "url": "https://github.com/kelektiv/node-uuid.git"
   },
-  "dependencies": {}
+  "dependencies": {
+    "typescript": "2.6.2"
+  }
 }

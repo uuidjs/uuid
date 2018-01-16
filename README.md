@@ -28,7 +28,7 @@ Version 1 (timestamp):
 
 ```javascript
 const uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '37c611a0-d44c-11e7-87f5-fda56f410c05'
+uuidv1(); // ⇨ '88908250-fac6-11e7-a5ea-a3dad2fe7c07'
 
 ```
 
@@ -56,7 +56,7 @@ Version 4 (random):
 
 ```javascript
 const uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ '85af1f4e-1ba1-4069-b5ea-a7319cd467b1'
+uuidv4(); // ⇨ 'bfa748bd-e889-447c-b7fd-f8dbd2025adf'
 
 ```
 
@@ -139,7 +139,7 @@ Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
   * `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomly generated ID.  See note 1.
   * `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence.  Default: An internally maintained clockseq is used.
-  * `msecs` - (Number | Date) Time in milliseconds since unix Epoch.  Default: The current time is used.
+  * `msecs` - (Number) Time in milliseconds since unix Epoch.  Default: The current time is used.
   * `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond units. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
 
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
@@ -167,8 +167,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 const arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 55, 206, 118, 16, 212, 76, 17, 231, 146, 52, 253, 165, 111, 65, 12, 5 ]
-uuidv1(null, arr, 16); // ⇨ [ 55, 206, 118, 16, 212, 76, 17, 231, 146, 52, 253, 165, 111, 65, 12, 5, 55, 206, 196, 48, 212, 76, 17, 231, 146, 52, 253, 165, 111, 65, 12, 5 ]
+uuidv1(null, arr, 0);  // ⇨ [ 136, 152, 191, 176, 250, 198, 17, 231, 146, 52, 163, 218, 210, 254, 124, 7 ]
+uuidv1(null, arr, 16); // ⇨ [ 136, 152, 191, 176, 250, 198, 17, 231, 146, 52, 163, 218, 210, 254, 124, 7, 136, 152, 230, 192, 250, 198, 17, 231, 146, 52, 163, 218, 210, 254, 124, 7 ]
 
 ```
 
@@ -237,8 +237,8 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 const buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 17, 199, 69, 178, 66, 14, 76, 246, 177, 55, 64, 173, 168, 143, 6, 92 ]
-uuidv4(null, buffer, 16); // ⇨ [ 17, 199, 69, 178, 66, 14, 76, 246, 177, 55, 64, 173, 168, 143, 6, 92, 186, 164, 72, 251, 46, 2, 64, 166, 138, 136, 122, 35, 252, 28, 58, 60 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 52, 211, 26, 219, 57, 198, 77, 41, 188, 30, 91, 80, 54, 124, 21, 181 ]
+uuidv4(null, buffer, 16); // ⇨ [ 52, 211, 26, 219, 57, 198, 77, 41, 188, 30, 91, 80, 54, 124, 21, 181, 39, 203, 134, 122, 14, 113, 78, 136, 156, 17, 198, 161, 143, 138, 68, 149 ]
 
 ```
 
