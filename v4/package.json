@@ -1,0 +1,6 @@
+{
+  "name": "uuid/v4",
+  "private": true,
+  "main": "../lib/v4.js",
+  "module": "../src/v4.js"
+}

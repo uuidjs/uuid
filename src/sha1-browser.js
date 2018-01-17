@@ -1,6 +1,5 @@
 // Adapted from Chris Veness' SHA1 code at
 // http://www.movable-type.co.uk/scripts/sha1.html
-'use strict';
 
 function f(s, x, y, z) {
   switch (s) {
@@ -15,7 +14,7 @@ function ROTL(x, n) {
   return (x << n) | (x>>> (32 - n));
 }
 
-function sha1(bytes) {
+export default function sha1(bytes) {
   var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
   var H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
 
@@ -85,5 +84,3 @@ function sha1(bytes) {
     H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff
   ];
 }
-
-module.exports = sha1;

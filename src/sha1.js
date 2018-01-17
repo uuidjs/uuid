@@ -1,8 +1,8 @@
 'use strict';
 
-var crypto = require('crypto');
+import crypto from 'crypto';
 
-function md5(bytes) {
+export default function sha1(bytes) {
   if (typeof Buffer.from === 'function') {
     // Modern Buffer API
     if (Array.isArray(bytes)) {
@@ -19,7 +19,5 @@ function md5(bytes) {
     }
   }
 
-  return crypto.createHash('md5').update(bytes).digest();
+  return crypto.createHash('sha1').update(bytes).digest();
 }
-
-module.exports = md5;
