@@ -214,7 +214,7 @@ Generate and return a RFC4122 v4 UUID.
 
 * `options` - (Object) Optional uuid state to apply. Properties may include:
   * `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values
-  * `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255)
+  * `rng` - (Function | 'rng-browser') Random # generator function that returns an Array[16] of byte values (0-255) or the string 'rng-browser' to use this library's random # generator function for the browser
 * `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 * `offset` - (Number) Starting index in `buffer` at which to begin writing.
 

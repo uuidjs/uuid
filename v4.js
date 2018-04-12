@@ -10,6 +10,10 @@ function v4(options, buf, offset) {
   }
   options = options || {};
 
+  if (options.rng === 'rng-browser') {
+    options.rng = require('./lib/rng-browser');
+  }
+
   var rnds = options.random || (options.rng || rng)();
 
   // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
