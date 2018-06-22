@@ -2,14 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="3.2.1"></a>
-## [3.2.1](https://github.com/kelektiv/node-uuid/compare/v3.1.0...v3.2.1) (2018-01-16)
+## [3.2.1](https://github.com/kelektiv/node-uuid/compare/v3.2.0...v3.2.1) (2018-01-16)
 
 
 ### Bug Fixes
 
 * use msCrypto if available. Fixes [#241](https://github.com/kelektiv/node-uuid/issues/241) ([#247](https://github.com/kelektiv/node-uuid/issues/247)) ([1fef18b](https://github.com/kelektiv/node-uuid/commit/1fef18b))
-
 
 
 <a name="3.2.0"></a>
@@ -27,31 +25,48 @@ All notable changes to this project will be documented in this file. See [standa
 * Add v3 Support ([#217](https://github.com/kelektiv/node-uuid/issues/217)) ([d94f726](https://github.com/kelektiv/node-uuid/commit/d94f726))
 
 
+# [3.1.0](https://github.com/kelektiv/node-uuid/compare/v3.1.0...v3.0.1) (2017-06-17)
+
+### Bug Fixes
+
+* (fix) Add .npmignore file to exclude test/ and other non-essential files from packing. (#183)
+* Fix typo (#178)
+* Simple typo fix (#165)
+
+### Features
+* v5 support in CLI (#197)
+* V5 support (#188)
+
 
 # 3.0.1 (2016-11-28)
 
-  * split uuid versions into separate files
+* split uuid versions into separate files
+
 
 # 3.0.0 (2016-11-17)
 
-  * remove .parse and .unparse
+* remove .parse and .unparse
+
 
 # 2.0.0
 
-  * Removed uuid.BufferClass
+* Removed uuid.BufferClass
+
 
 # 1.4.0
 
-  * Improved module context detection
-  * Removed public RNG functions
+* Improved module context detection
+* Removed public RNG functions
+
 
 # 1.3.2
 
-  * Improve tests and handling of v1() options (Issue #24)
-  * Expose RNG option to allow for perf testing with different generators
+* Improve tests and handling of v1() options (Issue #24)
+* Expose RNG option to allow for perf testing with different generators
+
 
 # 1.3.0
 
-  * Support for version 1 ids, thanks to [@ctavan](https://github.com/ctavan)!
-  * Support for node.js crypto API
-  * De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code
+* Support for version 1 ids, thanks to [@ctavan](https://github.com/ctavan)!
+* Support for node.js crypto API
+* De-emphasizing performance in favor of a) cryptographic quality PRNGs where available and b) more manageable code
