@@ -27,6 +27,7 @@ All notable changes to this project will be documented in this file. See [standa
 * use msCrypto if available. Fixes [#241](https://github.com/kelektiv/node-uuid/issues/241) ([#247](https://github.com/kelektiv/node-uuid/issues/247)) ([1fef18b](https://github.com/kelektiv/node-uuid/commit/1fef18b))
 
 
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/kelektiv/node-uuid/compare/v3.1.0...v3.2.0) (2018-01-16)
 
