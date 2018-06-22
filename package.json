@@ -2,6 +2,11 @@
   "name": "uuid",
   "version": "3.2.1",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "keywords": [
     "uuid",
     "guid",
@@ -12,12 +17,16 @@
     "uuid": "./bin/uuid"
   },
   "devDependencies": {
+    "@commitlint/cli": "7.0.0",
+    "@commitlint/config-conventional": "7.0.1",
     "eslint": "4.5.0",
+    "husky": "0.14.3",
     "mocha": "3.1.2",
     "runmd": "1.0.1",
     "standard-version": "4.2.0"
   },
   "scripts": {
+    "commitmsg": "commitlint -E GIT_PARAMS",
     "test": "mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
@@ -31,6 +40,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kelektiv/node-uuid.git"
-  },
-  "dependencies": {}
+  }
 }
