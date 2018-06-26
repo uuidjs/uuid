@@ -24,16 +24,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* assignment to readonly property to allow running in strict mode ([#270](https://github.com/kelektiv/node-uuid/issues/270)) ([d062fdc](https://github.com/kelektiv/node-uuid/commit/d062fdc))
-* fix [#229](https://github.com/kelektiv/node-uuid/issues/229) ([c9684d4](https://github.com/kelektiv/node-uuid/commit/c9684d4))
-* Get correct version of IE11 crypto ([#274](https://github.com/kelektiv/node-uuid/issues/274)) ([153d331](https://github.com/kelektiv/node-uuid/commit/153d331))
-* mem issue when generating uuid ([#267](https://github.com/kelektiv/node-uuid/issues/267)) ([c47702c](https://github.com/kelektiv/node-uuid/commit/c47702c))
 * use msCrypto if available. Fixes [#241](https://github.com/kelektiv/node-uuid/issues/241) ([#247](https://github.com/kelektiv/node-uuid/issues/247)) ([1fef18b](https://github.com/kelektiv/node-uuid/commit/1fef18b))
-
-
-### Features
-
-* enforce Conventional Commit style commit messages ([#282](https://github.com/kelektiv/node-uuid/issues/282)) ([cc9a182](https://github.com/kelektiv/node-uuid/commit/cc9a182))
 
 
 
