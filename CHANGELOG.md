@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.3.1"></a>
+## [3.3.1](https://github.com/kelektiv/node-uuid/compare/v3.3.0...v3.3.1) (2018-06-28)
+
+
+### Bug Fixes
+
+* fix [#284](https://github.com/kelektiv/node-uuid/issues/284) by setting function name in try-catch ([f2a60f2](https://github.com/kelektiv/node-uuid/commit/f2a60f2))
+
+
+
 <a name="3.3.0"></a>
 # [3.3.0](https://github.com/kelektiv/node-uuid/compare/v3.2.1...v3.3.0) (2018-06-22)
 
