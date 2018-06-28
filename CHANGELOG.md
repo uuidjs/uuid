@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/kelektiv/node-uuid/compare/v3.1.0...v3.4.0) (2018-06-28)
+
+
+### Bug Fixes
+
+* assignment to readonly property to allow running in strict mode ([#270](https://github.com/kelektiv/node-uuid/issues/270)) ([beffff8](https://github.com/kelektiv/node-uuid/commit/beffff8))
+* assignment to readonly property to allow running in strict mode ([#270](https://github.com/kelektiv/node-uuid/issues/270)) ([d062fdc](https://github.com/kelektiv/node-uuid/commit/d062fdc))
+* fix [#284](https://github.com/kelektiv/node-uuid/issues/284) by setting function name in try-catch ([5c049c3](https://github.com/kelektiv/node-uuid/commit/5c049c3))
+* Get correct version of IE11 crypto ([#274](https://github.com/kelektiv/node-uuid/issues/274)) ([205e0ed](https://github.com/kelektiv/node-uuid/commit/205e0ed))
+* Get correct version of IE11 crypto ([#274](https://github.com/kelektiv/node-uuid/issues/274)) ([153d331](https://github.com/kelektiv/node-uuid/commit/153d331))
+* mem issue when generating uuid ([#267](https://github.com/kelektiv/node-uuid/issues/267)) ([c47702c](https://github.com/kelektiv/node-uuid/commit/c47702c))
+* use msCrypto if available. Fixes [#241](https://github.com/kelektiv/node-uuid/issues/241) ([#247](https://github.com/kelektiv/node-uuid/issues/247)) ([1fef18b](https://github.com/kelektiv/node-uuid/commit/1fef18b))
+
+
+### Features
+
+* enforce Conventional Commit style commit messages ([#282](https://github.com/kelektiv/node-uuid/issues/282)) ([0705cd5](https://github.com/kelektiv/node-uuid/commit/0705cd5))
+* enforce Conventional Commit style commit messages ([#282](https://github.com/kelektiv/node-uuid/issues/282)) ([cc9a182](https://github.com/kelektiv/node-uuid/commit/cc9a182))
+
+
+
 <a name="3.3.0"></a>
 # [3.3.0](https://github.com/kelektiv/node-uuid/compare/v3.2.1...v3.3.0) (2018-06-22)
 
