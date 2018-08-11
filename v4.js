@@ -27,3 +27,4 @@ function v4(options, buf, offset) {
 }
 
 module.exports = v4;
+module.exports.default = v4;
