@@ -107,3 +107,4 @@ function v1(options, buf, offset) {
 }
 
 module.exports = v1;
+module.exports.default = v1;
