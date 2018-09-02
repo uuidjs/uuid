@@ -9,7 +9,7 @@ function usage() {
   console.log('  uuid v4');
   console.log('  uuid v5 <name> <namespace uuid>');
   console.log('  uuid --help');
-  console.log('\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122');
+  console.log('\nNote: <namespace uuid> may be "URL", "OID", or "DNS" to use the corresponding UUIDs defined by RFC4122');
 }
 
 var args = process.argv.slice(2);
@@ -36,6 +36,7 @@ switch (version) {
 
     if (namespace == 'URL') namespace = uuidV3.URL;
     if (namespace == 'DNS') namespace = uuidV3.DNS;
+    if (namespace == 'OID') namespace = uuidV3.OID;
 
     console.log(uuidV3(name, namespace));
     break;
@@ -55,6 +56,7 @@ switch (version) {
 
     if (namespace == 'URL') namespace = uuidV5.URL;
     if (namespace == 'DNS') namespace = uuidV5.DNS;
+    if (namespace == 'OID') namespace = uuidV5.OID;
 
     console.log(uuidV5(name, namespace));
     break;

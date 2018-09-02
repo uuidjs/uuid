@@ -40,6 +40,9 @@ const uuidv3 = require('uuid/v3');
 // ... using predefined DNS namespace (for domain names)
 uuidv3('hello.example.com', uuidv3.DNS); // ⇨ '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
 
+// ... using predefined OID namespace (for domain names)
+uuidv3('hello.example.com', uuidv3.OID); // ⇨ '3ca18921-bc82-3761-9175-610a1baecc10'
+
 // ... using predefined URL namespace (for, well, URLs)
 uuidv3('http://example.com/hello', uuidv3.URL); // ⇨ 'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
 
@@ -67,6 +70,9 @@ const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
 uuidv5('hello.example.com', uuidv5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
+
+// ... using predefined OID namespace (for domain names)
+uuidv5('hello.example.com', uuidv5.OID); // ⇨ 'a1b446fa-0401-5c02-b737-dcaa717a8b2a'
 
 // ... using predefined URL namespace (for, well, URLs)
 uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'

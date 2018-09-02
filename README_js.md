@@ -39,6 +39,9 @@ const uuidv3 = require('uuid/v3');
 // ... using predefined DNS namespace (for domain names)
 uuidv3('hello.example.com', uuidv3.DNS); // RESULT
 
+// ... using predefined OID namespace (for domain names)
+uuidv3('hello.example.com', uuidv3.OID); // RESULT
+
 // ... using predefined URL namespace (for, well, URLs)
 uuidv3('http://example.com/hello', uuidv3.URL); // RESULT
 
@@ -64,6 +67,9 @@ const uuidv5 = require('uuid/v5');
 
 // ... using predefined DNS namespace (for domain names)
 uuidv5('hello.example.com', uuidv5.DNS); // RESULT
+
+// ... using predefined OID namespace (for domain names)
+uuidv5('hello.example.com', uuidv5.OID); // RESULT
 
 // ... using predefined URL namespace (for, well, URLs)
 uuidv5('http://example.com/hello', uuidv5.URL); // RESULT
