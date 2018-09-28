@@ -28,7 +28,7 @@ Version 1 (timestamp):
 
 ```javascript
 const uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '52792da0-c2e6-11e8-968c-41fd33292319'
+uuidv1(); // ⇨ 'e4d8ba10-c2e8-11e8-9920-1d1c54766095'
 
 ```
 
@@ -56,7 +56,7 @@ Version 4 (random):
 
 ```javascript
 const uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ 'efd1657b-4ffe-43b2-ab74-318de4221b76'
+uuidv4(); // ⇨ 'f2e81204-0db0-4489-9423-42182784e250'
 
 ```
 
@@ -82,7 +82,7 @@ uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614
 
 ## Quickstart - Browser-ready Versions
 
-Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/node-uuid/dist` folder through npm downloads.
+Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/uuid/dist` folder through npm downloads.
 
 > Note that we also provide unminified versions with `.js` instead of `.min.js` file extensions if needed.
 
@@ -171,8 +171,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 const arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 82, 122, 63, 16, 194, 230, 17, 232, 146, 52, 65, 253, 51, 41, 35, 25 ]
-uuidv1(null, arr, 16); // ⇨ [ 82, 122, 63, 16, 194, 230, 17, 232, 146, 52, 65, 253, 51, 41, 35, 25, 82, 122, 63, 17, 194, 230, 17, 232, 146, 52, 65, 253, 51, 41, 35, 25 ]
+uuidv1(null, arr, 0);  // ⇨ [ 228, 218, 103, 192, 194, 232, 17, 232, 146, 52, 29, 28, 84, 118, 96, 149 ]
+uuidv1(null, arr, 16); // ⇨ [ 228, 218, 103, 192, 194, 232, 17, 232, 146, 52, 29, 28, 84, 118, 96, 149, 228, 218, 142, 208, 194, 232, 17, 232, 146, 52, 29, 28, 84, 118, 96, 149 ]
 
 ```
 
@@ -241,8 +241,8 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 const buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 156, 196, 75, 153, 22, 145, 72, 173, 153, 221, 123, 58, 226, 18, 121, 85 ]
-uuidv4(null, buffer, 16); // ⇨ [ 156, 196, 75, 153, 22, 145, 72, 173, 153, 221, 123, 58, 226, 18, 121, 85, 209, 78, 64, 66, 40, 222, 75, 108, 177, 69, 26, 215, 135, 229, 90, 248 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 124, 6, 67, 52, 133, 66, 67, 43, 146, 29, 22, 151, 138, 41, 205, 78 ]
+uuidv4(null, buffer, 16); // ⇨ [ 124, 6, 67, 52, 133, 66, 67, 43, 146, 29, 22, 151, 138, 41, 205, 78, 20, 88, 76, 232, 85, 70, 66, 155, 134, 60, 170, 58, 165, 94, 97, 168 ]
 
 ```
 

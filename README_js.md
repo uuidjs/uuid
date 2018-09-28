@@ -78,7 +78,7 @@ uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 
 ## Quickstart - Browser-ready Versions
 
-Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/node-uuid/dist` folder through npm downloads.
+Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/uuid/dist` folder through npm downloads.
 
 > Note that we also provide unminified versions with `.js` instead of `.min.js` file extensions if needed.
 
