@@ -36,6 +36,7 @@
     "tinyify": "^2.4.3"
   },
   "unpkg": "dist/uuidv4.min.js",
+  "jsdelivr": "dist/uuidv4.min.js",
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm-run-all clean browserify:v*",

@@ -28,7 +28,7 @@ Version 1 (timestamp):
 
 ```javascript
 const uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ 'e4d8ba10-c2e8-11e8-9920-1d1c54766095'
+uuidv1(); // ⇨ 'ca6e1a90-c355-11e8-bc88-9759f8b66240'
 
 ```
 
@@ -56,7 +56,7 @@ Version 4 (random):
 
 ```javascript
 const uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ 'f2e81204-0db0-4489-9423-42182784e250'
+uuidv4(); // ⇨ 'e57d7cee-a174-4463-9f89-1ada39083c5f'
 
 ```
 
@@ -82,14 +82,15 @@ uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614
 
 ## Quickstart - Browser-ready Versions
 
-Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/uuid/dist` folder through npm downloads.
+Browser-ready versions of this module are available via [jsdelivr](https://www.jsdelivr.com/), [unpkg](https://unpkg.com/), and also in the `node_modules/uuid/dist` folder in npm downloads of `uuid`.
 
 > Note that we also provide unminified versions with `.js` instead of `.min.js` file extensions if needed.
 
 For version 1 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid/dist/uuidv1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv1.min.js"></script>
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv1.min.js"></script> -->
 <script>
 uuidv1(); // -> v1 UUID
 </script>
@@ -98,7 +99,8 @@ uuidv1(); // -> v1 UUID
 For version 3 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid/dist/uuidv3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv3.min.js"></script>
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv3.min.js"></script> -->
 <script>
 uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 </script>
@@ -107,8 +109,10 @@ uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 For version 4 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid"></script>
+<!-- <script src="https://unpkg.com/uuid"></script> -->
 <!-- you could also use this alias to lock to v4 version: -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv4.min.js"></script> -->
 <!-- <script src="https://unpkg.com/uuid/dist/uuidv4.min.js"></script> -->
 <script>
 uuidv4(); // -> v4 UUID
@@ -118,7 +122,8 @@ uuidv4(); // -> v4 UUID
 For version 5 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid/dist/uuidv5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv5.min.js"></script>
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv5.min.js"></script> -->
 <script>
 uuidv5('http://example.com/hello', uuidv5.URL); // -> v5 UUID
 </script>
@@ -171,8 +176,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 const arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 228, 218, 103, 192, 194, 232, 17, 232, 146, 52, 29, 28, 84, 118, 96, 149 ]
-uuidv1(null, arr, 16); // ⇨ [ 228, 218, 103, 192, 194, 232, 17, 232, 146, 52, 29, 28, 84, 118, 96, 149, 228, 218, 142, 208, 194, 232, 17, 232, 146, 52, 29, 28, 84, 118, 96, 149 ]
+uuidv1(null, arr, 0);  // ⇨ [ 202, 112, 178, 160, 195, 85, 17, 232, 146, 52, 151, 89, 248, 182, 98, 64 ]
+uuidv1(null, arr, 16); // ⇨ [ 202, 112, 178, 160, 195, 85, 17, 232, 146, 52, 151, 89, 248, 182, 98, 64, 202, 112, 217, 176, 195, 85, 17, 232, 146, 52, 151, 89, 248, 182, 98, 64 ]
 
 ```
 
@@ -241,8 +246,8 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 const buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 124, 6, 67, 52, 133, 66, 67, 43, 146, 29, 22, 151, 138, 41, 205, 78 ]
-uuidv4(null, buffer, 16); // ⇨ [ 124, 6, 67, 52, 133, 66, 67, 43, 146, 29, 22, 151, 138, 41, 205, 78, 20, 88, 76, 232, 85, 70, 66, 155, 134, 60, 170, 58, 165, 94, 97, 168 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 84, 49, 8, 88, 218, 86, 75, 75, 145, 208, 91, 167, 82, 45, 114, 241 ]
+uuidv4(null, buffer, 16); // ⇨ [ 84, 49, 8, 88, 218, 86, 75, 75, 145, 208, 91, 167, 82, 45, 114, 241, 11, 193, 76, 131, 150, 213, 77, 128, 140, 35, 187, 29, 136, 22, 19, 118 ]
 
 ```
 

@@ -78,14 +78,15 @@ uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 
 ## Quickstart - Browser-ready Versions
 
-Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/uuid/dist` folder through npm downloads.
+Browser-ready versions of this module are available via [jsdelivr](https://www.jsdelivr.com/), [unpkg](https://unpkg.com/), and also in the `node_modules/uuid/dist` folder in npm downloads of `uuid`.
 
 > Note that we also provide unminified versions with `.js` instead of `.min.js` file extensions if needed.
 
 For version 1 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid/dist/uuidv1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv1.min.js"></script>
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv1.min.js"></script> -->
 <script>
 uuidv1(); // -> v1 UUID
 </script>
@@ -94,7 +95,8 @@ uuidv1(); // -> v1 UUID
 For version 3 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid/dist/uuidv3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv3.min.js"></script>
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv3.min.js"></script> -->
 <script>
 uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 </script>
@@ -103,8 +105,10 @@ uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 For version 4 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid"></script>
+<!-- <script src="https://unpkg.com/uuid"></script> -->
 <!-- you could also use this alias to lock to v4 version: -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv4.min.js"></script> -->
 <!-- <script src="https://unpkg.com/uuid/dist/uuidv4.min.js"></script> -->
 <script>
 uuidv4(); // -> v4 UUID
@@ -114,7 +118,8 @@ uuidv4(); // -> v4 UUID
 For version 5 uuids:
 
 ```html
-<script src="https://unpkg.com/uuid/dist/uuidv5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid/dist/uuidv5.min.js"></script>
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv5.min.js"></script> -->
 <script>
 uuidv5('http://example.com/hello', uuidv5.URL); // -> v5 UUID
 </script>
