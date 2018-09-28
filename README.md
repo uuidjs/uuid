@@ -28,7 +28,7 @@ Version 1 (timestamp):
 
 ```javascript
 const uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ '3b99e3e0-7598-11e8-90be-95472fb3ecbd'
+uuidv1(); // ⇨ '52792da0-c2e6-11e8-968c-41fd33292319'
 
 ```
 
@@ -56,7 +56,7 @@ Version 4 (random):
 
 ```javascript
 const uuidv4 = require('uuid/v4');
-uuidv4(); // ⇨ '3a017fc5-4f50-4db9-b0ce-4547ba0a1bfd'
+uuidv4(); // ⇨ 'efd1657b-4ffe-43b2-ab74-318de4221b76'
 
 ```
 
@@ -82,12 +82,14 @@ uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614
 
 ## Quickstart - Browser-ready Versions
 
-Browser-ready versions of this module are available via [wzrd.in](https://github.com/jfhbrook/wzrd.in).
+Browser-ready versions of this module are available via [unpkg](https://unpkg.com/) and also in the `node_modules/node-uuid/dist` folder through npm downloads.
+
+> Note that we also provide unminified versions with `.js` instead of `.min.js` file extensions if needed.
 
 For version 1 uuids:
 
 ```html
-<script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
+<script src="https://unpkg.com/uuid/dist/uuidv1.min.js"></script>
 <script>
 uuidv1(); // -> v1 UUID
 </script>
@@ -96,7 +98,7 @@ uuidv1(); // -> v1 UUID
 For version 3 uuids:
 
 ```html
-<script src="http://wzrd.in/standalone/uuid%2Fv3@latest"></script>
+<script src="https://unpkg.com/uuid/dist/uuidv3.min.js"></script>
 <script>
 uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 </script>
@@ -105,7 +107,9 @@ uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
 For version 4 uuids:
 
 ```html
-<script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
+<script src="https://unpkg.com/uuid"></script>
+<!-- you could also use this alias to lock to v4 version: -->
+<!-- <script src="https://unpkg.com/uuid/dist/uuidv4.min.js"></script> -->
 <script>
 uuidv4(); // -> v4 UUID
 </script>
@@ -114,7 +118,7 @@ uuidv4(); // -> v4 UUID
 For version 5 uuids:
 
 ```html
-<script src="http://wzrd.in/standalone/uuid%2Fv5@latest"></script>
+<script src="https://unpkg.com/uuid/dist/uuidv5.min.js"></script>
 <script>
 uuidv5('http://example.com/hello', uuidv5.URL); // -> v5 UUID
 </script>
@@ -167,8 +171,8 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 const arr = new Array();
-uuidv1(null, arr, 0);  // ⇨ [ 59, 155, 106, 128, 117, 152, 17, 232, 146, 52, 149, 71, 47, 179, 236, 189 ]
-uuidv1(null, arr, 16); // ⇨ [ 59, 155, 106, 128, 117, 152, 17, 232, 146, 52, 149, 71, 47, 179, 236, 189, 59, 155, 145, 144, 117, 152, 17, 232, 146, 52, 149, 71, 47, 179, 236, 189 ]
+uuidv1(null, arr, 0);  // ⇨ [ 82, 122, 63, 16, 194, 230, 17, 232, 146, 52, 65, 253, 51, 41, 35, 25 ]
+uuidv1(null, arr, 16); // ⇨ [ 82, 122, 63, 16, 194, 230, 17, 232, 146, 52, 65, 253, 51, 41, 35, 25, 82, 122, 63, 17, 194, 230, 17, 232, 146, 52, 65, 253, 51, 41, 35, 25 ]
 
 ```
 
@@ -237,8 +241,8 @@ Example: Generate two IDs in a single buffer
 
 ```javascript
 const buffer = new Array();
-uuidv4(null, buffer, 0);  // ⇨ [ 202, 18, 44, 182, 222, 65, 71, 82, 164, 80, 208, 169, 173, 93, 252, 13 ]
-uuidv4(null, buffer, 16); // ⇨ [ 202, 18, 44, 182, 222, 65, 71, 82, 164, 80, 208, 169, 173, 93, 252, 13, 243, 221, 205, 191, 130, 146, 75, 199, 146, 71, 96, 195, 45, 156, 124, 9 ]
+uuidv4(null, buffer, 0);  // ⇨ [ 156, 196, 75, 153, 22, 145, 72, 173, 153, 221, 123, 58, 226, 18, 121, 85 ]
+uuidv4(null, buffer, 16); // ⇨ [ 156, 196, 75, 153, 22, 145, 72, 173, 153, 221, 123, 58, 226, 18, 121, 85, 209, 78, 64, 66, 40, 222, 75, 108, 177, 69, 26, 215, 135, 229, 90, 248 ]
 
 ```
 

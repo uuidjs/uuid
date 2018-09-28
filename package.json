@@ -17,21 +17,50 @@
     "uuid": "./bin/uuid"
   },
   "devDependencies": {
-    "@commitlint/cli": "7.0.0",
-    "@commitlint/config-conventional": "7.0.1",
-    "eslint": "4.19.1",
-    "husky": "0.14.3",
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@commitlint/cli": "7.1.2",
+    "@commitlint/config-conventional": "7.1.2",
+    "babelify": "^10.0.0",
+    "browserify": "^16.2.3",
+    "caniuse-lite": "^1.0.30000888",
+    "eslint": "5.6.0",
+    "eslint-plugin-compat": "^2.5.1",
+    "husky": "^1.0.1",
     "mocha": "5.2.0",
+    "npm-run-all": "^4.1.3",
+    "rimraf": "^2.6.2",
     "runmd": "1.0.1",
-    "standard-version": "4.4.0"
+    "standard-version": "4.4.0",
+    "tinyify": "^2.4.3"
   },
+  "unpkg": "dist/uuidv4.min.js",
   "scripts": {
-    "commitmsg": "commitlint -E GIT_PARAMS",
-    "test": "mocha test/test.js",
+    "clean": "rimraf dist",
+    "build": "npm-run-all clean browserify:v*",
+    "browserify:v1": "browserify v1.js -o dist/uuidv1.js -s uuidv1 -t babelify",
+    "browserify:v1-min": "browserify v1.js -o dist/uuidv1.min.js -s uuidv1 -t babelify -p tinyify",
+    "browserify:v3": "browserify v3.js -o dist/uuidv3.js -s uuidv3 -t babelify",
+    "browserify:v3-min": "browserify v3.js -o dist/uuidv3.min.js -s uuidv3 -t babelify -p tinyify",
+    "browserify:v4": "browserify v4.js -o dist/uuidv4.js -s uuidv4 -t babelify",
+    "browserify:v4-min": "browserify v4.js -o dist/uuidv4.min.js -s uuidv4 -t babelify -p tinyify",
+    "browserify:v5": "browserify v5.js -o dist/uuidv5.js -s uuidv5 -t babelify",
+    "browserify:v5-min": "browserify v5.js -o dist/uuidv5.min.js -s uuidv5 -t babelify -p tinyify",
+    "lint": "eslint && eslint --no-eslintrc -c .dist.eslintrc dist",
+    "test": "npm run build && npm run lint && mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
     "prepare": "runmd --output=README.md README_js.md"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "browser": {
     "./lib/rng.js": "./lib/rng-browser.js",
     "./lib/sha1.js": "./lib/sha1-browser.js",
