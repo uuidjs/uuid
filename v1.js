@@ -26,7 +26,7 @@ function v1(options, buf, offset) {
   // specified.  We do this lazily to minimize issues related to insufficient
   // system entropy.  See #189
   if (node == null || clockseq == null) {
-    var seedBytes = rng();
+    var seedBytes = (options.rng || rng)();
     if (node == null) {
       // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
       node = _nodeId = [

@@ -60,16 +60,9 @@ test('nodeRNG', function() {
   }
 });
 
-test('mathRNG', function() {
+test('noSecureRNG', function() {
   var rng = require('../lib/rng-browser');
-  assert.equal(rng.name, 'mathRNG');
-
-  var bytes = rng();
-  assert.equal(bytes.length, 16);
-
-  for (var i = 0; i < bytes.length; i++) {
-    assert.equal(typeof(bytes[i]), 'number');
-  }
+  assert.throws(rng, Error)
 });
 
 test('cryptoRNG', function() {
