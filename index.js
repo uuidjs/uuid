@@ -1,8 +1,13 @@
 var v1 = require('./v1');
+var v3 = require('./v3');
 var v4 = require('./v4');
+var v5 = require('./v5');
 
 var uuid = v4;
 uuid.v1 = v1;
+uuid.v3 = v3;
 uuid.v4 = v4;
+uuid.v5 = v5;
+
 
 module.exports = uuid;
