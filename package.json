@@ -17,13 +17,13 @@
     "uuid": "./bin/uuid"
   },
   "devDependencies": {
-    "@commitlint/cli": "7.0.0",
-    "@commitlint/config-conventional": "7.0.1",
-    "eslint": "4.19.1",
-    "husky": "0.14.3",
-    "mocha": "5.2.0",
-    "runmd": "1.0.1",
-    "standard-version": "4.4.0"
+    "@commitlint/cli": "~7.0.0",
+    "@commitlint/config-conventional": "~7.0.1",
+    "eslint": "~4.19.1",
+    "husky": "~0.14.3",
+    "mocha": "~5.2.0",
+    "runmd": "~1.0.1",
+    "standard-version": "~4.4.0"
   },
   "scripts": {
     "commitmsg": "commitlint -E GIT_PARAMS",
