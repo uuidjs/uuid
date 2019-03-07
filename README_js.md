@@ -1,5 +1,18 @@
 ```javascript --hide
-runmd.onRequire = path => path.replace(/^uuid/, './');
+runmd.onRequire = path => {
+  if (path == 'rng') return fun
+  return path.replace(/^uuid/, './');
+}
+
+// Shim Date and crypto so generated ids are consistent across doc revisions
+runmd.Date.prototype.getTime = () => 1551914748172;
+
+let seed = 0xDEFACED;
+require('crypto').randomBytes = function() {
+  const a = [];
+  for (let i = 0; i < 16; i++) a.push((seed = seed * 0x41a7 & 0x7fffffff) & 0xff);
+  return a;
+}
 ```
 
 # uuid [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
