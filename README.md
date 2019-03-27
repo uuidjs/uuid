@@ -80,6 +80,18 @@ uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614
 
 ```
 
+## Quickstart - ES6
+
+Example for version 4 uuids:
+
+```
+import { uuidv4 } from 'node-uuid';
+
+uuidv4(); // ⇨ '3a017fc5-4f50-4db9-b0ce-4547ba0a1bfd'
+```
+
+There is an issue with TypeScript when using ES6 style imports, check out the [related discussion](https://github.com/kelektiv/node-uuid/issues/245).
+
 ## Quickstart - Browser-ready Versions
 
 Browser-ready versions of this module are available via [wzrd.in](https://github.com/jfhbrook/wzrd.in).
