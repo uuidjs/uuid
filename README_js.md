@@ -156,7 +156,7 @@ Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
 Returns `buffer`, if specified, otherwise the string form of the UUID
 
-Note: The <node> id is generated guaranteed to stay constant for the lifetime of the current JS runtime. (Future versions of this module may use persistent storage mechanisms to extend this guarantee.)
+Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
 
 Example: Generate string UUID with fully-specified options
 
