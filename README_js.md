@@ -1,5 +1,18 @@
 ```javascript --hide
-runmd.onRequire = path => path.replace(/^uuid/, './');
+runmd.onRequire = path => {
+  if (path == 'rng') return fun
+  return path.replace(/^uuid/, './');
+}
+
+// Shim Date and crypto so generated ids are consistent across doc revisions
+runmd.Date.prototype.getTime = () => 1551914748172;
+
+let seed = 0xDEFACED;
+require('crypto').randomBytes = function() {
+  const a = [];
+  for (let i = 0; i < 16; i++) a.push((seed = seed * 0x41a7 & 0x7fffffff) & 0xff);
+  return a;
+}
 ```
 
 # uuid [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
@@ -143,7 +156,7 @@ Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
 Returns `buffer`, if specified, otherwise the string form of the UUID
 
-Note: The <node> id is generated guaranteed to stay constant for the lifetime of the current JS runtime. (Future versions of this module may use persistent storage mechanisms to extend this guarantee.)
+Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
 
 Example: Generate string UUID with fully-specified options
 

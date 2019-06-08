@@ -17,16 +17,16 @@
     "uuid": "./bin/uuid"
   },
   "devDependencies": {
-    "@commitlint/cli": "7.0.0",
-    "@commitlint/config-conventional": "7.0.1",
-    "eslint": "4.19.1",
-    "husky": "0.14.3",
-    "mocha": "5.2.0",
-    "runmd": "1.0.1",
-    "standard-version": "4.4.0"
+    "@commitlint/cli": "7",
+    "@commitlint/config-conventional": "7",
+    "eslint": "5",
+    "husky": "2",
+    "mocha": "6",
+    "runmd": "1",
+    "standard-version": "6"
   },
   "scripts": {
-    "commitmsg": "commitlint -E GIT_PARAMS",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
     "test": "mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
