@@ -1,5 +1,6 @@
 {
   "name": "uuid",
+  "type": "module",
   "version": "3.3.2",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "commitlint": {
@@ -17,17 +18,16 @@
     "uuid": "./bin/uuid"
   },
   "devDependencies": {
-    "@commitlint/cli": "7",
-    "@commitlint/config-conventional": "7",
+    "@commitlint/cli": "~8.0.0",
+    "@commitlint/config-conventional": "~8.0.0",
     "eslint": "5",
-    "husky": "2",
-    "mocha": "6",
+    "husky": "~2.4.1",
     "runmd": "1",
     "standard-version": "6"
   },
   "scripts": {
     "commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
-    "test": "mocha test/test.js",
+    "test": "node --experimental-modules test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
     "prepare": "runmd --output=README.md README_js.md"

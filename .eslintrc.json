@@ -3,8 +3,13 @@
   "env": {
     "browser": true,
     "commonjs": true,
+    "es6": true,
     "node": true,
     "mocha": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {"ecmaVersion": 6}
   },
   "extends": ["eslint:recommended"],
   "rules": {
