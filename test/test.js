@@ -1,14 +1,13 @@
 import UUID from '../UUID.js';
 import assert from 'assert';
-import crypto from 'crypto';
 import md5 from '../lib/md5.js';
-import md5_browser from '../lib/md5-browser.js';
+import md5Browser from '../lib/md5-browser.js';
 import rng from '../lib/rng.js';
-import rng_browser from '../lib/rng-browser.js';
 import sha1 from '../lib/sha1.js';
-import sha1_browser from '../lib/sha1-browser.js';
+import shaBrowser from '../lib/sha1-browser.js';
 import v1 from '../v1.js';
 import v3, {DNS as v3DNS, URL as v3URL} from '../v3.js';
+import v4 from '../v4.js';
 import v5, {DNS as v5DNS, URL as v5URL} from '../v5.js';
 import {describe, it} from './mocha_lite.js';
 
@@ -16,20 +15,32 @@ describe('rng', () => {
   it('nodeRNG', function() {
     assert.equal(rng.name, 'nodeRNG');
 
-    var bytes = rng();
+    const bytes = rng();
     assert.equal(bytes.length, 16);
 
-    for (var i = 0; i < bytes.length; i++) {
+    for (let i = 0; i < bytes.length; i++) {
       assert.equal(typeof(bytes[i]), 'number');
     }
   });
+});
+
+describe('version and variants', () => {
+  const ids = {1: v1(), 3: v3('1', v4()), 4: v4(), 5: v5('1', v4())};
+
+  for (const [k, v] of Object.entries(ids)) {
+    it(`v${k}`, () => {
+      const uuid = UUID.fromString(v);
+      assert.equal(uuid.variant & 0xfe, 4);
+      assert.equal(uuid.version, k);
+    });
+  }
 });
 
 // Verify ordering of v1 ids created with explicit times
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
 
 describe('v1', () => {
-  it ('v1 sort order (default)', () => {
+  it('v1 sort order (default)', () => {
     const ids = [v1(), v1(), v1(), v1(), v1()];
 
     const sorted = [...ids].sort((a, b) => {
@@ -42,13 +53,13 @@ describe('v1', () => {
   });
 
   // Verify ordering of v1 ids created with explicit times
-  it ('v1 sort order (time option)', () => {
+  it('v1 sort order (time option)', () => {
     const ids = [
-      v1({msecs: TIME - 10*3600*1000}),
+      v1({msecs: TIME - 10 * 3600 * 1000}),
       v1({msecs: TIME - 1}),
       v1({msecs: TIME}),
       v1({msecs: TIME + 1}),
-      v1({msecs: TIME + 28*24*3600*1000})
+      v1({msecs: TIME + 28 * 24 * 3600 * 1000})
     ];
 
     const sorted = [...ids].sort((a, b) => {
@@ -154,7 +165,7 @@ describe('v5', () => {
 
   it('sha1 browser', function() {
     HASH_SAMPLES.forEach(function(sample) {
-      assert.equal(hashToHex(sha1_browser(sample.input)), sample.sha1);
+      assert.equal(hashToHex(shaBrowser(sample.input)), sample.sha1);
     });
   });
 
@@ -166,7 +177,7 @@ describe('v5', () => {
 
   it('md5 browser', function() {
     HASH_SAMPLES.forEach(function(sample) {
-      assert.equal(hashToHex(md5_browser(sample.input)), sample.md5);
+      assert.equal(hashToHex(md5Browser(sample.input)), sample.md5);
     });
   });
 
@@ -186,10 +197,10 @@ describe('v5', () => {
 
     // test offsets as well
     buf = new Array(19);
-    for (let i=0; i<3; ++i) buf[i] = 'landmaster';
+    for (let i = 0; i < 3; ++i) buf[i] = 'landmaster';
     v3('hello.example.com', v3DNS, buf, 3);
-    assert.ok(buf.length === testBuf.length+3 && buf.every(function(elem, idx) {
-      return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
+    assert.ok(buf.length === testBuf.length + 3 && buf.every(function(elem, idx) {
+      return (idx >= 3) ? (elem === testBuf[idx - 3]) : (elem === 'landmaster');
     }), 'hello');
   });
 
@@ -209,10 +220,10 @@ describe('v5', () => {
 
     // test offsets as well
     buf = new Array(19);
-    for (let i=0; i<3; ++i) buf[i] = 'landmaster';
+    for (let i = 0; i < 3; ++i) buf[i] = 'landmaster';
     v5('hello.example.com', v5DNS, buf, 3);
-    assert.ok(buf.length === testBuf.length+3 && buf.every(function(elem, idx) {
-      return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
+    assert.ok(buf.length === testBuf.length + 3 && buf.every(function(elem, idx) {
+      return (idx >= 3) ? (elem === testBuf[idx - 3]) : (elem === 'landmaster');
     }));
   });
 
@@ -226,9 +237,29 @@ describe('v5', () => {
 
 describe('UUID', () => {
   it('constructs', function() {
-    const uuid = UUID.fromString('292487db-aa81-4ab7-990f-944ad3d40e33');
+    const ID = '292487db-aa81-4ab7-990f-944ad3d40e33';
+    const uuid = UUID.fromString(ID);
+    assert.equal(uuid.toString(), ID);
     assert.equal(uuid.variant, 4);
     assert.equal(uuid.version, 4);
-    assert.deepEqual(uuid.node, Uint8Array.from([ 148, 74, 211, 212, 14, 51 ]));
+  });
+
+  it('v1 getters/setters', function() {
+    // Should fail for non-v1 uuids
+    let uuid = UUID.fromString('292487db-aa81-4ab7-990f-944ad3d40e33');
+    assert.throws(() => uuid.node);
+    assert.throws(() => uuid.clockseq);
+    assert.throws(() => uuid.timestamp);
+    assert.throws(() => uuid.date);
+
+    uuid = UUID.fromString('1186d086-96df-11e9-bc42-526af7764f64');
+    assert.equal(uuid.clockseq, 0x3c42);
+    assert.deepEqual(uuid.node, Uint8Array.of(0x52, 0x6a, 0xf7, 0x76, 0x4f, 0x64));
+
+    assert.equal(uuid.timestamp.toString(16), (0x1e996df1186d086n).toString(16));
+    uuid.timestamp = 0x1e996df1186d086n;
+    assert.deepEqual(uuid.bytes, Uint8Array.of(0x11, 0x86, 0xd0, 0x86, 0x96, 0xdf, 0x11, 0xe9, 0xbc, 0x42, 0x52, 0x6a, 0xf7, 0x76, 0x4f, 0x64));
+
+    assert.equal(uuid.date.toString(), new Date('2019-06-25T00:20:42.743Z').toString());
   });
 });

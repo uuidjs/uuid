@@ -7,9 +7,12 @@
     "node": true,
     "mocha": true
   },
+  "globals": {
+    "msCrypto": true
+  },
   "parserOptions": {
     "sourceType": "module",
-    "ecmaFeatures": {"ecmaVersion": 6}
+    "ecmaVersion": 2017
   },
   "extends": ["eslint:recommended"],
   "rules": {
@@ -22,6 +25,7 @@
     "comma-spacing": ["warn", {"after": true}],
     "dot-notation": "warn",
     "eqeqeq": ["warn", "smart"],
+    "func-call-spacing": ["warn", "never"],
     "indent": ["warn", 2, {
       "SwitchCase": 1,
       "FunctionDeclaration": {"parameters": 1},
@@ -30,23 +34,40 @@
     }],
     "key-spacing": ["warn", {"beforeColon": false, "afterColon": true, "mode": "minimum"}],
     "keyword-spacing": "warn",
+    "linebreak-style": ["warn", "unix"],
+    "lines-around-directive": ["warn", { "before": "never", "after": "always"}],
+    "max-len": ["off", {"code": 120, "tabWidth": 2, "ignoreTrailingComments": true, "ignoreTemplateLiterals": true}],
     "no-console": "off",
+    "no-constant-condition": "off",
+    "no-else-return": "warn",
     "no-empty": "off",
-    "no-multi-spaces": "warn",
+    "no-ex-assign": "off",
+    "no-extra-bind": "warn",
+    "no-floating-decimal": "warn",
+    "no-multi-spaces": ["warn", {"ignoreEOLComments": true}],
+    "no-multiple-empty-lines": ["warn", {"max": 2, "maxBOF": 0, "maxEOF": 0}],
     "no-redeclare": "off",
-    "no-restricted-globals": ["warn", "Promise"],
+    "no-restricted-globals": ["warn"],
     "no-trailing-spaces": "warn",
     "no-undef": "error",
     "no-unused-vars": ["warn", {"args": "none"}],
+    "no-useless-return": "error",
+    "no-var": "warn",
+    "no-whitespace-before-property": "warn",
+    "object-curly-spacing": ["warn", "never"],
     "one-var": ["warn", "never"],
     "padded-blocks": ["warn", "never"],
-    "object-curly-spacing": ["warn", "never"],
-    "quotes": ["warn", "single"],
-    "react/prop-types": "off",
-    "react/jsx-no-bind": "off",
+    "prefer-const": "warn",
+    "quote-props": ["warn", "as-needed"],
+    "quotes": ["warn", "single", {"allowTemplateLiterals": true }],
     "semi": ["warn", "always"],
     "space-before-blocks": ["warn", "always"],
-    "space-before-function-paren": ["warn", "never"],
-    "space-in-parens": ["warn", "never"]
+    "space-before-function-paren": ["warn", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "space-in-parens": ["warn", "never"],
+    "space-infix-ops": ["warn"]
   }
 }

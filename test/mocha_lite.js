@@ -1,6 +1,6 @@
 /**
- * Haven't figured out how to get mocha to work with ES6 modules yet, so we have
- * this little shim for it here for now.
+ * Haven't figured out how to get mocha to work with ES6 modules yet, so this is
+ * a little async, es6-module aware shim
  */
 const suites = [];
 let inProgress = 0;
@@ -12,7 +12,7 @@ export async function describe(name, suiteFunction) {
 }
 
 export async function it(name, testFunction) {
-  const suite = suites[suites.length-1];
+  const suite = suites[suites.length - 1];
   const test = {name};
   suite.tests.push(test);
 
@@ -48,5 +48,5 @@ function reportAndExit() {
     }
   }
 
-  process.exit(nPassed == nTests ? 0 : 1);
+  process.exit(nPassed === nTests ? 0 : 1);
 }
