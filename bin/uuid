@@ -5,11 +5,13 @@ function usage() {
   console.log('Usage:');
   console.log('  uuid');
   console.log('  uuid v1');
-  console.log('  uuid v3 <name> <namespace uuid>');
+  console.log('  uuid v5 [--encoding=<encoding>] <name> <namespace uuid>');
   console.log('  uuid v4');
-  console.log('  uuid v5 <name> <namespace uuid>');
+  console.log('  uuid v5 [--encoding=<encoding>] <name> <namespace uuid>');
   console.log('  uuid --help');
-  console.log('\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122');
+  console.log('\nNote:');
+  console.log('      <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122');
+  console.log('      <encoding> Specifies the encoding of <name>, valid values (in node v8): ascii, utf8, utf16le, ucs2, base64, latin1, binary, hex');
 }
 
 var args = process.argv.slice(2);
@@ -30,6 +32,14 @@ switch (version) {
     var uuidV3 = require('../v3');
 
     var name = args.shift();
+
+    // if two more arguments remain, see if an ecoding has been specified in place of the expected name and process accordingly
+    if (args.length == 2 && /^--encoding=([a-z0-9]+)$/.test(name)){
+      var newBuffer = (typeof Buffer.from === 'function' ? function(val,format){ return Buffer.from(val,format); } : function(val,format){ return new Buffer(val,format); });
+      var format = name.match(/^--encoding=([a-z0-9]+)$/)[1];
+      name = Array.from(newBuffer(args.shift(), format));
+    }
+
     var namespace = args.shift();
     assert(name != null, 'v3 name not specified');
     assert(namespace != null, 'v3 namespace not specified');
@@ -49,6 +59,14 @@ switch (version) {
     var uuidV5 = require('../v5');
 
     var name = args.shift();
+
+    // if two more arguments remain, see if an ecoding has been specified in place of the expected name and process accordingly
+    if (args.length == 2 && /^--encoding=([a-z0-9]+)$/.test(name)){
+      var newBuffer = (typeof Buffer.from === 'function' ? function(val,format){ return Buffer.from(val,format); } : function(val,format){ return new Buffer(val,format); });
+      var format = name.match(/^--encoding=([a-z0-9]+)$/)[1];
+      name = Array.from(newBuffer(args.shift(), format));
+    }
+
     var namespace = args.shift();
     assert(name != null, 'v5 name not specified');
     assert(namespace != null, 'v5 namespace not specified');
