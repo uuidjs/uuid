@@ -282,6 +282,18 @@ ddeb27fb-d9a0-4624-be4d-4615062daed4
 
 $ uuid v1
 02d37060-d446-11e7-a9fa-7bdae751ebe1
+
+$ uuid v4
+0ee61029-1699-4917-81a9-08f397a74994
+
+$ uuid v3 my.app.namespace.com DNS
+f075e256-2e38-32cd-87f7-773dc78144e4
+
+$ uuid v5 myIdString f075e256-2e38-32cd-87f7-773dc78144e4
+cf335935-7d41-5eab-85bc-4edccfbf94b9
+
+$ uuid v5 --encoding=hex 00000020001009ae7 f075e256-2e38-32cd-87f7-773dc78144e4
+a2da5f66-218c-580e-988f-4cd3b76807c9
 ```
 
 Type `uuid --help` for usage details
