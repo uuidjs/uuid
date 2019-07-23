@@ -5,7 +5,7 @@ function usage() {
   console.log('Usage:');
   console.log('  uuid');
   console.log('  uuid v1');
-  console.log('  uuid v5 [--encoding=<encoding>] <name> <namespace uuid>');
+  console.log('  uuid v3 [--encoding=<encoding>] <name> <namespace uuid>');
   console.log('  uuid v4');
   console.log('  uuid v5 [--encoding=<encoding>] <name> <namespace uuid>');
   console.log('  uuid --help');
