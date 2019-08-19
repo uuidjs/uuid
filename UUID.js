@@ -21,26 +21,34 @@ class UUID {
   }
 
   /**
-   * Create UUID instance from array of 16 bytes
+   * Create UUID instance from array of 16 bytes.
    *
    * @param {Array[16]|TypedArray[16]} bytes
-   * @throws If bytes are not a valid RFC UUID
+   * @param {Number} [version] If provided, sets the variant and version
+   * fields (and skips verification)
+   * @throws If `bytes` are not a valid RFC4122
    */
-  constructor(bytes) {
+  constructor(bytes, version) {
     this.bytes = bytes ? Uint8Array.from(bytes) : new Uint8Array(16).fill(0)
 
     // UUIDs must be exactly 16 bytes
     if (this.bytes.length != 16) throw new TypeError('bytes.length !== 16');
 
-    if (this.variant === 0 && this.bytes.some(v => v != 0)) {
-      // RFC Sec 4.1.7 allows for a Nil (all zeroes) UUID
-      throw TypeError('Variant may not be 0 for non-Nil UUIDs');
-    } else if ((this.variant & 0x06) !== 4) {
-      throw TypeError('Variant must be 4 or 5');
-    }
+    // Skip verification
+    if (version) {
+      this.variant = 4;
+      this.version = version;
+    } else {
+      if (this.variant === 0 && this.bytes.some(v => v != 0)) {
+        // RFC Sec 4.1.7 allows for a Nil (all zeroes) UUID
+        throw TypeError('Variant may not be 0 for non-Nil UUIDs');
+      } else if ((this.variant & 0x06) !== 4) {
+        throw TypeError('Variant must be 4 or 5');
+      }
 
-    // Validate RFC version
-    if (this.version < 1 || this.version > 5) throw TypeError('Version must be 1-5');
+      // Validate RFC version
+      if (this.version < 1 || this.version > 5) throw TypeError('Version must be 1-5');
+    }
   }
 
   /**
@@ -56,7 +64,7 @@ class UUID {
 
   set variant(v) {
     if (v != 4 && v != 5) throw new TypeError('Non-RFC4122 variant is not supported');
-    this.bytes[8] = (this.bytes & 0x3f) | (0x04 << 5);
+    this.bytes[8] = (this.bytes[8] & 0x3f) | (0x04 << 5);
   }
 
   /**

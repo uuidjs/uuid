@@ -52,6 +52,19 @@ describe('v1', () => {
     assert.deepEqual(ids, sorted);
   });
 
+  it('v4 uniqueness', () => {
+    const ids = new Set();
+    // Sanity check for collisions (crude test of RNG quality)
+    for (let i = 0; i < 10000; i++) {
+      const uuid = v4();
+      // While not impossible, the probability of a collision among 10K v4 UUIDs is
+      // .00000000000000000000000000000094, so if you ever see this you should
+      // probably start go buy a couple lottery tickets
+      assert(!ids.has(uuid), 'v4 collision');
+      ids.add(uuid);
+    }
+  });
+
   // Verify ordering of v1 ids created with explicit times
   it('v1 sort order (time option)', () => {
     const ids = [
