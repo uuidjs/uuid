@@ -89,46 +89,6 @@ const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
-## Quickstart - Browser-ready Versions
-
-Browser-ready versions of this module are available via [wzrd.in](https://github.com/jfhbrook/wzrd.in).
-
-For version 1 uuids:
-
-```html
-<script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
-<script>
-uuidv1(); // -> v1 UUID
-</script>
-```
-
-For version 3 uuids:
-
-```html
-<script src="http://wzrd.in/standalone/uuid%2Fv3@latest"></script>
-<script>
-uuidv3('http://example.com/hello', uuidv3.URL); // -> v3 UUID
-</script>
-```
-
-For version 4 uuids:
-
-```html
-<script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
-<script>
-uuidv4(); // -> v4 UUID
-</script>
-```
-
-For version 5 uuids:
-
-```html
-<script src="http://wzrd.in/standalone/uuid%2Fv5@latest"></script>
-<script>
-uuidv5('http://example.com/hello', uuidv5.URL); // -> v5 UUID
-</script>
-```
-
 ## API
 
 ### Version 1
