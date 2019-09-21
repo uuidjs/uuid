@@ -89,6 +89,25 @@ const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
+To create multiple versions of UUID at one time:
+
+```javascript
+const uuid = require('uuid');
+
+uuid.v1(); // ⇨ '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
+uuid.v4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+
+const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+
+uuid.v3('hello.example.com', uuid.v3.DNS); // ⇨ '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
+uuid.v3('http://example.com/hello', uuid.v3.URL); // ⇨ 'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
+uuid.v3('Hello, World!', MY_NAMESPACE); // ⇨ 'e8b5a51d-11c8-3310-a6ab-367563f20686'
+
+uuid.v5('hello.example.com', uuid.v5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
+uuid.v5('http://example.com/hello', uuid.v5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
+uuid.v5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
+```
+
 ## API
 
 ### Version 1
