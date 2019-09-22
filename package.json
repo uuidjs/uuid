@@ -26,7 +26,8 @@
     "standard-version": "7.0.0"
   },
   "scripts": {
-    "test": "mocha test/test.js",
+    "lint": "eslint .",
+    "test": "npm run lint && mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
     "prepare": "runmd --output=README.md README_js.md"
