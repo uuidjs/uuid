@@ -73,8 +73,6 @@ test('mathRNG', function() {
 });
 
 test('cryptoRNG', function() {
-  var randomFillSync = crypto.randomFillSync;
-
   Object.keys(require.cache).forEach(function(path) {
     if (/rng-browser/.test(path)) delete require.cache[path];
   });
