@@ -16,10 +16,12 @@
   "bin": {
     "uuid": "./bin/uuid"
   },
+  "type": "module",
   "devDependencies": {
     "@commitlint/cli": "~8.2.0",
     "@commitlint/config-conventional": "~8.2.0",
     "eslint": "~6.4.0",
+    "esm": "~3.2.25",
     "husky": "~3.0.5",
     "mocha": "6.2.0",
     "runmd": "1.2.1",
@@ -27,7 +29,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "npm run lint && mocha test/test.js",
+    "test": "npm run lint && mocha --require esm --reporter spec --check-leaks test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
     "prepare": "runmd --output=README.md README_js.md"

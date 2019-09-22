@@ -1,4 +1,6 @@
-var v35 = require('./lib/v35.js');
-var md5 = require('./lib/md5');
+import v35 from './lib/v35.js';
+import md5 from './lib/md5.js';
 
-module.exports = v35('v3', 0x30, md5);
+const v3 = v35('v3', 0x30, md5);
+export default v3;
+export {DNS, URL} from './lib/v35.js';

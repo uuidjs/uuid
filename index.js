@@ -1,8 +1,4 @@
-var v1 = require('./v1');
-var v4 = require('./v4');
-
-var uuid = v4;
-uuid.v1 = v1;
-uuid.v4 = v4;
-
-module.exports = uuid;
+export {default as v1} from './v1.js';
+export {default as v3} from './v3.js';
+export {default as v4} from './v4.js';
+export {default as v5} from './v5.js';
