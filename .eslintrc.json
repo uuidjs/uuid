@@ -3,8 +3,8 @@
   "env": {
     "browser": true,
     "commonjs": true,
-    "node": true,
-    "mocha": true
+    "mocha": true,
+    "node": true
   },
   "extends": ["eslint:recommended"],
   "rules": {
