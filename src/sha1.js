@@ -1,6 +1,4 @@
-'use strict';
-
-var crypto = require('crypto');
+import crypto from 'crypto';
 
 function sha1(bytes) {
   if (typeof Buffer.from === 'function') {
@@ -22,4 +20,4 @@ function sha1(bytes) {
   return crypto.createHash('sha1').update(bytes).digest();
 }
 
-module.exports = sha1;
+export default sha1;

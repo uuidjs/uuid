@@ -1,5 +1,5 @@
-var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
+import rng from './rng.js';
+import bytesToUuid from './bytesToUuid.js';
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -106,4 +106,4 @@ function v1(options, buf, offset) {
   return buf ? buf : bytesToUuid(b);
 }
 
-module.exports = v1;
+export default v1;

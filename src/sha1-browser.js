@@ -1,7 +1,5 @@
 // Adapted from Chris Veness' SHA1 code at
 // http://www.movable-type.co.uk/scripts/sha1.html
-'use strict';
-
 function f(s, x, y, z) {
   switch (s) {
     case 0: return (x & y) ^ (~x & z);
@@ -86,4 +84,4 @@ function sha1(bytes) {
   ];
 }
 
-module.exports = sha1;
+export default sha1;

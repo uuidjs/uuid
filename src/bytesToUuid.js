@@ -23,4 +23,4 @@ function bytesToUuid(buf, offset) {
   ]).join('');
 }
 
-module.exports = bytesToUuid;
+export default bytesToUuid;

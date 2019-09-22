@@ -1,4 +1,4 @@
-var bytesToUuid = require('./bytesToUuid');
+import bytesToUuid from './bytesToUuid.js';
 
 function uuidToBytes(uuid) {
   // Note: We assume we're being passed a valid uuid string
@@ -19,7 +19,10 @@ function stringToBytes(str) {
   return bytes;
 }
 
-module.exports = function(name, version, hashfunc) {
+export const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+
+export default function(name, version, hashfunc) {
   var generateUUID = function(value, namespace, buf, offset) {
     var off = buf && offset || 0;
 
@@ -49,9 +52,9 @@ module.exports = function(name, version, hashfunc) {
   } catch (err) {
   }
 
-  // Pre-defined namespaces, per Appendix C
-  generateUUID.DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-  generateUUID.URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+  // For CommonJS default export support
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL;
 
   return generateUUID;
-};
+}
