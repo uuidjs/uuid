@@ -26,7 +26,6 @@
     "standard-version": "7.0.0"
   },
   "scripts": {
-    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
     "test": "mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
@@ -40,5 +39,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kelektiv/node-uuid.git"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
