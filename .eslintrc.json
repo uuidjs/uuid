@@ -7,6 +7,9 @@
     "node": true
   },
   "extends": ["eslint:recommended"],
+  "globals": {
+    "msCrypto": true
+  },
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],
