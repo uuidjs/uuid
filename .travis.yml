@@ -1,11 +1,12 @@
+dist: trusty
 language: node_js
 node_js:
   - "10"
 addons:
   sonarcloud:
     organization: "aaleksandrov"
-    token:
-      secure: "981ae37b6bdec08238ab96850deca2b440d46af2" # encrypted value of your token
+#    token:
+#      secure: "" # encrypted value of your token
 script:
   - sonar-scanner
   - npm test
