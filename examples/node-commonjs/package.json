@@ -1,0 +1,11 @@
+{
+  "name": "uuid-example-node-commonjs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node example.js"
+  },
+  "dependencies": {
+    "uuid": "github:ctavan/uuid-esm#master"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "uuid-example-browser-esmodules",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "npx http-server . -o"
+  },
+  "dependencies": {
+    "uuid": "github:ctavan/uuid-esm#master"
+  }
+}
