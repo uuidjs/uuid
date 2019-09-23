@@ -1,0 +1,15 @@
+{
+  "name": "uuid-example-browser-webpack",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "rm -rf dist && webpack && npx http-server . -o"
+  },
+  "dependencies": {
+    "uuid": "github:ctavan/uuid-esm#master"
+  },
+  "devDependencies": {
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
+  }
+}
