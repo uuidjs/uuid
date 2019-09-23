@@ -1,5 +1,5 @@
-import rng from './lib/rng.js';
-import bytesToUuid from './lib/bytesToUuid.js';
+import rng from './rng.js';
+import bytesToUuid from './bytesToUuid.js';
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;

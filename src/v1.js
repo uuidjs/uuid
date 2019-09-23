@@ -1,5 +1,5 @@
-import rng from './lib/rng.js';
-import bytesToUuid from './lib/bytesToUuid.js';
+import rng from './rng.js';
+import bytesToUuid from './bytesToUuid.js';
 
 // **`v1()` - Generate time-based UUID**
 //

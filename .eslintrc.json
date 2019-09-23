@@ -11,10 +11,7 @@
   "globals": {
     "msCrypto": true
   },
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2017
-  },
+  "parser": "babel-eslint",
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],

@@ -1,13 +1,13 @@
 import assert from 'assert';
-import md5 from '../lib/md5.js';
-import md5Browser from '../lib/md5-browser.js';
-import rng from '../lib/rng.js';
-import rngBrowser from '../lib/rng-browser.js';
-import sha1 from '../lib/sha1.js';
-import sha1Browser from '../lib/sha1-browser.js';
-import v1 from '../v1.js';
-import v3, {DNS as v3DNS, URL as v3URL} from '../v3.js';
-import v5, {DNS as v5DNS, URL as v5URL} from '../v5.js';
+import md5 from '../src/md5.js';
+import md5Browser from '../src/md5-browser.js';
+import rng from '../src/rng.js';
+import rngBrowser from '../src/rng-browser.js';
+import sha1 from '../src/sha1.js';
+import sha1Browser from '../src/sha1-browser.js';
+import v1 from '../src/v1.js';
+import v3 from '../src/v3.js';
+import v5 from '../src/v5.js';
 
 describe('rng', () => {
   it('nodeRNG', function() {
@@ -183,14 +183,14 @@ describe('v5', () => {
 
   it('v3', function() {
     // Expect to get the same results as http://tools.adjet.org/uuid-v3
-    assert.equal(v3('hello.example.com', v3DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
-    assert.equal(v3('http://example.com/hello', v3URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
+    assert.equal(v3('hello.example.com', v3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
+    assert.equal(v3('http://example.com/hello', v3.URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
     assert.equal(v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), 'a981a0c2-68b1-35dc-bcfc-296e52ab01ec');
 
     // test the buffer functionality
     let buf = new Array(16);
     const testBuf = [0x91, 0x25, 0xa8, 0xdc, 0x52, 0xee, 0x36, 0x5b, 0xa5, 0xaa, 0x81, 0xb0, 0xb3, 0x68, 0x1c, 0xf6];
-    v3('hello.example.com', v3DNS, buf);
+    v3('hello.example.com', v3.DNS, buf);
     assert.ok(buf.length === testBuf.length && buf.every(function(elem, idx) {
       return elem === testBuf[idx];
     }));
@@ -198,7 +198,7 @@ describe('v5', () => {
     // test offsets as well
     buf = new Array(19);
     for (let i=0; i<3; ++i) buf[i] = 'landmaster';
-    v3('hello.example.com', v3DNS, buf, 3);
+    v3('hello.example.com', v3.DNS, buf, 3);
     assert.ok(buf.length === testBuf.length+3 && buf.every(function(elem, idx) {
       return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
     }), 'hello');
@@ -206,14 +206,14 @@ describe('v5', () => {
 
   it('v5', function() {
     // Expect to get the same results as http://tools.adjet.org/uuid-v5
-    assert.equal(v5('hello.example.com', v5DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
-    assert.equal(v5('http://example.com/hello', v5URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
+    assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
+    assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
     assert.equal(v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'), '90123e1c-7512-523e-bb28-76fab9f2f73d');
 
     // test the buffer functionality
     let buf = new Array(16);
     const testBuf = [0xfd, 0xda, 0x76, 0x5f, 0xfc, 0x57, 0x56, 0x04, 0xa2, 0x69, 0x52, 0xa7, 0xdf, 0x81, 0x64, 0xec];
-    v5('hello.example.com', v5DNS, buf);
+    v5('hello.example.com', v5.DNS, buf);
     assert.ok(buf.length === testBuf.length && buf.every(function(elem, idx) {
       return elem === testBuf[idx];
     }));
@@ -221,16 +221,16 @@ describe('v5', () => {
     // test offsets as well
     buf = new Array(19);
     for (let i=0; i<3; ++i) buf[i] = 'landmaster';
-    v5('hello.example.com', v5DNS, buf, 3);
+    v5('hello.example.com', v5.DNS, buf, 3);
     assert.ok(buf.length === testBuf.length+3 && buf.every(function(elem, idx) {
       return (idx >= 3) ? (elem === testBuf[idx-3]) : (elem === 'landmaster');
     }));
   });
 
   it('v3/v5 constants', function() {
-    assert.equal(v3DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
-    assert.equal(v3URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
-    assert.equal(v5DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
-    assert.equal(v5URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
+    assert.equal(v3.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
+    assert.equal(v3.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
+    assert.equal(v5.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
+    assert.equal(v5.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
   });
 });

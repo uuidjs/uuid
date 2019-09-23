@@ -1,10 +1,9 @@
-#!/usr/bin/env node --experimental-modules
 import assert from 'assert';
 
-import v1 from '../v1.js';
-import v3 from '../v3.js';
-import v4 from '../v4.js';
-import v5, {URL, DNS} from '../v5.js';
+import v1 from './v1.js';
+import v3 from './v3.js';
+import v4 from './v4.js';
+import v5 from './v5.js';
 
 function usage() {
   console.log('Usage:');
@@ -36,8 +35,8 @@ switch (version) {
     assert(name != null, 'v3 name not specified');
     assert(namespace != null, 'v3 namespace not specified');
 
-    if (namespace == 'URL') namespace = URL;
-    if (namespace == 'DNS') namespace = DNS;
+    if (namespace === 'URL') namespace = v3.URL;
+    if (namespace === 'DNS') namespace = v3.DNS;
 
     console.log(v3(name, namespace));
     break;
@@ -52,8 +51,8 @@ switch (version) {
     assert(name != null, 'v5 name not specified');
     assert(namespace != null, 'v5 namespace not specified');
 
-    if (namespace == 'URL') namespace = URL;
-    if (namespace == 'DNS') namespace = DNS;
+    if (namespace === 'URL') namespace = v5.URL;
+    if (namespace === 'DNS') namespace = v5.DNS;
 
     console.log(v5(name, namespace));
     break;

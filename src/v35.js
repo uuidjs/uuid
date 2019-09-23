@@ -19,6 +19,9 @@ function stringToBytes(str) {
   return bytes;
 }
 
+export const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+
 export default function(name, version, hashfunc) {
   var generateUUID = function(value, namespace, buf, offset) {
     var off = buf && offset || 0;
@@ -49,8 +52,9 @@ export default function(name, version, hashfunc) {
   } catch (err) {
   }
 
+  // For CommonJS default export support
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL;
+
   return generateUUID;
 }
-
-export const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
