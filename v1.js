@@ -21,7 +21,7 @@ function v1(options, buf, offset) {
   options = options || {};
   var node = options.node || _nodeId;
   var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
-
+  var a = 1;
   // node and clockseq need to be initialized to random values if they're not
   // specified.  We do this lazily to minimize issues related to insufficient
   // system entropy.  See #189
