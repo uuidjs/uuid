@@ -36,7 +36,8 @@
   },
   "scripts": {
     "lint": "eslint src/ test/ *.js",
-    "test": "npm run lint && mocha --require esm --reporter spec --check-leaks test/test.js",
+    "test": "mocha --require esm --reporter spec --check-leaks test/test.js",
+    "ci": "npm run lint && npm run test && npm run docs:diff",
     "md": "runmd --watch --output=README.md README_js.md",
     "docs": "( node --version | grep -q 'v12' ) && ( npm run package && runmd --output=README.md README_js.md )",
     "docs:diff": "( node --version | grep -vq 'v12' ) || ( npm run docs && git diff --quiet README.md )",
