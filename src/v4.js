@@ -2,9 +2,9 @@ import rng from './rng.js';
 import bytesToUuid from './bytesToUuid.js';
 
 function v4(options, buf, offset) {
-  var i = buf && offset || 0;
+  var i = (buf && offset) || 0;
 
-  if (typeof(options) == 'string') {
+  if (typeof options == 'string') {
     buf = options === 'binary' ? new Array(16) : null;
     options = null;
   }

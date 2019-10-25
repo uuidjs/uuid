@@ -28,16 +28,22 @@
     "babel-eslint": "~10.0.3",
     "babel-plugin-add-module-exports": "~1.0.2",
     "eslint": "~6.4.0",
+    "eslint-config-prettier": "~6.4.0",
+    "eslint-plugin-prettier": "~3.1.1",
     "esm": "~3.2.25",
     "husky": "~3.0.5",
     "jest": "~24.9.0",
+    "lint-staged": "~9.4.2",
+    "prettier": "~1.18.2",
     "runmd": "1.2.1",
     "standard-version": "7.0.0"
   },
   "scripts": {
     "lint": "eslint src/ test/ *.js",
     "test": "BABEL_ENV=commonjs jest test/",
-    "ci": "npm run lint && npm run test && npm run docs:diff",
+    "prettier": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
+    "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
+    "ci": "npm run lint && npm run test && npm run prettier:check && npm run docs:diff",
     "md": "runmd --watch --output=README.md README_js.md",
     "docs": "( node --version | grep -q 'v12' ) && ( npm run package && runmd --output=README.md README_js.md )",
     "docs:diff": "( node --version | grep -vq 'v12' ) || ( npm run docs && git diff --quiet README.md )",
@@ -50,7 +56,18 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
