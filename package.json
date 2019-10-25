@@ -20,8 +20,8 @@
   "main": "index.js",
   "module": "esm-browser/index.js",
   "devDependencies": {
-    "@babel/cli": "~7.6.0",
-    "@babel/core": "~7.6.0",
+    "@babel/cli": "~7.6.4",
+    "@babel/core": "~7.6.4",
     "@babel/preset-env": "~7.6.3",
     "@commitlint/cli": "~8.2.0",
     "@commitlint/config-conventional": "~8.2.0",
@@ -31,9 +31,9 @@
     "eslint-config-prettier": "~6.4.0",
     "eslint-plugin-prettier": "~3.1.1",
     "esm": "~3.2.25",
-    "husky": "~3.0.5",
+    "husky": "~3.0.9",
     "jest": "~24.9.0",
-    "lint-staged": "~9.4.2",
+    "lint-staged": "~9.4.3",
     "prettier": "~1.18.2",
     "runmd": "1.2.1",
     "standard-version": "7.0.0"
