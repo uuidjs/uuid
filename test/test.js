@@ -10,7 +10,7 @@ import v3 from '../src/v3.js';
 import v5 from '../src/v5.js';
 
 describe('rng', () => {
-  it('nodeRNG', function() {
+  test('nodeRNG', () => {
     assert.equal(rng.name, 'nodeRNG');
 
     var bytes = rng();
@@ -21,7 +21,7 @@ describe('rng', () => {
     }
   });
 
-  it('mathRNG', function() {
+  test('mathRNG', () => {
     assert.equal(rngBrowser.name, 'mathRNG');
 
     var bytes = rng();
@@ -40,7 +40,7 @@ describe('rng', () => {
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
 
 describe('v1', () => {
-  it('v1 sort order (default)', () => {
+  test('v1 sort order (default)', () => {
     const ids = [v1(), v1(), v1(), v1(), v1()];
 
     const sorted = [...ids].sort((a, b) => {
@@ -53,7 +53,7 @@ describe('v1', () => {
   });
 
   // Verify ordering of v1 ids created with explicit times
-  it('v1 sort order (time option)', () => {
+  test('v1 sort order (time option)', () => {
     const ids = [
       v1({msecs: TIME - 10*3600*1000}),
       v1({msecs: TIME - 1}),
@@ -71,20 +71,20 @@ describe('v1', () => {
     assert.deepEqual(ids, sorted);
   });
 
-  it('msec', function() {
+  test('msec', () => {
     assert(
       v1({msecs: TIME}) !== v1({msecs: TIME}),
       'IDs created at same msec are different'
     );
   });
 
-  it('exception thrown when > 10k ids created in 1ms', function() {
+  test('exception thrown when > 10k ids created in 1ms', () => {
     assert.throws(function() {
       v1({msecs: TIME, nsecs: 10000});
     }, 'throws when > 10K ids created in 1 ms');
   });
 
-  it('clock regression by msec', function() {
+  test('clock regression by msec', () => {
     // Verify clock regression bumps clockseq
     const uidt = v1({msecs: TIME});
     const uidtb = v1({msecs: TIME - 1});
@@ -94,7 +94,7 @@ describe('v1', () => {
     );
   });
 
-  it('clock regression by nsec', function() {
+  test('clock regression by nsec', () => {
     // Verify clock regression bumps clockseq
     const uidtn = v1({msecs: TIME, nsecs: 10});
     const uidtnb = v1({msecs: TIME, nsecs: 9});
@@ -104,7 +104,7 @@ describe('v1', () => {
     );
   });
 
-  it('explicit options product expected id', function() {
+  test('explicit options product expected id', () => {
     // Verify explicit options produce expected id
     const id = v1({
       msecs: 1321651533573,
@@ -115,7 +115,7 @@ describe('v1', () => {
     assert(id === 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
   });
 
-  it('ids spanning 1ms boundary are 100ns apart', function() {
+  test('ids spanning 1ms boundary are 100ns apart', () => {
     // Verify adjacent ids across a msec boundary are 1 time unit apart
     const u0 = v1({msecs: TIME, nsecs: 9999});
     const u1 = v1({msecs: TIME + 1, nsecs: 0});
@@ -157,31 +157,31 @@ describe('v5', () => {
     }).join('');
   }
 
-  it('sha1 node', function() {
+  test('sha1 node', () => {
     HASH_SAMPLES.forEach(function(sample) {
       assert.equal(hashToHex(sha1(sample.input)), sample.sha1);
     });
   });
 
-  it('sha1 browser', function() {
+  test('sha1 browser', () => {
     HASH_SAMPLES.forEach(function(sample) {
       assert.equal(hashToHex(sha1Browser(sample.input)), sample.sha1);
     });
   });
 
-  it('md5 node', function() {
+  test('md5 node', () => {
     HASH_SAMPLES.forEach(function(sample) {
       assert.equal(hashToHex(md5(sample.input)), sample.md5);
     });
   });
 
-  it('md5 browser', function() {
+  test('md5 browser', () => {
     HASH_SAMPLES.forEach(function(sample) {
       assert.equal(hashToHex(md5Browser(sample.input)), sample.md5);
     });
   });
 
-  it('v3', function() {
+  test('v3', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v3
     assert.equal(v3('hello.example.com', v3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
     assert.equal(v3('http://example.com/hello', v3.URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
@@ -204,7 +204,7 @@ describe('v5', () => {
     }), 'hello');
   });
 
-  it('v5', function() {
+  test('v5', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v5
     assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
     assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
@@ -227,7 +227,7 @@ describe('v5', () => {
     }));
   });
 
-  it('v3/v5 constants', function() {
+  test('v3/v5 constants', () => {
     assert.equal(v3.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
     assert.equal(v3.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
     assert.equal(v5.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');

@@ -30,13 +30,13 @@
     "eslint": "~6.4.0",
     "esm": "~3.2.25",
     "husky": "~3.0.5",
-    "mocha": "6.2.0",
+    "jest": "~24.9.0",
     "runmd": "1.2.1",
     "standard-version": "7.0.0"
   },
   "scripts": {
     "lint": "eslint src/ test/ *.js",
-    "test": "mocha --require esm --reporter spec --check-leaks test/test.js",
+    "test": "BABEL_ENV=commonjs jest test/",
     "ci": "npm run lint && npm run test && npm run docs:diff",
     "md": "runmd --watch --output=README.md README_js.md",
     "docs": "( node --version | grep -q 'v12' ) && ( npm run package && runmd --output=README.md README_js.md )",
