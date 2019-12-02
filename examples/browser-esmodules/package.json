@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "npx http-server . -o"
+    "build": "true",
+    "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
-    "uuid": "github:ctavan/uuid-esm#master"
+    "uuid": "file:../../dist"
   }
 }

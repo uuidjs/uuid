@@ -2,10 +2,10 @@
 
 ```
 npm install
-npm test
+npm start
 ```
 
-Then navigate to `example.html`.
+Then navigate to `example-*.html`.
 
 The `example-v{1,4}.js` demonstrate that treeshaking works as expected:
 

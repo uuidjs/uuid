@@ -1,4 +1,7 @@
 module.exports = {
+  resolve: {
+    extensions: ['*', '.js'],
+  },
   entry: {
     all: './example-all.js',
     v1: './example-v1.js',
