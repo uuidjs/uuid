@@ -2,7 +2,7 @@
   -- This file is auto-generated from README_js.md. Changes should be made there.
   -->
 
-# uuid [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
+# uuid [![Build Status](https://github.com/kelektiv/node-uuid/workflows/CI/badge.svg)](https://github.com/kelektiv/node-uuid/actions) [![Build Status](https://secure.travis-ci.org/kelektiv/node-uuid.svg?branch=master)](http://travis-ci.org/kelektiv/node-uuid) #
 
 Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 
