@@ -1,4 +1,9 @@
-import {v1 as uuidv1, v4 as uuidv4, v3 as uuidv3, v5 as uuidv5} from './node_modules/uuid/esm-browser/index.js';
+import {
+  v1 as uuidv1,
+  v4 as uuidv4,
+  v3 as uuidv3,
+  v5 as uuidv5,
+} from './node_modules/uuid/esm-browser/index.js';
 import * as uuid from './node_modules/uuid/esm-browser/index.js';
 
 console.log('uuidv1()', uuidv1());

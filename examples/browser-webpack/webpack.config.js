@@ -7,5 +7,5 @@ module.exports = {
   output: {
     filename: '[name].js',
   },
-  mode: 'production'
+  mode: 'production',
 };

@@ -39,7 +39,8 @@
     "standard-version": "7.0.0"
   },
   "scripts": {
-    "lint": "eslint src/ test/ *.js",
+    "lint": "eslint src/ test/ examples/ *.js",
+    "lint:fix": "eslint --fix src/ test/ examples/ *.js",
     "test": "BABEL_ENV=commonjs jest test/",
     "prettier": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
     "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
