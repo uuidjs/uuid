@@ -1,5 +1,9 @@
-#!/usr/bin/env node
-var assert = require('assert');
+import assert from 'assert';
+
+import v1 from './v1.js';
+import v3 from './v3.js';
+import v4 from './v4.js';
+import v5 from './v5.js';
 
 function usage() {
   console.log('Usage:');
@@ -22,41 +26,35 @@ var version = args.shift() || 'v4';
 
 switch (version) {
   case 'v1':
-    var uuidV1 = require('../v1');
-    console.log(uuidV1());
+    console.log(v1());
     break;
 
   case 'v3':
-    var uuidV3 = require('../v3');
-
     var name = args.shift();
     var namespace = args.shift();
     assert(name != null, 'v3 name not specified');
     assert(namespace != null, 'v3 namespace not specified');
 
-    if (namespace == 'URL') namespace = uuidV3.URL;
-    if (namespace == 'DNS') namespace = uuidV3.DNS;
+    if (namespace === 'URL') namespace = v3.URL;
+    if (namespace === 'DNS') namespace = v3.DNS;
 
-    console.log(uuidV3(name, namespace));
+    console.log(v3(name, namespace));
     break;
 
   case 'v4':
-    var uuidV4 = require('../v4');
-    console.log(uuidV4());
+    console.log(v4());
     break;
 
   case 'v5':
-    var uuidV5 = require('../v5');
-
     var name = args.shift();
     var namespace = args.shift();
     assert(name != null, 'v5 name not specified');
     assert(namespace != null, 'v5 namespace not specified');
 
-    if (namespace == 'URL') namespace = uuidV5.URL;
-    if (namespace == 'DNS') namespace = uuidV5.DNS;
+    if (namespace === 'URL') namespace = v5.URL;
+    if (namespace === 'DNS') namespace = v5.DNS;
 
-    console.log(uuidV5(name, namespace));
+    console.log(v5(name, namespace));
     break;
 
   default:

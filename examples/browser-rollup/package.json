@@ -1,0 +1,15 @@
+{
+  "name": "uuid-example-browser-rollup",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "rm -rf dist && rollup -c && npx http-server . -o"
+  },
+  "dependencies": {
+    "uuid": "github:ctavan/uuid-esm#master"
+  },
+  "devDependencies": {
+    "rollup": "^1.24.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  }
+}

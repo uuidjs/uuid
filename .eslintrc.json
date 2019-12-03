@@ -3,6 +3,7 @@
   "env": {
     "browser": true,
     "commonjs": true,
+    "es6": true,
     "mocha": true,
     "node": true
   },
@@ -10,6 +11,7 @@
   "globals": {
     "msCrypto": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],

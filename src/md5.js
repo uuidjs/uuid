@@ -1,6 +1,4 @@
-'use strict';
-
-var crypto = require('crypto');
+import crypto from 'crypto';
 
 function md5(bytes) {
   if (typeof Buffer.from === 'function') {
@@ -22,4 +20,4 @@ function md5(bytes) {
   return crypto.createHash('md5').update(bytes).digest();
 }
 
-module.exports = md5;
+export default md5;

@@ -1,7 +1,7 @@
 ```javascript --hide
 runmd.onRequire = path => {
   if (path == 'rng') return fun
-  return path.replace(/^uuid/, './');
+  return path.replace(/^uuid/, './dist/');
 }
 
 // Shim Date and crypto so generated ids are consistent across doc revisions
@@ -22,84 +22,100 @@ Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
 Features:
 
 * Support for version 1, 3, 4 and 5 UUIDs
-* Cross-platform
+* Cross-platform: CommonJS build for Node.js and [ECMAScript Modules](#ecmascript-modules) for the
+  browser.
 * Uses cryptographically-strong random number APIs (when available)
 * Zero-dependency, small footprint (... but not [this small](https://gist.github.com/982883))
 
-[**Deprecation warning**: The use of `require('uuid')` is deprecated and will not be
-supported after version 3.x of this module.  Instead, use `require('uuid/[v1|v3|v4|v5]')` as shown in the examples below.]
-
-## Quickstart - CommonJS (Recommended)
+## Quickstart - Node.js/CommonJS
 
 ```shell
 npm install uuid
 ```
 
-Then generate your uuid version of choice ...
+Then generate a random UUID (v4 algorithm), which is almost always what you want ...
+
+Version 4 (random):
+
+```javascript --run v4
+const uuid = require('uuid');
+uuid.v4(); // RESULT
+```
+
+Or generate UUIDs with other algorithms of your choice ...
 
 Version 1 (timestamp):
 
 ```javascript --run v1
-const uuidv1 = require('uuid/v1');
-uuidv1(); // RESULT
+const uuid = require('uuid');
+uuid.v1(); // RESULT
 ```
 
 Version 3 (namespace):
 
 ```javascript --run v3
-const uuidv3 = require('uuid/v3');
+const uuid = require('uuid');
 
 // ... using predefined DNS namespace (for domain names)
-uuidv3('hello.example.com', uuidv3.DNS); // RESULT
+uuid.v3('hello.example.com', uuid.v3.DNS); // RESULT
 
 // ... using predefined URL namespace (for, well, URLs)
-uuidv3('http://example.com/hello', uuidv3.URL); // RESULT
+uuid.v3('http://example.com/hello', uuid.v3.URL); // RESULT
 
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuidv3('Hello, World!', MY_NAMESPACE); // RESULT
-```
-
-Version 4 (random):
-
-```javascript --run v4
-const uuidv4 = require('uuid/v4');
-uuidv4(); // RESULT
+uuid.v3('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
 Version 5 (namespace):
 
 ```javascript --run v5
-const uuidv5 = require('uuid/v5');
+const uuid = require('uuid');
 
 // ... using predefined DNS namespace (for domain names)
-uuidv5('hello.example.com', uuidv5.DNS); // RESULT
+uuid.v5('hello.example.com', uuid.v5.DNS); // RESULT
 
 // ... using predefined URL namespace (for, well, URLs)
-uuidv5('http://example.com/hello', uuidv5.URL); // RESULT
+uuid.v5('http://example.com/hello', uuid.v5.URL); // RESULT
 
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
+uuid.v5('Hello, World!', MY_NAMESPACE); // RESULT
 ```
+
+## ECMAScript Modules / ESM
+
+For usage in the browser `uuid` provides support for [ECMAScript
+Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) that enable
+tree-shaking for bundlers, like [rollup.js](https://rollupjs.org/guide/en/#tree-shaking)
+([example](./examples/browser-rollup/)) and [webpack](https://webpack.js.org/guides/tree-shaking/)
+([example](./examples/browser-webpack/)).
+
+```javascript
+import {v4 as uuid} from 'uuid';
+uuid(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+```
+
+There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it
+should not be considered ready for production use and may change or disappear in future releases.
 
 ## API
 
-### Version 1
+### Version 1 (Timestamp + Node)
 
 ```javascript
-const uuidv1 = require('uuid/v1');
+const uuid = require('uuid');
 
 // Incantations
-uuidv1();
-uuidv1(options);
-uuidv1(options, buffer, offset);
+uuid.v1();
+uuid.v1(options);
+uuid.v1(options, buffer, offset);
 ```
 
 Generate and return a RFC4122 v1 (timestamp-based) UUID.
@@ -127,7 +143,7 @@ const v1options = {
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678
 };
-uuidv1(v1options); // RESULT
+uuid.v1(v1options); // RESULT
 ```
 
 Example: In-place generation of two binary IDs
@@ -135,19 +151,19 @@ Example: In-place generation of two binary IDs
 ```javascript --run v1
 // Generate two ids in an array
 const arr = new Array();
-uuidv1(null, arr, 0);  // RESULT
-uuidv1(null, arr, 16); // RESULT
+uuid.v1(null, arr, 0);  // RESULT
+uuid.v1(null, arr, 16); // RESULT
 ```
 
-### Version 3
+### Version 3 (Namespace)
 
 ```javascript
-const uuidv3 = require('uuid/v3');
+const uuid = require('uuid');
 
 // Incantations
-uuidv3(name, namespace);
-uuidv3(name, namespace, buffer);
-uuidv3(name, namespace, buffer, offset);
+uuid.v3(name, namespace);
+uuid.v3(name, namespace, buffer);
+uuid.v3(name, namespace, buffer, offset);
 ```
 
 Generate and return a RFC4122 v3 UUID.
@@ -162,18 +178,18 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 Example:
 
 ```javascript --run v3
-uuidv3('hello world', MY_NAMESPACE);  // RESULT
+uuid.v3('hello world', MY_NAMESPACE);  // RESULT
 ```
 
-### Version 4
+### Version 4 (Random)
 
 ```javascript
-const uuidv4 = require('uuid/v4')
+const uuid = require('uuid');
 
 // Incantations
-uuidv4();
-uuidv4(options);
-uuidv4(options, buffer, offset);
+uuid.v4();
+uuid.v4(options);
+uuid.v4(options, buffer, offset);
 ```
 
 Generate and return a RFC4122 v4 UUID.
@@ -195,26 +211,26 @@ const v4options = {
     0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36
   ]
 };
-uuidv4(v4options); // RESULT
+uuid.v4(v4options); // RESULT
 ```
 
 Example: Generate two IDs in a single buffer
 
 ```javascript --run v4
 const buffer = new Array();
-uuidv4(null, buffer, 0);  // RESULT
-uuidv4(null, buffer, 16); // RESULT
+uuid.v4(null, buffer, 0);  // RESULT
+uuid.v4(null, buffer, 16); // RESULT
 ```
 
-### Version 5
+### Version 5 (Namespace)
 
 ```javascript
-const uuidv5 = require('uuid/v5');
+const uuid = require('uuid');
 
 // Incantations
-uuidv5(name, namespace);
-uuidv5(name, namespace, buffer);
-uuidv5(name, namespace, buffer, offset);
+uuid.v5(name, namespace);
+uuid.v5(name, namespace, buffer);
+uuid.v5(name, namespace, buffer, offset);
 ```
 
 Generate and return a RFC4122 v5 UUID.
@@ -229,7 +245,7 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 Example:
 
 ```javascript --run v5
-uuidv5('hello world', MY_NAMESPACE);  // RESULT
+uuid.v5('hello world', MY_NAMESPACE);  // RESULT
 ```
 
 ## Command Line
