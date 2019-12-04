@@ -15,7 +15,6 @@
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],
-    "arrow-parens": ["warn", "as-needed"],
     "arrow-spacing": "warn",
     "brace-style": ["warn", "1tbs"],
     "camelcase": "warn",
