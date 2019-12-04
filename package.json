@@ -20,24 +20,32 @@
   "main": "index.js",
   "module": "esm-browser/index.js",
   "devDependencies": {
-    "@babel/cli": "~7.6.0",
-    "@babel/core": "~7.6.0",
+    "@babel/cli": "~7.6.4",
+    "@babel/core": "~7.6.4",
     "@babel/preset-env": "~7.6.3",
     "@commitlint/cli": "~8.2.0",
     "@commitlint/config-conventional": "~8.2.0",
     "babel-eslint": "~10.0.3",
     "babel-plugin-add-module-exports": "~1.0.2",
     "eslint": "~6.4.0",
+    "eslint-config-prettier": "~6.4.0",
+    "eslint-plugin-prettier": "~3.1.1",
     "esm": "~3.2.25",
-    "husky": "~3.0.5",
-    "mocha": "6.2.0",
+    "husky": "~3.0.9",
+    "jest": "~24.9.0",
+    "lint-staged": "~9.4.3",
+    "prettier": "~1.18.2",
     "runmd": "1.2.1",
     "standard-version": "7.0.0"
   },
   "scripts": {
-    "lint": "eslint src/ test/ *.js",
-    "test": "mocha --require esm --reporter spec --check-leaks test/test.js",
-    "ci": "npm run lint && npm run test && npm run docs:diff",
+    "lint": "npm run eslint:check && npm run prettier:check",
+    "eslint:check": "eslint src/ test/ examples/ *.js",
+    "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
+    "test": "BABEL_ENV=commonjs jest test/",
+    "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
+    "prettier:fix": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
+    "ci": "npm run lint && npm run test && npm run prettier:check && npm run docs:diff",
     "md": "runmd --watch --output=README.md README_js.md",
     "docs": "( node --version | grep -q 'v12' ) && ( npm run package && runmd --output=README.md README_js.md )",
     "docs:diff": "( node --version | grep -vq 'v12' ) || ( npm run docs && git diff --quiet README.md )",
@@ -50,7 +58,18 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

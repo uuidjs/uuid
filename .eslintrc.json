@@ -7,7 +7,7 @@
     "mocha": true,
     "node": true
   },
-  "extends": ["eslint:recommended"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "globals": {
     "msCrypto": true
   },
@@ -19,16 +19,36 @@
     "arrow-spacing": "warn",
     "brace-style": ["warn", "1tbs"],
     "camelcase": "warn",
-    "comma-spacing": ["warn", {"after": true}],
+    "comma-spacing": [
+      "warn",
+      {
+        "after": true
+      }
+    ],
     "dot-notation": "warn",
     "eqeqeq": ["warn", "smart"],
-    "indent": ["warn", 2, {
-      "SwitchCase": 1,
-      "FunctionDeclaration": {"parameters": 1},
-      "MemberExpression": 1,
-      "CallExpression": {"arguments": 1}
-    }],
-    "key-spacing": ["warn", {"beforeColon": false, "afterColon": true, "mode": "minimum"}],
+    "indent": [
+      "warn",
+      2,
+      {
+        "SwitchCase": 1,
+        "FunctionDeclaration": {
+          "parameters": 1
+        },
+        "MemberExpression": 1,
+        "CallExpression": {
+          "arguments": 1
+        }
+      }
+    ],
+    "key-spacing": [
+      "warn",
+      {
+        "beforeColon": false,
+        "afterColon": true,
+        "mode": "minimum"
+      }
+    ],
     "keyword-spacing": "warn",
     "no-console": "off",
     "no-empty": "off",
@@ -37,16 +57,16 @@
     "no-restricted-globals": ["warn", "Promise"],
     "no-trailing-spaces": "warn",
     "no-undef": "error",
-    "no-unused-vars": ["warn", {"args": "none"}],
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
     "one-var": ["warn", "never"],
     "padded-blocks": ["warn", "never"],
-    "object-curly-spacing": ["warn", "never"],
-    "quotes": ["warn", "single"],
     "react/prop-types": "off",
     "react/jsx-no-bind": "off",
-    "semi": ["warn", "always"],
-    "space-before-blocks": ["warn", "always"],
-    "space-before-function-paren": ["warn", "never"],
-    "space-in-parens": ["warn", "never"]
+    "semi": ["warn", "always"]
   }
 }

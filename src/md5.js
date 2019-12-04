@@ -17,7 +17,10 @@ function md5(bytes) {
     }
   }
 
-  return crypto.createHash('md5').update(bytes).digest();
+  return crypto
+    .createHash('md5')
+    .update(bytes)
+    .digest();
 }
 
 export default md5;

@@ -17,7 +17,10 @@ function sha1(bytes) {
     }
   }
 
-  return crypto.createHash('sha1').update(bytes).digest();
+  return crypto
+    .createHash('sha1')
+    .update(bytes)
+    .digest();
 }
 
 export default sha1;

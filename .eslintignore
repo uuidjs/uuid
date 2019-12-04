@@ -1,1 +1,3 @@
 !.babelrc.js
+node_modules/
+dist/

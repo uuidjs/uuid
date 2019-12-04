@@ -24,13 +24,14 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 export default function(name, version, hashfunc) {
   var generateUUID = function(value, namespace, buf, offset) {
-    var off = buf && offset || 0;
+    var off = (buf && offset) || 0;
 
-    if (typeof(value) == 'string') value = stringToBytes(value);
-    if (typeof(namespace) == 'string') namespace = uuidToBytes(namespace);
+    if (typeof value == 'string') value = stringToBytes(value);
+    if (typeof namespace == 'string') namespace = uuidToBytes(namespace);
 
     if (!Array.isArray(value)) throw TypeError('value must be an array of bytes');
-    if (!Array.isArray(namespace) || namespace.length !== 16) throw TypeError('namespace must be uuid string or an Array of 16 byte values');
+    if (!Array.isArray(namespace) || namespace.length !== 16)
+      throw TypeError('namespace must be uuid string or an Array of 16 byte values');
 
     // Per 4.3
     var bytes = hashfunc(namespace.concat(value));
@@ -39,7 +40,7 @@ export default function(name, version, hashfunc) {
 
     if (buf) {
       for (var idx = 0; idx < 16; ++idx) {
-        buf[off+idx] = bytes[idx];
+        buf[off + idx] = bytes[idx];
       }
     }
 
@@ -49,8 +50,7 @@ export default function(name, version, hashfunc) {
   // Function#name is not settable on some platforms (#270)
   try {
     generateUUID.name = name;
-  } catch (err) {
-  }
+  } catch (err) {}
 
   // For CommonJS default export support
   generateUUID.DNS = DNS;
