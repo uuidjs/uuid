@@ -42,7 +42,7 @@
     "lint": "npm run eslint:check && npm run prettier:check",
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
-    "test": "BABEL_ENV=commonjs jest test/",
+    "test": "BABEL_ENV=commonjs jest test/unit/",
     "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
     "prettier:fix": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
     "ci": "npm run lint && npm run test && npm run prettier:check && npm run docs:diff",
