@@ -289,7 +289,3 @@ Type `uuid --help` for usage details
 
 ```shell
 npm test
-```
-
-----
-Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
