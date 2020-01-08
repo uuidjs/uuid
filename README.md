@@ -37,6 +37,12 @@ Version 3 (namespace):
 ```javascript
 const uuidv3 = require('uuid/v3');
 
+
+another line after 3 line breaks
+
+
+
+
 // ... using predefined DNS namespace (for domain names)
 uuidv3('hello.example.com', uuidv3.DNS); // ⇨ '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
 
@@ -283,13 +289,3 @@ Type `uuid --help` for usage details
 
 ```shell
 npm test
-```
-
-----
-Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
-
-
-
-line after 3 breaks
-
-
