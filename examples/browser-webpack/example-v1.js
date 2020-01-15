@@ -1,3 +1,9 @@
 import { v1 as uuidv1 } from 'uuid';
 
-console.log('uuidv1()', uuidv1());
+import testpage from '../utils/testpage';
+
+testpage(function(addTest, done) {
+  addTest('uuidv1()', uuidv1());
+
+  done();
+});

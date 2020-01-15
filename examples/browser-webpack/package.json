@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "rm -rf dist && webpack && npx http-server . -o"
+    "build": "rm -rf dist && webpack",
+    "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
-    "uuid": "github:ctavan/uuid-esm#master"
+    "uuid": "file:../../dist"
   },
   "devDependencies": {
     "webpack": "^4.40.2",

@@ -4,3 +4,6 @@
 node_modules
 tmp
 dist/
+# Browserstack
+browserstack.err
+local.log

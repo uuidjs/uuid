@@ -6,6 +6,6 @@
     "test": "node example.js"
   },
   "dependencies": {
-    "uuid": "github:ctavan/uuid-esm#master"
+    "uuid": "file:../../dist"
   }
 }

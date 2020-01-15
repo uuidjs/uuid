@@ -80,6 +80,16 @@ uuid.v5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a6261
 
 ```
 
+## Supported Platforms
+
+- Node.js: All LTS, i.e. 8.x, 10.x, 12.x
+- Browsers (with bundlers like webpack/rollup):
+  - Chrome: >= 49
+  - Safari: >= 10
+  - Firefox: >= 44
+  - Edge: >= 15
+  - IE: 11
+
 ## ECMAScript Modules / ESM
 
 For usage in the browser `uuid` provides support for [ECMAScript
@@ -95,6 +105,12 @@ uuid(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
 There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it
 should not be considered ready for production use and may change or disappear in future releases.
+
+To run the examples you must first build a dist package of this library in the module root:
+
+```
+npm run package
+```
 
 ## API
 
