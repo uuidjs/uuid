@@ -128,13 +128,13 @@ class UUID {
   get timestamp() {
     assertV1(this);
 
-    return BigInt(this.bytes[6] & 0x0f) * 0x100000000000000n +
-      BigInt(this.bytes[7]) * 0x1000000000000n +
-      BigInt(this.bytes[4]) * 0x10000000000n +
-      BigInt(this.bytes[5]) * 0x100000000n +
-      BigInt(this.bytes[0]) * 0x1000000n +
-      BigInt(this.bytes[1]) * 0x10000n +
-      BigInt(this.bytes[2]) * 0x100n +
+    return BigInt(this.bytes[6] & 0x0f) << 56n +
+      BigInt(this.bytes[7]) << 48n +
+      BigInt(this.bytes[4]) << 40n +
+      BigInt(this.bytes[5]) << 32n +
+      BigInt(this.bytes[0]) << 24n +
+      BigInt(this.bytes[1]) << 16n +
+      BigInt(this.bytes[2]) << 8n +
       BigInt(this.bytes[3]);
   }
 
