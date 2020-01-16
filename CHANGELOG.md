@@ -4,14 +4,16 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [3.4.0](https://github.com/uuidjs/uuid/compare/v3.3.3...v3.4.0) (2020-01-16)
 
-
 ### Features
 
-* rename repository to github:uuidjs/uuid ([#351](https://github.com/uuidjs/uuid/issues/351)) ([e2d7314](https://github.com/uuidjs/uuid/commit/e2d7314)), closes [#338](https://github.com/uuidjs/uuid/issues/338)
+- rename repository to github:uuidjs/uuid ([#351](https://github.com/uuidjs/uuid/issues/351)) ([e2d7314](https://github.com/uuidjs/uuid/commit/e2d7314)), closes [#338](https://github.com/uuidjs/uuid/issues/338)
 
-### [3.3.3](https://github.com/uuidjs/uuid/compare/v3.3.2...v3.3.3) (2019-08-19)
+## [3.3.3](https://github.com/uuidjs/uuid/compare/v3.3.2...v3.3.3) (2019-08-19)
 
-<a name="3.3.2"></a>
+### Bug Fixes
+
+- no longer run ci tests on node v4
+- upgrade dependencies
 
 ## [3.3.2](https://github.com/uuidjs/uuid/compare/v3.3.1...v3.3.2) (2018-06-28)
 
@@ -19,15 +21,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 - typo ([305d877](https://github.com/uuidjs/uuid/commit/305d877))
 
-<a name="3.3.1"></a>
-
 ## [3.3.1](https://github.com/uuidjs/uuid/compare/v3.3.0...v3.3.1) (2018-06-28)
 
 ### Bug Fixes
 
 - fix [#284](https://github.com/uuidjs/uuid/issues/284) by setting function name in try-catch ([f2a60f2](https://github.com/uuidjs/uuid/commit/f2a60f2))
-
-<a name="3.3.0"></a>
 
 # [3.3.0](https://github.com/uuidjs/uuid/compare/v3.2.1...v3.3.0) (2018-06-22)
 
@@ -42,15 +40,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 - enforce Conventional Commit style commit messages ([#282](https://github.com/uuidjs/uuid/issues/282)) ([cc9a182](https://github.com/uuidjs/uuid/commit/cc9a182))
 
-<a name="3.2.1"></a>
-
 ## [3.2.1](https://github.com/uuidjs/uuid/compare/v3.2.0...v3.2.1) (2018-01-16)
 
 ### Bug Fixes
 
 - use msCrypto if available. Fixes [#241](https://github.com/uuidjs/uuid/issues/241) ([#247](https://github.com/uuidjs/uuid/issues/247)) ([1fef18b](https://github.com/uuidjs/uuid/commit/1fef18b))
-
-<a name="3.2.0"></a>
 
 # [3.2.0](https://github.com/uuidjs/uuid/compare/v3.1.0...v3.2.0) (2018-01-16)
 
