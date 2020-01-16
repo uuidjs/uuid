@@ -50,15 +50,15 @@
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
     "test": "BABEL_ENV=commonjs jest test/unit/",
-    "pretest:browser": "npm run package && npm-run-all --parallel examples:**",
+    "pretest:browser": "npm run build && npm-run-all --parallel examples:**",
     "test:browser": "BABEL_ENV=commonjs jest --forceExit --verbose test/browser/${BROWSER:-}*",
     "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
     "prettier:fix": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
     "ci": "npm run lint && npm run test && npm run prettier:check && npm run docs:diff",
     "md": "runmd --watch --output=README.md README_js.md",
-    "docs": "( node --version | grep -q 'v12' ) && ( npm run package && runmd --output=README.md README_js.md )",
+    "docs": "( node --version | grep -q 'v12' ) && ( npm run build && runmd --output=README.md README_js.md )",
     "docs:diff": "( node --version | grep -vq 'v12' ) || ( npm run docs && git diff --quiet README.md )",
-    "package": "./scripts/package.sh",
+    "build": "./scripts/build.sh",
     "release": "standard-version"
   },
   "repository": {
