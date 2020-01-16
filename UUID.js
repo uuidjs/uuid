@@ -5,7 +5,7 @@ const NIL_UUID = '00000000-0000-0000-0000-000000000000';
 const EPOCH = 12219292800000n; // Gregorian epoch offset (in JS Date units)
 
 function assertV1(uuid, v) {
-  if (uuid.version != 1) throw Error(`Not a v${uuid.version} uuid`);
+  if (uuid.version !== 1) throw Error(`Not a v${uuid.version} uuid`);
 }
 
 class UUID {
@@ -16,7 +16,7 @@ class UUID {
    * @throws {Error} If string fails to parse, or is not RFC-compliant
    */
   static fromString(str) {
-    if (str != NIL_UUID && !UUID_RE.test(str)) throw new TypeError('Invalid UUID string');
+    if (str !== NIL_UUID && !UUID_RE.test(str)) throw new TypeError('Invalid UUID string');
     return new UUID(str.match(/[\da-f]{2}/g).map(v => parseInt(v, 16)));
   }
 
@@ -29,17 +29,17 @@ class UUID {
    * @throws If `bytes` are not a valid RFC4122
    */
   constructor(bytes, version) {
-    this.bytes = bytes ? Uint8Array.from(bytes) : new Uint8Array(16).fill(0)
+    this.bytes = bytes ? Uint8Array.from(bytes) : new Uint8Array(16).fill(0);
 
     // UUIDs must be exactly 16 bytes
-    if (this.bytes.length != 16) throw new TypeError('bytes.length !== 16');
+    if (this.bytes.length !== 16) throw new TypeError('bytes.length !== 16');
 
     // Skip verification
     if (version) {
       this.variant = 4;
       this.version = version;
     } else {
-      if (this.variant === 0 && this.bytes.some(v => v != 0)) {
+      if (this.variant !== 0 && this.bytes.some(v => v !== 0)) {
         // RFC Sec 4.1.7 allows for a Nil (all zeroes) UUID
         throw TypeError('Variant may not be 0 for non-Nil UUIDs');
       } else if ((this.variant & 0x06) !== 4) {
@@ -63,7 +63,7 @@ class UUID {
   }
 
   set variant(v) {
-    if (v != 4 && v != 5) throw new TypeError('Non-RFC4122 variant is not supported');
+    if (v !== 4 && v !== 5) throw new TypeError('Non-RFC4122 variant is not supported');
     this.bytes[8] = (this.bytes[8] & 0x3f) | (0x04 << 5);
   }
 
@@ -118,7 +118,7 @@ class UUID {
   set clockseq(v) {
     assertV1(this);
 
-    this.bytes[8] = (0xc0 & bytes[8]) | (v >> 8 & 0xff);
+    this.bytes[8] = (0xc0 & this.bytes[8]) | (v >> 8 & 0xff);
     this.bytes[8] = v & 0xff;
   }
 
@@ -162,7 +162,7 @@ class UUID {
    */
   get date() {
     assertV1(this);
-    return new Date(Number(this.timestamp/10000n - EPOCH));
+    return new Date(Number(this.timestamp / 10000n - EPOCH));
   }
 
   /**

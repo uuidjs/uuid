@@ -43,13 +43,9 @@ describe('v1', () => {
   it('v1 sort order (default)', () => {
     const ids = [v1(), v1(), v1(), v1(), v1()];
 
-    const sorted = [...ids].sort((a, b) => {
-      a = a.split('-').reverse().join('-');
-      b = b.split('-').reverse().join('-');
-      return a < b ? -1 : a > b ? 1 : 0;
-    });
-
-    assert.deepEqual(ids, sorted);
+test('cryptoRNG', function() {
+  Object.keys(require.cache).forEach(function(path) {
+    if (/rng-browser/.test(path)) delete require.cache[path];
   });
 
   it('v4 uniqueness', () => {

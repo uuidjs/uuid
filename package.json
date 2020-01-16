@@ -1,7 +1,7 @@
 {
   "name": "uuid",
   "type": "module",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "commitlint": {
     "extends": [
@@ -18,16 +18,18 @@
     "uuid": "./bin/uuid"
   },
   "devDependencies": {
-    "@commitlint/cli": "~8.0.0",
-    "@commitlint/config-conventional": "~8.0.0",
-    "eslint": "5",
-    "husky": "~2.4.1",
-    "runmd": "1",
-    "standard-version": "6"
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
+    "babel-eslint": "10.0.3",
+    "eslint": "6.4.0",
+    "husky": "3.0.5",
+    "mocha": "6.2.0",
+    "runmd": "1.2.1",
+    "standard-version": "7.0.0"
   },
   "scripts": {
-    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
-    "test": "node --experimental-modules test/test.js",
+    "lint": "eslint .",
+    "test": "npm run lint && mocha test/test.js",
     "md": "runmd --watch --output=README.md README_js.md",
     "release": "standard-version",
     "prepare": "runmd --output=README.md README_js.md"
@@ -40,5 +42,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kelektiv/node-uuid.git"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

@@ -4,17 +4,21 @@
     "browser": true,
     "commonjs": true,
     "es6": true,
-    "node": true,
-    "mocha": true
+    "mocha": true,
+    "node": true
   },
   "globals": {
     "msCrypto": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2017
+    "ecmaVersion": 2019
   },
   "extends": ["eslint:recommended"],
+  "globals": {
+    "msCrypto": true
+  },
   "rules": {
     "array-bracket-spacing": ["warn", "never"],
     "arrow-body-style": ["warn", "as-needed"],
