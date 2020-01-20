@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "path": "./examples/browser-rollup/dist/bundlesize.js",
+      "maxSize": "3 kB"
+    },
+    {
+      "path": "./examples/browser-webpack/dist/bundlesize.js",
+      "maxSize": "3.5 kB"
+    }
+  ]
+}
