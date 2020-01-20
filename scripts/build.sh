@@ -1,17 +1,11 @@
 #!/bin/bash -eu
 
-# Mostly taken from:
-# https://github.com/date-fns/date-fns/blob/master/scripts/build/package.sh
-# and
-# https://medium.com/@iamstan/tips-for-writing-es-modules-in-node-js-96ec688615a4
-
 # cd to the root dir
 ROOT="$(pwd)/$(dirname "$0")/.."
 cd "$ROOT" || exit 1
 
 PATH="$(npm bin):$PATH"
-# XXX: $PACKAGE_OUTPUT_PATH must be an absolute path!
-DIR=${PACKAGE_OUTPUT_PATH:-"$ROOT/dist"}
+DIR="$ROOT/dist"
 
 # Clean up output dir
 rm -rf "$DIR"
@@ -35,12 +29,3 @@ done
 
 echo "Removing browser-specific files from esm-node"
 rm -f "$DIR"/*-browser.js
-
-# Copy basic files
-for PATTERN in package.json \
-  CHANGELOG.md \
-  LICENSE.md \
-  README.md
-do
-  cp -r "$PATTERN" "$DIR"
-done

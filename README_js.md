@@ -291,9 +291,3 @@ $ uuid v1
 ```
 
 Type `uuid --help` for usage details
-
-## Testing
-
-```shell
-npm test
-```

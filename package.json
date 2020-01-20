@@ -14,11 +14,18 @@
   ],
   "license": "MIT",
   "bin": {
-    "uuid": "./bin/uuid"
+    "uuid": "dist/bin/uuid"
   },
   "sideEffects": false,
-  "main": "index.js",
-  "module": "esm-browser/index.js",
+  "main": "dist/index.js",
+  "module": "dist/esm-browser/index.js",
+  "files": [
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE.md",
+    "README.md",
+    "dist"
+  ],
   "devDependencies": {
     "@babel/cli": "7.8.3",
     "@babel/core": "7.8.3",
@@ -59,7 +66,7 @@
     "docs": "( node --version | grep -q 'v12' ) && ( npm run build && runmd --output=README.md README_js.md )",
     "docs:diff": "( node --version | grep -vq 'v12' ) || ( npm run docs && git diff --quiet README.md )",
     "build": "./scripts/build.sh",
-    "release": "standard-version"
+    "release": "standard-version --no-verify"
   },
   "repository": {
     "type": "git",
@@ -78,5 +85,11 @@
     "*.{js,jsx}": [
       "eslint --fix"
     ]
+  },
+  "standard-version": {
+    "scripts": {
+      "postchangelog": "prettier --write CHANGELOG.md",
+      "postcommit": "npm run build"
+    }
   }
 }

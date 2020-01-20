@@ -313,11 +313,5 @@ $ uuid v1
 
 Type `uuid --help` for usage details
 
-## Testing
-
-```shell
-npm test
-```
-
 ----
 Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)

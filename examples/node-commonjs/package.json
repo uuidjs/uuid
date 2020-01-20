@@ -6,6 +6,6 @@
     "test": "node example.js"
   },
   "dependencies": {
-    "uuid": "file:../../dist"
+    "uuid": "file:../../.local"
   }
 }

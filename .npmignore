@@ -1,7 +1,0 @@
-test/
-
-.gitignore
-.travis.yml
-.npmignore
-.eslintrc.json
-README_js.md
