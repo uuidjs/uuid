@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "3.3.3",
+  "version": "3.4.0",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "commitlint": {
     "extends": [
@@ -14,33 +14,40 @@
   ],
   "license": "MIT",
   "bin": {
-    "uuid": "./bin/uuid"
+    "uuid": "dist/bin/uuid"
   },
   "sideEffects": false,
-  "main": "index.js",
-  "module": "esm-browser/index.js",
+  "main": "dist/index.js",
+  "module": "dist/esm-browser/index.js",
+  "files": [
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE.md",
+    "README.md",
+    "dist"
+  ],
   "devDependencies": {
-    "@babel/cli": "~7.6.4",
-    "@babel/core": "~7.6.4",
-    "@babel/preset-env": "~7.6.3",
-    "@commitlint/cli": "~8.2.0",
-    "@commitlint/config-conventional": "~8.2.0",
-    "babel-eslint": "~10.0.3",
-    "babel-plugin-add-module-exports": "~1.0.2",
-    "browserstack-local": "~1.4.2",
-    "eslint": "~6.4.0",
-    "eslint-config-prettier": "~6.4.0",
-    "eslint-plugin-prettier": "~3.1.1",
-    "esm": "~3.2.25",
-    "http-server": "~0.12.0",
-    "husky": "~3.0.9",
-    "jest": "~24.9.0",
-    "lint-staged": "~9.4.3",
-    "npm-run-all": "~4.1.5",
-    "prettier": "~1.18.2",
+    "@babel/cli": "7.8.3",
+    "@babel/core": "7.8.3",
+    "@babel/preset-env": "7.8.3",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
+    "babel-eslint": "10.0.3",
+    "babel-plugin-add-module-exports": "1.0.2",
+    "browserstack-local": "1.4.4",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-prettier": "3.1.2",
+    "esm": "3.2.25",
+    "http-server": "0.12.1",
+    "husky": "3.0.9",
+    "jest": "24.9.0",
+    "lint-staged": "10.0.1",
+    "npm-run-all": "4.1.5",
+    "prettier": "1.19.1",
     "runmd": "1.2.1",
-    "selenium-webdriver": "~3.6.0",
-    "standard-version": "7.0.0"
+    "selenium-webdriver": "3.6.0",
+    "standard-version": "7.0.1"
   },
   "scripts": {
     "examples:browser-webpack:build": "cd examples/browser-webpack && npm install && npm run build",
@@ -50,20 +57,20 @@
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
     "test": "BABEL_ENV=commonjs jest test/unit/",
-    "pretest:browser": "npm run package && npm-run-all --parallel examples:**",
+    "pretest:browser": "npm run build && npm-run-all --parallel examples:**",
     "test:browser": "BABEL_ENV=commonjs jest --forceExit --verbose test/browser/${BROWSER:-}*",
     "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
     "prettier:fix": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
     "ci": "npm run lint && npm run test && npm run prettier:check && npm run docs:diff",
     "md": "runmd --watch --output=README.md README_js.md",
-    "docs": "( node --version | grep -q 'v12' ) && ( npm run package && runmd --output=README.md README_js.md )",
+    "docs": "( node --version | grep -q 'v12' ) && ( npm run build && runmd --output=README.md README_js.md )",
     "docs:diff": "( node --version | grep -vq 'v12' ) || ( npm run docs && git diff --quiet README.md )",
-    "package": "./scripts/package.sh",
-    "release": "standard-version"
+    "build": "./scripts/build.sh",
+    "release": "standard-version --no-verify"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kelektiv/node-uuid.git"
+    "url": "https://github.com/uuidjs/uuid.git"
   },
   "husky": {
     "hooks": {
@@ -73,12 +80,16 @@
   },
   "lint-staged": {
     "*.{js,jsx,json,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
+  },
+  "standard-version": {
+    "scripts": {
+      "postchangelog": "prettier --write CHANGELOG.md",
+      "postcommit": "npm run build"
+    }
   }
 }

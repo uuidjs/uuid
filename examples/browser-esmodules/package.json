@@ -7,6 +7,6 @@
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
-    "uuid": "file:../../dist"
+    "uuid": "file:../../.local"
   }
 }

@@ -115,10 +115,10 @@ uuid(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it
 should not be considered ready for production use and may change or disappear in future releases.
 
-To run the examples you must first build a dist package of this library in the module root:
+To run the examples you must first create a dist build of this library in the module root:
 
 ```
-npm run package
+npm run build
 ```
 
 ## API
@@ -291,9 +291,3 @@ $ uuid v1
 ```
 
 Type `uuid --help` for usage details
-
-## Testing
-
-```shell
-npm test
-```
