@@ -27,10 +27,35 @@ module.exports = [
     },
     plugins,
   },
+
   {
-    input: './bundlesize.js',
+    input: '../../dist/esm-browser/v1.js',
     output: {
-      file: 'dist/bundlesize.js',
+      file: 'dist/v1_size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
+    input: '../../dist/esm-browser/v3.js',
+    output: {
+      file: 'dist/v3_size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
+    input: '../../dist/esm-browser/v4.js',
+    output: {
+      file: 'dist/v4_size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
+    input: '../../dist/esm-browser/v5.js',
+    output: {
+      file: 'dist/v5_size.js',
       format: 'cjs',
     },
     plugins,
