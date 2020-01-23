@@ -114,7 +114,80 @@ npm run build
 
 ## API
 
+### Version 4 (Random)
+
+```javascript
+const uuid = require('uuid');
+
+// Incantations
+uuid.v4();
+uuid.v4(options);
+uuid.v4(options, buffer, offset);
+```
+
+Generate and return a RFC4122 v4 UUID.
+
+- `options` - (Object) Optional uuid state to apply. Properties may include:
+  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values. Takes precedence over `options.rng`.
+  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
+- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+- `offset` - (Number) Starting index in `buffer` at which to begin writing.
+
+Returns `buffer`, if specified, otherwise the string form of the UUID
+
+Example: Generate string UUID with predefined `random` values
+
+```javascript
+const v4options = {
+  random: [
+    0x10,
+    0x91,
+    0x56,
+    0xbe,
+    0xc4,
+    0xfb,
+    0xc1,
+    0xea,
+    0x71,
+    0xb4,
+    0xef,
+    0xe1,
+    0x67,
+    0x1c,
+    0x58,
+    0x36,
+  ],
+};
+uuid.v4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
+
+```
+
+Example: Generate two IDs in a single buffer
+
+```javascript
+const buffer = new Array();
+uuid.v4(null, buffer, 0); // ⇨ 
+  // [
+  //   155, 29, 235,  77,  59,
+  //   125, 75, 173, 155, 221,
+  //    43, 13, 123,  61, 203,
+  //   109
+  // ]
+uuid.v4(null, buffer, 16); // ⇨ 
+  // [
+  //   155,  29, 235,  77,  59, 125,  75, 173,
+  //   155, 221,  43,  13, 123,  61, 203, 109,
+  //    27, 157, 107, 205, 187, 253,  75,  45,
+  //   155,  93, 171, 141, 251, 189,  75, 237
+  // ]
+
+```
+
 ### Version 1 (Timestamp + Node)
+
+⚠️⚠️⚠️ **Please make sure to check whether you really need the timestamp properties of Version 1 UUIDs
+before using them. In many cases, Version 4 random UUIDs are the better choice. [This
+FAQ](https://github.com/tc39/proposal-uuid#faq) covers more details.** ⚠️⚠️⚠️
 
 ```javascript
 const uuid = require('uuid');
@@ -200,75 +273,6 @@ Example:
 
 ```javascript
 uuid.v3('hello world', MY_NAMESPACE); // ⇨ '042ffd34-d989-321c-ad06-f60826172424'
-
-```
-
-### Version 4 (Random)
-
-```javascript
-const uuid = require('uuid');
-
-// Incantations
-uuid.v4();
-uuid.v4(options);
-uuid.v4(options, buffer, offset);
-```
-
-Generate and return a RFC4122 v4 UUID.
-
-- `options` - (Object) Optional uuid state to apply. Properties may include:
-  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values. Takes precedence over `options.rng`.
-  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing.
-
-Returns `buffer`, if specified, otherwise the string form of the UUID
-
-Example: Generate string UUID with predefined `random` values
-
-```javascript
-const v4options = {
-  random: [
-    0x10,
-    0x91,
-    0x56,
-    0xbe,
-    0xc4,
-    0xfb,
-    0xc1,
-    0xea,
-    0x71,
-    0xb4,
-    0xef,
-    0xe1,
-    0x67,
-    0x1c,
-    0x58,
-    0x36,
-  ],
-};
-uuid.v4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
-
-```
-
-Example: Generate two IDs in a single buffer
-
-```javascript
-const buffer = new Array();
-uuid.v4(null, buffer, 0); // ⇨ 
-  // [
-  //   155, 29, 235,  77,  59,
-  //   125, 75, 173, 155, 221,
-  //    43, 13, 123,  61, 203,
-  //   109
-  // ]
-uuid.v4(null, buffer, 16); // ⇨ 
-  // [
-  //   155,  29, 235,  77,  59, 125,  75, 173,
-  //   155, 221,  43,  13, 123,  61, 203, 109,
-  //    27, 157, 107, 205, 187, 253,  75,  45,
-  //   155,  93, 171, 141, 251, 189,  75, 237
-  // ]
 
 ```
 
