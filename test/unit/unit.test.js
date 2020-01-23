@@ -1,34 +1,5 @@
 import assert from 'assert';
-import rng from '../../src/rng.js';
-import rngBrowser from '../../src/rng-browser.js';
 import v1 from '../../src/v1.js';
-
-describe('rng', () => {
-  test('nodeRNG', () => {
-    assert.equal(rng.name, 'nodeRNG');
-
-    var bytes = rng();
-    assert.equal(bytes.length, 16);
-
-    for (var i = 0; i < bytes.length; i++) {
-      assert.equal(typeof bytes[i], 'number');
-    }
-  });
-
-  test('mathRNG', () => {
-    assert.equal(rngBrowser.name, 'mathRNG');
-
-    var bytes = rng();
-    assert.equal(bytes.length, 16);
-
-    for (var i = 0; i < bytes.length; i++) {
-      assert.equal(typeof bytes[i], 'number');
-    }
-  });
-
-  // Test of whatwgRNG missing for now since with esmodules we can no longer manipulate the
-  // require.cache.
-});
 
 // Verify ordering of v1 ids created with explicit times
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
