@@ -15,17 +15,17 @@ require('crypto').randomBytes = function() {
 };
 ```
 
-# uuid [![Build Status](https://github.com/kelektiv/node-uuid/workflows/CI/badge.svg)](https://github.com/kelektiv/node-uuid/actions)
+# uuid [![Build Status](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions)
 
-Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDS.
+Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs.
 
 Features:
 
 - Support for version 1, 3, 4 and 5 UUIDs
 - Cross-platform: CommonJS build for Node.js and [ECMAScript Modules](#ecmascript-modules) for the
   browser.
-- Uses cryptographically-strong random number APIs (when available)
-- Zero-dependency, small footprint (... but not [this small](https://gist.github.com/982883))
+- Uses cryptographically-strong random number APIs
+- Zero-dependency, small footprint
 
 ## Quickstart - Node.js/CommonJS
 
@@ -123,7 +123,66 @@ npm run build
 
 ## API
 
+### Version 4 (Random)
+
+```javascript
+const uuid = require('uuid');
+
+// Incantations
+uuid.v4();
+uuid.v4(options);
+uuid.v4(options, buffer, offset);
+```
+
+Generate and return a RFC4122 v4 UUID.
+
+- `options` - (Object) Optional uuid state to apply. Properties may include:
+  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values. Takes precedence over `options.rng`.
+  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
+- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+- `offset` - (Number) Starting index in `buffer` at which to begin writing.
+
+Returns `buffer`, if specified, otherwise the string form of the UUID
+
+Example: Generate string UUID with predefined `random` values
+
+```javascript --run v4
+const v4options = {
+  random: [
+    0x10,
+    0x91,
+    0x56,
+    0xbe,
+    0xc4,
+    0xfb,
+    0xc1,
+    0xea,
+    0x71,
+    0xb4,
+    0xef,
+    0xe1,
+    0x67,
+    0x1c,
+    0x58,
+    0x36,
+  ],
+};
+uuid.v4(v4options); // RESULT
+```
+
+Example: Generate two IDs in a single buffer
+
+```javascript --run v4
+const buffer = new Array();
+uuid.v4(null, buffer, 0); // RESULT
+uuid.v4(null, buffer, 16); // RESULT
+```
+
 ### Version 1 (Timestamp + Node)
+
+⚠️⚠️⚠️ **Please make sure to check whether you really need the timestamp properties of Version 1 UUIDs
+before using them. In many cases, Version 4 random UUIDs are the better choice. [This
+FAQ](https://github.com/tc39/proposal-uuid#faq) covers more details.** ⚠️⚠️⚠️
 
 ```javascript
 const uuid = require('uuid');
@@ -137,12 +196,12 @@ uuid.v1(options, buffer, offset);
 Generate and return a RFC4122 v1 (timestamp-based) UUID.
 
 - `options` - (Object) Optional uuid state to apply. Properties may include:
-
   - `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomly generated ID. See note 1.
   - `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence. Default: An internally maintained clockseq is used.
   - `msecs` - (Number) Time in milliseconds since unix Epoch. Default: The current time is used.
   - `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond units. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
-
+  - `random` - (Number[16]) Array of 16 numbers (0-255) to use for initialization of `node` and `clockseq` as described above. Takes precedence over `options.rng`.
+  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
 - `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 - `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
@@ -195,61 +254,6 @@ Example:
 
 ```javascript --run v3
 uuid.v3('hello world', MY_NAMESPACE); // RESULT
-```
-
-### Version 4 (Random)
-
-```javascript
-const uuid = require('uuid');
-
-// Incantations
-uuid.v4();
-uuid.v4(options);
-uuid.v4(options, buffer, offset);
-```
-
-Generate and return a RFC4122 v4 UUID.
-
-- `options` - (Object) Optional uuid state to apply. Properties may include:
-  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values
-  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255)
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing.
-
-Returns `buffer`, if specified, otherwise the string form of the UUID
-
-Example: Generate string UUID with predefined `random` values
-
-```javascript --run v4
-const v4options = {
-  random: [
-    0x10,
-    0x91,
-    0x56,
-    0xbe,
-    0xc4,
-    0xfb,
-    0xc1,
-    0xea,
-    0x71,
-    0xb4,
-    0xef,
-    0xe1,
-    0x67,
-    0x1c,
-    0x58,
-    0x36,
-  ],
-};
-uuid.v4(v4options); // RESULT
-```
-
-Example: Generate two IDs in a single buffer
-
-```javascript --run v4
-const buffer = new Array();
-uuid.v4(null, buffer, 0); // RESULT
-uuid.v4(null, buffer, 16); // RESULT
 ```
 
 ### Version 5 (Namespace)
