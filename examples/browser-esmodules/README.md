@@ -2,7 +2,7 @@
 
 ```
 npm install
-npm test
+npm start
 ```
 
 Then navigate to `example.html`.
