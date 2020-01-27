@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       with:
-        fetch-depth: 1
+        fetch-depth: 10
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
