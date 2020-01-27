@@ -295,3 +295,29 @@ $ uuid v1
 ```
 
 Type `uuid --help` for usage details
+
+## UMD Build
+
+If you want to load a minified UMD build directly in the browser you can use one of the popular npm
+CDNs:
+
+```html
+<script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
+<script>
+  alert(uuidv4());
+</script>
+```
+
+or
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+<script>
+  alert(uuidv4());
+</script>
+```
+
+Available bundles:
+
+- https://unpkg.com/uuid@latest/dist/umd/
+- https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
