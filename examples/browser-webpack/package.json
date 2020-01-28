@@ -1,0 +1,16 @@
+{
+  "name": "uuid-example-browser-webpack",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && webpack",
+    "start": "npm run build && npx http-server . -o"
+  },
+  "dependencies": {
+    "uuid": "file:../../.local"
+  },
+  "devDependencies": {
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
+  }
+}

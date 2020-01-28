@@ -1,0 +1,17 @@
+{
+  "name": "uuid-example-browser-rollup",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && rollup -c",
+    "start": "npm run build && npx http-server . -o"
+  },
+  "dependencies": {
+    "uuid": "file:../../.local"
+  },
+  "devDependencies": {
+    "rollup": "^1.24.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.2.0"
+  }
+}

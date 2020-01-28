@@ -1,0 +1,31 @@
+name: Browser
+
+on: [push]
+
+jobs:
+  ci:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        browser: [chrome, edge, firefox, ie, safari]
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - name: Test ${{ matrix.node-version }}
+      run: npm run test:browser
+      env:
+        CI: true
+        BROWSER: ${{ matrix.browser }}
+        BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
