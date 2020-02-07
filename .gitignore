@@ -1,8 +1,4 @@
-*.sw*
-.idea/**
-.DS_Store
-node_modules
-tmp
+node_modules/
 dist/
 # Browserstack
 browserstack.err
