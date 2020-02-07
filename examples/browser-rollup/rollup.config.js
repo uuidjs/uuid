@@ -29,7 +29,7 @@ module.exports = [
   },
 
   {
-    input: './bundlesize-v1.js',
+    input: './size-v1.js',
     output: {
       file: 'dist/v1-size.js',
       format: 'cjs',
@@ -37,7 +37,7 @@ module.exports = [
     plugins,
   },
   {
-    input: './bundlesize-v3.js',
+    input: './size-v3.js',
     output: {
       file: 'dist/v3-size.js',
       format: 'cjs',
@@ -45,7 +45,7 @@ module.exports = [
     plugins,
   },
   {
-    input: './bundlesize-v4.js',
+    input: './size-v4.js',
     output: {
       file: 'dist/v4-size.js',
       format: 'cjs',
@@ -53,7 +53,7 @@ module.exports = [
     plugins,
   },
   {
-    input: './bundlesize-v5.js',
+    input: './size-v5.js',
     output: {
       file: 'dist/v5-size.js',
       format: 'cjs',
