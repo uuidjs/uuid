@@ -52,7 +52,7 @@
     "prettier": "1.19.1",
     "rollup": "1.30.0",
     "rollup-plugin-terser": "5.2.0",
-    "runmd": "1.2.1",
+    "runmd": "ctavan/runmd#add-naive-import-support",
     "selenium-webdriver": "3.6.0",
     "standard-version": "7.0.1"
   },
