@@ -30,6 +30,36 @@ Features:
 ⚠️⚠️⚠️ This is the README of the upcoming major version of this library. You can still [access the README
 of the current stable version](https://github.com/uuidjs/uuid/blob/v3.4.0/README.md). ⚠️⚠️⚠️
 
+## Upgrading from v3.x of this Module
+
+In v3.x of this library we were promoting the use of deep requires to reduce bundlesize for browser
+builds:
+
+```javascript
+const uuidv4 = require('uuid/v4');
+uuidv4();
+```
+
+As of v7.x this library has been converted to ECMAScript Modules and deep requires are now
+deprecated and may be removed in a future major version of this library.
+
+Since all modern bundlers like rollup or Webpack support tree-shaking for ECMAScript Modules out of
+the box we now encourage you to use modern `import` syntax instead, see [ECMAScript Modules /
+ESM](#ecmascript-modules--esm):
+
+```javascript
+import { v4 as uuidv4 } from 'uuid';
+uuidv4();
+```
+
+For use as CommonJS module with Node.js (where bundlesize is no concern) just require the main
+package:
+
+```javascript
+const uuid = require('uuid');
+uuid.v4();
+```
+
 ## Quickstart - Node.js/CommonJS
 
 ```shell
@@ -111,8 +141,8 @@ tree-shaking for bundlers, like [rollup.js](https://rollupjs.org/guide/en/#tree-
 ([example](./examples/browser-webpack/)).
 
 ```javascript
-import { v4 as uuid } from 'uuid';
-uuid(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+import { v4 as uuidv4 } from 'uuid';
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 ```
 
 There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it

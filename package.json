@@ -24,7 +24,11 @@
     "CONTRIBUTING.md",
     "LICENSE.md",
     "README.md",
-    "dist"
+    "dist",
+    "v1.js",
+    "v3.js",
+    "v4.js",
+    "v5.js"
   ],
   "devDependencies": {
     "@babel/cli": "7.8.3",
@@ -59,7 +63,8 @@
     "lint": "npm run eslint:check && npm run prettier:check",
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
-    "test": "BABEL_ENV=commonjs jest test/unit/",
+    "pretest": "npm run build",
+    "test": "BABEL_ENV=commonjs node --throw-deprecation node_modules/.bin/jest test/unit/",
     "pretest:browser": "npm run build && npm-run-all --parallel examples:**",
     "test:browser": "BABEL_ENV=commonjs jest --forceExit --verbose test/browser/${BROWSER:-}*",
     "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
