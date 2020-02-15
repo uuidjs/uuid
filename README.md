@@ -59,7 +59,6 @@ Version 4 (random):
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-
 ```
 
 Or generate UUIDs with other algorithms of your choice ...
@@ -69,7 +68,6 @@ Version 1 (timestamp):
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8b2d-1b9d6bcdbbfd'
-
 ```
 
 Version 3 (namespace):
@@ -89,7 +87,6 @@ uuidv3('http://example.com/hello', uuidv3.URL); // ⇨ 'c6235813-3ba4-3801-ae84-
 // E.g. the one here was generated using this modules `uuid` CLI.
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv3('Hello, World!', MY_NAMESPACE); // ⇨ 'e8b5a51d-11c8-3310-a6ab-367563f20686'
-
 ```
 
 Version 5 (namespace):
@@ -109,7 +106,6 @@ uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-
 // E.g. the one here was generated using this modules `uuid` CLI.
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
-
 ```
 
 ## Supported Platforms
@@ -191,7 +187,6 @@ const v4options = {
   ],
 };
 uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
-
 ```
 
 Example: Generate two IDs in a single buffer
@@ -212,7 +207,6 @@ uuidv4(null, buffer, 16); // ⇨
   //    27, 157, 107, 205, 187, 253,  75,  45,
   //   155,  93, 171, 141, 251, 189,  75, 237
   // ]
-
 ```
 
 ### Version 1 (Timestamp + Node)
@@ -256,7 +250,6 @@ const v1options = {
   nsecs: 5678,
 };
 uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
-
 ```
 
 Example: In-place generation of two binary IDs
@@ -278,7 +271,6 @@ uuidv1(null, arr, 16); // ⇨
   //    44, 94, 164, 193,  64, 103,  17, 233,
   //   146, 52,  27, 157, 107, 205, 187, 253
   // ]
-
 ```
 
 ### Version 3 (Namespace)
@@ -305,7 +297,6 @@ Example:
 
 ```javascript
 uuidv3('hello world', MY_NAMESPACE); // ⇨ '042ffd34-d989-321c-ad06-f60826172424'
-
 ```
 
 ### Version 5 (Namespace)
@@ -332,7 +323,6 @@ Example:
 
 ```javascript
 uuidv5('hello world', MY_NAMESPACE); // ⇨ '9f282611-e0fd-5650-8953-89c8e342da0b'
-
 ```
 
 ## Command Line
