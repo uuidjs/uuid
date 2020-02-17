@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "3.4.0",
+  "version": "7.0.0-beta.0",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "commitlint": {
     "extends": [
