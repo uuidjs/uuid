@@ -1,10 +1,10 @@
-const uuidv1 = require('uuid/v1');
+const { v1: uuidv1 } = require('uuid');
 console.log('uuidv1()', uuidv1());
 
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 console.log('uuidv4()', uuidv4());
 
-const uuidv3 = require('uuid/v3');
+const { v3: uuidv3 } = require('uuid');
 
 // ... using predefined DNS namespace (for domain names)
 console.log('uuidv3() DNS', uuidv3('hello.example.com', uuidv3.DNS));
@@ -19,7 +19,7 @@ console.log('uuidv3() URL', uuidv3('http://example.com/hello', uuidv3.URL));
 const MY_NAMESPACE = '55238d15-c926-4598-b49d-cf4e913ba13c';
 console.log('uuidv3() MY_NAMESPACE', uuidv3('Hello, World!', MY_NAMESPACE));
 
-const uuidv5 = require('uuid/v5');
+const { v5: uuidv5 } = require('uuid');
 
 // ... using predefined DNS namespace (for domain names)
 console.log('uuidv5() DNS', uuidv5('hello.example.com', uuidv5.DNS));
