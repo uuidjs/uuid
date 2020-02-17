@@ -39,12 +39,11 @@ import { v4 as uuidv4 } from 'uuid';
 uuidv4();
 ```
 
-For use as CommonJS module with Node.js (where bundlesize is no concern) just require the main
-package:
+For use as CommonJS module with Node.js you can use:
 
 ```javascript
-const uuid = require('uuid');
-uuid.v4();
+const { v4: uuidv4 } = require('uuid');
+uuidv4();
 ```
 
 ## Quickstart - Node.js/CommonJS
@@ -58,9 +57,8 @@ Then generate a random UUID (v4 algorithm), which is almost always what you want
 Version 4 (random):
 
 ```javascript
-const uuid = require('uuid');
-uuid.v4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-
+import { v4 as uuidv4 } from 'uuid';
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
 Or generate UUIDs with other algorithms of your choice ...
@@ -68,49 +66,46 @@ Or generate UUIDs with other algorithms of your choice ...
 Version 1 (timestamp):
 
 ```javascript
-const uuid = require('uuid');
-uuid.v1(); // ⇨ '2c5ea4c0-4067-11e9-8b2d-1b9d6bcdbbfd'
-
+import { v1 as uuidv1 } from 'uuid';
+uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8b2d-1b9d6bcdbbfd'
 ```
 
 Version 3 (namespace):
 
 ```javascript
-const uuid = require('uuid');
+import { v3 as uuidv3 } from 'uuid';
 
 // ... using predefined DNS namespace (for domain names)
-uuid.v3('hello.example.com', uuid.v3.DNS); // ⇨ '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
+uuidv3('hello.example.com', uuidv3.DNS); // ⇨ '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
 
 // ... using predefined URL namespace (for, well, URLs)
-uuid.v3('http://example.com/hello', uuid.v3.URL); // ⇨ 'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
+uuidv3('http://example.com/hello', uuidv3.URL); // ⇨ 'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
 
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuid.v3('Hello, World!', MY_NAMESPACE); // ⇨ 'e8b5a51d-11c8-3310-a6ab-367563f20686'
-
+uuidv3('Hello, World!', MY_NAMESPACE); // ⇨ 'e8b5a51d-11c8-3310-a6ab-367563f20686'
 ```
 
 Version 5 (namespace):
 
 ```javascript
-const uuid = require('uuid');
+import { v5 as uuidv5 } from 'uuid';
 
 // ... using predefined DNS namespace (for domain names)
-uuid.v5('hello.example.com', uuid.v5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
+uuidv5('hello.example.com', uuidv5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
 
 // ... using predefined URL namespace (for, well, URLs)
-uuid.v5('http://example.com/hello', uuid.v5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
+uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
 
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
 // E.g. the one here was generated using this modules `uuid` CLI.
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuid.v5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
-
+uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
 ```
 
 ## Supported Platforms
@@ -150,12 +145,12 @@ npm run build
 ### Version 4 (Random)
 
 ```javascript
-const uuid = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
 // Incantations
-uuid.v4();
-uuid.v4(options);
-uuid.v4(options, buffer, offset);
+uuidv4();
+uuidv4(options);
+uuidv4(options, buffer, offset);
 ```
 
 Generate and return a RFC4122 v4 UUID.
@@ -191,29 +186,27 @@ const v4options = {
     0x36,
   ],
 };
-uuid.v4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
-
+uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
 ```
 
 Example: Generate two IDs in a single buffer
 
 ```javascript
 const buffer = new Array();
-uuid.v4(null, buffer, 0); // ⇨ 
+uuidv4(null, buffer, 0); // ⇨ 
   // [
   //   155, 29, 235,  77,  59,
   //   125, 75, 173, 155, 221,
   //    43, 13, 123,  61, 203,
   //   109
   // ]
-uuid.v4(null, buffer, 16); // ⇨ 
+uuidv4(null, buffer, 16); // ⇨ 
   // [
   //   155,  29, 235,  77,  59, 125,  75, 173,
   //   155, 221,  43,  13, 123,  61, 203, 109,
   //    27, 157, 107, 205, 187, 253,  75,  45,
   //   155,  93, 171, 141, 251, 189,  75, 237
   // ]
-
 ```
 
 ### Version 1 (Timestamp + Node)
@@ -223,12 +216,12 @@ before using them. In many cases, Version 4 random UUIDs are the better choice. 
 FAQ](https://github.com/tc39/proposal-uuid#faq) covers more details.** ⚠️⚠️⚠️
 
 ```javascript
-const uuid = require('uuid');
+import { v1 as uuidv1 } from 'uuid';
 
 // Incantations
-uuid.v1();
-uuid.v1(options);
-uuid.v1(options, buffer, offset);
+uuidv1();
+uuidv1(options);
+uuidv1(options, buffer, offset);
 ```
 
 Generate and return a RFC4122 v1 (timestamp-based) UUID.
@@ -256,8 +249,7 @@ const v1options = {
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuid.v1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
-
+uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
 ```
 
 Example: In-place generation of two binary IDs
@@ -265,32 +257,31 @@ Example: In-place generation of two binary IDs
 ```javascript
 // Generate two ids in an array
 const arr = new Array();
-uuid.v1(null, arr, 0); // ⇨ 
+uuidv1(null, arr, 0); // ⇨ 
   // [
   //    44,  94, 164, 192,  64,
   //   103,  17, 233, 146,  52,
   //    27, 157, 107, 205, 187,
   //   253
   // ]
-uuid.v1(null, arr, 16); // ⇨ 
+uuidv1(null, arr, 16); // ⇨ 
   // [
   //    44, 94, 164, 192,  64, 103,  17, 233,
   //   146, 52,  27, 157, 107, 205, 187, 253,
   //    44, 94, 164, 193,  64, 103,  17, 233,
   //   146, 52,  27, 157, 107, 205, 187, 253
   // ]
-
 ```
 
 ### Version 3 (Namespace)
 
 ```javascript
-const uuid = require('uuid');
+import { v3 as uuidv3 } from 'uuid';
 
 // Incantations
-uuid.v3(name, namespace);
-uuid.v3(name, namespace, buffer);
-uuid.v3(name, namespace, buffer, offset);
+uuidv3(name, namespace);
+uuidv3(name, namespace, buffer);
+uuidv3(name, namespace, buffer, offset);
 ```
 
 Generate and return a RFC4122 v3 UUID.
@@ -305,19 +296,18 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 Example:
 
 ```javascript
-uuid.v3('hello world', MY_NAMESPACE); // ⇨ '042ffd34-d989-321c-ad06-f60826172424'
-
+uuidv3('hello world', MY_NAMESPACE); // ⇨ '042ffd34-d989-321c-ad06-f60826172424'
 ```
 
 ### Version 5 (Namespace)
 
 ```javascript
-const uuid = require('uuid');
+import { v5 as uuidv5 } from 'uuid';
 
 // Incantations
-uuid.v5(name, namespace);
-uuid.v5(name, namespace, buffer);
-uuid.v5(name, namespace, buffer, offset);
+uuidv5(name, namespace);
+uuidv5(name, namespace, buffer);
+uuidv5(name, namespace, buffer, offset);
 ```
 
 Generate and return a RFC4122 v5 UUID.
@@ -332,8 +322,7 @@ Returns `buffer`, if specified, otherwise the string form of the UUID
 Example:
 
 ```javascript
-uuid.v5('hello world', MY_NAMESPACE); // ⇨ '9f282611-e0fd-5650-8953-89c8e342da0b'
-
+uuidv5('hello world', MY_NAMESPACE); // ⇨ '9f282611-e0fd-5650-8953-89c8e342da0b'
 ```
 
 ## Command Line
