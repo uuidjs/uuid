@@ -37,11 +37,13 @@ decided to jump v4.x, v5.x and v6.x in order to avoid any confusion with [versio
 4](#version-4-random) and [version 5](#version-5-namespace) UUIDs and the [version 6 UUID
 proposal](http://gh.peabody.io/uuidv6/).
 
+### Deep Requires now Deprecated
+
 In v3.x of this library we were promoting the use of deep requires to reduce bundlesize for browser
 builds:
 
 ```javascript
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
 uuidv4();
 ```
 
@@ -63,6 +65,16 @@ For use as CommonJS module with Node.js you can use:
 const { v4: uuidv4 } = require('uuid');
 uuidv4();
 ```
+
+### Default Export Removed
+
+v3.x of this library was exporting the Version 4 UUID method as a default export:
+
+```javascript
+const uuid = require('uuid'); // <== REMOVED!
+```
+
+This usage pattern was already discouraged in v3.x and has been removed in v7.x.
 
 ## Quickstart - Node.js/CommonJS
 
