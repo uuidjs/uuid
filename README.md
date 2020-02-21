@@ -4,64 +4,20 @@
 
 # uuid [![Build Status](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions)
 
-Simple, fast generation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs.
+For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
-Features:
+- **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
+- **Cross-platform** - Support for ...
+  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and UMD builds
+  - Node 8, 10, 12
+  - Chrome, Safari, Firefox, Edge, IE 11 browsers
+  - Webpack, Rollup packagers
+- **Secure** - Cryptographically-strong random values
+- **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
+- **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-- Support for version 1, 3, 4 and 5 UUIDs
-- Cross-platform: CommonJS build for Node.js and [ECMAScript Modules](#ecmascript-modules) for the
-  browser.
-- Uses cryptographically-strong random number APIs
-- Zero-dependency, small footprint
-
-⚠️⚠️⚠️ This is the README of the upcoming major version of this library. You can still [access the README
-of the current stable version](https://github.com/uuidjs/uuid/blob/v3.4.0/README.md). ⚠️⚠️⚠️
-
-## Upgrading from v3.x of this Library
-
-The latest major version of this library is v7.x and the previous major version was v3.x. We
-decided to jump v4.x, v5.x and v6.x in order to avoid any confusion with [version
-4](#version-4-random) and [version 5](#version-5-namespace) UUIDs and the [version 6 UUID
-proposal](http://gh.peabody.io/uuidv6/).
-
-### Deep Requires now Deprecated
-
-In v3.x of this library we were promoting the use of deep requires to reduce bundlesize for browser
-builds:
-
-```javascript
-const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
-uuidv4();
-```
-
-As of v7.x this library has been converted to ECMAScript Modules and deep requires are now
-deprecated and may be removed in a future major version of this library.
-
-Since all modern bundlers like rollup or Webpack support tree-shaking for ECMAScript Modules out of
-the box we now encourage you to use modern `import` syntax instead, see [ECMAScript Modules /
-ESM](#ecmascript-modules--esm):
-
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4();
-```
-
-For use as CommonJS module with Node.js you can use:
-
-```javascript
-const { v4: uuidv4 } = require('uuid');
-uuidv4();
-```
-
-### Default Export Removed
-
-v3.x of this library was exporting the Version 4 UUID method as a default export:
-
-```javascript
-const uuid = require('uuid'); // <== REMOVED!
-```
-
-This usage pattern was already discouraged in v3.x and has been removed in v7.x.
+**Upgrading from uuid\@3?** Your code is probably okay, but check out [Upgrading
+From uuid\@3](#upgrading-from-uuid3) for details.
 
 ## Quickstart - Node.js/CommonJS
 
@@ -69,92 +25,56 @@ This usage pattern was already discouraged in v3.x and has been removed in v7.x.
 npm install uuid
 ```
 
-Then generate a random UUID (v4 algorithm), which is almost always what you want ...
+Once installed, decide which type of UUID you need. RFC4122 provides for four
+versions, all of which are supported here. In order of popularity, they are:
 
-Version 4 (random):
+- Version 4 (random) - Created from cryptographically-strong random values
+- Version 1 (timestamp) - Created from the system clock (plus random values)
+- Version 5 (namespace, SHA-1) - Created from user-supplied name and namespace strings
+- Version 3 (namespace, MD5) - Like version 5, above, but with a poorer hash algorithm
+
+**Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
+
+### Create Version 4 (Random) UUIDs
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
-Or generate UUIDs with other algorithms of your choice ...
-
-Version 1 (timestamp):
+### Create Version 1 (Timestamp) UUIDs
 
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8b2d-1b9d6bcdbbfd'
 ```
 
-Version 3 (namespace):
+### Create Version 3 or Version 5 (Namespace) UUIDs
+
+&#x26a0;&#xfe0f; Version 3 and Version 5 UUIDs are basically the same, differing
+only in the underlying hash algorithm. Note that per the RFC, "_If backward
+compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+
+&#x26a0;&#xfe0f; If using a custom namespace **be sure to generate your own
+namespace UUID**. You can grab one [here](https://www.uuidgenerator.net/).
 
 ```javascript
-import { v3 as uuidv3 } from 'uuid';
+import { v5 as uuidv5 } from 'uuid'; // For version 5
+import { v3 as uuidv3 } from 'uuid'; // For version 3
 
-// ... using predefined DNS namespace (for domain names)
+// Using predefined DNS namespace (for domain names)
+uuidv5('hello.example.com', uuidv5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
 uuidv3('hello.example.com', uuidv3.DNS); // ⇨ '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
 
-// ... using predefined URL namespace (for, well, URLs)
+// Using predefined URL namespace (for URLs)
+uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
 uuidv3('http://example.com/hello', uuidv3.URL); // ⇨ 'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
 
-// ... using a custom namespace
-//
-// Note: Custom namespaces should be a UUID string specific to your application!
-// E.g. the one here was generated using this modules `uuid` CLI.
-const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuidv3('Hello, World!', MY_NAMESPACE); // ⇨ 'e8b5a51d-11c8-3310-a6ab-367563f20686'
-```
-
-Version 5 (namespace):
-
-```javascript
-import { v5 as uuidv5 } from 'uuid';
-
-// ... using predefined DNS namespace (for domain names)
-uuidv5('hello.example.com', uuidv5.DNS); // ⇨ 'fdda765f-fc57-5604-a269-52a7df8164ec'
-
-// ... using predefined URL namespace (for, well, URLs)
-uuidv5('http://example.com/hello', uuidv5.URL); // ⇨ '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
-
-// ... using a custom namespace
-//
-// Note: Custom namespaces should be a UUID string specific to your application!
-// E.g. the one here was generated using this modules `uuid` CLI.
+// Using a custom namespace (See note, above, about generating your own
+// namespace UUID)
 const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
-```
-
-## Supported Platforms
-
-- Node.js: All LTS, i.e. 8.x, 10.x, 12.x
-- Browsers (with bundlers like webpack/rollup):
-  - Chrome: >= 49
-  - Safari: >= 10
-  - Firefox: >= 44
-  - Edge: >= 15
-  - IE: 11
-
-## ECMAScript Modules / ESM
-
-For usage in the browser `uuid` provides support for [ECMAScript
-Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) that enable
-tree-shaking for bundlers, like [rollup.js](https://rollupjs.org/guide/en/#tree-shaking)
-([example](./examples/browser-rollup/)) and [webpack](https://webpack.js.org/guides/tree-shaking/)
-([example](./examples/browser-webpack/)).
-
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-```
-
-There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it
-should not be considered ready for production use and may change or disappear in future releases.
-
-To run the examples you must first create a dist build of this library in the module root:
-
-```
-npm run build
+uuidv3('Hello, World!', MY_NAMESPACE); // ⇨ 'e8b5a51d-11c8-3310-a6ab-367563f20686'
 ```
 
 ## API
@@ -170,7 +90,7 @@ uuidv4(options);
 uuidv4(options, buffer, offset);
 ```
 
-Generate and return a RFC4122 v4 UUID.
+Generate and return a RFC4122 version 4 UUID.
 
 - `options` - (Object) Optional uuid state to apply. Properties may include:
   - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values. Takes precedence over `options.rng`.
@@ -226,11 +146,7 @@ uuidv4(null, buffer, 16); // ⇨
   // ]
 ```
 
-### Version 1 (Timestamp + Node)
-
-⚠️⚠️⚠️ **Please make sure to check whether you really need the timestamp properties of Version 1 UUIDs
-before using them. In many cases, Version 4 random UUIDs are the better choice. [This
-FAQ](https://github.com/tc39/proposal-uuid#faq) covers more details.** ⚠️⚠️⚠️
+### Version 1 (Timestamp)
 
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
@@ -241,7 +157,7 @@ uuidv1(options);
 uuidv1(options, buffer, offset);
 ```
 
-Generate and return a RFC4122 v1 (timestamp-based) UUID.
+Generate and return a RFC4122 version 1 (timestamp) UUID.
 
 - `options` - (Object) Optional uuid state to apply. Properties may include:
   - `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomly generated ID. See note 1.
@@ -290,32 +206,6 @@ uuidv1(null, arr, 16); // ⇨
   // ]
 ```
 
-### Version 3 (Namespace)
-
-```javascript
-import { v3 as uuidv3 } from 'uuid';
-
-// Incantations
-uuidv3(name, namespace);
-uuidv3(name, namespace, buffer);
-uuidv3(name, namespace, buffer, offset);
-```
-
-Generate and return a RFC4122 v3 UUID.
-
-- `name` - (String | Array[]) "name" to create UUID with
-- `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing. Default = 0
-
-Returns `buffer`, if specified, otherwise the string form of the UUID
-
-Example:
-
-```javascript
-uuidv3('hello world', MY_NAMESPACE); // ⇨ '042ffd34-d989-321c-ad06-f60826172424'
-```
-
 ### Version 5 (Namespace)
 
 ```javascript
@@ -327,7 +217,7 @@ uuidv5(name, namespace, buffer);
 uuidv5(name, namespace, buffer, offset);
 ```
 
-Generate and return a RFC4122 v5 UUID.
+Generate and return a RFC4122 version 5 UUID.
 
 - `name` - (String | Array[]) "name" to create UUID with
 - `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
@@ -342,21 +232,83 @@ Example:
 uuidv5('hello world', MY_NAMESPACE); // ⇨ '9f282611-e0fd-5650-8953-89c8e342da0b'
 ```
 
+### Version 3 (Namespace)
+
+&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+
+```javascript
+import { v3 as uuidv3 } from 'uuid';
+
+// Incantations
+uuidv3(name, namespace);
+uuidv3(name, namespace, buffer);
+uuidv3(name, namespace, buffer, offset);
+```
+
+Generate and return a RFC4122 version 3 UUID.
+
+- `name` - (String | Array[]) "name" to create UUID with
+- `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
+- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+- `offset` - (Number) Starting index in `buffer` at which to begin writing. Default = 0
+
+Returns `buffer`, if specified, otherwise the string form of the UUID
+
+Example:
+
+```javascript
+uuidv3('hello world', MY_NAMESPACE); // ⇨ '042ffd34-d989-321c-ad06-f60826172424'
+```
+
 ## Command Line
 
-UUIDs can be generated from the command line with the `uuid` command.
+UUIDs can be generated from the command line using `uuid`.
 
 ```shell
 $ uuid
 ddeb27fb-d9a0-4624-be4d-4615062daed4
-
-$ uuid v1
-02d37060-d446-11e7-a9fa-7bdae751ebe1
 ```
 
-Type `uuid --help` for usage details
+The default is to generate version 4 UUIDS, however the other versions are supported. Type `uuid --help` for details:
 
-## UMD Build
+```
+$ uuid --help
+
+Usage:
+  uuid
+  uuid v1
+  uuid v3 <name> <namespace uuid>
+  uuid v4
+  uuid v5 <name> <namespace uuid>
+  uuid --help
+
+Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs
+defined by RFC4122
+```
+
+## ECMAScript Modules
+
+For usage in the browser `uuid` provides support for [ECMAScript
+Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) that enable
+tree-shaking for bundlers, like [rollup.js](https://rollupjs.org/guide/en/#tree-shaking)
+([example](./examples/browser-rollup/)) and [webpack](https://webpack.js.org/guides/tree-shaking/)
+([example](./examples/browser-webpack/)).
+
+```javascript
+import { v4 as uuidv4 } from 'uuid';
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+```
+
+There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it
+should not be considered ready for production use and may change or disappear in future releases.
+
+To run the examples you must first create a dist build of this library in the module root:
+
+```
+npm run build
+```
+
+## UMD Builds
 
 If you want to load a minified UMD build directly in the browser you can use one of the popular npm
 CDNs:
@@ -381,6 +333,51 @@ Available bundles:
 
 - https://unpkg.com/uuid@latest/dist/umd/
 - https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
+
+## Upgrading From uuid\@3
+
+"_Wait... what happened to uuid\@4 - uuid\@6?!?_"
+
+In order to avoid confusion with RFC [version 4](#version-4-random) and [version
+5](#version-5-namespace) UUIDs, and a possible [version
+6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been
+skipped. Hence, how we're now at uuid\@7.
+
+### Deep Requires Now Deprecated
+
+uuid\@3 encouraged the use of deep requires to minimize the bundle size of
+browser builds:
+
+```javascript
+const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
+uuidv4();
+```
+
+As of uuid\@7 this library now provides ECMAScript modules builds, which allow
+packagers like Webpack and Rollup to do "tree-shaking" to remove dead code.
+Instead, use the `import` syntax instead, see [ECMAScript Modules / ESM](#ecmascript-modules--esm):
+
+```javascript
+import { v4 as uuidv4 } from 'uuid';
+uuidv4();
+```
+
+Or, for CommonJS code:
+
+```javascript
+const { v4: uuidv4 } = require('uuid');
+uuidv4();
+```
+
+### Default Export Removed
+
+uuid\@3 was exporting the Version 4 UUID method as a default export:
+
+```javascript
+const uuid = require('uuid'); // <== REMOVED!
+```
+
+This usage pattern was already discouraged in uuid\@3 and has been removed in uuid\@7.
 
 ----
 Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
