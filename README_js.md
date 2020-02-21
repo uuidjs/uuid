@@ -27,9 +27,6 @@ Features:
 - Uses cryptographically-strong random number APIs
 - Zero-dependency, small footprint
 
-⚠️⚠️⚠️ This is the README of the upcoming major version of this library. You can still [access the README
-of the current stable version](https://github.com/uuidjs/uuid/blob/v3.4.0/README.md). ⚠️⚠️⚠️
-
 ## Upgrading from v3.x of this Library
 
 The latest major version of this library is v7.x and the previous major version was v3.x. We
