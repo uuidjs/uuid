@@ -24,7 +24,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and UMD builds
   - Node 8, 10, 12
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
-  - Webpack, Rollup packagers
+  - Webpack and rollup.js module bundlers
 - **Secure** - Cryptographically-strong random values
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
@@ -344,14 +344,14 @@ uuidv4();
 
 As of uuid\@7 this library now provides ECMAScript modules builds, which allow
 packagers like Webpack and Rollup to do "tree-shaking" to remove dead code.
-Instead, use the `import` syntax instead, see [ECMAScript Modules / ESM](#ecmascript-modules--esm):
+Instead, use the `import` syntax:
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4();
 ```
 
-Or, for CommonJS code:
+... or for CommonJS:
 
 ```javascript
 const { v4: uuidv4 } = require('uuid');
