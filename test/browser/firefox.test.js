@@ -4,7 +4,7 @@ const browserTest = require('./browser-test');
 browserTest('firefox', 9002, [
   {
     browserName: 'Firefox',
-    browser_version: '70.0',
+    browser_version: '73.0',
     os: 'Windows',
     os_version: '10',
   },
