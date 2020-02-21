@@ -17,7 +17,12 @@ Features:
 ⚠️⚠️⚠️ This is the README of the upcoming major version of this library. You can still [access the README
 of the current stable version](https://github.com/uuidjs/uuid/blob/v3.4.0/README.md). ⚠️⚠️⚠️
 
-## Upgrading from v3.x of this Module
+## Upgrading from v3.x of this Library
+
+The latest major version of this library is v7.x and the previous major version was v3.x. We
+decided to jump v4.x, v5.x and v6.x in order to avoid any confusion with [version
+4](#version-4-random) and [version 5](#version-5-namespace) UUIDs and the [version 6 UUID
+proposal](http://gh.peabody.io/uuidv6/).
 
 ### Deep Requires now Deprecated
 
