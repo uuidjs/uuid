@@ -4,6 +4,12 @@ const browserTest = require('./browser-test');
 browserTest('edge', 9001, [
   {
     browserName: 'Edge',
+    browser_version: '80.0',
+    os: 'Windows',
+    os_version: '10',
+  },
+  {
+    browserName: 'Edge',
     browser_version: '18.0',
     os: 'Windows',
     os_version: '10',
