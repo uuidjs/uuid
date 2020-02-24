@@ -377,7 +377,7 @@ uuid\@3 was exporting the Version 4 UUID method as a default export:
 const uuid = require('uuid'); // <== REMOVED!
 ```
 
-This usage pattern was already discouraged in uuid\@3 and has been removed in uuid\@7.
+This usage pattern was [deprecated in uuid\@3](https://github.com/uuidjs/uuid/tree/v3.1.0#deprecated--browser-ready-api) and has been removed in uuid\@7.
 
 ----
 Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
