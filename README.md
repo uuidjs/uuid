@@ -349,7 +349,7 @@ uuid\@3 encouraged the use of deep requires to minimize the bundle size of
 browser builds:
 
 ```javascript
-const uuidv4 = require('uuid/v4'); // <==  DEPRECATED!
+const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
 uuidv4();
 ```
 
@@ -371,9 +371,13 @@ uuidv4();
 
 ### Default Export Removed
 
-The Version 4 UUID method, `v4()` is no longer available as the default export.  This usage pattern was [deprecated in uuid\@3.1](https://github.com/uuidjs/uuid/tree/v3.1.0#deprecated--browser-ready-api) and has been removed in uuid\@7.
+uuid\@3 was exporting the Version 4 UUID method as a default export:
 
-Instead, require/import the exported `v4` property, as noted above.
+```javascript
+const uuid = require('uuid'); // <== REMOVED!
+```
+
+This usage pattern was already discouraged in uuid\@3 and has been removed in uuid\@7.
 
 ----
 Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
