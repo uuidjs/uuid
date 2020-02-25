@@ -1,7 +1,7 @@
 const resolve = require('rollup-plugin-node-resolve');
 const { terser } = require('rollup-plugin-terser');
 
-const plugins = [resolve(), terser()];
+const plugins = [resolve({ browser: true }), terser()];
 module.exports = [
   {
     input: './example-all.js',

@@ -18,7 +18,13 @@
   },
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/esm-browser/index.js",
+  "module": "dist/esm-node/index.js",
+  "browser": {
+    "./dist/md5.js": "./dist/md5-browser.js",
+    "./dist/rng.js": "./dist/rng-browser.js",
+    "./dist/sha1.js": "./dist/sha1-browser.js",
+    "./dist/esm-node/index.js": "./dist/esm-browser/index.js"
+  },
   "files": [
     "CHANGELOG.md",
     "CONTRIBUTING.md",
@@ -36,6 +42,7 @@
     "@babel/preset-env": "7.8.4",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
+    "@rollup/plugin-node-resolve": "7.1.1",
     "babel-eslint": "10.0.3",
     "babel-plugin-add-module-exports": "1.0.2",
     "browserstack-local": "1.4.5",
