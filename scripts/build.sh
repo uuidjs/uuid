@@ -14,11 +14,11 @@ mkdir -p "$DIR"
 # Transpile CommonJS versions of files
 babel --env-name commonjs src --source-root src --out-dir "$DIR" --copy-files --quiet
 
-# Transpile ESM versions of files for browser
-babel --env-name esm src --source-root src --out-dir "$DIR/esm-browser" --copy-files --quiet
+# Transpile ESM versions of files for the browser
+babel --env-name esmBrowser src --source-root src --out-dir "$DIR/esm-browser" --copy-files --quiet
 
 # Transpile ESM versions of files for node
-babel --env-name esm src --source-root src --out-dir "$DIR/esm-node" --copy-files --quiet
+babel --env-name esmNode src --source-root src --out-dir "$DIR/esm-node" --copy-files --quiet
 
 # No need to have the CLI files in the esm build
 rm -rf "$DIR/esm-browser/bin"
