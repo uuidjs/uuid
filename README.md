@@ -35,6 +35,8 @@ versions, all of which are supported here. In order of popularity, they are:
 
 **Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
 
+**Are you using React Native?** If you are using this library from React Native, you need to add a polyfill for `crypto.getRandomValues`. We recommend using [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme).
+
 ### Create Version 4 (Random) UUIDs
 
 ```javascript
