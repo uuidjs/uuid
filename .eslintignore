@@ -1,3 +1,4 @@
 !.babelrc.js
 node_modules/
 dist/
+examples/reactnative/
