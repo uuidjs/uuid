@@ -25,6 +25,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
   - Node 8, 10, 12
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
+  - [React Native](#react-native)
 - **Secure** - Cryptographically-strong random values
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
@@ -47,8 +48,6 @@ versions, all of which are supported here. In order of popularity, they are:
 - Version 3 (namespace, MD5) - Like version 5, above, but with a poorer hash algorithm
 
 **Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
-
-**Are you using React Native?** If you are using this library from React Native, you need to add a polyfill for `crypto.getRandomValues`. We recommend using [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme).
 
 ### Create Version 4 (Random) UUIDs
 
@@ -324,6 +323,12 @@ Available bundles:
 
 - https://unpkg.com/uuid@latest/dist/umd/
 - https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
+
+## React Native
+
+If you are using this library from React Native, you need to add a polyfill for
+`crypto.getRandomValues()`. We recommend using
+[`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme).
 
 ## Upgrading From uuid\@3
 
