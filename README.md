@@ -341,8 +341,8 @@ This error occurs in environments where the standard
 [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues)
 API is not supported. This issue can be resolved by adding an appropriate polyfill:
 
-| Environment | Suggested Polyfill |
-|---|---|
+| Environment  | Suggested Polyfill                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------------------- |
 | React Native | [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme) |
 
 ## Upgrading From uuid\@3
