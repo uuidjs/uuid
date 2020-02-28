@@ -14,7 +14,7 @@ var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
 export default function rng() {
   if (!getRandomValues) {
     throw new Error(
-      'uuid: This environment does not seem to support crypto.getRandomValues(). Install a polyfill or provide a custom random number generator through options.rng. For React Native, see https://github.com/uuidjs/uuid#react-native',
+      'getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported.'
     );
   }
   return getRandomValues(rnds8);
