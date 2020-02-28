@@ -12,7 +12,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
   - Node 8, 10, 12
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
-  - [React Native](#react-native)
+  - React Native ([see note](#getrandomvalues-not-supported))
 - **Secure** - Cryptographically-strong random values
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
@@ -335,11 +335,15 @@ Available bundles:
 - https://unpkg.com/uuid@latest/dist/umd/
 - https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
 
-## React Native
+## "getRandomValues() not supported"
 
-If you are using this library from React Native, you need to add a polyfill for
-`crypto.getRandomValues()`. We recommend using
-[`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme).
+This error occurs in environments where the standard
+[`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues)
+API is not supported. This issue can be resolved by adding an appropriate polyfill:
+
+| Environment | Suggested Polyfill |
+|---|---|
+| React Native | [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme) |
 
 ## Upgrading From uuid\@3
 

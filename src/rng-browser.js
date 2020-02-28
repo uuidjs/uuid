@@ -14,7 +14,7 @@ var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
 export default function rng() {
   if (!getRandomValues) {
     throw new Error(
-      'getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported.'
+      'crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported',
     );
   }
   return getRandomValues(rnds8);
