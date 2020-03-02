@@ -7,7 +7,7 @@
 var getRandomValues =
   (typeof crypto != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
   (typeof msCrypto != 'undefined' &&
-    typeof window.msCrypto.getRandomValues == 'function' &&
+    typeof msCrypto.getRandomValues == 'function' &&
     msCrypto.getRandomValues.bind(msCrypto));
 
 var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
