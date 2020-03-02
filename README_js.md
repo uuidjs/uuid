@@ -330,9 +330,15 @@ This error occurs in environments where the standard
 [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues)
 API is not supported. This issue can be resolved by adding an appropriate polyfill:
 
-| Environment  | Suggested Polyfill                                                                                                                       |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| React Native | [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme) ([example](./examples/reactnative/)) |
+### React Native
+
+1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
+1. Import it before `uuid` ([example](./examples/reactnative/)):
+
+```javascript
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+```
 
 ## Upgrading From uuid\@3
 
