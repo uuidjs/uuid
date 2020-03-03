@@ -340,6 +340,12 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 ```
 
+### Web Workers / Service Workers (Edge <= 18)
+
+[In Edge <= 18, Web Crypto is not supported in Web Workers or Service
+Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if
+you find one, please).
+
 ## Upgrading From uuid\@3
 
 "_Wait... what happened to uuid\@4 - uuid\@6?!?_"
