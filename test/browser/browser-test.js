@@ -119,17 +119,25 @@ module.exports = function(localIdentifier, PORT, capabilityMatrix) {
           // query it in parallel:
           // https://github.com/SeleniumHQ/selenium/issues/422#issuecomment-90629726
           const titles = [];
+          console.log('START ITERATING over n elements', elements.length); // eslint-disable-line
           for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
+            console.log('AWAITING h2 from element[i]=', i); // eslint-disable-line
             const h2 = await element.findElement(By.css('h2'));
+            console.log('AWAITING title from h2=', h2); // eslint-disable-line
             const title = await h2.getText();
+            console.log('AWAITING p after title=', title); // eslint-disable-line
             const p = await element.findElement(By.css('p'));
+            console.log('AWAITING result from p=', p); // eslint-disable-line
             const result = await p.getText();
+            console.log('ADDING result to expectations title/resultp=', title, result); // eslint-disable-line
             expectations[title](result);
             titles.push(title);
           }
+          console.log('DONE ITERATING'); // eslint-disable-line
 
           expect(titles).toEqual(expectationTitles.filter(titleFilter));
+          console.log('DONE WITH EXPECTATIONS'); // eslint-disable-line
         }
 
         describe('webpack', () => {
