@@ -124,11 +124,11 @@ module.exports = function(localIdentifier, PORT, capabilityMatrix) {
             const element = elements[i];
             console.log('AWAITING h2 from element[i]=', i); // eslint-disable-line
             const h2 = await element.findElement(By.css('h2'));
-            console.log('AWAITING title from h2=', h2); // eslint-disable-line
+            console.log('AWAITING title from h2='); // eslint-disable-line
             const title = await h2.getText();
             console.log('AWAITING p after title=', title); // eslint-disable-line
             const p = await element.findElement(By.css('p'));
-            console.log('AWAITING result from p=', p); // eslint-disable-line
+            console.log('AWAITING result from p='); // eslint-disable-line
             const result = await p.getText();
             console.log('ADDING result to expectations title/resultp=', title, result); // eslint-disable-line
             expectations[title](result);
