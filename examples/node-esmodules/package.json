@@ -1,0 +1,11 @@
+{
+  "name": "uuid-example-node-esmodules",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --experimental-modules example.mjs"
+  },
+  "dependencies": {
+    "uuid": "file:../../.local"
+  }
+}
