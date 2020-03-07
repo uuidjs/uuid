@@ -287,19 +287,17 @@ defined by RFC4122
 
 ## ECMAScript Modules
 
-For usage in the browser `uuid` provides support for [ECMAScript
-Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) that enable
-tree-shaking for bundlers, like [rollup.js](https://rollupjs.org/guide/en/#tree-shaking)
-([example](./examples/browser-rollup/)) and [webpack](https://webpack.js.org/guides/tree-shaking/)
-([example](./examples/browser-webpack/)).
+This library comes with [ECMAScript
+Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) support for Node.js
+versions that support it ([example](./examples/node-esmodules/)) as well as bundlers like
+[rollup.js](https://rollupjs.org/guide/en/#tree-shaking) ([example](./examples/browser-rollup/))
+and [webpack](https://webpack.js.org/guides/tree-shaking/)
+([example](./examples/browser-webpack/)) (targeting both, Node.js and browser environments).
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 ```
-
-There is experimental native ESM support for [the browser](./examples/browser-esmodules/) but it
-should not be considered ready for production use and may change or disappear in future releases.
 
 To run the examples you must first create a dist build of this library in the module root:
 

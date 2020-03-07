@@ -14,10 +14,14 @@
   ],
   "license": "MIT",
   "bin": {
-    "uuid": "dist/bin/uuid"
+    "uuid": "./dist/bin/uuid"
   },
   "sideEffects": false,
   "main": "./dist/index.js",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./wrapper.mjs"
+  },
   "module": "./dist/esm-node/index.js",
   "browser": {
     "./dist/md5.js": "./dist/md5-browser.js",
@@ -35,7 +39,8 @@
     "v1.js",
     "v3.js",
     "v4.js",
-    "v5.js"
+    "v5.js",
+    "wrapper.mjs"
   ],
   "devDependencies": {
     "@babel/cli": "7.8.4",
