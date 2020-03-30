@@ -1,4 +1,5 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
 function chunk(input, name) {
@@ -10,7 +11,13 @@ function chunk(input, name) {
       name,
       compact: true,
     },
-    plugins: [nodeResolve({ browser: true }), terser()],
+    plugins: [
+      nodeResolve({ browser: true }),
+      commonjs({
+        extensions: ['.cjs'],
+      }),
+      terser(),
+    ],
   };
 }
 

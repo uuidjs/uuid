@@ -1,6 +1,6 @@
 {
   "files": [
-    { "path": "./examples/browser-rollup/dist/v1-size.js", "maxSize": "0.8 kB" },
+    { "path": "./examples/browser-rollup/dist/v1-size.js", "maxSize": "0.9 kB" },
     { "path": "./examples/browser-rollup/dist/v3-size.js", "maxSize": "1.8 kB" },
     { "path": "./examples/browser-rollup/dist/v4-size.js", "maxSize": "0.5 kB" },
     { "path": "./examples/browser-rollup/dist/v5-size.js", "maxSize": "1.2 kB" },

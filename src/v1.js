@@ -1,17 +1,11 @@
 import rng from './rng.js';
 import bytesToUuid from './bytesToUuid.js';
+import state from './v1state.cjs';
 
 // **`v1()` - Generate time-based UUID**
 //
 // Inspired by https://github.com/LiosK/UUID.js
 // and http://docs.python.org/library/uuid.html
-
-var _nodeId;
-var _clockseq;
-
-// Previous uuid creation time
-var _lastMSecs = 0;
-var _lastNSecs = 0;
 
 // See https://github.com/uuidjs/uuid for API details
 function v1(options, buf, offset) {
@@ -19,8 +13,8 @@ function v1(options, buf, offset) {
   var b = buf || [];
 
   options = options || {};
-  var node = options.node || _nodeId;
-  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+  var node = options.node || state._nodeId;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : state._clockseq;
 
   // node and clockseq need to be initialized to random values if they're not
   // specified.  We do this lazily to minimize issues related to insufficient
@@ -29,7 +23,7 @@ function v1(options, buf, offset) {
     var seedBytes = options.random || (options.rng || rng)();
     if (node == null) {
       // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-      node = _nodeId = [
+      node = state._nodeId = [
         seedBytes[0] | 0x01,
         seedBytes[1],
         seedBytes[2],
@@ -40,7 +34,7 @@ function v1(options, buf, offset) {
     }
     if (clockseq == null) {
       // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = _clockseq = ((seedBytes[6] << 8) | seedBytes[7]) & 0x3fff;
+      clockseq = state._clockseq = ((seedBytes[6] << 8) | seedBytes[7]) & 0x3fff;
     }
   }
 
@@ -52,10 +46,10 @@ function v1(options, buf, offset) {
 
   // Per 4.2.1.2, use count of uuid's generated during the current clock
   // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+  var nsecs = options.nsecs !== undefined ? options.nsecs : state._lastNSecs + 1;
 
   // Time since last uuid creation (in msecs)
-  var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000;
+  var dt = msecs - state._lastMSecs + (nsecs - state._lastNSecs) / 10000;
 
   // Per 4.2.1.2, Bump clockseq on clock regression
   if (dt < 0 && options.clockseq === undefined) {
@@ -64,7 +58,7 @@ function v1(options, buf, offset) {
 
   // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
   // time interval
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+  if ((dt < 0 || msecs > state._lastMSecs) && options.nsecs === undefined) {
     nsecs = 0;
   }
 
@@ -73,9 +67,9 @@ function v1(options, buf, offset) {
     throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
   }
 
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq;
+  state._lastMSecs = msecs;
+  state._lastNSecs = nsecs;
+  state._clockseq = clockseq;
 
   // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
   msecs += 12219292800000;
