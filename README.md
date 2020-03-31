@@ -9,7 +9,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and UMD builds
-  - Node 8, 10, 12
+  - Node.js LTS (10.x, 12.x)
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
   - [React Native](#react-native)
