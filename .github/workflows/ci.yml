@@ -15,6 +15,13 @@ jobs:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 10
+    - name: Use Node.js 12.x to build
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: npm install
+    - run: npm run build
+    - run: rm -rf node_modules
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
