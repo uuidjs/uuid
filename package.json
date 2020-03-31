@@ -30,6 +30,7 @@
     "CONTRIBUTING.md",
     "LICENSE.md",
     "README.md",
+    "deprecate.js",
     "dist",
     "v1.js",
     "v3.js",
