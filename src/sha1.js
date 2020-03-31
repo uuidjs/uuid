@@ -7,10 +7,7 @@ function sha1(bytes) {
     bytes = Buffer.from(bytes, 'utf8');
   }
 
-  return crypto
-    .createHash('sha1')
-    .update(bytes)
-    .digest();
+  return crypto.createHash('sha1').update(bytes).digest();
 }
 
 export default sha1;

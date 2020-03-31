@@ -22,7 +22,7 @@ export default function test(callback) {
     document.body.appendChild(div);
   }
 
-  window.onload = function() {
+  window.onload = function () {
     callback(addTest, done);
   };
 }
