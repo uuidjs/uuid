@@ -20,7 +20,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 **Upgrading from uuid\@3?** Your code is probably okay, but check out [Upgrading
 From uuid\@3](#upgrading-from-uuid3) for details.
 
-## Quickstart - Node.js/CommonJS
+## Quickstart
 
 ```shell
 npm install uuid
@@ -36,25 +36,27 @@ versions, all of which are supported here. In order of popularity, they are:
 
 **Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
 
-### Create Version 4 (Random) UUIDs (ESM)
+### Create Version 4 (Random) UUIDs
+
+ECMAScript Module syntax:
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
-### Create Version 4 (Random) UUIDs
+CommonJS syntax:
 
 ```javascript
-const uuidv4 = require('uuid').v4
-uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+const { v4: uuidv4 } = require('uuid');
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 ```
 
-### Create Version 1 (Timestamp) UUIDs (ESM)
+### Create Version 1 (Timestamp) UUIDs
 
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
-uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8b2d-1b9d6bcdbbfd'
+uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
 ```
 
 ### Create Version 3 or Version 5 (Namespace) UUIDs
@@ -140,17 +142,17 @@ Example: Generate two IDs in a single buffer
 const buffer = new Array();
 uuidv4(null, buffer, 0); // ⇨ 
   // [
-  //   155, 29, 235,  77,  59,
-  //   125, 75, 173, 155, 221,
-  //    43, 13, 123,  61, 203,
-  //   109
+  //    27, 157, 107, 205, 187,
+  //   253,  75,  45, 155,  93,
+  //   171, 141, 251, 189,  75,
+  //   237
   // ]
 uuidv4(null, buffer, 16); // ⇨ 
   // [
-  //   155,  29, 235,  77,  59, 125,  75, 173,
-  //   155, 221,  43,  13, 123,  61, 203, 109,
   //    27, 157, 107, 205, 187, 253,  75,  45,
-  //   155,  93, 171, 141, 251, 189,  75, 237
+  //   155,  93, 171, 141, 251, 189,  75, 237,
+  //   155,  29, 235,  77,  59, 125,  75, 173,
+  //   155, 221,  43,  13, 123,  61, 203, 109
   // ]
 ```
 
@@ -200,17 +202,16 @@ Example: In-place generation of two binary IDs
 const arr = new Array();
 uuidv1(null, arr, 0); // ⇨ 
   // [
-  //    44,  94, 164, 192,  64,
-  //   103,  17, 233, 146,  52,
-  //    27, 157, 107, 205, 187,
-  //   253
+  //    44,  94, 164, 192,  64, 103,
+  //    17, 233, 146,  52, 155,  29,
+  //   235,  77,  59, 125
   // ]
 uuidv1(null, arr, 16); // ⇨ 
   // [
-  //    44, 94, 164, 192,  64, 103,  17, 233,
-  //   146, 52,  27, 157, 107, 205, 187, 253,
-  //    44, 94, 164, 193,  64, 103,  17, 233,
-  //   146, 52,  27, 157, 107, 205, 187, 253
+  //    44, 94, 164, 192,  64, 103, 17, 233,
+  //   146, 52, 155,  29, 235,  77, 59, 125,
+  //    44, 94, 164, 193,  64, 103, 17, 233,
+  //   146, 52, 155,  29, 235,  77, 59, 125
   // ]
 ```
 
