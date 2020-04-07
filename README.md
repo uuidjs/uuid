@@ -36,14 +36,21 @@ versions, all of which are supported here. In order of popularity, they are:
 
 **Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
 
-### Create Version 4 (Random) UUIDs
+### Create Version 4 (Random) UUIDs (ESM)
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
-### Create Version 1 (Timestamp) UUIDs
+### Create Version 4 (Random) UUIDs
+
+```javascript
+const uuidv4 = require('uuid').v4
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+```
+
+### Create Version 1 (Timestamp) UUIDs (ESM)
 
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
