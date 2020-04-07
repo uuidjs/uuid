@@ -33,7 +33,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 **Upgrading from uuid\@3?** Your code is probably okay, but check out [Upgrading
 From uuid\@3](#upgrading-from-uuid3) for details.
 
-## Quickstart - Node.js/CommonJS
+## Quickstart
 
 ```shell
 npm install uuid
@@ -51,8 +51,17 @@ versions, all of which are supported here. In order of popularity, they are:
 
 ### Create Version 4 (Random) UUIDs
 
+ECMAScript Module syntax:
+
 ```javascript --run v4
 import { v4 as uuidv4 } from 'uuid';
+uuidv4(); // RESULT
+```
+
+CommonJS syntax:
+
+```javascript --run v4cjs
+const { v4: uuidv4 } = require('uuid');
 uuidv4(); // RESULT
 ```
 
