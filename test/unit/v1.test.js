@@ -9,14 +9,8 @@ describe('v1', () => {
     const ids = [v1(), v1(), v1(), v1(), v1()];
 
     const sorted = [...ids].sort((a, b) => {
-      a = a
-        .split('-')
-        .reverse()
-        .join('-');
-      b = b
-        .split('-')
-        .reverse()
-        .join('-');
+      a = a.split('-').reverse().join('-');
+      b = b.split('-').reverse().join('-');
       return a < b ? -1 : a > b ? 1 : 0;
     });
 
@@ -34,14 +28,8 @@ describe('v1', () => {
     ];
 
     const sorted = [...ids].sort((a, b) => {
-      a = a
-        .split('-')
-        .reverse()
-        .join('-');
-      b = b
-        .split('-')
-        .reverse()
-        .join('-');
+      a = a.split('-').reverse().join('-');
+      b = b.split('-').reverse().join('-');
       return a < b ? -1 : a > b ? 1 : 0;
     });
 
@@ -53,7 +41,7 @@ describe('v1', () => {
   });
 
   test('exception thrown when > 10k ids created in 1ms', () => {
-    assert.throws(function() {
+    assert.throws(function () {
       v1({ msecs: TIME, nsecs: 10000 });
     }, 'throws when > 10K ids created in 1 ms');
   });

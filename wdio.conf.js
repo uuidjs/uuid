@@ -110,10 +110,21 @@ exports.config = {
   user: process.env.BROWSERSTACK_USER,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
 
-  services: ['browserstack', 'static-server'],
-  browserstackLocal: true,
-  staticServerFolders: [{ mount: '/', path: './examples' }],
-  staticServerPort: PORT,
+  services: [
+    [
+      'static-server',
+      {
+        folders: [{ mount: '/', path: './examples' }],
+        port: PORT,
+      },
+    ],
+    [
+      'browserstack',
+      {
+        browserstackLocal: true,
+      },
+    ],
+  ],
 
   runner: 'local',
   maxInstances: 5,

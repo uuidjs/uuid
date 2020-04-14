@@ -34,32 +34,32 @@ describe('v5', () => {
   function hashToHex(hash) {
     if (hash instanceof Buffer) hash = Array.from(hash);
     return hash
-      .map(function(b) {
+      .map(function (b) {
         return b.toString(16).padStart(2, '0');
       })
       .join('');
   }
 
   test('sha1 node', () => {
-    HASH_SAMPLES.forEach(function(sample) {
+    HASH_SAMPLES.forEach(function (sample) {
       assert.equal(hashToHex(sha1(sample.input)), sample.sha1);
     });
   });
 
   test('sha1 browser', () => {
-    HASH_SAMPLES.forEach(function(sample) {
+    HASH_SAMPLES.forEach(function (sample) {
       assert.equal(hashToHex(sha1Browser(sample.input)), sample.sha1);
     });
   });
 
   test('md5 node', () => {
-    HASH_SAMPLES.forEach(function(sample) {
+    HASH_SAMPLES.forEach(function (sample) {
       assert.equal(hashToHex(md5(sample.input)), sample.md5);
     });
   });
 
   test('md5 browser', () => {
-    HASH_SAMPLES.forEach(function(sample) {
+    HASH_SAMPLES.forEach(function (sample) {
       assert.equal(hashToHex(md5Browser(sample.input)), sample.md5);
     });
   });
@@ -96,7 +96,7 @@ describe('v5', () => {
     v3('hello.example.com', v3.DNS, buf);
     assert.ok(
       buf.length === testBuf.length &&
-        buf.every(function(elem, idx) {
+        buf.every(function (elem, idx) {
           return elem === testBuf[idx];
         }),
     );
@@ -107,7 +107,7 @@ describe('v5', () => {
     v3('hello.example.com', v3.DNS, buf, 3);
     assert.ok(
       buf.length === testBuf.length + 3 &&
-        buf.every(function(elem, idx) {
+        buf.every(function (elem, idx) {
           return idx >= 3 ? elem === testBuf[idx - 3] : elem === 'landmaster';
         }),
       'hello',
@@ -146,7 +146,7 @@ describe('v5', () => {
     v5('hello.example.com', v5.DNS, buf);
     assert.ok(
       buf.length === testBuf.length &&
-        buf.every(function(elem, idx) {
+        buf.every(function (elem, idx) {
           return elem === testBuf[idx];
         }),
     );
@@ -157,7 +157,7 @@ describe('v5', () => {
     v5('hello.example.com', v5.DNS, buf, 3);
     assert.ok(
       buf.length === testBuf.length + 3 &&
-        buf.every(function(elem, idx) {
+        buf.every(function (elem, idx) {
           return idx >= 3 ? elem === testBuf[idx - 3] : elem === 'landmaster';
         }),
     );

@@ -3,7 +3,7 @@ import bytesToUuid from './bytesToUuid.js';
 function uuidToBytes(uuid) {
   // Note: We assume we're being passed a valid uuid string
   var bytes = [];
-  uuid.replace(/[a-fA-F0-9]{2}/g, function(hex) {
+  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
     bytes.push(parseInt(hex, 16));
   });
 
@@ -22,8 +22,8 @@ function stringToBytes(str) {
 export const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
-export default function(name, version, hashfunc) {
-  var generateUUID = function(value, namespace, buf, offset) {
+export default function (name, version, hashfunc) {
+  var generateUUID = function (value, namespace, buf, offset) {
     var off = (buf && offset) || 0;
 
     if (typeof value == 'string') value = stringToBytes(value);

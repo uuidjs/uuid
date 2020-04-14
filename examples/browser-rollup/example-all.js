@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 
 import testpage from '../utils/testpage';
 
-testpage(function(addTest, done) {
+testpage(function (addTest, done) {
   addTest('uuidv1()', uuidv1());
 
   addTest('uuidv4()', uuidv4());

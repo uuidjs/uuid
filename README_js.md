@@ -8,7 +8,7 @@ runmd.onRequire = (path) => {
 runmd.Date.prototype.getTime = () => 1551914748172;
 
 let seed = 0xdefaced;
-require('crypto').randomBytes = function() {
+require('crypto').randomBytes = function () {
   const a = [];
   for (let i = 0; i < 16; i++) a.push((seed = (seed * 0x41a7) & 0x7fffffff) & 0xff);
   return a;
