@@ -3,7 +3,6 @@ module.exports = {
   plugins: [],
   env: {
     commonjs: {
-      plugins: ['babel-plugin-add-module-exports'],
       presets: [['@babel/preset-env', { targets: { node: '8' }, modules: 'commonjs' }]],
     },
     esmBrowser: {
