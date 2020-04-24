@@ -1,6 +1,6 @@
 const deprecate = require('./deprecate.js');
 
-const v5 = require('./dist/v5.js');
+const { default: v5 } = require('./dist/v5.js');
 
 module.exports = deprecate(
   v5,

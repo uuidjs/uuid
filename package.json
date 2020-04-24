@@ -52,7 +52,6 @@
     "@wdio/static-server-service": "6.0.13",
     "@wdio/sync": "6.0.15",
     "babel-eslint": "10.1.0",
-    "babel-plugin-add-module-exports": "1.0.2",
     "bundlewatch": "0.2.6",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.1",
