@@ -20,7 +20,7 @@ const capabilities = [
   {
     ...commonCapabilities,
     browserName: 'Chrome',
-    browser_version: '80.0',
+    browser_version: '81.0',
     os: 'Windows',
     os_version: '10',
   },
@@ -36,7 +36,7 @@ const capabilities = [
   {
     ...commonCapabilities,
     browserName: 'Firefox',
-    browser_version: '73.0',
+    browser_version: '75.0',
     os: 'Windows',
     os_version: '10',
   },
@@ -68,7 +68,7 @@ const capabilities = [
   {
     ...commonCapabilities,
     browserName: 'Edge',
-    browser_version: '80.0',
+    browser_version: '81.0',
     os: 'Windows',
     os_version: '10',
   },
