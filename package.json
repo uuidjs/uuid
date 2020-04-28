@@ -85,6 +85,7 @@
     "test:browser": "wdio run ./wdio.conf.js",
     "pretest:node": "npm run build",
     "test:node": "npm-run-all --parallel examples:node:**",
+    "test:pack": "./scripts/testpack.sh",
     "prettier:check": "prettier --ignore-path .prettierignore --check '**/*.{js,jsx,json,md}'",
     "prettier:fix": "prettier --ignore-path .prettierignore --write '**/*.{js,jsx,json,md}'",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
