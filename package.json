@@ -92,6 +92,7 @@
     "docs": "( node --version | grep -q 'v12' ) && ( npm run build && runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "build": "./scripts/build.sh",
+    "prepack": "npm run build",
     "release": "standard-version --no-verify"
   },
   "repository": {
@@ -114,8 +115,7 @@
   },
   "standard-version": {
     "scripts": {
-      "postchangelog": "prettier --write CHANGELOG.md",
-      "postcommit": "npm run build"
+      "postchangelog": "prettier --write CHANGELOG.md"
     }
   }
 }
