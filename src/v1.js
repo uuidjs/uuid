@@ -48,7 +48,7 @@ function v1(options, buf, offset) {
   // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
   // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
   // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  let msecs = options.msecs !== undefined ? options.msecs : Date.now();
+  let msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
 
   // Per 4.2.1.2, use count of uuid's generated during the current clock
   // cycle to simulate higher resolution clock
