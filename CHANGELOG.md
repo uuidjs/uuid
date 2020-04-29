@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/uuidjs/uuid/compare/v7.0.3...v8.0.0) (2020-04-29)
+
+### ⚠ BREAKING CHANGES
+
+- For native ECMAScript Module (ESM) usage in Node.js only named exports are exposed, there is no more default export.
+
+  ```diff
+  -import uuid from 'uuid';
+  -console.log(uuid.v4()); // -> 'cd6c3b08-0adc-4f4b-a6ef-36087a1c9869'
+  +import { v4 as uuidv4 } from 'uuid';
+  +uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+  ```
+
+- Deep requiring specific algorithms of this library like `require('uuid/v4')`, which has been deprecated in `uuid@7`, is no longer supported.
+
+  Instead use the named exports that this module exports.
+
+  For ECMAScript Modules (ESM):
+
+  ```diff
+  -import uuidv4 from 'uuid/v4';
+  +import { v4 as uuidv4 } from 'uuid';
+  uuidv4();
+  ```
+
+  For CommonJS:
+
+  ```diff
+  -const uuidv4 = require('uuid/v4');
+  +const { v4: uuidv4 } = require('uuid');
+  uuidv4();
+  ```
+
+### Features
+
+- native Node.js ES Modules (wrapper approach) ([#423](https://github.com/uuidjs/uuid/issues/423)) ([2d9f590](https://github.com/uuidjs/uuid/commit/2d9f590ad9701d692625c07ed62f0a0f91227991)), closes [#245](https://github.com/uuidjs/uuid/issues/245) [#419](https://github.com/uuidjs/uuid/issues/419) [#342](https://github.com/uuidjs/uuid/issues/342)
+- remove deep requires ([#426](https://github.com/uuidjs/uuid/issues/426)) ([daf72b8](https://github.com/uuidjs/uuid/commit/daf72b84ceb20272a81bb5fbddb05dd95922cbba))
+
+### Bug Fixes
+
+- add CommonJS syntax example to README quickstart section ([#417](https://github.com/uuidjs/uuid/issues/417)) ([e0ec840](https://github.com/uuidjs/uuid/commit/e0ec8402c7ad44b7ef0453036c612f5db513fda0))
+
 ### [7.0.3](https://github.com/uuidjs/uuid/compare/v7.0.2...v7.0.3) (2020-03-31)
 
 ### Bug Fixes

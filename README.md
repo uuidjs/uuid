@@ -363,6 +363,33 @@ import { v4 as uuidv4 } from 'uuid';
 Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if
 you find one, please).
 
+## Upgrading From uuid\@7
+
+### Only Named Exports Supported When Using with Node.js ESM
+
+uuid\@7 did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in
+Node.js ESM consequently imported the CommonJS source with a default export. This library now comes
+with true Node.js ESM support and only provides named exports.
+
+Instead of doing:
+
+```javascript
+import uuid from 'uuid';
+uuid.v4();
+```
+
+you will now have to use the named exports:
+
+```javascript
+import { v4 as uuidv4 } from 'uuid';
+uuidv4();
+```
+
+### Deep Requires No Longer Supported
+
+Deep requires like `require('uuid/v4')` [which have been deprecated in
+uuid\@7](#deep-requires-now-deprecated) are no longer supported.
+
 ## Upgrading From uuid\@3
 
 "_Wait... what happened to uuid\@4 - uuid\@6?!?_"

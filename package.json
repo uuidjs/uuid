@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "7.0.3",
+  "version": "8.0.0",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "commitlint": {
     "extends": [
@@ -34,12 +34,7 @@
     "CONTRIBUTING.md",
     "LICENSE.md",
     "README.md",
-    "deprecate.js",
     "dist",
-    "v1.js",
-    "v3.js",
-    "v4.js",
-    "v5.js",
     "wrapper.mjs"
   ],
   "devDependencies": {
