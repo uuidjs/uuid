@@ -53,7 +53,8 @@ describe('BrowserStack Local Testing', () => {
     // query it in parallel:
     // https://github.com/SeleniumHQ/selenium/issues/422#issuecomment-90629726
     const titles = [];
-    for (let i = 0; i < elements.length; i++) {
+
+    for (let i = 0; i < elements.length; ++i) {
       const element = elements[i];
       const h2 = await element.$('h2');
       const title = await h2.getText();

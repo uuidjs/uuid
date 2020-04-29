@@ -7,7 +7,14 @@
     "jest": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "plugins": ["node", "standard", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "standard",
+    "prettier",
+    "prettier/standard",
+    "plugin:prettier/recommended"
+  ],
   "globals": {
     "msCrypto": true
   },
@@ -25,7 +32,6 @@
       }
     ],
     "dot-notation": "warn",
-    "eqeqeq": ["warn", "smart"],
     "indent": [
       "warn",
       2,
@@ -49,11 +55,7 @@
       }
     ],
     "keyword-spacing": "warn",
-    "no-console": "off",
-    "no-empty": "off",
     "no-multi-spaces": "warn",
-    "no-redeclare": "off",
-    "no-restricted-globals": ["warn", "Promise"],
     "no-trailing-spaces": "warn",
     "no-undef": "error",
     "no-unused-vars": [
@@ -63,9 +65,8 @@
       }
     ],
     "one-var": ["warn", "never"],
+    "no-var": "error",
     "padded-blocks": ["warn", "never"],
-    "react/prop-types": "off",
-    "react/jsx-no-bind": "off",
     "semi": ["warn", "always"]
   }
 }

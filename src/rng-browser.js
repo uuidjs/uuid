@@ -4,18 +4,22 @@
 
 // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
 // find the complete implementation of crypto (msCrypto) on IE11.
-var getRandomValues =
-  (typeof crypto != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
-  (typeof msCrypto != 'undefined' &&
-    typeof msCrypto.getRandomValues == 'function' &&
+const getRandomValues =
+  (typeof crypto !== 'undefined' &&
+    crypto.getRandomValues &&
+    crypto.getRandomValues.bind(crypto)) ||
+  (typeof msCrypto !== 'undefined' &&
+    typeof msCrypto.getRandomValues === 'function' &&
     msCrypto.getRandomValues.bind(msCrypto));
 
-var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
 export default function rng() {
   if (!getRandomValues) {
     throw new Error(
       'crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported',
     );
   }
+
+  const rnds8 = new Uint8Array(16);
+
   return getRandomValues(rnds8);
 }

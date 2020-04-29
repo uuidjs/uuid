@@ -6,27 +6,27 @@ import bytesToUuid from './bytesToUuid.js';
 // Inspired by https://github.com/LiosK/UUID.js
 // and http://docs.python.org/library/uuid.html
 
-var _nodeId;
-var _clockseq;
+let _nodeId;
+let _clockseq;
 
 // Previous uuid creation time
-var _lastMSecs = 0;
-var _lastNSecs = 0;
+let _lastMSecs = 0;
+let _lastNSecs = 0;
 
 // See https://github.com/uuidjs/uuid for API details
 function v1(options, buf, offset) {
-  var i = (buf && offset) || 0;
-  var b = buf || [];
+  let i = (buf && offset) || 0;
+  const b = buf || [];
 
   options = options || {};
-  var node = options.node || _nodeId;
-  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+  let node = options.node || _nodeId;
+  let clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
 
   // node and clockseq need to be initialized to random values if they're not
   // specified.  We do this lazily to minimize issues related to insufficient
   // system entropy.  See #189
   if (node == null || clockseq == null) {
-    var seedBytes = options.random || (options.rng || rng)();
+    const seedBytes = options.random || (options.rng || rng)();
     if (node == null) {
       // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
       node = _nodeId = [
@@ -48,14 +48,14 @@ function v1(options, buf, offset) {
   // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
   // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
   // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
+  let msecs = options.msecs !== undefined ? options.msecs : Date.now();
 
   // Per 4.2.1.2, use count of uuid's generated during the current clock
   // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+  let nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
 
   // Time since last uuid creation (in msecs)
-  var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000;
+  const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000;
 
   // Per 4.2.1.2, Bump clockseq on clock regression
   if (dt < 0 && options.clockseq === undefined) {
@@ -81,14 +81,14 @@ function v1(options, buf, offset) {
   msecs += 12219292800000;
 
   // `time_low`
-  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  const tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
   b[i++] = (tl >>> 24) & 0xff;
   b[i++] = (tl >>> 16) & 0xff;
   b[i++] = (tl >>> 8) & 0xff;
   b[i++] = tl & 0xff;
 
   // `time_mid`
-  var tmh = ((msecs / 0x100000000) * 10000) & 0xfffffff;
+  const tmh = ((msecs / 0x100000000) * 10000) & 0xfffffff;
   b[i++] = (tmh >>> 8) & 0xff;
   b[i++] = tmh & 0xff;
 
@@ -103,11 +103,11 @@ function v1(options, buf, offset) {
   b[i++] = clockseq & 0xff;
 
   // `node`
-  for (var n = 0; n < 6; ++n) {
+  for (let n = 0; n < 6; ++n) {
     b[i + n] = node[n];
   }
 
-  return buf ? buf : bytesToUuid(b);
+  return buf || bytesToUuid(b);
 }
 
 export default v1;

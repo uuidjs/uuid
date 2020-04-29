@@ -75,6 +75,7 @@ describe('v5', () => {
 
     // test the buffer functionality
     let buf = new Array(16);
+
     const testBuf = [
       0x91,
       0x25,
@@ -93,7 +94,9 @@ describe('v5', () => {
       0x1c,
       0xf6,
     ];
+
     v3('hello.example.com', v3.DNS, buf);
+
     assert.ok(
       buf.length === testBuf.length &&
         buf.every(function (elem, idx) {
@@ -103,8 +106,13 @@ describe('v5', () => {
 
     // test offsets as well
     buf = new Array(19);
-    for (let i = 0; i < 3; ++i) buf[i] = 'landmaster';
+
+    for (let i = 0; i < 3; ++i) {
+      buf[i] = 'landmaster';
+    }
+
     v3('hello.example.com', v3.DNS, buf, 3);
+
     assert.ok(
       buf.length === testBuf.length + 3 &&
         buf.every(function (elem, idx) {
@@ -125,6 +133,7 @@ describe('v5', () => {
 
     // test the buffer functionality
     let buf = new Array(16);
+
     const testBuf = [
       0xfd,
       0xda,
@@ -143,6 +152,7 @@ describe('v5', () => {
       0x64,
       0xec,
     ];
+
     v5('hello.example.com', v5.DNS, buf);
     assert.ok(
       buf.length === testBuf.length &&
@@ -153,8 +163,13 @@ describe('v5', () => {
 
     // test offsets as well
     buf = new Array(19);
-    for (let i = 0; i < 3; ++i) buf[i] = 'landmaster';
+
+    for (let i = 0; i < 3; ++i) {
+      buf[i] = 'landmaster';
+    }
+
     v5('hello.example.com', v5.DNS, buf, 3);
+
     assert.ok(
       buf.length === testBuf.length + 3 &&
         buf.every(function (elem, idx) {
