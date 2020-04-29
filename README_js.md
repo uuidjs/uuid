@@ -353,6 +353,13 @@ import { v4 as uuidv4 } from 'uuid';
 Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if
 you find one, please).
 
+## Upgrading From uuid\@7
+
+### Deep Requires No Longer Supported
+
+Deep requires like `require('uuid/v4')` [which have been deprecated in
+uuid\@7](#deep-requires-now-deprecated) are no longer supported.
+
 ## Upgrading From uuid\@3
 
 "_Wait... what happened to uuid\@4 - uuid\@6?!?_"
