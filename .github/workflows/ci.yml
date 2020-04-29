@@ -40,3 +40,5 @@ jobs:
         BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
     - run: npm run test:node
       if: matrix.node-version == '12.x' || matrix.node-version == '14.x'
+    - run: npm run test:pack
+      if: matrix.node-version == '14.x'
