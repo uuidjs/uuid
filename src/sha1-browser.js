@@ -35,18 +35,20 @@ function sha1(bytes) {
 
   const l = bytes.length / 4 + 2;
   const N = Math.ceil(l / 16);
-  const M = []; // N length
+  const M = new Array(N);
 
   for (let i = 0; i < N; ++i) {
-    M.push(new Uint32Array(16));
+    const arr = new Uint32Array(16);
 
     for (let j = 0; j < 16; ++j) {
-      M[i][j] =
+      arr[j] =
         (bytes[i * 64 + j * 4] << 24) |
         (bytes[i * 64 + j * 4 + 1] << 16) |
         (bytes[i * 64 + j * 4 + 2] << 8) |
         bytes[i * 64 + j * 4 + 3];
     }
+
+    M[i] = arr;
   }
 
   M[N - 1][14] = ((bytes.length - 1) * 8) / Math.pow(2, 32);
