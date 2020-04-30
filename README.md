@@ -363,6 +363,17 @@ import { v4 as uuidv4 } from 'uuid';
 Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if
 you find one, please).
 
+## Developing
+
+We happily accept pull requests!
+
+If you do considerable changes please [run the benchmark](./examples/benchmark/) before and after
+your changes and include the results in the pull request description:
+
+```
+npm run test:benchmark
+```
+
 ## Upgrading From uuid\@7
 
 ### Only Named Exports Supported When Using with Node.js ESM
