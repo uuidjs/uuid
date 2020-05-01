@@ -25,17 +25,6 @@ suite
   .add('uuidv3() DNS', function () {
     uuidv3('hello.example.com', uuidv3.DNS);
   })
-  .add('uuidv3() URL', function () {
-    // ... using predefined URL namespace (for, well, URLs)
-    uuidv3('http://example.com/hello', uuidv3.URL);
-  })
-  .add('uuidv3() MY_NAMESPACE', function () {
-    // ... using a custom namespace
-    //
-    // Note: Custom namespaces should be a UUID string specific to your application!
-    // E.g. the one here was generated using this modules `uuid` CLI.
-    uuidv3('Hello, World!', MY_NAMESPACE);
-  })
   .add('uuidv5() DNS', function () {
     // ... using predefined DNS namespace (for domain names)
     uuidv5('hello.example.com', uuidv5.DNS);
