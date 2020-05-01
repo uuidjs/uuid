@@ -1,0 +1,14 @@
+{
+  "name": "uuid-benchmark",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node benchmark.js"
+  },
+  "dependencies": {
+    "uuid": "file:../../.local"
+  },
+  "devDependencies": {
+    "benchmark": "^2.1.4"
+  }
+}
