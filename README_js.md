@@ -8,9 +8,8 @@ runmd.onRequire = (path) => {
 runmd.Date.now = () => 1551914748172;
 
 let seed = 0xdefaced;
-require('crypto').randomBytes = function () {
-  const a = [];
-  for (let i = 0; i < 16; i++) a.push((seed = (seed * 0x41a7) & 0x7fffffff) & 0xff);
+require('crypto').randomFillSync = function (a) {
+  for (let i = 0; i < a.length; ++i) a[i] = (seed = (seed * 0x41a7) & 0x7fffffff) & 0xff;
   return a;
 };
 ```
