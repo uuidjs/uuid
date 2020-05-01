@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 /* global Benchmark:false, uuidv1:false, uuidv3:false, uuidv4:false, uuidv5:false */
 const Benchmark = (typeof window !== 'undefined' && window.Benchmark) || require('benchmark');
 const uuidv1 = (typeof window !== 'undefined' && window.uuidv1) || require('uuid').v1;
@@ -8,7 +9,13 @@ const uuidv5 = (typeof window !== 'undefined' && window.uuidv5) || require('uuid
 console.log('Starting. Tests take ~1 minute to run ...');
 
 const array = new Array(16);
-const suite = new Benchmark.Suite();
+
+const suite = new Benchmark.Suite({
+  onError(event) {
+    console.error(event.target.error);
+  },
+});
+
 suite
   .add('uuidv1()', function () {
     uuidv1();
@@ -29,9 +36,9 @@ suite
     uuidv5('hello.example.com', uuidv5.DNS);
   })
   .on('cycle', function (event) {
-    console.log(String(event.target));
+    console.log(event.target.toString());
   })
   .on('complete', function () {
-    console.log('Fastest is ' + this.filter('fastest').map('name'));
+    console.log('Fastest is', this.filter('fastest').map('name'));
   })
   .run();

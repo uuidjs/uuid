@@ -12,14 +12,14 @@ const getRandomValues =
     typeof msCrypto.getRandomValues === 'function' &&
     msCrypto.getRandomValues.bind(msCrypto));
 
+const rnds8 = new Uint8Array(16);
+
 export default function rng() {
   if (!getRandomValues) {
     throw new Error(
       'crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported',
     );
   }
-
-  const rnds8 = new Uint8Array(16);
 
   return getRandomValues(rnds8);
 }
