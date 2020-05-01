@@ -5,7 +5,6 @@ const uuidv4 = (typeof window !== 'undefined' && window.uuidv4) || require('uuid
 const uuidv3 = (typeof window !== 'undefined' && window.uuidv3) || require('uuid').v3;
 const uuidv5 = (typeof window !== 'undefined' && window.uuidv5) || require('uuid').v5;
 
-const MY_NAMESPACE = '55238d15-c926-4598-b49d-cf4e913ba13c';
 
 const suite = new Benchmark.Suite();
 suite
