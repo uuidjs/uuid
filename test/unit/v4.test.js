@@ -20,6 +20,7 @@ describe('v4', () => {
     0x58,
     0x36,
   ];
+
   const expectedBytes = [16, 145, 86, 190, 196, 251, 65, 234, 177, 180, 239, 225, 103, 28, 88, 54];
 
   test('subsequent UUIDs are different', () => {
@@ -43,7 +44,7 @@ describe('v4', () => {
   });
 
   test('fills one UUID into a buffer as expected', () => {
-    const buffer = new Array();
+    const buffer = [];
     v4(
       {
         random: randomBytesFixture,
@@ -54,7 +55,7 @@ describe('v4', () => {
   });
 
   test('fills two UUIDs into a buffer as expected', () => {
-    const buffer = new Array();
+    const buffer = [];
     v4(
       {
         random: randomBytesFixture,

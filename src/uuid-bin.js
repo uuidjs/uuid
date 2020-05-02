@@ -18,22 +18,24 @@ function usage() {
   );
 }
 
-var args = process.argv.slice(2);
+const args = process.argv.slice(2);
 
 if (args.indexOf('--help') >= 0) {
   usage();
   process.exit(0);
 }
-var version = args.shift() || 'v4';
+
+const version = args.shift() || 'v4';
 
 switch (version) {
   case 'v1':
     console.log(v1());
     break;
 
-  case 'v3':
-    var name = args.shift();
-    var namespace = args.shift();
+  case 'v3': {
+    const name = args.shift();
+    let namespace = args.shift();
+
     assert(name != null, 'v3 name not specified');
     assert(namespace != null, 'v3 namespace not specified');
 
@@ -42,14 +44,15 @@ switch (version) {
 
     console.log(v3(name, namespace));
     break;
+  }
 
   case 'v4':
     console.log(v4());
     break;
 
-  case 'v5':
-    var name = args.shift();
-    var namespace = args.shift();
+  case 'v5': {
+    const name = args.shift();
+    let namespace = args.shift();
     assert(name != null, 'v5 name not specified');
     assert(namespace != null, 'v5 namespace not specified');
 
@@ -58,6 +61,7 @@ switch (version) {
 
     console.log(v5(name, namespace));
     break;
+  }
 
   default:
     usage();

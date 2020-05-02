@@ -19,10 +19,14 @@
  * See http://pajhome.org.uk/crypt/md5 for more info.
  */
 function md5(bytes) {
-  if (typeof bytes == 'string') {
-    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
-    bytes = new Array(msg.length);
-    for (var i = 0; i < msg.length; i++) bytes[i] = msg.charCodeAt(i);
+  if (typeof bytes === 'string') {
+    const msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+    bytes = new Uint8Array(msg.length);
+
+    for (let i = 0; i < msg.length; ++i) {
+      bytes[i] = msg.charCodeAt(i);
+    }
   }
 
   return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
@@ -32,21 +36,26 @@ function md5(bytes) {
  * Convert an array of little-endian words to an array of bytes
  */
 function md5ToHexEncodedArray(input) {
-  var i;
-  var x;
-  var output = [];
-  var length32 = input.length * 32;
-  var hexTab = '0123456789abcdef';
-  var hex;
+  const output = [];
+  const length32 = input.length * 32;
+  const hexTab = '0123456789abcdef';
 
-  for (i = 0; i < length32; i += 8) {
-    x = (input[i >> 5] >>> i % 32) & 0xff;
+  for (let i = 0; i < length32; i += 8) {
+    const x = (input[i >> 5] >>> i % 32) & 0xff;
 
-    hex = parseInt(hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f), 16);
+    const hex = parseInt(hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f), 16);
 
     output.push(hex);
   }
+
   return output;
+}
+
+/**
+ * Calculate output length with padding and bit length
+ */
+function getOutputLength(inputLength8) {
+  return (((inputLength8 + 64) >>> 9) << 4) + 14 + 1;
 }
 
 /*
@@ -55,24 +64,18 @@ function md5ToHexEncodedArray(input) {
 function wordsToMd5(x, len) {
   /* append padding */
   x[len >> 5] |= 0x80 << len % 32;
-  x[(((len + 64) >>> 9) << 4) + 14] = len;
+  x[getOutputLength(len) - 1] = len;
 
-  var i;
-  var olda;
-  var oldb;
-  var oldc;
-  var oldd;
-  var a = 1732584193;
-  var b = -271733879;
-  var c = -1732584194;
+  let a = 1732584193;
+  let b = -271733879;
+  let c = -1732584194;
+  let d = 271733878;
 
-  var d = 271733878;
-
-  for (i = 0; i < x.length; i += 16) {
-    olda = a;
-    oldb = b;
-    oldc = c;
-    oldd = d;
+  for (let i = 0; i < x.length; i += 16) {
+    const olda = a;
+    const oldb = b;
+    const oldc = c;
+    const oldd = d;
 
     a = md5ff(a, b, c, d, x[i], 7, -680876936);
     d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
@@ -147,6 +150,7 @@ function wordsToMd5(x, len) {
     c = safeAdd(c, oldc);
     d = safeAdd(d, oldd);
   }
+
   return [a, b, c, d];
 }
 
@@ -155,14 +159,15 @@ function wordsToMd5(x, len) {
  * Characters >255 have their high-byte silently ignored.
  */
 function bytesToWords(input) {
-  var i;
-  var output = [];
-  output[(input.length >> 2) - 1] = undefined;
-  for (i = 0; i < output.length; i += 1) {
-    output[i] = 0;
+  if (input.length === 0) {
+    return [];
   }
-  var length8 = input.length * 8;
-  for (i = 0; i < length8; i += 8) {
+
+  const length8 = input.length * 8;
+
+  const output = new Uint32Array(getOutputLength(length8));
+
+  for (let i = 0; i < length8; i += 8) {
     output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
   }
 
@@ -174,8 +179,8 @@ function bytesToWords(input) {
  * to work around bugs in some JS interpreters.
  */
 function safeAdd(x, y) {
-  var lsw = (x & 0xffff) + (y & 0xffff);
-  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  const lsw = (x & 0xffff) + (y & 0xffff);
+  const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xffff);
 }
 
@@ -192,15 +197,19 @@ function bitRotateLeft(num, cnt) {
 function md5cmn(q, a, b, x, s, t) {
   return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 }
+
 function md5ff(a, b, c, d, x, s, t) {
   return md5cmn((b & c) | (~b & d), a, b, x, s, t);
 }
+
 function md5gg(a, b, c, d, x, s, t) {
   return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
 }
+
 function md5hh(a, b, c, d, x, s, t) {
   return md5cmn(b ^ c ^ d, a, b, x, s, t);
 }
+
 function md5ii(a, b, c, d, x, s, t) {
   return md5cmn(c ^ (b | ~d), a, b, x, s, t);
 }

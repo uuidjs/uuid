@@ -5,7 +5,7 @@ runmd.onRequire = (path) => {
 };
 
 // Shim Date and crypto so generated ids are consistent across doc revisions
-runmd.Date.prototype.getTime = () => 1551914748172;
+runmd.Date.now = () => 1551914748172;
 
 let seed = 0xdefaced;
 require('crypto').randomBytes = function () {

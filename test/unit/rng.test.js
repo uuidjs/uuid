@@ -4,10 +4,10 @@ import rngBrowser from '../../src/rng-browser.js';
 
 describe('rng', () => {
   test('Node.js RNG', () => {
-    var bytes = rng();
+    const bytes = rng();
     assert.equal(bytes.length, 16);
 
-    for (var i = 0; i < bytes.length; i++) {
+    for (let i = 0; i < bytes.length; ++i) {
       assert.equal(typeof bytes[i], 'number');
     }
   });
