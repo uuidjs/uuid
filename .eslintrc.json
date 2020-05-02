@@ -7,17 +7,12 @@
     "jest": true,
     "node": true
   },
-  "plugins": ["node", "standard"],
-  "extends": [
-    "eslint:recommended",
-    "standard",
-    "prettier",
-    "prettier/standard",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["eslint:recommended", "standard", "plugin:prettier/recommended"],
   "globals": {
     "msCrypto": true
   },
   "parser": "babel-eslint",
-  "rules": {}
+  "rules": {
+    "no-var": ["error"]
+  }
 }
