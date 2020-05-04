@@ -15,7 +15,6 @@ function bytesToUuid(buf, offset) {
 
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-  // `toLowerCase` used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
   return (
     bth[buf[i + 0]] +
     bth[buf[i + 1]] +
