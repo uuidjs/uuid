@@ -1,12 +1,53 @@
 import bytesToUuid from './bytesToUuid.js';
 
+function hexSymToDecNum(n) {
+  // ------ 0 -------- 9
+  if (n >= 48 && n <= 57) {
+    return n - 48;
+  }
+  // ----------- A -------- F
+  else if (n >= 65 && n <= 70) {
+    return n - 55;
+  }
+  // ----------- a -------- f
+  else if (n >= 97 && n <= 102) {
+    return n - 87;
+  }
+
+  return -1;
+}
+
+/**
+ * Validate and parse UUID to bytes array
+ */
 function uuidToBytes(uuid) {
-  // Note: We assume we're being passed a valid uuid string
   const bytes = [];
 
-  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
-    bytes.push(parseInt(hex, 16));
-  });
+  if (uuid.length === 36) {
+    for (let i = 0; i < uuid.length; ++i) {
+      let h = uuid.charCodeAt(i);
+
+      if (i === 8 || i === 13 || i === 18 || i === 23) {
+        // ----- '-'
+        if (h === 45) {
+          continue;
+        } else {
+          return [];
+        }
+      }
+
+      const l = hexSymToDecNum(uuid.charCodeAt(i + 1));
+      h = hexSymToDecNum(h);
+
+      if (l === -1 || h === -1) {
+        return [];
+      }
+
+      bytes.push(h * 16 + l);
+
+      ++i;
+    }
+  }
 
   return bytes;
 }
@@ -28,10 +69,13 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 export default function (name, version, hashfunc) {
   function generateUUID(value, namespace, buf, offset) {
-    const off = (buf && offset) || 0;
+    if (typeof value === 'string') {
+      value = stringToBytes(value);
+    }
 
-    if (typeof value === 'string') value = stringToBytes(value);
-    if (typeof namespace === 'string') namespace = uuidToBytes(namespace);
+    if (typeof namespace === 'string') {
+      namespace = uuidToBytes(namespace);
+    }
 
     if (!Array.isArray(value)) {
       throw TypeError('value must be an array of bytes');
@@ -47,12 +91,16 @@ export default function (name, version, hashfunc) {
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
     if (buf) {
-      for (let idx = 0; idx < 16; ++idx) {
-        buf[off + idx] = bytes[idx];
+      const start = offset || 0;
+
+      for (let i = 0; i < 16; ++i) {
+        buf[start + i] = bytes[i];
       }
+
+      return buf;
     }
 
-    return buf || bytesToUuid(bytes);
+    return bytesToUuid(bytes);
   }
 
   // Function#name is not settable on some platforms (#270)
