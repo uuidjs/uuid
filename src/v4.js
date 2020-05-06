@@ -2,10 +2,8 @@ import rng from './rng.js';
 import bytesToUuid from './bytesToUuid.js';
 
 function v4(options, buf, offset) {
-  const i = (buf && offset) || 0;
-
   if (typeof options === 'string') {
-    buf = options === 'binary' ? new Uint32Array(16) : null;
+    buf = options === 'binary' ? new Uint8Array(16) : null;
     options = null;
   }
 
@@ -19,12 +17,16 @@ function v4(options, buf, offset) {
 
   // Copy bytes to buffer, if provided
   if (buf) {
-    for (let ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
+    const start = offset || 0;
+
+    for (let i = 0; i < 16; ++i) {
+      buf[start + i] = rnds[i];
     }
+
+    return buf;
   }
 
-  return buf || bytesToUuid(rnds);
+  return bytesToUuid(rnds);
 }
 
 export default v4;

@@ -45,13 +45,14 @@ describe('v4', () => {
 
   test('fills one UUID into a buffer as expected', () => {
     const buffer = [];
-    v4(
+    const result = v4(
       {
         random: randomBytesFixture,
       },
       buffer,
     );
     assert.deepEqual(buffer, expectedBytes);
+    assert.strictEqual(buffer, result);
   });
 
   test('fills two UUIDs into a buffer as expected', () => {
