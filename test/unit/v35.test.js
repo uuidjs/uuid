@@ -95,14 +95,10 @@ describe('v5', () => {
       0xf6,
     ];
 
-    v3('hello.example.com', v3.DNS, buf);
+    const result = v3('hello.example.com', v3.DNS, buf);
 
-    assert.ok(
-      buf.length === testBuf.length &&
-        buf.every(function (elem, idx) {
-          return elem === testBuf[idx];
-        }),
-    );
+    assert.deepEqual(buf, testBuf);
+    assert.strictEqual(result, buf);
 
     // test offsets as well
     buf = new Array(19);
@@ -113,13 +109,7 @@ describe('v5', () => {
 
     v3('hello.example.com', v3.DNS, buf, 3);
 
-    assert.ok(
-      buf.length === testBuf.length + 3 &&
-        buf.every(function (elem, idx) {
-          return idx >= 3 ? elem === testBuf[idx - 3] : elem === 'landmaster';
-        }),
-      'hello',
-    );
+    assert.deepEqual(buf, ['landmaster', 'landmaster', 'landmaster'].concat(testBuf));
   });
 
   test('v5', () => {
@@ -153,13 +143,9 @@ describe('v5', () => {
       0xec,
     ];
 
-    v5('hello.example.com', v5.DNS, buf);
-    assert.ok(
-      buf.length === testBuf.length &&
-        buf.every(function (elem, idx) {
-          return elem === testBuf[idx];
-        }),
-    );
+    const result = v5('hello.example.com', v5.DNS, buf);
+    assert.deepEqual(buf, testBuf);
+    assert.strictEqual(result, buf);
 
     // test offsets as well
     buf = new Array(19);
@@ -170,12 +156,7 @@ describe('v5', () => {
 
     v5('hello.example.com', v5.DNS, buf, 3);
 
-    assert.ok(
-      buf.length === testBuf.length + 3 &&
-        buf.every(function (elem, idx) {
-          return idx >= 3 ? elem === testBuf[idx - 3] : elem === 'landmaster';
-        }),
-    );
+    assert.deepEqual(buf, ['landmaster', 'landmaster', 'landmaster'].concat(testBuf));
   });
 
   test('v3/v5 constants', () => {
