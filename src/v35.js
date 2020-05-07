@@ -6,11 +6,11 @@ function hexSymToDecNum(n) {
     return n - 48;
   }
   // ----------- A -------- F
-  else if (n >= 65 && n <= 70) {
+  if (n >= 65 && n <= 70) {
     return n - 55;
   }
   // ----------- a -------- f
-  else if (n >= 97 && n <= 102) {
+  if (n >= 97 && n <= 102) {
     return n - 87;
   }
 
@@ -23,30 +23,32 @@ function hexSymToDecNum(n) {
 function uuidToBytes(uuid) {
   const bytes = [];
 
-  if (uuid.length === 36) {
-    for (let i = 0; i < uuid.length; ++i) {
-      let h = uuid.charCodeAt(i);
+  if (uuid.length !== 36) {
+    return bytes;
+  }
 
-      if (i === 8 || i === 13 || i === 18 || i === 23) {
-        // ----- '-'
-        if (h === 45) {
-          continue;
-        } else {
-          return [];
-        }
-      }
+  for (let i = 0; i < 36; ++i) {
+    let h = uuid.charCodeAt(i);
 
-      const l = hexSymToDecNum(uuid.charCodeAt(i + 1));
-      h = hexSymToDecNum(h);
-
-      if (l === -1 || h === -1) {
+    if (i === 8 || i === 13 || i === 18 || i === 23) {
+      // ----- '-'
+      if (h === 45) {
+        continue;
+      } else {
         return [];
       }
-
-      bytes.push(h * 16 + l);
-
-      ++i;
     }
+
+    const l = hexSymToDecNum(uuid.charCodeAt(i + 1));
+    h = hexSymToDecNum(h);
+
+    if (l === -1 || h === -1) {
+      return [];
+    }
+
+    bytes.push(h * 16 + l);
+
+    ++i;
   }
 
   return bytes;
