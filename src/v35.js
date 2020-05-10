@@ -1,5 +1,35 @@
 import bytesToUuid from './bytesToUuid.js';
 
+/**
+ * Validate RFC4122 UUID
+ */
+function validateUuidBytes(bytes) {
+  if (!Array.isArray(bytes) || bytes.length !== 16) {
+    return false;
+  }
+
+  const version = bytes[6] >> 4;
+
+  if (version < 1 || version > 5) {
+    // Check to nil uuid '00000000-0000-0000-0000-000000000000'
+    for (let i = 0; i < 16; ++i) {
+      if (bytes[i] > 0) {
+        throw new TypeError('UUID version must be 1-5');
+      }
+    }
+
+    return true;
+  }
+
+  const variant = bytes[8] >> 5;
+
+  if (variant < 4 || variant > 5) {
+    throw new TypeError('UUID variant must be 4 or 5');
+  }
+
+  return true;
+}
+
 function hexSymToDecNum(n) {
   // ------ 0 -------- 9
   if (n >= 48 && n <= 57) {
@@ -18,7 +48,7 @@ function hexSymToDecNum(n) {
 }
 
 /**
- * Validate and parse UUID to bytes array
+ * Parse UUID to bytes array
  */
 function uuidToBytes(uuid) {
   const bytes = [];
@@ -80,10 +110,10 @@ export default function (name, version, hashfunc) {
     }
 
     if (!Array.isArray(value)) {
-      throw TypeError('value must be an array of bytes');
+      throw TypeError('value must be string or an Array of bytes');
     }
 
-    if (!Array.isArray(namespace) || namespace.length !== 16) {
+    if (!validateUuidBytes(namespace)) {
       throw TypeError('namespace must be uuid string or an Array of 16 byte values');
     }
 
@@ -93,10 +123,10 @@ export default function (name, version, hashfunc) {
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
     if (buf) {
-      const start = offset || 0;
+      offset = offset || 0;
 
       for (let i = 0; i < 16; ++i) {
-        buf[start + i] = bytes[i];
+        buf[offset + i] = bytes[i];
       }
 
       return buf;
@@ -108,7 +138,6 @@ export default function (name, version, hashfunc) {
   // Function#name is not settable on some platforms (#270)
   try {
     generateUUID.name = name;
-    // eslint-disable-next-line no-empty
   } catch (err) {}
 
   // For CommonJS default export support

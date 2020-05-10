@@ -96,7 +96,7 @@ describe('v5', () => {
     );
   });
 
-  test('v3 namespace validation', () => {
+  test('v3 namespace string validation', () => {
     assert.throws(() => {
       v3('hello.example.com', 'zyxwvuts-rqpo-nmlk-jihg-fedcba000000');
     });
@@ -105,6 +105,10 @@ describe('v5', () => {
       v3('hello.example.com', 'invalid uuid value');
     });
 
+    assert.ok(v3('hello.example.com', '00000000-0000-0000-0000-000000000000'));
+  });
+
+  test('v3 namespace buffer validation', () => {
     assert.throws(() => {
       v3('hello.example.com', new Array(15));
     });
@@ -112,9 +116,11 @@ describe('v5', () => {
     assert.throws(() => {
       v3('hello.example.com', new Array(17));
     });
+
+    assert.ok(v3('hello.example.com', new Array(16).fill(0)));
   });
 
-  test('v3 buffer', () => {
+  test('v3 fill buffer', () => {
     let buf = new Array(16);
 
     const testBuf = [
@@ -186,7 +192,7 @@ describe('v5', () => {
     );
   });
 
-  test('v5 namespace validation', () => {
+  test('v5 namespace string validation', () => {
     assert.throws(() => {
       v5('hello.example.com', 'zyxwvuts-rqpo-nmlk-jihg-fedcba000000');
     });
@@ -195,6 +201,10 @@ describe('v5', () => {
       v5('hello.example.com', 'invalid uuid value');
     });
 
+    assert.ok(v5('hello.example.com', '00000000-0000-0000-0000-000000000000'));
+  });
+
+  test('v5 namespace buffer validation', () => {
     assert.throws(() => {
       v5('hello.example.com', new Array(15));
     });
@@ -202,9 +212,11 @@ describe('v5', () => {
     assert.throws(() => {
       v5('hello.example.com', new Array(17));
     });
+
+    assert.ok(v5('hello.example.com', new Array(16).fill(0)));
   });
 
-  test('v5 buffer', () => {
+  test('v5 fill buffer', () => {
     let buf = new Array(16);
 
     const testBuf = [
