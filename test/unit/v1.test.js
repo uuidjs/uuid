@@ -67,14 +67,16 @@ describe('v1', () => {
     );
   });
 
+  const fullOptions = {
+    msecs: 1321651533573,
+    nsecs: 5432,
+    clockseq: 0x385c,
+    node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10],
+  };
+
   test('explicit options product expected id', () => {
     // Verify explicit options produce expected id
-    const id = v1({
-      msecs: 1321651533573,
-      nsecs: 5432,
-      clockseq: 0x385c,
-      node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10],
-    });
+    const id = v1(fullOptions);
     assert(id === 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
   });
 
@@ -87,5 +89,21 @@ describe('v1', () => {
     const after = u1.split('-')[0];
     const dt = parseInt(after, 16) - parseInt(before, 16);
     assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
+  });
+
+  const expectedBytes = [217, 66, 136, 136, 18, 43, 17, 225, 184, 92, 97, 205, 60, 187, 50, 16];
+
+  test('fills one UUID into a buffer as expected', () => {
+    const buffer = [];
+    const result = v1(fullOptions, buffer);
+    assert.deepEqual(buffer, expectedBytes);
+    assert.strictEqual(buffer, result);
+  });
+
+  test('fills two UUIDs into a buffer as expected', () => {
+    const buffer = [];
+    v1(fullOptions, buffer, 0);
+    v1(fullOptions, buffer, 16);
+    assert.deepEqual(buffer, expectedBytes.concat(expectedBytes));
   });
 });
