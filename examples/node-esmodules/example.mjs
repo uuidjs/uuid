@@ -1,5 +1,6 @@
 import { v1 as uuidv1, v4 as uuidv4, v3 as uuidv3, v5 as uuidv5 } from 'uuid';
 import * as uuid from 'uuid';
+import pkg from 'uuid/package.json';
 
 console.log('uuidv1()', uuidv1());
 
@@ -41,3 +42,6 @@ console.log('uuid.v3() MY_NAMESPACE', uuid.v3('Hello, World!', MY_NAMESPACE));
 console.log('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
 console.log('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
 console.log('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
+
+// Some tools like react-native need to introspect the package.json file
+console.log('pkg.name', pkg.name);

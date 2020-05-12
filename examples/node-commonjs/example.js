@@ -45,3 +45,7 @@ console.log('uuid.v3() MY_NAMESPACE', uuid.v3('Hello, World!', MY_NAMESPACE));
 console.log('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
 console.log('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
 console.log('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
+
+// Some tools like react-native need to introspect the package.json file
+const pkg = require('uuid/package.json');
+console.log('pkg.name', pkg.name);

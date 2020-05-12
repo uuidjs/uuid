@@ -18,4 +18,4 @@ npm init -y
 npm install ../uuid/uuid-*.tgz
 
 node commonjs.js
-node esmodules.mjs
+node --experimental-json-modules esmodules.mjs
