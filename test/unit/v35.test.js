@@ -66,14 +66,61 @@ describe('v5', () => {
 
   test('v3', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v3
-    assert.equal(v3('hello.example.com', v3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
-    assert.equal(v3('http://example.com/hello', v3.URL), 'c6235813-3ba4-3801-ae84-e0a6ebb7d138');
-    assert.equal(
+    assert.strictEqual(v3('hello.example.com', v3.DNS), '9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
+
+    assert.strictEqual(
+      v3('http://example.com/hello', v3.URL),
+      'c6235813-3ba4-3801-ae84-e0a6ebb7d138',
+    );
+
+    assert.strictEqual(
       v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'),
       'a981a0c2-68b1-35dc-bcfc-296e52ab01ec',
     );
+  });
 
-    // test the buffer functionality
+  test('v3 namespace.toUpperCase', () => {
+    assert.strictEqual(
+      v3('hello.example.com', v3.DNS.toUpperCase()),
+      '9125a8dc-52ee-365b-a5aa-81b0b3681cf6',
+    );
+
+    assert.strictEqual(
+      v3('http://example.com/hello', v3.URL.toUpperCase()),
+      'c6235813-3ba4-3801-ae84-e0a6ebb7d138',
+    );
+
+    assert.strictEqual(
+      v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'.toUpperCase()),
+      'a981a0c2-68b1-35dc-bcfc-296e52ab01ec',
+    );
+  });
+
+  test('v3 namespace string validation', () => {
+    assert.throws(() => {
+      v3('hello.example.com', 'zyxwvuts-rqpo-nmlk-jihg-fedcba000000');
+    });
+
+    assert.throws(() => {
+      v3('hello.example.com', 'invalid uuid value');
+    });
+
+    assert.ok(v3('hello.example.com', '00000000-0000-0000-0000-000000000000'));
+  });
+
+  test('v3 namespace buffer validation', () => {
+    assert.throws(() => {
+      v3('hello.example.com', new Array(15));
+    });
+
+    assert.throws(() => {
+      v3('hello.example.com', new Array(17));
+    });
+
+    assert.ok(v3('hello.example.com', new Array(16).fill(0)));
+  });
+
+  test('v3 fill buffer', () => {
     let buf = new Array(16);
 
     const testBuf = [
@@ -114,14 +161,62 @@ describe('v5', () => {
 
   test('v5', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v5
-    assert.equal(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
-    assert.equal(v5('http://example.com/hello', v5.URL), '3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
-    assert.equal(
+    assert.strictEqual(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
+
+    assert.strictEqual(
+      v5('http://example.com/hello', v5.URL),
+      '3bbcee75-cecc-5b56-8031-b6641c1ed1f1',
+    );
+
+    assert.strictEqual(
       v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'),
       '90123e1c-7512-523e-bb28-76fab9f2f73d',
     );
+  });
 
-    // test the buffer functionality
+  test('v5 namespace.toUpperCase', () => {
+    // Expect to get the same results as http://tools.adjet.org/uuid-v5
+    assert.strictEqual(
+      v5('hello.example.com', v5.DNS.toUpperCase()),
+      'fdda765f-fc57-5604-a269-52a7df8164ec',
+    );
+
+    assert.strictEqual(
+      v5('http://example.com/hello', v5.URL.toUpperCase()),
+      '3bbcee75-cecc-5b56-8031-b6641c1ed1f1',
+    );
+
+    assert.strictEqual(
+      v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'.toUpperCase()),
+      '90123e1c-7512-523e-bb28-76fab9f2f73d',
+    );
+  });
+
+  test('v5 namespace string validation', () => {
+    assert.throws(() => {
+      v5('hello.example.com', 'zyxwvuts-rqpo-nmlk-jihg-fedcba000000');
+    });
+
+    assert.throws(() => {
+      v5('hello.example.com', 'invalid uuid value');
+    });
+
+    assert.ok(v5('hello.example.com', '00000000-0000-0000-0000-000000000000'));
+  });
+
+  test('v5 namespace buffer validation', () => {
+    assert.throws(() => {
+      v5('hello.example.com', new Array(15));
+    });
+
+    assert.throws(() => {
+      v5('hello.example.com', new Array(17));
+    });
+
+    assert.ok(v5('hello.example.com', new Array(16).fill(0)));
+  });
+
+  test('v5 fill buffer', () => {
     let buf = new Array(16);
 
     const testBuf = [
@@ -160,9 +255,9 @@ describe('v5', () => {
   });
 
   test('v3/v5 constants', () => {
-    assert.equal(v3.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
-    assert.equal(v3.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
-    assert.equal(v5.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
-    assert.equal(v5.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
+    assert.strictEqual(v3.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
+    assert.strictEqual(v3.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
+    assert.strictEqual(v5.DNS, '6ba7b810-9dad-11d1-80b4-00c04fd430c8');
+    assert.strictEqual(v5.URL, '6ba7b811-9dad-11d1-80b4-00c04fd430c8');
   });
 });
