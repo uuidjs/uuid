@@ -21,7 +21,13 @@ suite
     uuidv1();
   })
   .add('uuidv1() fill existing array', function () {
-    uuidv1(null, array, 0);
+    try {
+      uuidv1(null, array, 0);
+    } catch (err) {
+      if (err.code !== 'UUID_V1_LIMIT_PER_SEC') {
+        throw err;
+      }
+    }
   })
   .add('uuidv4()', function () {
     uuidv4();

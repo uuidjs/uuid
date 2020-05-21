@@ -16,7 +16,7 @@ let _lastNSecs = 0;
 // See https://github.com/uuidjs/uuid for API details
 function v1(options, buf, offset) {
   let i = (buf && offset) || 0;
-  const b = buf || [];
+  const b = buf || new Array(16);
 
   options = options || {};
   let node = options.node || _nodeId;
@@ -27,6 +27,7 @@ function v1(options, buf, offset) {
   // system entropy.  See #189
   if (node == null || clockseq == null) {
     const seedBytes = options.random || (options.rng || rng)();
+
     if (node == null) {
       // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
       node = _nodeId = [
@@ -38,6 +39,7 @@ function v1(options, buf, offset) {
         seedBytes[5],
       ];
     }
+
     if (clockseq == null) {
       // Per 4.2.2, randomize (14 bit) clockseq
       clockseq = _clockseq = ((seedBytes[6] << 8) | seedBytes[7]) & 0x3fff;
@@ -70,7 +72,9 @@ function v1(options, buf, offset) {
 
   // Per 4.2.1.2 Throw error if too many uuids are requested
   if (nsecs >= 10000) {
-    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+    const error = new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+    error.code = 'UUID_V1_LIMIT_PER_SEC';
+    throw error;
   }
 
   _lastMSecs = msecs;
