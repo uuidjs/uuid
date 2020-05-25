@@ -2,11 +2,6 @@ import rng from './rng.js';
 import bytesToUuid from './bytesToUuid.js';
 
 function v4(options, buf, offset) {
-  if (typeof options === 'string') {
-    buf = options === 'binary' ? new Uint8Array(16) : null;
-    options = null;
-  }
-
   options = options || {};
 
   const rnds = options.random || (options.rng || rng)();
