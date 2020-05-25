@@ -23,7 +23,11 @@ suite
   .add('uuidv1() fill existing array', function () {
     try {
       uuidv1(null, array, 0);
-    } catch (err) {}
+    } catch (err) {
+      // The spec (https://tools.ietf.org/html/rfc4122#section-4.2.1.2) defines that only 10M/s v1
+      // UUIDs can be generated on a single node. This library throws an error if we hit that limit
+      // (which can happen on modern hardware and modern Node.js versions).
+    }
   })
   .add('uuidv4()', function () {
     uuidv4();
