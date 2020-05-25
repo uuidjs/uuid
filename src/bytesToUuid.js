@@ -8,7 +8,9 @@ for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 0x100).toString(16).substr(1));
 }
 
-function bytesToUuid(buf, offset = 0) {
+function bytesToUuid(buf, offset_) {
+  const offset = offset_ || 0;
+
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
   return (
