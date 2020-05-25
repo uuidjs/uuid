@@ -72,9 +72,7 @@ function v1(options, buf, offset) {
 
   // Per 4.2.1.2 Throw error if too many uuids are requested
   if (nsecs >= 10000) {
-    const error = new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-    error.code = 'UUID_V1_LIMIT_PER_SEC';
-    throw error;
+    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
   }
 
   _lastMSecs = msecs;

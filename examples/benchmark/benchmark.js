@@ -23,11 +23,7 @@ suite
   .add('uuidv1() fill existing array', function () {
     try {
       uuidv1(null, array, 0);
-    } catch (err) {
-      if (err.code !== 'UUID_V1_LIMIT_PER_SEC') {
-        throw err;
-      }
-    }
+    } catch (err) {}
   })
   .add('uuidv4()', function () {
     uuidv4();
