@@ -32,7 +32,9 @@ describe('v5', () => {
   ];
 
   function hashToHex(hash) {
-    if (hash instanceof Buffer) hash = Array.from(hash);
+    if (hash instanceof Buffer) {
+      hash = Array.from(hash);
+    }
     return hash
       .map(function (b) {
         return b.toString(16).padStart(2, '0');
@@ -110,20 +112,12 @@ describe('v5', () => {
 
   test('v3 parsing non RFC uuid values', () => {
     assert.throws(() => {
-      v3(
-        'hello.example.com',
-        // equal '00000000-0000-0000-0000-000000000000'
-        '00000000000000000000000000000000',
-      );
+      v3('hello.example.com', '00000000000000000000000000000000');
     });
-
-    // During parsing only two hex chars in a row are taken into account
-    // The remaining characters are ignored.
 
     assert.throws(() => {
       v3(
         'hello.example.com',
-        // equal '00000000-0000-0000-0000-000000000000'
         '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
       );
     });
@@ -227,20 +221,12 @@ describe('v5', () => {
 
   test('v5 parsing non RFC uuid values', () => {
     assert.throws(() => {
-      v5(
-        'hello.example.com',
-        // equal '00000000-0000-0000-0000-000000000000'
-        '00000000000000000000000000000000',
-      );
+      v5('hello.example.com', '00000000000000000000000000000000');
     });
-
-    // During parsing only two hex chars in a row are taken into account
-    // The remaining characters are ignored.
 
     assert.throws(() => {
       v5(
         'hello.example.com',
-        // equal '00000000-0000-0000-0000-000000000000'
         '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
       );
     });

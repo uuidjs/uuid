@@ -39,8 +39,13 @@ switch (version) {
     assert(name != null, 'v3 name not specified');
     assert(namespace != null, 'v3 namespace not specified');
 
-    if (namespace === 'URL') namespace = v3.URL;
-    if (namespace === 'DNS') namespace = v3.DNS;
+    if (namespace === 'URL') {
+      namespace = v3.URL;
+    }
+
+    if (namespace === 'DNS') {
+      namespace = v3.DNS;
+    }
 
     console.log(v3(name, namespace));
     break;
@@ -53,11 +58,17 @@ switch (version) {
   case 'v5': {
     const name = args.shift();
     let namespace = args.shift();
+
     assert(name != null, 'v5 name not specified');
     assert(namespace != null, 'v5 namespace not specified');
 
-    if (namespace === 'URL') namespace = v5.URL;
-    if (namespace === 'DNS') namespace = v5.DNS;
+    if (namespace === 'URL') {
+      namespace = v5.URL;
+    }
+
+    if (namespace === 'DNS') {
+      namespace = v5.DNS;
+    }
 
     console.log(v5(name, namespace));
     break;
