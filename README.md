@@ -336,10 +336,20 @@ or
 </script>
 ```
 
+or
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+<script>
+  alert(uuidv4());
+</script>
+```
+
 Available bundles:
 
 - https://unpkg.com/uuid@latest/dist/umd/
 - https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
+- https://cdnjs.com/libraries/uuid
 
 ## "getRandomValues() not supported"
 
