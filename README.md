@@ -315,41 +315,31 @@ To run the examples you must first create a dist build of this library in the mo
 npm run build
 ```
 
-## UMD Builds
+## CDN versions
 
-If you want to load a minified UMD build directly in the browser you can use one of the popular npm
-CDNs:
+This module may be loaded directly into a browser from any of the following CDNs:
 
+**Using [UNPKG](https://unpkg.com/uuid@latest/dist/umd)**:
 ```html
 <script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
-<script>
-  alert(uuidv4());
-</script>
 ```
 
-or
-
+**Using [jsDelivr](https://cdnjs.com/libraries/uuidttps://cdn.jsdelivr.net/npm/uuid@latest/dist/umd)**:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
-<script>
-  alert(uuidv4());
-</script>
 ```
 
-or
-
+**Using [cdnjs](https://cdnjs.com/libraries/uuid)**:
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
-<script>
-  alert(uuidv4());
-</script>
 ```
 
-Available bundles:
-
-- https://unpkg.com/uuid@latest/dist/umd/
-- https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
-- https://cdnjs.com/libraries/uuid
+These CDNs all provide the same `uuidv4()` method:
+```html
+<script>
+  uuidv4(); // => 55af1e37-0734-46d8-b070-a1e42e4fc392
+</script>
+```
 
 ## "getRandomValues() not supported"
 
