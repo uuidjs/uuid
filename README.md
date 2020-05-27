@@ -8,7 +8,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
 - **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
 - **Cross-platform** - Support for ...
-  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and UMD builds
+  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds (UMD)](#cdn-builds-umd)
   - Node 8, 10, 12, 14
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
@@ -315,31 +315,39 @@ To run the examples you must first create a dist build of this library in the mo
 npm run build
 ```
 
-## UMD Builds
+## CDN Builds (UMD)
 
-If you want to load a minified UMD build directly in the browser you can use one of the popular npm
-CDNs:
+This module may be loaded directly into a browser from any of the following CDNs:
+
+**Using [UNPKG](https://unpkg.com/uuid@latest/dist/umd/)**:
 
 ```html
 <script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
-<script>
-  alert(uuidv4());
-</script>
 ```
 
-or
+**Using [jsDelivr](https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/)**:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+```
+
+**Using [cdnjs](https://cdnjs.com/libraries/uuid)**:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+```
+
+These CDNs all provide the same [`uuidv4()`](#version-4-random) method:
+
+```html
 <script>
-  alert(uuidv4());
+  uuidv4(); // ⇨ '55af1e37-0734-46d8-b070-a1e42e4fc392'
 </script>
 ```
 
-Available bundles:
-
-- https://unpkg.com/uuid@latest/dist/umd/
-- https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
+Methods for the other algorithms ([`uuidv1()`](#version-1-timestamp),
+[`uuidv3()`](#version-3-namespace) and [`uuidv5()`](#version-5-namespace)) are available from the
+files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
 
 ## "getRandomValues() not supported"
 
