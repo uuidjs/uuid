@@ -8,7 +8,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
 - **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
 - **Cross-platform** - Support for ...
-  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and UMD builds
+  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds (UMD)](#cdn-builds-umd)
   - Node 8, 10, 12, 14
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
@@ -315,7 +315,7 @@ To run the examples you must first create a dist build of this library in the mo
 npm run build
 ```
 
-## CDN versions
+## CDN Builds (UMD)
 
 This module may be loaded directly into a browser from any of the following CDNs:
 
