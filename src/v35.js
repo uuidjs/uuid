@@ -1,12 +1,29 @@
 import bytesToUuid from './bytesToUuid.js';
+import validate from './validate.js';
+
+// Int32 to 4 bytes
+function numberToBytes(num, bytes) {
+  const offset = bytes.length;
+  bytes.push(0, 0, 0, 0);
+
+  for (let i = 0; i < 4; ++i) {
+    const byte = num & 0xff;
+    bytes[offset + 3 - i] = byte;
+    num = (num - byte) / 256;
+  }
+}
 
 function uuidToBytes(uuid) {
-  // Note: We assume we're being passed a valid uuid string
   const bytes = [];
 
-  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
-    bytes.push(parseInt(hex, 16));
-  });
+  if (!validate(uuid)) {
+    return bytes;
+  }
+
+  numberToBytes(parseInt(uuid.slice(0, 8), 16), bytes);
+  numberToBytes(parseInt(uuid.slice(9, 13) + uuid.slice(14, 18), 16), bytes);
+  numberToBytes(parseInt(uuid.slice(19, 23) + uuid.slice(24, 28), 16), bytes);
+  numberToBytes(parseInt(uuid.slice(28), 16), bytes);
 
   return bytes;
 }
@@ -28,8 +45,6 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 export default function (name, version, hashfunc) {
   function generateUUID(value, namespace, buf, offset) {
-    const off = (buf && offset) || 0;
-
     if (typeof value === 'string') value = stringToBytes(value);
     if (typeof namespace === 'string') namespace = uuidToBytes(namespace);
 
@@ -47,12 +62,16 @@ export default function (name, version, hashfunc) {
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
     if (buf) {
-      for (let idx = 0; idx < 16; ++idx) {
-        buf[off + idx] = bytes[idx];
+      offset = offset || 0;
+
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = bytes[i];
       }
+
+      return buf;
     }
 
-    return buf || bytesToUuid(bytes);
+    return bytesToUuid(bytes);
   }
 
   // Function#name is not settable on some platforms (#270)

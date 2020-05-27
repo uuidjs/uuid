@@ -109,26 +109,24 @@ describe('v5', () => {
   });
 
   test('v3 parsing non RFC uuid values', () => {
-    assert.strictEqual(
+    assert.throws(() => {
       v3(
         'hello.example.com',
         // equal '00000000-0000-0000-0000-000000000000'
         '00000000000000000000000000000000',
-      ),
-      '8ccfd135-fc23-3a10-a477-5a4f02f92cf9',
-    );
+      );
+    });
 
     // During parsing only two hex chars in a row are taken into account
     // The remaining characters are ignored.
 
-    assert.strictEqual(
+    assert.throws(() => {
       v3(
         'hello.example.com',
         // equal '00000000-0000-0000-0000-000000000000'
         '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
-      ),
-      '8ccfd135-fc23-3a10-a477-5a4f02f92cf9',
-    );
+      );
+    });
   });
 
   test('v3 namespace buffer validation', () => {
@@ -228,26 +226,24 @@ describe('v5', () => {
   });
 
   test('v5 parsing non RFC uuid values', () => {
-    assert.strictEqual(
+    assert.throws(() => {
       v5(
         'hello.example.com',
         // equal '00000000-0000-0000-0000-000000000000'
         '00000000000000000000000000000000',
-      ),
-      '9aefd4c8-16b3-555b-9731-72b19be683e4',
-    );
+      );
+    });
 
     // During parsing only two hex chars in a row are taken into account
     // The remaining characters are ignored.
 
-    assert.strictEqual(
+    assert.throws(() => {
       v5(
         'hello.example.com',
         // equal '00000000-0000-0000-0000-000000000000'
         '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
-      ),
-      '9aefd4c8-16b3-555b-9731-72b19be683e4',
-    );
+      );
+    });
   });
 
   test('v5 namespace buffer validation', () => {
