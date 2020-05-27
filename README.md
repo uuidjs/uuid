@@ -341,7 +341,7 @@ These CDNs all provide the same [`uuidv4()`](#version-4-random) method:
 
 ```html
 <script>
-  uuidv4(); // => 55af1e37-0734-46d8-b070-a1e42e4fc392
+  uuidv4(); // ⇨ '55af1e37-0734-46d8-b070-a1e42e4fc392'
 </script>
 ```
 
