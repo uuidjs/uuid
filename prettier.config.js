@@ -1,7 +1,7 @@
 module.exports = {
   arrowParens: 'always',
   printWidth: 100,
-  proseWrap: 'always',
+  proseWrap: 'never',
   singleQuote: true,
   trailingComma: 'all',
 };
