@@ -1,7 +1,7 @@
-import uuidRegex from './regex.js';
+import REGEX from './regex.js';
 
 function validate(uuid) {
-  return typeof(uuid) === 'string' && uuidRegex.test(uuid);
+  return typeof uuid === 'string' && REGEX.test(uuid);
 }
 
 export default validate;

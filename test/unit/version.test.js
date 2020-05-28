@@ -14,5 +14,15 @@ describe('version', () => {
     assert.strictEqual(version('90123e1c-7512-523e-bb28-76fab9f2f73d'), 5);
 
     assert.throws(() => version('invalid uuid string'));
+
+    assert.throws(() => {
+      version('00000000000000000000000000000000');
+    });
+
+    assert.throws(() => {
+      version(
+        '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
+      );
+    });
   });
 });

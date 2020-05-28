@@ -110,19 +110,6 @@ describe('v5', () => {
     assert.ok(v3('hello.example.com', '00000000-0000-0000-0000-000000000000'));
   });
 
-  test('v3 parsing non RFC uuid values', () => {
-    assert.throws(() => {
-      v3('hello.example.com', '00000000000000000000000000000000');
-    });
-
-    assert.throws(() => {
-      v3(
-        'hello.example.com',
-        '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
-      );
-    });
-  });
-
   test('v3 namespace buffer validation', () => {
     assert.throws(() => {
       v3('hello.example.com', new Array(15));
@@ -217,19 +204,6 @@ describe('v5', () => {
     });
 
     assert.ok(v5('hello.example.com', '00000000-0000-0000-0000-000000000000'));
-  });
-
-  test('v5 parsing non RFC uuid values', () => {
-    assert.throws(() => {
-      v5('hello.example.com', '00000000000000000000000000000000');
-    });
-
-    assert.throws(() => {
-      v5(
-        'hello.example.com',
-        '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+',
-      );
-    });
   });
 
   test('v5 namespace buffer validation', () => {
