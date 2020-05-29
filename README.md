@@ -8,7 +8,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
 - **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
 - **Cross-platform** - Support for ...
-  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and UMD builds
+  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds (UMD)](#cdn-builds-umd)
   - Node 8, 10, 12, 14
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
@@ -17,8 +17,8 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-**Upgrading from uuid\@3?** Your code is probably okay, but check out [Upgrading
-From uuid\@3](#upgrading-from-uuid3) for details.
+**Upgrading from uuid\@3?** Your code is probably okay, but check out
+[Upgrading From uuid\@3](#upgrading-from-uuid3) for details.
 
 ## Quickstart
 
@@ -26,15 +26,16 @@ From uuid\@3](#upgrading-from-uuid3) for details.
 npm install uuid
 ```
 
-Once installed, decide which type of UUID you need. RFC4122 provides for four
-versions, all of which are supported here. In order of popularity, they are:
+Once installed, decide which type of UUID you need. RFC4122 provides for four versions, all of which
+are supported here. In order of popularity, they are:
 
 - Version 4 (random) - Created from cryptographically-strong random values
 - Version 1 (timestamp) - Created from the system clock (plus random values)
 - Version 5 (namespace, SHA-1) - Created from user-supplied name and namespace strings
 - Version 3 (namespace, MD5) - Like version 5, above, but with a poorer hash algorithm
 
-**Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
+**Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the
+other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
 
 ### Create Version 4 (Random) UUIDs
 
@@ -61,12 +62,12 @@ uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
 
 ### Create Version 3 or Version 5 (Namespace) UUIDs
 
-&#x26a0;&#xfe0f; Version 3 and Version 5 UUIDs are basically the same, differing
-only in the underlying hash algorithm. Note that per the RFC, "_If backward
-compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+&#x26a0;&#xfe0f; Version 3 and Version 5 UUIDs are basically the same, differing only in the
+underlying hash algorithm. Note that per the RFC, "_If backward compatibility is not an issue, SHA-1
+[Version 5] is preferred_."
 
-&#x26a0;&#xfe0f; If using a custom namespace **be sure to generate your own
-namespace UUID**. You can grab one [here](https://www.uuidgenerator.net/).
+&#x26a0;&#xfe0f; If using a custom namespace **be sure to generate your own namespace UUID**. You
+can grab one [here](https://www.uuidgenerator.net/).
 
 ```javascript
 import { v5 as uuidv5 } from 'uuid'; // For version 5
@@ -103,8 +104,10 @@ uuidv4(options, buffer, offset);
 Generate and return a RFC4122 version 4 UUID.
 
 - `options` - (Object) Optional uuid state to apply. Properties may include:
-  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values. Takes precedence over `options.rng`.
-  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
+  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated
+    values. Takes precedence over `options.rng`.
+  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255).
+    Alternative to `options.random`.
 - `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 - `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
@@ -170,18 +173,25 @@ uuidv1(options, buffer, offset);
 Generate and return a RFC4122 version 1 (timestamp) UUID.
 
 - `options` - (Object) Optional uuid state to apply. Properties may include:
-  - `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomly generated ID. See note 1.
-  - `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence. Default: An internally maintained clockseq is used.
+  - `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomly generated ID. See
+    note 1.
+  - `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence. Default: An internally maintained
+    clockseq is used.
   - `msecs` - (Number) Time in milliseconds since unix Epoch. Default: The current time is used.
-  - `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond units. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
-  - `random` - (Number[16]) Array of 16 numbers (0-255) to use for initialization of `node` and `clockseq` as described above. Takes precedence over `options.rng`.
-  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
+  - `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond units. Ignored if `msecs`
+    is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
+  - `random` - (Number[16]) Array of 16 numbers (0-255) to use for initialization of `node` and
+    `clockseq` as described above. Takes precedence over `options.rng`.
+  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255).
+    Alternative to `options.random`.
 - `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
 - `offset` - (Number) Starting index in `buffer` at which to begin writing.
 
 Returns `buffer`, if specified, otherwise the string form of the UUID
 
-Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
+Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits
+in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the
+duration of the process.
 
 Example: Generate string UUID with fully-specified options
 
@@ -243,7 +253,8 @@ uuidv5('hello world', MY_NAMESPACE); // ⇨ '9f282611-e0fd-5650-8953-89c8e342da0
 
 ### Version 3 (Namespace)
 
-&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5]
+is preferred_."
 
 ```javascript
 import { v3 as uuidv3 } from 'uuid';
@@ -278,7 +289,8 @@ $ uuid
 ddeb27fb-d9a0-4624-be4d-4615062daed4
 ```
 
-The default is to generate version 4 UUIDS, however the other versions are supported. Type `uuid --help` for details:
+The default is to generate version 4 UUIDS, however the other versions are supported. Type
+`uuid --help` for details:
 
 ```
 $ uuid --help
@@ -297,12 +309,12 @@ defined by RFC4122
 
 ## ECMAScript Modules
 
-This library comes with [ECMAScript
-Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) support for Node.js
-versions that support it ([example](./examples/node-esmodules/)) as well as bundlers like
-[rollup.js](https://rollupjs.org/guide/en/#tree-shaking) ([example](./examples/browser-rollup/))
-and [webpack](https://webpack.js.org/guides/tree-shaking/)
-([example](./examples/browser-webpack/)) (targeting both, Node.js and browser environments).
+This library comes with
+[ECMAScript Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) support for
+Node.js versions that support it ([example](./examples/node-esmodules/)) as well as bundlers like
+[rollup.js](https://rollupjs.org/guide/en/#tree-shaking) ([example](./examples/browser-rollup/)) and
+[webpack](https://webpack.js.org/guides/tree-shaking/) ([example](./examples/browser-webpack/))
+(targeting both, Node.js and browser environments).
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
@@ -315,31 +327,39 @@ To run the examples you must first create a dist build of this library in the mo
 npm run build
 ```
 
-## UMD Builds
+## CDN Builds (UMD)
 
-If you want to load a minified UMD build directly in the browser you can use one of the popular npm
-CDNs:
+This module may be loaded directly into a browser from any of the following CDNs:
+
+**Using [UNPKG](https://unpkg.com/uuid@latest/dist/umd/)**:
 
 ```html
 <script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
-<script>
-  alert(uuidv4());
-</script>
 ```
 
-or
+**Using [jsDelivr](https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/)**:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
+```
+
+**Using [cdnjs](https://cdnjs.com/libraries/uuid)**:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+```
+
+These CDNs all provide the same [`uuidv4()`](#version-4-random) method:
+
+```html
 <script>
-  alert(uuidv4());
+  uuidv4(); // ⇨ '55af1e37-0734-46d8-b070-a1e42e4fc392'
 </script>
 ```
 
-Available bundles:
-
-- https://unpkg.com/uuid@latest/dist/umd/
-- https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/
+Methods for the other algorithms ([`uuidv1()`](#version-1-timestamp),
+[`uuidv3()`](#version-3-namespace) and [`uuidv5()`](#version-5-namespace)) are available from the
+files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
 
 ## "getRandomValues() not supported"
 
@@ -349,7 +369,8 @@ API is not supported. This issue can be resolved by adding an appropriate polyfi
 
 ### React Native
 
-1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
+1. Install
+   [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
 1. Import it before `uuid`:
 
 ```javascript
@@ -359,9 +380,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 ### Web Workers / Service Workers (Edge <= 18)
 
-[In Edge <= 18, Web Crypto is not supported in Web Workers or Service
-Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if
-you find one, please).
+[In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography)
+and we are not aware of a polyfill (let us know if you find one, please).
 
 ## Upgrading From uuid\@7
 
@@ -387,31 +407,28 @@ uuidv4();
 
 ### Deep Requires No Longer Supported
 
-Deep requires like `require('uuid/v4')` [which have been deprecated in
-uuid\@7](#deep-requires-now-deprecated) are no longer supported.
+Deep requires like `require('uuid/v4')`
+[which have been deprecated in uuid\@7](#deep-requires-now-deprecated) are no longer supported.
 
 ## Upgrading From uuid\@3
 
 "_Wait... what happened to uuid\@4 - uuid\@6?!?_"
 
-In order to avoid confusion with RFC [version 4](#version-4-random) and [version
-5](#version-5-namespace) UUIDs, and a possible [version
-6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been
-skipped. Hence, how we're now at uuid\@7.
+In order to avoid confusion with RFC [version 4](#version-4-random) and
+[version 5](#version-5-namespace) UUIDs, and a possible [version 6](http://gh.peabody.io/uuidv6/),
+releases 4 thru 6 of this module have been skipped. Hence, how we're now at uuid\@7.
 
 ### Deep Requires Now Deprecated
 
-uuid\@3 encouraged the use of deep requires to minimize the bundle size of
-browser builds:
+uuid\@3 encouraged the use of deep requires to minimize the bundle size of browser builds:
 
 ```javascript
 const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
 uuidv4();
 ```
 
-As of uuid\@7 this library now provides ECMAScript modules builds, which allow
-packagers like Webpack and Rollup to do "tree-shaking" to remove dead code.
-Instead, use the `import` syntax:
+As of uuid\@7 this library now provides ECMAScript modules builds, which allow packagers like
+Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
