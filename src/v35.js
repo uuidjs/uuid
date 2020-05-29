@@ -1,15 +1,29 @@
 import bytesToUuid from './bytesToUuid.js';
 import validate from './validate.js';
 
-// Char offset to hex pairs in uuid strings
-const HEX_PAIRS = [0, 2, 4, 6, 9, 11, 14, 16, 19, 21, 24, 26, 28, 30, 32, 34];
+// Int32 to 4 bytes https://stackoverflow.com/a/12965194/3684944
+function numberToBytes(num, bytes, offset) {
+  for (let i = 0; i < 4; ++i) {
+    const byte = num & 0xff;
+    // Fill the 4 bytes right-to-left.
+    bytes[offset + 3 - i] = byte;
+    num = (num - byte) / 256;
+  }
+}
 
 function uuidToBytes(uuid) {
   if (!validate(uuid)) {
-    throw TypeError('Invalid UUID');
+    return [];
   }
 
-  return HEX_PAIRS.map((i) => parseInt(uuid.substr(i, 2), 16));
+  const bytes = new Array(16);
+
+  numberToBytes(parseInt(uuid.slice(0, 8), 16), bytes, 0);
+  numberToBytes(parseInt(uuid.slice(9, 13) + uuid.slice(14, 18), 16), bytes, 4);
+  numberToBytes(parseInt(uuid.slice(19, 23) + uuid.slice(24, 28), 16), bytes, 8);
+  numberToBytes(parseInt(uuid.slice(28), 16), bytes, 12);
+
+  return bytes;
 }
 
 function stringToBytes(str) {
