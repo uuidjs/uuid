@@ -13,7 +13,6 @@
   },
   "parser": "babel-eslint",
   "rules": {
-    "no-var": ["error"],
-    "curly": ["error", "all"]
+    "no-var": ["error"]
   }
 }

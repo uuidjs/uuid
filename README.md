@@ -292,7 +292,7 @@ ddeb27fb-d9a0-4624-be4d-4615062daed4
 The default is to generate version 4 UUIDS, however the other versions are supported. Type
 `uuid --help` for details:
 
-```
+```shell
 $ uuid --help
 
 Usage:
@@ -323,7 +323,7 @@ uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
 To run the examples you must first create a dist build of this library in the module root:
 
-```
+```shell
 npm run build
 ```
 

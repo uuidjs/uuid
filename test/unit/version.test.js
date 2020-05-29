@@ -13,6 +13,10 @@ describe('version', () => {
 
     assert.strictEqual(version('90123e1c-7512-523e-bb28-76fab9f2f73d'), 5);
 
+    assert.throws(() => version());
+
+    assert.throws(() => version(''));
+
     assert.throws(() => version('invalid uuid string'));
 
     assert.throws(() => {

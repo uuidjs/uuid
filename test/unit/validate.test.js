@@ -13,6 +13,10 @@ describe('validate', () => {
 
     assert.strictEqual(validate('90123e1c-7512-523e-bb28-76fab9f2f73d'), true);
 
+    assert.strictEqual(validate(), false);
+
+    assert.strictEqual(validate(''), false);
+
     assert.strictEqual(validate('invalid uuid string'), false);
 
     assert.strictEqual(validate('00000000000000000000000000000000'), false);
