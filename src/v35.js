@@ -28,10 +28,13 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 export default function (name, version, hashfunc) {
   function generateUUID(value, namespace, buf, offset) {
-    const off = (buf && offset) || 0;
+    if (typeof value === 'string') {
+      value = stringToBytes(value);
+    }
 
-    if (typeof value === 'string') value = stringToBytes(value);
-    if (typeof namespace === 'string') namespace = uuidToBytes(namespace);
+    if (typeof namespace === 'string') {
+      namespace = uuidToBytes(namespace);
+    }
 
     if (!Array.isArray(value)) {
       throw TypeError('value must be an array of bytes');
@@ -47,12 +50,16 @@ export default function (name, version, hashfunc) {
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
     if (buf) {
-      for (let idx = 0; idx < 16; ++idx) {
-        buf[off + idx] = bytes[idx];
+      offset = offset || 0;
+
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = bytes[i];
       }
+
+      return buf;
     }
 
-    return buf || bytesToUuid(bytes);
+    return bytesToUuid(bytes);
   }
 
   // Function#name is not settable on some platforms (#270)
