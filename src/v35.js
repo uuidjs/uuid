@@ -1,12 +1,27 @@
 import bytesToUuid from './bytesToUuid.js';
+import validate from './validate.js';
+
+// Int32 to 4 bytes https://stackoverflow.com/a/12965194/3684944
+function numberToBytes(num, bytes, offset) {
+  for (let i = 0; i < 4; ++i) {
+    const byte = num & 0xff;
+    // Fill the 4 bytes right-to-left.
+    bytes[offset + 3 - i] = byte;
+    num = (num - byte) / 256;
+  }
+}
 
 function uuidToBytes(uuid) {
-  // Note: We assume we're being passed a valid uuid string
-  const bytes = [];
+  if (!validate(uuid)) {
+    return [];
+  }
 
-  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
-    bytes.push(parseInt(hex, 16));
-  });
+  const bytes = new Array(16);
+
+  numberToBytes(parseInt(uuid.slice(0, 8), 16), bytes, 0);
+  numberToBytes(parseInt(uuid.slice(9, 13) + uuid.slice(14, 18), 16), bytes, 4);
+  numberToBytes(parseInt(uuid.slice(19, 23) + uuid.slice(24, 28), 16), bytes, 8);
+  numberToBytes(parseInt(uuid.slice(28), 16), bytes, 12);
 
   return bytes;
 }
