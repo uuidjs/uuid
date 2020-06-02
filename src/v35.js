@@ -1,29 +1,40 @@
 import bytesToUuid from './bytesToUuid.js';
 import validate from './validate.js';
 
-// Int32 to 4 bytes https://stackoverflow.com/a/12965194/3684944
-function numberToBytes(num, bytes, offset) {
-  for (let i = 0; i < 4; ++i) {
-    const byte = num & 0xff;
-    // Fill the 4 bytes right-to-left.
-    bytes[offset + 3 - i] = byte;
-    num = (num - byte) / 256;
-  }
-}
-
 function uuidToBytes(uuid) {
   if (!validate(uuid)) {
     return [];
   }
 
-  const bytes = new Array(16);
+  let v;
+  return [
+    // Parse ########-....-....-....-............
+    (v = parseInt(uuid.slice(0, 8), 16)) >> 24,
+    (v >> 16) & 0xff,
+    (v >> 8) & 0xff,
+    v & 0xff,
 
-  numberToBytes(parseInt(uuid.slice(0, 8), 16), bytes, 0);
-  numberToBytes(parseInt(uuid.slice(9, 13) + uuid.slice(14, 18), 16), bytes, 4);
-  numberToBytes(parseInt(uuid.slice(19, 23) + uuid.slice(24, 28), 16), bytes, 8);
-  numberToBytes(parseInt(uuid.slice(28), 16), bytes, 12);
+    // Parse ........-####-....-....-............
+    (v = parseInt(uuid.slice(9, 13), 16)) >> 8,
+    v & 0xff,
 
-  return bytes;
+    // Parse ........-....-####-....-............
+    (v = parseInt(uuid.slice(14, 18), 16)) >> 8,
+    v & 0xff,
+
+    // Parse ........-....-....-####-............
+    (v = parseInt(uuid.slice(19, 23), 16)) >> 8,
+    v & 0xff,
+
+    // Parse ........-....-....-....-############
+    // (This uses "/" operator for high-order bytes to avoid 32-bit truncation)
+    ((v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000) & 0xff,
+    (v / 0x100000000) & 0xff,
+    (v >> 24) & 0xff,
+    (v >> 16) & 0xff,
+    (v >> 8) & 0xff,
+    v & 0xff,
+  ];
 }
 
 function stringToBytes(str) {
