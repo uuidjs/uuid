@@ -6,7 +6,7 @@ import sha1Browser from '../../src/sha1-browser.js';
 import v3 from '../../src/v3.js';
 import v5 from '../../src/v5.js';
 
-describe('v5', () => {
+describe('v35', () => {
   const HASH_SAMPLES = [
     {
       input: '',
@@ -32,7 +32,10 @@ describe('v5', () => {
   ];
 
   function hashToHex(hash) {
-    if (hash instanceof Buffer) hash = Array.from(hash);
+    if (hash instanceof Buffer) {
+      hash = Array.from(hash);
+    }
+
     return hash
       .map(function (b) {
         return b.toString(16).padStart(2, '0');

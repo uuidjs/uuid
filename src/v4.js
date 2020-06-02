@@ -12,10 +12,10 @@ function v4(options, buf, offset) {
 
   // Copy bytes to buffer, if provided
   if (buf) {
-    const start = offset || 0;
+    offset = offset || 0;
 
     for (let i = 0; i < 16; ++i) {
-      buf[start + i] = rnds[i];
+      buf[offset + i] = rnds[i];
     }
 
     return buf;
