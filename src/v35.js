@@ -27,7 +27,7 @@ function uuidToBytes(uuid) {
     v & 0xff,
 
     // Parse ........-....-....-....-############
-    // (This uses "/" operator for high-order bytes to avoid 32-bit truncation)
+    // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
     ((v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000) & 0xff,
     (v / 0x100000000) & 0xff,
     (v >> 24) & 0xff,
