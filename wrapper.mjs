@@ -1,4 +1,7 @@
 import uuid from './dist/index.js';
+
+export default uuid;
+
 export const v1 = uuid.v1;
 export const v3 = uuid.v3;
 export const v4 = uuid.v4;
