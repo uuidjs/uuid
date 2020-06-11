@@ -5,3 +5,4 @@ export { default as v5 } from './v5.js';
 export { default as REGEX } from './regex.js';
 export { default as version } from './version.js';
 export { default as validate } from './validate.js';
+export { default as uuidToBytes } from './uuidToBytes.js';

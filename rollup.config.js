@@ -20,4 +20,5 @@ export default [
   chunk('v3', 'uuidv3'),
   chunk('v4', 'uuidv4'),
   chunk('v5', 'uuidv5'),
+  chunk('uuidToBytes', 'uuidToBytes'),
 ];
