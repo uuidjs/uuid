@@ -1,41 +1,5 @@
 import bytesToUuid from './bytesToUuid.js';
-import validate from './validate.js';
-
-function uuidToBytes(uuid) {
-  if (!validate(uuid)) {
-    return [];
-  }
-
-  let v;
-  return [
-    // Parse ########-....-....-....-............
-    (v = parseInt(uuid.slice(0, 8), 16)) >> 24,
-    (v >> 16) & 0xff,
-    (v >> 8) & 0xff,
-    v & 0xff,
-
-    // Parse ........-####-....-....-............
-    (v = parseInt(uuid.slice(9, 13), 16)) >> 8,
-    v & 0xff,
-
-    // Parse ........-....-####-....-............
-    (v = parseInt(uuid.slice(14, 18), 16)) >> 8,
-    v & 0xff,
-
-    // Parse ........-....-....-####-............
-    (v = parseInt(uuid.slice(19, 23), 16)) >> 8,
-    v & 0xff,
-
-    // Parse ........-....-....-....-############
-    // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
-    ((v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000) & 0xff,
-    (v / 0x100000000) & 0xff,
-    (v >> 24) & 0xff,
-    (v >> 16) & 0xff,
-    (v >> 8) & 0xff,
-    v & 0xff,
-  ];
-}
+import uuidToBytes from './uuidToBytes.js';
 
 function stringToBytes(str) {
   str = unescape(encodeURIComponent(str)); // UTF8 escape
