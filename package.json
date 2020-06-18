@@ -21,8 +21,12 @@
   "exports": {
     ".": {
       "browser": "./dist/esm-browser/index.js",
-      "require": "./dist/index.js",
-      "import": "./wrapper.mjs"
+      "node": {
+        "module": "./dist/esm-node/index.js",
+        "require": "./dist/index.js",
+        "import": "./wrapper.mjs"
+      },
+      "default": "./dist/esm-node/index.js"
     },
     "./package.json": "./package.json"
   },
