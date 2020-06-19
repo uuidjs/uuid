@@ -25,7 +25,8 @@
         "module": "./dist/esm-node/index.js",
         "require": "./dist/index.js",
         "import": "./wrapper.mjs"
-      }
+      },
+      "default": "./dist/esm-browser/index.js"
     },
     "./package.json": "./package.json"
   },
