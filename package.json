@@ -20,7 +20,6 @@
   "main": "./dist/index.js",
   "exports": {
     ".": {
-      "browser": "./dist/esm-browser/index.js",
       "node": {
         "module": "./dist/esm-node/index.js",
         "require": "./dist/index.js",
