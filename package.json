@@ -19,11 +19,15 @@
   "sideEffects": false,
   "main": "./dist/index.js",
   "exports": {
-    "./package.json": "./package.json",
     ".": {
-      "require": "./dist/index.js",
-      "import": "./wrapper.mjs"
-    }
+      "node": {
+        "module": "./dist/esm-node/index.js",
+        "require": "./dist/index.js",
+        "import": "./wrapper.mjs"
+      },
+      "default": "./dist/esm-browser/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "module": "./dist/esm-node/index.js",
   "browser": {
