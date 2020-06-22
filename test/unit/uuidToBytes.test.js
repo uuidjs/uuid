@@ -14,15 +14,35 @@ function rng(bytes = []) {
 }
 
 describe('uuidToBytes', () => {
-  test('string->bytes->string symmetry', () => {
-    // Verify string->bytes->string symmetry for a selection of uuids
+  test('String -> bytes parsing', () => {
+    assert.deepStrictEqual(uuidToBytes('0f5abcd1-c194-47f3-905b-2df7263a084b'), [
+      0x0f,
+      0x5a,
+      0xbc,
+      0xd1,
+      0xc1,
+      0x94,
+      0x47,
+      0xf3,
+      0x90,
+      0x5b,
+      0x2d,
+      0xf7,
+      0x26,
+      0x3a,
+      0x08,
+      0x4b,
+    ]);
+  });
+
+  test('String -> bytes -> string symmetry for assorted uuids', () => {
     for (let i = 0; i < 1000; i++) {
       const uuid = uuidv4({ rng });
       assert.equal(bytesToUuid(uuidToBytes(uuid)), uuid);
     }
   });
 
-  test('Ignore case', () => {
+  test('Case neutrality', () => {
     // Verify upper/lower case neutrality
     assert.deepStrictEqual(
       uuidToBytes('0f5abcd1-c194-47f3-905b-2df7263a084b'),
@@ -30,15 +50,14 @@ describe('uuidToBytes', () => {
     );
   });
 
-  test('Null UUID', () => {
-    // Verify null Uuid
+  test('Null UUID case', () => {
     assert.deepStrictEqual(
       uuidToBytes('00000000-0000-0000-0000-000000000000'),
       new Array(16).fill(0),
     );
   });
 
-  test('Validates', () => {
+  test('UUID validation', () => {
     assert.throws(() => uuidToBytes());
     assert.throws(() => uuidToBytes('invalid uuid'));
     assert.throws(() => uuidToBytes('zyxwvuts-rqpo-nmlk-jihg-fedcba000000'));
