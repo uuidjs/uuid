@@ -11,7 +11,7 @@ const uuidStringify =
 
 console.log('Starting. Tests take ~1 minute to run ...');
 
-function testParse() {
+function testParseAndStringify() {
   const suite = new Benchmark.Suite({
     onError(event) {
       console.error(event.target.error);
@@ -96,5 +96,5 @@ function testGeneration() {
     .run();
 }
 
-testParse();
+testParseAndStringify();
 testGeneration();
