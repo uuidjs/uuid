@@ -21,6 +21,7 @@ export default [
   chunk('v4', 'uuidv4'),
   chunk('v5', 'uuidv5'),
 
+  chunk('version', 'uuidVersion'),
   chunk('validate', 'uuidValidate'),
   chunk('parse', 'uuidParse'),
   chunk('stringify', 'uuidStringify'),
