@@ -12,6 +12,7 @@ const commonCapabilities = {
   name: 'browser test',
   'browserstack.local': true,
   'browserstack.debug': false,
+  'browserstack.console': 'errors',
   resolution: '1024x768',
 };
 
