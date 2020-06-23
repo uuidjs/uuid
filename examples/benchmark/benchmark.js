@@ -5,8 +5,7 @@ const uuidv1 = (typeof window !== 'undefined' && window.uuidv1) || require('uuid
 const uuidv4 = (typeof window !== 'undefined' && window.uuidv4) || require('uuid').v4;
 const uuidv3 = (typeof window !== 'undefined' && window.uuidv3) || require('uuid').v3;
 const uuidv5 = (typeof window !== 'undefined' && window.uuidv5) || require('uuid').v5;
-const uuidToBytes =
-  (typeof window !== 'undefined' && window.uuidToBytes) || require('uuid').uuidToBytes;
+const uuidParse = (typeof window !== 'undefined' && window.uuidParse) || require('uuid').parse;
 
 console.log('Starting. Tests take ~1 minute to run ...');
 
@@ -18,8 +17,8 @@ function testUuidToBytes() {
   });
 
   suite
-    .add('uuidToBytes()', function () {
-      uuidToBytes('0f5abcd1-c194-47f3-905b-2df7263a084b');
+    .add('uuidParse()', function () {
+      uuidParse('0f5abcd1-c194-47f3-905b-2df7263a084b');
     })
     .on('cycle', function (event) {
       console.log(event.target.toString());

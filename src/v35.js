@@ -1,5 +1,5 @@
-import bytesToUuid from './bytesToUuid.js';
-import uuidToBytes from './uuidToBytes.js';
+import stringify from './stringify.js';
+import parse from './parse.js';
 
 function stringToBytes(str) {
   str = unescape(encodeURIComponent(str)); // UTF8 escape
@@ -23,19 +23,23 @@ export default function (name, version, hashfunc) {
     }
 
     if (typeof namespace === 'string') {
-      namespace = uuidToBytes(namespace);
+      namespace = parse(namespace);
     }
 
-    if (!Array.isArray(value)) {
-      throw TypeError('value must be an array of bytes');
+    if (!value[Symbol.iterator]) {
+      throw TypeError('Value must be iterable');
     }
 
-    if (!Array.isArray(namespace) || namespace.length !== 16) {
-      throw TypeError('namespace must be uuid string or an Array of 16 byte values');
+    if (!namespace[Symbol.iterator] || namespace.length !== 16) {
+      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
     }
 
-    // Per 4.3
-    const bytes = hashfunc(namespace.concat(value));
+    // Concatenate namespace and value bytes, Per 4.3
+    let bytes = new Uint8Array(namespace.length + value.length);
+    bytes.set(namespace);
+    bytes.set(value, namespace.length);
+    bytes = hashfunc(bytes);
+
     bytes[6] = (bytes[6] & 0x0f) | version;
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
@@ -49,7 +53,7 @@ export default function (name, version, hashfunc) {
       return buf;
     }
 
-    return bytesToUuid(bytes);
+    return stringify(bytes);
   }
 
   // Function#name is not settable on some platforms (#270)

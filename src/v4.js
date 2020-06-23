@@ -1,5 +1,5 @@
 import rng from './rng.js';
-import bytesToUuid from './bytesToUuid.js';
+import stringify from './stringify.js';
 
 function v4(options, buf, offset) {
   options = options || {};
@@ -21,7 +21,7 @@ function v4(options, buf, offset) {
     return buf;
   }
 
-  return bytesToUuid(rnds);
+  return stringify(rnds);
 }
 
 export default v4;

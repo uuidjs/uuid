@@ -1,12 +1,12 @@
 import validate from './validate.js';
 
-function uuidToBytes(uuid) {
+function parse(uuid) {
   if (!validate(uuid)) {
     throw TypeError('Invalid UUID');
   }
 
   let v;
-  return [
+  return Uint8Array.of(
     // Parse ########-....-....-....-............
     (v = parseInt(uuid.slice(0, 8), 16)) >>> 24,
     (v >>> 16) & 0xff,
@@ -33,7 +33,7 @@ function uuidToBytes(uuid) {
     (v >>> 16) & 0xff,
     (v >>> 8) & 0xff,
     v & 0xff,
-  ];
+  );
 }
 
-export default uuidToBytes;
+export default parse;
