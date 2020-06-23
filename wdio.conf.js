@@ -75,13 +75,6 @@ const capabilities = [
   {
     ...commonCapabilities,
     browserName: 'Edge',
-    browser_version: '18.0',
-    os: 'Windows',
-    os_version: '10',
-  },
-  {
-    ...commonCapabilities,
-    browserName: 'Edge',
     browser_version: '15.0',
     os: 'Windows',
     os_version: '10',
