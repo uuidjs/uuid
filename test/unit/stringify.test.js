@@ -22,25 +22,16 @@ const BYTES = [
 
 describe('stringify', () => {
   test('Stringify Array', () => {
-    assert.deepStrictEqual(stringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
+    assert.equal(stringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
   });
 
   test('Stringify TypedArray', () => {
-    assert.deepStrictEqual(
-      stringify(Uint8Array.from(BYTES)),
-      '0f5abcd1-c194-47f3-905b-2df7263a084b',
-    );
-    assert.deepStrictEqual(
-      stringify(Int32Array.from(BYTES)),
-      '0f5abcd1-c194-47f3-905b-2df7263a084b',
-    );
+    assert.equal(stringify(Uint8Array.from(BYTES)), '0f5abcd1-c194-47f3-905b-2df7263a084b');
+    assert.equal(stringify(Int32Array.from(BYTES)), '0f5abcd1-c194-47f3-905b-2df7263a084b');
   });
 
   test('Stringify w/ offset', () => {
-    assert.deepStrictEqual(
-      stringify([0, 0, 0, ...BYTES], 3),
-      '0f5abcd1-c194-47f3-905b-2df7263a084b',
-    );
+    assert.equal(stringify([0, 0, 0, ...BYTES], 3), '0f5abcd1-c194-47f3-905b-2df7263a084b');
   });
 
   test('Throws on not enough values', () => {

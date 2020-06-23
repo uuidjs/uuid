@@ -26,15 +26,13 @@ export default function (name, version, hashfunc) {
       namespace = parse(namespace);
     }
 
-    if (!value[Symbol.iterator]) {
-      throw TypeError('Value must be iterable');
-    }
-
-    if (!namespace[Symbol.iterator] || namespace.length !== 16) {
+    if (namespace.length !== 16) {
       throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
     }
 
-    // Concatenate namespace and value bytes, Per 4.3
+    // Compute hash of namespace and value, Per 4.3
+    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
+    // hashfunc([...namespace, ... value])`
     let bytes = new Uint8Array(namespace.length + value.length);
     bytes.set(namespace);
     bytes.set(value, namespace.length);

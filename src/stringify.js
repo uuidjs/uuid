@@ -42,7 +42,7 @@ function stringify(arr, offset = 0) {
   // individually.
   if (uuid.length !== 36) {
     throw new TypeError(
-      'Invalid result UUID.  Please insure input is array-like, and contains 16 integer values 0-255',
+      'Invalid result UUID.  Please ensure input is array-like, and contains 16 integer values 0-255',
     );
   }
 
