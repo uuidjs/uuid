@@ -31,7 +31,7 @@ function sha1(bytes) {
     }
   } else if (!Array.isArray(bytes)) {
     // Convert Array-like to Array
-    bytes = Array.from(bytes);
+    bytes = Array.prototype.slice.call(bytes);
   }
 
   bytes.push(0x80);
