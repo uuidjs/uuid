@@ -5,7 +5,7 @@
 const byteToHex = [];
 
 for (let i = 0; i < 256; ++i) {
-  byteToHex.push(i.toString(16).padStart(2, '0'));
+  byteToHex.push((i + 0x100).toString(16).substr(1));
 }
 
 function stringify(arr, offset = 0) {
