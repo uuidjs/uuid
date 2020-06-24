@@ -1,5 +1,5 @@
 import rng from './rng.js';
-import bytesToUuid from './bytesToUuid.js';
+import stringify from './stringify.js';
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -109,7 +109,7 @@ function v1(options, buf, offset) {
     b[i + n] = node[n];
   }
 
-  return buf || bytesToUuid(b);
+  return buf || stringify(b);
 }
 
 export default v1;

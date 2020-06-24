@@ -1,30 +1,5 @@
-import bytesToUuid from './bytesToUuid.js';
-import validate from './validate.js';
-
-// Int32 to 4 bytes https://stackoverflow.com/a/12965194/3684944
-function numberToBytes(num, bytes, offset) {
-  for (let i = 0; i < 4; ++i) {
-    const byte = num & 0xff;
-    // Fill the 4 bytes right-to-left.
-    bytes[offset + 3 - i] = byte;
-    num = (num - byte) / 256;
-  }
-}
-
-function uuidToBytes(uuid) {
-  if (!validate(uuid)) {
-    return [];
-  }
-
-  const bytes = new Array(16);
-
-  numberToBytes(parseInt(uuid.slice(0, 8), 16), bytes, 0);
-  numberToBytes(parseInt(uuid.slice(9, 13) + uuid.slice(14, 18), 16), bytes, 4);
-  numberToBytes(parseInt(uuid.slice(19, 23) + uuid.slice(24, 28), 16), bytes, 8);
-  numberToBytes(parseInt(uuid.slice(28), 16), bytes, 12);
-
-  return bytes;
-}
+import stringify from './stringify.js';
+import parse from './parse.js';
 
 function stringToBytes(str) {
   str = unescape(encodeURIComponent(str)); // UTF8 escape
@@ -48,19 +23,21 @@ export default function (name, version, hashfunc) {
     }
 
     if (typeof namespace === 'string') {
-      namespace = uuidToBytes(namespace);
+      namespace = parse(namespace);
     }
 
-    if (!Array.isArray(value)) {
-      throw TypeError('value must be an array of bytes');
+    if (namespace.length !== 16) {
+      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
     }
 
-    if (!Array.isArray(namespace) || namespace.length !== 16) {
-      throw TypeError('namespace must be uuid string or an Array of 16 byte values');
-    }
+    // Compute hash of namespace and value, Per 4.3
+    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
+    // hashfunc([...namespace, ... value])`
+    let bytes = new Uint8Array(16 + value.length);
+    bytes.set(namespace);
+    bytes.set(value, namespace.length);
+    bytes = hashfunc(bytes);
 
-    // Per 4.3
-    const bytes = hashfunc(namespace.concat(value));
     bytes[6] = (bytes[6] & 0x0f) | version;
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
@@ -74,7 +51,7 @@ export default function (name, version, hashfunc) {
       return buf;
     }
 
-    return bytesToUuid(bytes);
+    return stringify(bytes);
   }
 
   // Function#name is not settable on some platforms (#270)

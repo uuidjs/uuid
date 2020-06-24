@@ -29,6 +29,9 @@ function sha1(bytes) {
     for (let i = 0; i < msg.length; ++i) {
       bytes.push(msg.charCodeAt(i));
     }
+  } else if (!Array.isArray(bytes)) {
+    // Convert Array-like to Array
+    bytes = Array.prototype.slice.call(bytes);
   }
 
   bytes.push(0x80);
