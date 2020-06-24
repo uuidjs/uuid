@@ -14,7 +14,7 @@ function usage() {
   console.log('  uuid v5 <name> <namespace uuid>');
   console.log('  uuid --help');
   console.log(
-    '\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122',
+    '\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122'
   );
 }
 

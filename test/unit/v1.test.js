@@ -53,7 +53,7 @@ describe('v1', () => {
     const uidtb = v1({ msecs: TIME - 1 });
     assert(
       parseInt(uidtb.split('-')[3], 16) - parseInt(uidt.split('-')[3], 16) === 1,
-      'Clock regression by msec increments the clockseq',
+      'Clock regression by msec increments the clockseq'
     );
   });
 
@@ -63,7 +63,7 @@ describe('v1', () => {
     const uidtnb = v1({ msecs: TIME, nsecs: 9 });
     assert(
       parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
-      'Clock regression by nsec increments the clockseq',
+      'Clock regression by nsec increments the clockseq'
     );
   });
 

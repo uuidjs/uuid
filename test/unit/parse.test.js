@@ -34,7 +34,7 @@ describe('parse', () => {
         0x3a,
         0x08,
         0x4b,
-      ]),
+      ])
     );
   });
 
@@ -49,14 +49,14 @@ describe('parse', () => {
     // Verify upper/lower case neutrality
     assert.deepStrictEqual(
       parse('0f5abcd1-c194-47f3-905b-2df7263a084b'),
-      parse('0f5abcd1-c194-47f3-905b-2df7263a084b'.toUpperCase()),
+      parse('0f5abcd1-c194-47f3-905b-2df7263a084b'.toUpperCase())
     );
   });
 
   test('Null UUID case', () => {
     assert.deepStrictEqual(
       parse('00000000-0000-0000-0000-000000000000'),
-      Uint8Array.from(new Array(16).fill(0)),
+      Uint8Array.from(new Array(16).fill(0))
     );
   });
 
