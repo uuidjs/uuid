@@ -14,7 +14,7 @@ require('crypto').randomFillSync = function (a) {
 };
 ```
 
-# uuid [![Build Status](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions)
+# uuid [![Build Status](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions) ![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)
 
 For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
