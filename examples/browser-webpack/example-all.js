@@ -36,6 +36,7 @@ testpage(function (addTest, done) {
 
   addTest('Same with default export');
 
+  addTest('uuid.NIL_UUID', uuid.NIL_UUID);
   addTest('uuid.v1()', uuid.v1());
   addTest('uuid.v4()', uuid.v4());
   addTest('uuid.v3() DNS', uuid.v3('hello.example.com', uuid.v3.DNS));

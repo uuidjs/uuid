@@ -1,9 +1,10 @@
 import assert from 'assert';
 import validate from '../../src/validate.js';
+import NIL_UUID from '../../src/nil_uuid.js';
 
 describe('validate', () => {
   test('validate uuid', () => {
-    assert.strictEqual(validate('00000000-0000-0000-0000-000000000000'), true);
+    assert.strictEqual(validate(NIL_UUID), true);
 
     assert.strictEqual(validate('d9428888-122b-11e1-b85c-61cd3cbb3210'), true);
 
