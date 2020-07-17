@@ -33,93 +33,175 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
 ## Quickstart
 
+Looking to create some random UUIDs? Here's how ...
+
+Step 1: Install
+
 ```shell
 npm install uuid
 ```
 
-Once installed, decide which type of UUID you need. RFC4122 provides for four versions, all of which are supported here. In order of popularity, they are:
+Step 2: Create (ES6 module syntax)
 
-- Version 4 (random) - Created from cryptographically-strong random values
-- Version 1 (timestamp) - Created from the system clock (plus random values)
-- Version 5 (namespace, SHA-1) - Created from user-supplied name and namespace strings
-- Version 3 (namespace, MD5) - Like version 5, above, but with a poorer hash algorithm
-
-**Unsure which one to use?** Use version 4 (random) unless you have a specific need for one of the other versions. See also [this FAQ](https://github.com/tc39/proposal-uuid#faq).
-
-### Create Version 4 (Random) UUIDs
-
-ECMAScript Module syntax:
-
-```javascript --run v4
+```javascript --run
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // RESULT
 ```
 
-CommonJS syntax:
+... or using CommonJS syntax:
 
-```javascript --run v4cjs
+```javascript --run
 const { v4: uuidv4 } = require('uuid');
 uuidv4(); // RESULT
 ```
 
-### Create Version 1 (Timestamp) UUIDs
+For timestamp UUIDs, namespace UUIDs, and other options read on ...
 
-```javascript --run v1
-import { v1 as uuidv1 } from 'uuid';
-uuidv1(); // RESULT
-```
+## API Summary
 
-### Create Version 3 or Version 5 (Namespace) UUIDs
-
-&#x26a0;&#xfe0f; Version 3 and Version 5 UUIDs are basically the same, differing only in the underlying hash algorithm. Note that per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
-
-&#x26a0;&#xfe0f; If using a custom namespace **be sure to generate your own namespace UUID**. You can grab one [here](https://www.uuidgenerator.net/).
-
-```javascript --run v35
-import { v5 as uuidv5 } from 'uuid'; // For version 5
-import { v3 as uuidv3 } from 'uuid'; // For version 3
-
-// Using predefined DNS namespace (for domain names)
-uuidv5('hello.example.com', uuidv5.DNS); // RESULT
-uuidv3('hello.example.com', uuidv3.DNS); // RESULT
-
-// Using predefined URL namespace (for URLs)
-uuidv5('http://example.com/hello', uuidv5.URL); // RESULT
-uuidv3('http://example.com/hello', uuidv3.URL); // RESULT
-
-// Using a custom namespace (See note, above, about generating your own
-// namespace UUID)
-const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
-uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
-uuidv3('Hello, World!', MY_NAMESPACE); // RESULT
-```
+|                    |                                              |                   |
+| ------------------ | -------------------------------------------- | ----------------- |
+| `uuid.NIL`         | The nil UUID string (all zeroes)             | New in `uuid@8.2` |
+| `uuid.parse()`     | Convert UUID string to array of bytes        | New in `uuid@8.2` |
+| `uuid.stringify()` | Convert array of bytes to UUID string        | New in `uuid@8.2` |
+| `uuid.v1()`        | Create a version 1 (timestamp) UUID          |                   |
+| `uuid.v3()`        | Create a version 3 (namespace w/ MD5) UUID   |                   |
+| `uuid.v4()`        | Create a version 4 (random) UUID             |                   |
+| `uuid.v5()`        | Create a version 5 (namespace w/ SHA-1) UUID |                   |
+| `uuid.validate()`  | Test a string to see if it is a valid UUID   | New in `uuid@8.2` |
+| `uuid.version()`   | Detect RFC version of a UUID                 | New in `uuid@8.2` |
 
 ## API
 
-### Version 4 (Random)
+### uuid.NIL
 
-```javascript
-import { v4 as uuidv4 } from 'uuid';
+The nil UUID string (all zeroes)
 
-// Incantations
-uuidv4();
-uuidv4(options);
-uuidv4(options, buffer, offset);
+Example:
+
+```javascript --run
+import { NIL as NIL_UUID } from 'uuid';
+
+NIL_UUID; // RESULT
 ```
 
-Generate and return a RFC4122 version 4 UUID.
+### uuid.parse(str)
 
-- `options` - (Object) Optional uuid state to apply. Properties may include:
-  - `random` - (Number[16]) Array of 16 numbers (0-255) to use in place of randomly generated values. Takes precedence over `options.rng`.
-  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing.
+Convert UUID string to array of bytes
 
-Returns `buffer`, if specified, otherwise the string form of the UUID
+|           |                                          |
+| --------- | ---------------------------------------- |
+| `str`     | A valid UUID `String`                    |
+| _returns_ | `Uint8Array[16]`                         |
+| _throws_  | `TypeError` if `str` is not a valid UUID |
 
-Example: Generate string UUID with predefined `random` values
+Example:
 
-```javascript --run v4
+```javascript --run
+import { parse as uuidParse } from 'uuid';
+
+uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
+```
+
+### uuid.stringify(arr[, offset])
+
+Convert array of bytes to UUID string
+
+|                |                                                        |
+| -------------- | ------------------------------------------------------ |
+| `arr`          | `Array`-like collection of 16 values between 0-255     |
+| [`offset` = 0] | `Number` Starting index in the Array                   |
+| _returns_      | `String`                                               |
+| _throws_       | `TypeError` If a valid UUID string cannot be generated |
+
+Example:
+
+```javascript --run
+import { stringify as uuidStringify } from 'uuid';
+
+const uuidBytes = [110, 192, 189, 127, 17, 192, 67, 218, 151, 94, 42, 138, 217, 235, 174, 11];
+
+uuidStringify(uuidBytes); // RESULT
+```
+
+### uuid.v1([options[, buffer[, offset]]])
+
+Create an RFC version 1 (timestamp) UUID
+
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.node` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
+| [`options.clockseq`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
+| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanseconds to add to `msecs`, should be 0-10,000) |
+| [`options.random`] | `Array]` of 16 random bytes (0-255). |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
+| _throws_ | `Error` if more than 10M UUIDs/sec are requested |
+
+Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
+
+Note: `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
+
+Example:
+
+```javascript --run
+import { v1 as uuidv1 } from 'uuid';
+
+uuidv1(); // RESULT
+```
+
+Example using `options`:
+
+```javascript --run
+import { v1 as uuidv1 } from 'uuid';
+
+const v1options = {
+  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  clockseq: 0x1234,
+  msecs: new Date('2011-11-01').getTime(),
+  nsecs: 5678,
+};
+uuidv1(v1options); // RESULT
+```
+
+### uuid.v3(name, namespace[, buffer[, offset]])
+
+Create an RFC version 3 (namespace w/ MD5) UUID
+
+API is identical to `v5()`, but uses "v3" instead.
+
+&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+
+### uuid.v4([options[, buffer[, offset]]])
+
+Create an RFC version 4 (random) UUID
+
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
+
+Example:
+
+```javascript --run
+import { v4 as uuidv4 } from 'uuid';
+
+uuidv4(); // RESULT
+```
+
+Example using predefined `random` values:
+
+```javascript --run
+import { v4 as uuidv4 } from 'uuid';
+
 const v4options = {
   random: [
     0x10,
@@ -143,114 +225,75 @@ const v4options = {
 uuidv4(v4options); // RESULT
 ```
 
-Example: Generate two IDs in a single buffer
+### uuid.v5(name, namespace[, buffer[, offset]])
 
-```javascript --run v4
-const buffer = new Array();
-uuidv4(null, buffer, 0); // RESULT
-uuidv4(null, buffer, 16); // RESULT
-```
+Createa an RFC version 5 (namespace w/ SHA-1) UUID
 
-### Version 1 (Timestamp)
+|  |  |
+| --- | --- |
+| `name` | `String \| Array` |
+| `namespace` | `String \| Array[16]` Namespace UUID |
+| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
-```javascript
-import { v1 as uuidv1 } from 'uuid';
+Note: The RFC `DNS` and `URL` namespaces are available as `v5.DNS` and `v5.URL`.
 
-// Incantations
-uuidv1();
-uuidv1(options);
-uuidv1(options, buffer, offset);
-```
+Example with custom namespace:
 
-Generate and return a RFC4122 version 1 (timestamp) UUID.
-
-- `options` - (Object) Optional uuid state to apply. Properties may include:
-  - `node` - (Array) Node id as Array of 6 bytes (per 4.1.6). Default: Randomly generated ID. See note 1.
-  - `clockseq` - (Number between 0 - 0x3fff) RFC clock sequence. Default: An internally maintained clockseq is used.
-  - `msecs` - (Number) Time in milliseconds since unix Epoch. Default: The current time is used.
-  - `nsecs` - (Number between 0-9999) additional time, in 100-nanosecond units. Ignored if `msecs` is unspecified. Default: internal uuid counter is used, as per 4.2.1.2.
-  - `random` - (Number[16]) Array of 16 numbers (0-255) to use for initialization of `node` and `clockseq` as described above. Takes precedence over `options.rng`.
-  - `rng` - (Function) Random # generator function that returns an Array[16] of byte values (0-255). Alternative to `options.random`.
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing.
-
-Returns `buffer`, if specified, otherwise the string form of the UUID
-
-Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
-
-Example: Generate string UUID with fully-specified options
-
-```javascript --run v1
-const v1options = {
-  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
-  clockseq: 0x1234,
-  msecs: new Date('2011-11-01').getTime(),
-  nsecs: 5678,
-};
-uuidv1(v1options); // RESULT
-```
-
-Example: In-place generation of two binary IDs
-
-```javascript --run v1
-// Generate two ids in an array
-const arr = new Array();
-uuidv1(null, arr, 0); // RESULT
-uuidv1(null, arr, 16); // RESULT
-```
-
-### Version 5 (Namespace)
-
-```javascript
+```javascript --run
 import { v5 as uuidv5 } from 'uuid';
 
-// Incantations
-uuidv5(name, namespace);
-uuidv5(name, namespace, buffer);
-uuidv5(name, namespace, buffer, offset);
+// Define a custom namespace.  Readers, create your own using something like
+// https://www.uuidgenerator.net/
+const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+
+uuidv5('Hello, World!', MY_NAMESPACE); // RESULT
 ```
 
-Generate and return a RFC4122 version 5 UUID.
+Example with RFC `URL` namespace:
 
-- `name` - (String | Array[]) "name" to create UUID with
-- `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing. Default = 0
+```javascript --run
+import { v5 as uuidv5 } from 'uuid';
 
-Returns `buffer`, if specified, otherwise the string form of the UUID
+uuidv5('https://www.w3.org/', uuidv5.URL); // RESULT
+```
+
+### uuid.validate(str)
+
+Test a string to see if it is a valid UUID
+
+|           |                                                     |
+| --------- | --------------------------------------------------- |
+| `str`     | `String` to validate                                |
+| _returns_ | `true` if string is a valid UUID, `false` otherwise |
 
 Example:
 
-```javascript --run v35
-uuidv5('hello world', MY_NAMESPACE); // RESULT
+```javascript --run
+import { validate as uuidValidate } from 'uuid';
+
+uuidValidate('not a UUID'); // RESULT
+uuidValidate('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
 ```
 
-### Version 3 (Namespace)
+### uuid.version(str)
 
-&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+Detect RFC version of a UUID
 
-```javascript
-import { v3 as uuidv3 } from 'uuid';
-
-// Incantations
-uuidv3(name, namespace);
-uuidv3(name, namespace, buffer);
-uuidv3(name, namespace, buffer, offset);
-```
-
-Generate and return a RFC4122 version 3 UUID.
-
-- `name` - (String | Array[]) "name" to create UUID with
-- `namespace` - (String | Array[]) "namespace" UUID either as a String or Array[16] of byte values
-- `buffer` - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-- `offset` - (Number) Starting index in `buffer` at which to begin writing. Default = 0
-
-Returns `buffer`, if specified, otherwise the string form of the UUID
+|           |                                          |
+| --------- | ---------------------------------------- |
+| `str`     | A valid UUID `String`                    |
+| _returns_ | `Number` The RFC version of the UUID     |
+| _throws_  | `TypeError` if `str` is not a valid UUID |
 
 Example:
 
-```javascript --run v35
-uuidv3('hello world', MY_NAMESPACE); // RESULT
+```javascript --run
+import { version as uuidVersion } from 'uuid';
+
+uuidVersion('45637ec4-c85f-11ea-87d0-0242ac130003'); // RESULT
+uuidVersion('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
 ```
 
 ## Command Line
