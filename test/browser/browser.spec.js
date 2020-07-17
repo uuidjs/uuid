@@ -7,6 +7,7 @@ const v4Regex = new RegExp(
   /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
 );
 
+const v0 = (result) => expect(result).toBe('00000000-0000-0000-0000-000000000000');
 const v1 = (result) => expect(result).toMatch(v1Regex);
 const v4 = (result) => expect(result).toMatch(v4Regex);
 const v3dns = (result) => expect(result).toBe('9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
@@ -27,6 +28,7 @@ const expectations = {
   'uuidv5() URL': v5url,
   'uuidv5() MY_NAMESPACE': v5custom,
   'Same with default export': ignore,
+  'uuid.NIL': v0,
   'uuid.v1()': v1,
   'uuid.v4()': v4,
   'uuid.v3() DNS': v3dns,
