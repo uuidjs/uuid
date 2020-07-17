@@ -21,15 +21,15 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
 ## Quickstart
 
-Looking to create some random UUIDs? Here's how ...
+To create a random UUID...
 
-Step 1: Install
+**1. Install**
 
 ```shell
 npm install uuid
 ```
 
-Step 2: Create (ES6 module syntax)
+**2: Create a UUID** (ES6 module syntax)
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
@@ -63,7 +63,7 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 
 ### uuid.NIL
 
-The nil UUID string (all zeroes)
+The nil UUID string (all zeroes).
 
 Example:
 
