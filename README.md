@@ -89,7 +89,7 @@ Example:
 import { parse as uuidParse } from 'uuid';
 
 uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ 
-  // Uint8Array [
+  // Uint8Array(16) [
   //   110, 192, 189, 127,  17,
   //   192,  67, 218, 151,  94,
   //    42, 138, 217, 235, 174,
