@@ -36,7 +36,7 @@ function stringify(arr, offset = 0) {
     byteToHex[arr[offset + 15]]
   ).toLowerCase();
 
-  // Sanity check for valid UUID.  This works because if any of
+  // Consistency check for valid UUID. This works because if any of
   // the input array values don't map to a defined hex octet, the string length
   // will get blown out (e.g. "74af23d8-85undefined2c44-...")
   //
