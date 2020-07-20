@@ -36,22 +36,13 @@ function stringify(arr, offset = 0) {
     byteToHex[arr[offset + 15]]
   ).toLowerCase();
 
-  // Consistency check for valid UUID. This works because if any of
-  // the input array values don't map to a defined hex octet, the string length
-  // will get blown out (e.g. "74af23d8-85undefined2c44-...")
-  //
-  // This is a somewhat crude check, but avoids having to check each value
-  // individually.
-  if (uuid.length !== 36) {
-    throw new TypeError(
-      'Stringified UUID is invalid (All input values must be integers between 0 and 255)',
-    );
-  }
-
+  // Consistency check for valid UUID.  If this throws, it's likely due to one
+  // of the following:
+  // - One or more input array values don't map to a hex octet (leading to
+  // "undefined" in the uuid)
+  // - Invalid input values for the RFC `version` or `variant` fields
   if (!validate(uuid)) {
-    throw TypeError(
-      'Stringified UUID is invalid (Confirm the RFC `version` and `variant` fields are valid in the input values)',
-    );
+    throw TypeError('Stringified UUID is invalid');
   }
 
   return uuid;
