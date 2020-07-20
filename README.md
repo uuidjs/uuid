@@ -17,7 +17,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-**Upgrading from uuid\@3?** Your code is probably okay, but check out [Upgrading From uuid\@3](#upgrading-from-uuid3) for details.
+**Upgrading from `uuid@3.x`?** Your code is probably okay, but check out [Upgrading From `uuid@3.x`](#upgrading-from-uuid3x) for details.
 
 ## Quickstart
 
@@ -29,7 +29,7 @@ To create a random UUID...
 npm install uuid
 ```
 
-**2: Create a UUID** (ES6 module syntax)
+**2. Create a UUID** (ES6 module syntax)
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
@@ -47,23 +47,23 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 
 ## API Summary
 
-|                    |                                              |                   |
-| ------------------ | -------------------------------------------- | ----------------- |
-| `uuid.NIL`         | The nil UUID string (all zeroes)             | New in `uuid@8.2` |
-| `uuid.parse()`     | Convert UUID string to array of bytes        | New in `uuid@8.2` |
-| `uuid.stringify()` | Convert array of bytes to UUID string        | New in `uuid@8.2` |
-| `uuid.v1()`        | Create a version 1 (timestamp) UUID          |                   |
-| `uuid.v3()`        | Create a version 3 (namespace w/ MD5) UUID   |                   |
-| `uuid.v4()`        | Create a version 4 (random) UUID             |                   |
-| `uuid.v5()`        | Create a version 5 (namespace w/ SHA-1) UUID |                   |
-| `uuid.validate()`  | Test a string to see if it is a valid UUID   | New in `uuid@8.2` |
-| `uuid.version()`   | Detect RFC version of a UUID                 | New in `uuid@8.2` |
+|  |  |  |
+| --- | --- | --- |
+| [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.2` |
+| [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.2` |
+| [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.2` |
+| [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
+| [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
+| [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
+| [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
+| [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.2` |
+| [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.2` |
 
 ## API
 
 ### uuid.NIL
 
-The nil UUID string (all zeroes).
+The nil UUID string (all zeros).
 
 Example:
 
@@ -101,12 +101,12 @@ uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨
 
 Convert array of bytes to UUID string
 
-|                |                                                        |
-| -------------- | ------------------------------------------------------ |
-| `arr`          | `Array`-like collection of 16 values between 0-255     |
-| [`offset` = 0] | `Number` Starting index in the Array                   |
-| _returns_      | `String`                                               |
-| _throws_       | `TypeError` If a valid UUID string cannot be generated |
+|                |                                                                             |
+| -------------- | --------------------------------------------------------------------------- |
+| `arr`          | `Array`-like collection of 16 values (starting from `offset`) between 0-255 |
+| [`offset` = 0] | `Number` Starting index in the Array                                        |
+| _returns_      | `String`                                                                    |
+| _throws_       | `TypeError` if a valid UUID string cannot be generated                      |
 
 Example:
 
@@ -129,7 +129,7 @@ Create an RFC version 1 (timestamp) UUID
 | [`options.clockseq`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
 | [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
 | [`options.nsecs`] | RFC "timestamp" field (`Number` of nanseconds to add to `msecs`, should be 0-10,000) |
-| [`options.random`] | `Array]` of 16 random bytes (0-255). |
+| [`options.random`] | `Array` of 16 random bytes (0-255) |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
@@ -366,7 +366,7 @@ To load this module directly into older browsers you can use the [UMD (Universal
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 ```
 
-These CDNs all provide the same [`uuidv4()`](#version-4-random) method:
+These CDNs all provide the same [`uuidv4()`](#uuidv4options-buffer-offset) method:
 
 ```html
 <script>
@@ -374,7 +374,7 @@ These CDNs all provide the same [`uuidv4()`](#version-4-random) method:
 </script>
 ```
 
-Methods for the other algorithms ([`uuidv1()`](#version-1-timestamp), [`uuidv3()`](#version-3-namespace) and [`uuidv5()`](#version-5-namespace)) are available from the files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
+Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`uuidv3()`](#uuidv3name-namespace-buffer-offset) and [`uuidv5()`](#uuidv5name-namespace-buffer-offset)) are available from the files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
 
 ## "getRandomValues() not supported"
 
@@ -394,11 +394,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 [In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if you find one, please).
 
-## Upgrading From uuid\@7
+## Upgrading From `uuid@7.x`
 
 ### Only Named Exports Supported When Using with Node.js ESM
 
-uuid\@7 did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in Node.js ESM consequently imported the CommonJS source with a default export. This library now comes with true Node.js ESM support and only provides named exports.
+`uuid@7.x` did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in Node.js ESM consequently imported the CommonJS source with a default export. This library now comes with true Node.js ESM support and only provides named exports.
 
 Instead of doing:
 
@@ -416,24 +416,24 @@ uuidv4();
 
 ### Deep Requires No Longer Supported
 
-Deep requires like `require('uuid/v4')` [which have been deprecated in uuid\@7](#deep-requires-now-deprecated) are no longer supported.
+Deep requires like `require('uuid/v4')` [which have been deprecated in `uuid@7.x`](#deep-requires-now-deprecated) are no longer supported.
 
-## Upgrading From uuid\@3
+## Upgrading From `uuid@3.x`
 
-"_Wait... what happened to uuid\@4 - uuid\@6?!?_"
+"_Wait... what happened to `uuid@4.x` - `uuid@6.x`?!?_"
 
-In order to avoid confusion with RFC [version 4](#version-4-random) and [version 5](#version-5-namespace) UUIDs, and a possible [version 6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been skipped. Hence, how we're now at uuid\@7.
+In order to avoid confusion with RFC [version 4](#uuidv4options-buffer-offset) and [version 5](#uuidv5name-namespace-buffer-offset) UUIDs, and a possible [version 6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been skipped.
 
 ### Deep Requires Now Deprecated
 
-uuid\@3 encouraged the use of deep requires to minimize the bundle size of browser builds:
+`uuid@3.x` encouraged the use of deep requires to minimize the bundle size of browser builds:
 
 ```javascript
 const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
 uuidv4();
 ```
 
-As of uuid\@7 this library now provides ECMAScript modules builds, which allow packagers like Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
+As of `uuid@7.x` this library now provides ECMAScript modules builds, which allow packagers like Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
@@ -449,13 +449,13 @@ uuidv4();
 
 ### Default Export Removed
 
-uuid\@3 was exporting the Version 4 UUID method as a default export:
+`uuid@3.x` was exporting the Version 4 UUID method as a default export:
 
 ```javascript
 const uuid = require('uuid'); // <== REMOVED!
 ```
 
-This usage pattern was already discouraged in uuid\@3 and has been removed in uuid\@7.
+This usage pattern was already discouraged in `uuid@3.x` and has been removed in `uuid@7.x`.
 
 ----
 Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
