@@ -2,7 +2,7 @@
   -- This file is auto-generated from README_js.md. Changes should be made there.
   -->
 
-# uuid [![Build Status](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions)
+# uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
 For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
