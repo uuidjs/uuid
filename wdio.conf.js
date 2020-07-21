@@ -1,5 +1,9 @@
 /* eslint-disable camelcase */
 
+// To allow BROWSERSTACK_USER & BROWSERSTACK_ACCESS_KEY to be defined in `.env`
+// file
+require('dotenv').config();
+
 const PORT = 9000;
 const PROJECT = process.env.GITHUB_REPOSITORY || 'node-uuid';
 const GITHUB_SHA = process.env.GITHUB_SHA || '';

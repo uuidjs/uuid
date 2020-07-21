@@ -127,5 +127,8 @@
     "scripts": {
       "postchangelog": "prettier --write CHANGELOG.md"
     }
+  },
+  "dependencies": {
+    "dotenv": "8.2.0"
   }
 }
