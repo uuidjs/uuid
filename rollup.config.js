@@ -21,7 +21,7 @@ export default [
   chunk('v4', 'uuidv4'),
   chunk('v5', 'uuidv5'),
 
-  chunk('NIL', 'uuidNIL'),
+  chunk('nil', 'uuidNIL'),
 
   chunk('version', 'uuidVersion'),
   chunk('validate', 'uuidValidate'),
