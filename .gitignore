@@ -4,4 +4,3 @@ dist/
 browserstack.err
 local.log
 *.tgz
-.envrc
