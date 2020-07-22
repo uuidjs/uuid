@@ -73,29 +73,29 @@ describe('v35', () => {
 
     assert.strictEqual(
       v3('http://example.com/hello', v3.URL),
-      'c6235813-3ba4-3801-ae84-e0a6ebb7d138',
+      'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
     );
 
     assert.strictEqual(
       v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'),
-      'a981a0c2-68b1-35dc-bcfc-296e52ab01ec',
+      'a981a0c2-68b1-35dc-bcfc-296e52ab01ec'
     );
   });
 
   test('v3 namespace.toUpperCase', () => {
     assert.strictEqual(
       v3('hello.example.com', v3.DNS.toUpperCase()),
-      '9125a8dc-52ee-365b-a5aa-81b0b3681cf6',
+      '9125a8dc-52ee-365b-a5aa-81b0b3681cf6'
     );
 
     assert.strictEqual(
       v3('http://example.com/hello', v3.URL.toUpperCase()),
-      'c6235813-3ba4-3801-ae84-e0a6ebb7d138',
+      'c6235813-3ba4-3801-ae84-e0a6ebb7d138'
     );
 
     assert.strictEqual(
       v3('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'.toUpperCase()),
-      'a981a0c2-68b1-35dc-bcfc-296e52ab01ec',
+      'a981a0c2-68b1-35dc-bcfc-296e52ab01ec'
     );
   });
 
@@ -168,12 +168,12 @@ describe('v35', () => {
 
     assert.strictEqual(
       v5('http://example.com/hello', v5.URL),
-      '3bbcee75-cecc-5b56-8031-b6641c1ed1f1',
+      '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
     );
 
     assert.strictEqual(
       v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'),
-      '90123e1c-7512-523e-bb28-76fab9f2f73d',
+      '90123e1c-7512-523e-bb28-76fab9f2f73d'
     );
   });
 
@@ -181,17 +181,17 @@ describe('v35', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v5
     assert.strictEqual(
       v5('hello.example.com', v5.DNS.toUpperCase()),
-      'fdda765f-fc57-5604-a269-52a7df8164ec',
+      'fdda765f-fc57-5604-a269-52a7df8164ec'
     );
 
     assert.strictEqual(
       v5('http://example.com/hello', v5.URL.toUpperCase()),
-      '3bbcee75-cecc-5b56-8031-b6641c1ed1f1',
+      '3bbcee75-cecc-5b56-8031-b6641c1ed1f1'
     );
 
     assert.strictEqual(
       v5('hello', '0f5abcd1-c194-47f3-905b-2df7263a084b'.toUpperCase()),
-      '90123e1c-7512-523e-bb28-76fab9f2f73d',
+      '90123e1c-7512-523e-bb28-76fab9f2f73d'
     );
   });
 

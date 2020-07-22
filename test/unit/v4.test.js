@@ -49,7 +49,7 @@ describe('v4', () => {
       {
         random: randomBytesFixture,
       },
-      buffer,
+      buffer
     );
     assert.deepEqual(buffer, expectedBytes);
     assert.strictEqual(buffer, result);
@@ -62,14 +62,14 @@ describe('v4', () => {
         random: randomBytesFixture,
       },
       buffer,
-      0,
+      0
     );
     v4(
       {
         random: randomBytesFixture,
       },
       buffer,
-      16,
+      16
     );
     assert.deepEqual(buffer, expectedBytes.concat(expectedBytes));
   });

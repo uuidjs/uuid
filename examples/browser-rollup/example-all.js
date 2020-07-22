@@ -1,9 +1,20 @@
-import { v1 as uuidv1, v4 as uuidv4, v3 as uuidv3, v5 as uuidv5 } from 'uuid';
+import {
+  parse as uuidParse,
+  stringify as uuidStringify,
+  v1 as uuidv1,
+  v3 as uuidv3,
+  v4 as uuidv4,
+  v5 as uuidv5,
+  validate as uuidValidate,
+  version as uuidVersion,
+} from 'uuid';
 import * as uuid from 'uuid';
 
 import testpage from '../utils/testpage';
 
 testpage(function (addTest, done) {
+  addTest('Named exports');
+
   addTest('uuidv1()', uuidv1());
 
   addTest('uuidv4()', uuidv4());
@@ -34,7 +45,13 @@ testpage(function (addTest, done) {
   // const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
   addTest('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
-  addTest('Same with default export');
+  // Utility functions
+  addTest('uuidParse()', uuidParse(MY_NAMESPACE));
+  addTest('uuidStringify()', uuidStringify(uuidParse(MY_NAMESPACE)));
+  addTest('uuidValidate()', uuidValidate(MY_NAMESPACE));
+  addTest('uuidVersion()', uuidVersion(MY_NAMESPACE));
+
+  addTest('Default export');
 
   addTest('uuid.v1()', uuid.v1());
   addTest('uuid.v4()', uuid.v4());
@@ -44,6 +61,11 @@ testpage(function (addTest, done) {
   addTest('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
   addTest('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
   addTest('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
+
+  addTest('uuid.parse()', uuid.parse(MY_NAMESPACE));
+  addTest('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
+  addTest('uuid.validate()', uuid.validate(MY_NAMESPACE));
+  addTest('uuid.version()', uuid.version(MY_NAMESPACE));
 
   done();
 });
