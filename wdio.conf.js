@@ -132,7 +132,7 @@ exports.config = {
   connectionRetryCount: 3,
   framework: 'jasmine',
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000,
+    defaultTimeoutInterval: 120000,
   },
   reporters: ['spec'],
 };
