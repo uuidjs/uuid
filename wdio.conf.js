@@ -17,6 +17,22 @@ const commonCapabilities = {
 };
 
 const capabilities = [
+  // IE
+  {
+    ...commonCapabilities,
+    browserName: 'IE',
+    browser_version: '11.0',
+    os: 'Windows',
+    os_version: '10',
+  },
+  {
+    ...commonCapabilities,
+    browserName: 'IE',
+    browser_version: '11.0',
+    os: 'Windows',
+    os_version: '7',
+  },
+
   // Chrome
   {
     ...commonCapabilities,
@@ -49,22 +65,6 @@ const capabilities = [
     os_version: '10',
   },
 
-  // Safari
-  {
-    ...commonCapabilities,
-    browserName: 'Safari',
-    browser_version: '13.0',
-    os: 'OS X',
-    os_version: 'Catalina',
-  },
-  {
-    ...commonCapabilities,
-    browserName: 'Safari',
-    browser_version: '10.0',
-    os: 'OS X',
-    os_version: 'Sierra',
-  },
-
   // Edge
   {
     ...commonCapabilities,
@@ -81,20 +81,20 @@ const capabilities = [
     os_version: '10',
   },
 
-  // IE
+  // Safari
   {
     ...commonCapabilities,
-    browserName: 'IE',
-    browser_version: '11.0',
-    os: 'Windows',
-    os_version: '10',
+    browserName: 'Safari',
+    browser_version: '13.0',
+    os: 'OS X',
+    os_version: 'Catalina',
   },
   {
     ...commonCapabilities,
-    browserName: 'IE',
-    browser_version: '11.0',
-    os: 'Windows',
-    os_version: '7',
+    browserName: 'Safari',
+    browser_version: '10.0',
+    os: 'OS X',
+    os_version: 'Sierra',
   },
 ];
 
