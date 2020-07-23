@@ -61,15 +61,15 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 
 |  |  |  |
 | --- | --- | --- |
-| [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.2` |
-| [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.2` |
-| [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.2` |
+| [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.3` |
+| [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
+| [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
-| [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.2` |
-| [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.2` |
+| [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
+| [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
 ## API
 
