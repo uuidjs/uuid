@@ -1,4 +1,4 @@
-/* global uuid:false, uuidv1:false, uuidv3:false, uuidv4:false, uuidv5:false */
+/* global uuid:false, uuidv1:false, uuidv3:false, uuidv4:false, uuidv5:false, uuidNIL:false, uuidParse:false, uuidStringify:false, uuidValidate:false, uuidVersion:false */
 console.log('uuidv1()', uuidv1());
 
 console.log('uuidv4()', uuidv4());
@@ -29,6 +29,13 @@ console.log('uuidv5() URL', uuidv5('http://example.com/hello', uuidv5.URL));
 // const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 console.log('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
+// Utility functions
+console.log('NIL_UUID', uuidNIL);
+console.log('uuidParse()', uuidParse(MY_NAMESPACE));
+console.log('uuidStringify()', uuidStringify(uuidParse(MY_NAMESPACE)));
+console.log('uuidValidate()', uuidValidate(MY_NAMESPACE));
+console.log('uuidVersion()', uuidVersion(MY_NAMESPACE));
+
 console.log('Same with default export');
 
 console.log('uuid.v1()', uuid.v1());
@@ -39,3 +46,9 @@ console.log('uuid.v3() MY_NAMESPACE', uuid.v3('Hello, World!', MY_NAMESPACE));
 console.log('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
 console.log('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
 console.log('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
+
+console.log('uuid.NIL', uuid.NIL);
+console.log('uuid.parse()', uuid.parse(MY_NAMESPACE));
+console.log('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
+console.log('uuid.validate()', uuid.validate(MY_NAMESPACE));
+console.log('uuid.version()', uuid.version(MY_NAMESPACE));
