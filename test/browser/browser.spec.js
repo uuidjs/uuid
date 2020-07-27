@@ -16,7 +16,7 @@ const v5dns = (result) => expect(result).toBe('fdda765f-fc57-5604-a269-52a7df816
 const v5url = (result) => expect(result).toBe('3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
 const v5custom = (result) => expect(result).toBe('c49c5142-4d9a-5940-a926-612ede0ec632');
 
-const nil = '00000000-0000-0000-0000-000000000000';
+const nil = (result) => expect(result).toBe('00000000-0000-0000-0000-000000000000');
 const parse = (result) =>
   expect(result).toEqual('85,35,141,21,201,38,69,152,180,157,207,78,145,59,161,60');
 const stringify = (result) => expect(result).toBe('55238d15-c926-4598-b49d-cf4e913ba13c');
