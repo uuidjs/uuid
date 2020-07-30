@@ -13,19 +13,17 @@ version before filing your bug report. Node.js 13.x is NOT supported by this lib
 
 ## Describe the bug
 
-A clear and concise description of what the bug is.
+[Clear, concise description of the problem]
 
-## To Reproduce
+## How to reproduce
 
-Steps to reproduce the behavior:
+[Instructions for we (the `uuid` maintainers) can reproduce the problem]
 
-1. Install '...'
-2. Run '....'
-3. See error
+* [ ] &#X1f389; This is a "[Minimal, Complete, and Verifiable](https://stackoverflow.com/help/minimal-reproducible-example)" Example &#X1f389;
 
 ## Expected behavior
 
-A clear and concise description of what you expected to happen.
+[Clear, concise description of what you expected]
 
 ## Runtime
 
@@ -33,6 +31,6 @@ A clear and concise description of what you expected to happen.
 - Runtime: [e.g. Node.js, Chrome, Safari, react-native, AWS Lambda]
 - Runtime Version: [e.g. 14.2.0]
 
-## Additional context
+## Additional information
 
-Add any other context about the problem here.
+[Any other information or comments that you think will help]
