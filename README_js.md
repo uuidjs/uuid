@@ -95,31 +95,56 @@ Convert UUID string to array of bytes
 | _returns_ | `Uint8Array[16]`                         |
 | _throws_  | `TypeError` if `str` is not a valid UUID |
 
+Note: Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
+
 Example:
 
 ```javascript --run
 import { parse as uuidParse } from 'uuid';
 
-uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
+// Parse a UUID
+const bytes = uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b');
+
+// Convert to hex strings to show byte order (for documentation purposes)
+[...bytes].map((v) => v.toString(16).padStart(2, '0')); // RESULT
 ```
 
 ### uuid.stringify(arr[, offset])
 
 Convert array of bytes to UUID string
 
-|                |                                                                             |
-| -------------- | --------------------------------------------------------------------------- |
-| `arr`          | `Array`-like collection of 16 values (starting from `offset`) between 0-255 |
-| [`offset` = 0] | `Number` Starting index in the Array                                        |
-| _returns_      | `String`                                                                    |
-| _throws_       | `TypeError` if a valid UUID string cannot be generated                      |
+|                |                                                                              |
+| -------------- | ---------------------------------------------------------------------------- |
+| `arr`          | `Array`-like collection of 16 values (starting from `offset`) between 0-255. |
+| [`offset` = 0] | `Number` Starting index in the Array                                         |
+| _returns_      | `String`                                                                     |
+| _throws_       | `TypeError` if a valid UUID string cannot be generated                       |
+
+Note: Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
 Example:
 
 ```javascript --run
 import { stringify as uuidStringify } from 'uuid';
 
-const uuidBytes = [110, 192, 189, 127, 17, 192, 67, 218, 151, 94, 42, 138, 217, 235, 174, 11];
+const uuidBytes = [
+  0x6e,
+  0xc0,
+  0xbd,
+  0x7f,
+  0x11,
+  0xc0,
+  0x43,
+  0xda,
+  0x97,
+  0x5e,
+  0x2a,
+  0x8a,
+  0xd9,
+  0xeb,
+  0xae,
+  0x0b,
+];
 
 uuidStringify(uuidBytes); // RESULT
 ```
