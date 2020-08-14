@@ -1,3 +1,4 @@
 dist/
 node_modules/
 README.md
+!wdio/README.md
