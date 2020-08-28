@@ -1,14 +1,13 @@
 import crypto from 'crypto';
 
-const poolSize = 4;
+const poolSize = 16;
 const rnds8Pool = new Uint8Array(16 * poolSize);
-let poolPtr = -1;
+let poolPtr = rnds8Pool.length;
 
 export default function rng() {
-  if (poolPtr === -1 || poolPtr === poolSize) {
+  if (poolPtr > rnds8Pool.length - 16) {
     crypto.randomFillSync(rnds8Pool);
     poolPtr = 0;
   }
-  const pos = 16 * poolPtr++;
-  return rnds8Pool.slice(pos, pos + 16);
+  return rnds8Pool.slice(poolPtr, (poolPtr += 16));
 }
