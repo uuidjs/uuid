@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 
-const poolSize = 16;
-const rnds8Pool = new Uint8Array(16 * poolSize);
+const rnds8Pool = new Uint8Array(256); // # of random values to pre-allocate
 let poolPtr = rnds8Pool.length;
 
 export default function rng() {
