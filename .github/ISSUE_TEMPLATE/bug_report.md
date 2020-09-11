@@ -17,9 +17,7 @@ version before filing your bug report. Node.js 13.x is NOT supported by this lib
 
 ## How to reproduce
 
-[Instructions for how we (the `uuid` maintainers) can reproduce the problem]
-
-- [ ] &#X1f389; This is a "[Minimal, Complete, and Verifiable](https://stackoverflow.com/help/minimal-reproducible-example)" Example &#X1f389;
+**REQUIRED**: Provide a [Minimal, Complete, and Verifiable](https://stackoverflow.com/help/minimal-reproducible-example) so that we (the `uuid` maintainers) can reproduce the problem. Issues that do not provide this will be closed without investigation.
 
 ## Expected behavior
 
