@@ -414,7 +414,7 @@ This error occurs in environments where the standard [`crypto.getRandomValues()`
 ### React Native
 
 1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
-1. Import it before `uuid`:
+1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
 
 ```javascript
 import 'react-native-get-random-values';
