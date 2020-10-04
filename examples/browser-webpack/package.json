@@ -10,7 +10,7 @@
     "uuid": "file:../../.local"
   },
   "devDependencies": {
-    "webpack": "5.0.0-beta.25",
+    "webpack": "5.0.0-rc.3",
     "webpack-cli": "^3.3.12"
   }
 }
