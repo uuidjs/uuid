@@ -12,7 +12,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
   - Node 8, 10, 12, 14
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
-  - [React Native](#react-native)
+  - [React Native / Expo](#react-native-expo)
 - **Secure** - Cryptographically-strong random values
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
@@ -405,7 +405,7 @@ Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`
 
 This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
 
-### React Native
+### React Native / Expo
 
 1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
 1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
@@ -414,6 +414,8 @@ This error occurs in environments where the standard [`crypto.getRandomValues()`
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 ```
+
+Note: If you are using Expo, you must be using at least `react-native-get-random-values@1.5.0` and `expo@39.0.0`.
 
 ### Web Workers / Service Workers (Edge <= 18)
 
