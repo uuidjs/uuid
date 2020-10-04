@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.3.1](https://github.com/uuidjs/uuid/compare/v8.3.0...v8.3.1) (2020-10-04)
+
+### Bug Fixes
+
+- support expo>=39.0.0 ([#515](https://github.com/uuidjs/uuid/issues/515)) ([c65a0f3](https://github.com/uuidjs/uuid/commit/c65a0f3fa73b901959d638d1e3591dfacdbed867)), closes [#375](https://github.com/uuidjs/uuid/issues/375)
+
 ## [8.3.0](https://github.com/uuidjs/uuid/compare/v8.2.0...v8.3.0) (2020-07-27)
 
 ### Features
