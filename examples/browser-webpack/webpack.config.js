@@ -12,11 +12,11 @@ module.exports = {
     'v4-size': './size-v4.js',
     'v5-size': './size-v5.js',
   },
+  // Webpack now produces builds that are incompatible with IE11:
+  // https://webpack.js.org/migrate/5/#turn-off-es2015-syntax-in-runtime-code-if-necessary
+  target: ['web', 'es5'],
   output: {
     filename: '[name].js',
-    // Webpack now produces builds that are incompatible with IE11:
-    // https://webpack.js.org/migrate/5/#turn-off-es2015-syntax-in-runtime-code-if-necessary
-    ecmaVersion: 5,
   },
   mode: 'production',
 };
