@@ -131,5 +131,8 @@
     "scripts": {
       "postchangelog": "prettier --write CHANGELOG.md"
     }
+  },
+  "dependencies": {
+    "crypto": "1.0.1"
   }
 }
