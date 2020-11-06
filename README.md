@@ -246,7 +246,7 @@ uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
 
 ### uuid.v5(name, namespace[, buffer[, offset]])
 
-Createa an RFC version 5 (namespace w/ SHA-1) UUID
+Create an RFC version 5 (namespace w/ SHA-1) UUID
 
 |  |  |
 | --- | --- |
