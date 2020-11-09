@@ -12,7 +12,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
   - Node 8, 10, 12, 14
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
-  - [React Native / Expo](#react-native-expo)
+  - [React Native / Expo](#react-native--expo)
 - **Secure** - Cryptographically-strong random values
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
