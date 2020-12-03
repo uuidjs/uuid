@@ -57,6 +57,10 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
+| [`uuid.isV1()`](#uuidisv1str) | Test a string to see if it is a valid V1 UUID |  |
+| [`uuid.isV3()`](#uuidisv3str) | Test a string to see if it is a valid V3 UUID |  |
+| [`uuid.isV4()`](#uuidisv4str) | Test a string to see if it is a valid V4 UUID |  |
+| [`uuid.isV5()`](#uuidisv5str) | Test a string to see if it is a valid V5 UUID |  |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
 ## API
@@ -294,6 +298,82 @@ import { validate as uuidValidate } from 'uuid';
 
 uuidValidate('not a UUID'); // ⇨ false
 uuidValidate('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ true
+```
+
+### uuid.isV1(str)
+
+Test a string to see if it is a valid V1 UUID
+
+|           |                                                        |
+| --------- | ------------------------------------------------------ |
+| `str`     | `String` to validate                                   |
+| _returns_ | `true` if string is a valid V1 UUID, `false` otherwise |
+
+Example:
+
+```javascript
+import { isV1 as uuidIsV1 } from 'uuid';
+
+uuidIsV1('not a UUID'); // ⇨ false
+uuidIsV1('d9428888-122b-11e1-b85c-61cd3cbb3210'); // ⇨ true
+uuidIsV1('a981a0c2-68b1-35dc-bcfc-296e52ab01ec'); // ⇨ false
+```
+
+### uuid.isV3(str)
+
+Test a string to see if it is a valid V3 UUID
+
+|           |                                                        |
+| --------- | ------------------------------------------------------ |
+| `str`     | `String` to validate                                   |
+| _returns_ | `true` if string is a valid V3 UUID, `false` otherwise |
+
+Example:
+
+```javascript
+import { isV3 as uuidIsV3 } from 'uuid';
+
+uuidIsV3('not a UUID'); // ⇨ false
+uuidIsV3('a981a0c2-68b1-35dc-bcfc-296e52ab01ec'); // ⇨ true
+uuidIsV3('109156be-c4fb-41ea-b1b4-efe1671c5836'); // ⇨ false
+```
+
+### uuid.isV4(str)
+
+Test a string to see if it is a valid V4 UUID
+
+|           |                                                        |
+| --------- | ------------------------------------------------------ |
+| `str`     | `String` to validate                                   |
+| _returns_ | `true` if string is a valid V4 UUID, `false` otherwise |
+
+Example:
+
+```javascript
+import { isV4 as uuidIsV4 } from 'uuid';
+
+uuidIsV4('not a UUID'); // ⇨ false
+uuidIsV4('109156be-c4fb-41ea-b1b4-efe1671c5836'); // ⇨ true
+uuidIsV4('90123e1c-7512-523e-bb28-76fab9f2f73d'); // ⇨ false
+```
+
+### uuid.isV5(str)
+
+Test a string to see if it is a valid V5 UUID
+
+|           |                                                        |
+| --------- | ------------------------------------------------------ |
+| `str`     | `String` to validate                                   |
+| _returns_ | `true` if string is a valid V5 UUID, `false` otherwise |
+
+Example:
+
+```javascript
+import { isV5 as uuidIsV5 } from 'uuid';
+
+uuidIsV5('not a UUID'); // ⇨ false
+uuidIsV5('90123e1c-7512-523e-bb28-76fab9f2f73d'); // ⇨ true
+uuidIsV5('109156be-c4fb-41ea-b1b4-efe1671c5836'); // ⇨ false
 ```
 
 ### uuid.version(str)
