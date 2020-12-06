@@ -1,5 +1,9 @@
 import assert from 'assert';
-import validate, { isV1, isV3, isV4, isV5 } from '../../src/validate.js';
+import validate from '../../src/validate.js';
+import isV1 from '../../src/isV1.js';
+import isV3 from '../../src/isV3.js';
+import isV4 from '../../src/isV4.js';
+import isV5 from '../../src/isV5.js';
 import NIL from '../../src/nil.js';
 
 const validUuids = {
