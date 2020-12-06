@@ -17,7 +17,7 @@ describe('validate', () => {
 
     assert.strictEqual(validate(validUuids.v3), true);
 
-    assert.strictEqual(validate(validUuids.v3), true);
+    assert.strictEqual(validate(validUuids.v4), true);
 
     assert.strictEqual(validate(validUuids.v5), true);
 
