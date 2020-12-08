@@ -296,6 +296,23 @@ uuidValidate('not a UUID'); // ⇨ false
 uuidValidate('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ true
 ```
 
+Using `validate` and `version` together it is possible to do per-version validation, e.g. validate for only v4 UUIds.
+
+```javascript
+import { version as uuidVersion } from 'uuid';
+import { validate as uuidValidate } from 'uuid';
+
+function uuidValidateV4(uuid) {
+  return uuidValidate(uuid) && uuidVersion(uuid) === 4;
+}
+
+const v1Uuid = 'd9428888-122b-11e1-b85c-61cd3cbb3210';
+const v4Uuid = '109156be-c4fb-41ea-b1b4-efe1671c5836';
+
+uuidValidateV4(v4Uuid); // ⇨ true
+uuidValidateV4(v1Uuid); // ⇨ false
+```
+
 ### uuid.version(str)
 
 Detect RFC version of a UUID
