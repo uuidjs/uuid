@@ -26,7 +26,11 @@ To create a random UUID...
 **1. Install**
 
 ```shell
+// with npm
 npm install uuid
+
+// with yarn
+yarn add uuid
 ```
 
 **2. Create a UUID** (ES6 module syntax)
