@@ -343,14 +343,14 @@ uuidVersion('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
 UUIDs can be generated from the command line using `uuid`.
 
 ```shell
-$ uuid
+$ npx uuid
 ddeb27fb-d9a0-4624-be4d-4615062daed4
 ```
 
 The default is to generate version 4 UUIDS, however the other versions are supported. Type `uuid --help` for details:
 
 ```shell
-$ uuid --help
+$ npx uuid --help
 
 Usage:
   uuid
