@@ -428,7 +428,7 @@ Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`
 
 ### Duplicate UUIDs (Googlebot)
 
-Websites that are publically accessible and that generate "random" (v4) UUIDs may see UUID collisions when scraped by Google. This is because Googles scraping clients ("Googlebots") use _deterministic_ random number generation. This is by design, and users of this module will need to decide how to handle this situation. Possible workarounds include:
+Websites that are publically accessible and that generate "random" (v4) UUIDs may see UUID collisions when scraped by Google. This is because Google's scraper clients ("Googlebots") use _deterministic_ random number generation. This is by design, and users of this module will need to decide how to handle this situation. Possible workarounds include:
 
 - Check for duplicate UUIDs, fail gracefully
 - Disable write operations for Googlebot clients
@@ -513,3 +513,5 @@ uuidv4();
 ```javascript
 const uuid = require('uuid'); // <== REMOVED!
 ```
+
+This usage pattern was already discouraged in `uuid@3.x` and has been removed in `uuid@7.x`.
