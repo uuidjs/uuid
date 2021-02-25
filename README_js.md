@@ -407,7 +407,16 @@ These CDNs all provide the same [`uuidv4()`](#uuidv4options-buffer-offset) metho
 
 Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`uuidv3()`](#uuidv3name-namespace-buffer-offset) and [`uuidv5()`](#uuidv5name-namespace-buffer-offset)) are available from the files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
 
-## "getRandomValues() not supported"
+## Known issues
+
+### Duplicate UUIDs (Googlebot)
+
+Websites that are publically accessible and that generate "random" (v4) UUIDs may see UUID collisions when scraped by Google. This is because Googles scraping clients ("Googlebots") use _deterministic_ random number generation. This is by design, and users of this module will need to decide how to handle this situation. Possible workarounds include:
+
+- Check for duplicate UUIDs, fail gracefully
+- Disable write operations for Googlebot clients
+
+### "getRandomValues() not supported"
 
 This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
 
@@ -487,5 +496,3 @@ uuidv4();
 ```javascript
 const uuid = require('uuid'); // <== REMOVED!
 ```
-
-This usage pattern was already discouraged in `uuid@3.x` and has been removed in `uuid@7.x`.
