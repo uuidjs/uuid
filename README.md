@@ -422,12 +422,7 @@ Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`
 
 ### Duplicate UUIDs (Googlebot)
 
-This module may generate duplicate UUIDs when run in clients with
-_deterministic_ random number generators, such as [Googlebot
-crawlers](https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers).
-This can cause problems for apps that expect client-generated UUIDs to always be
-unique.  Developers should be prepared for this and have a strategy for dealing
-with possible collisions, such as:
+This module may generate duplicate UUIDs when run in clients with _deterministic_ random number generators, such as [Googlebot crawlers](https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers). This can cause problems for apps that expect client-generated UUIDs to always be unique. Developers should be prepared for this and have a strategy for dealing with possible collisions, such as:
 
 - Check for duplicate UUIDs, fail gracefully
 - Disable write operations for Googlebot clients
