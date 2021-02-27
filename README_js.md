@@ -29,7 +29,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-**Upgrading from `uuid@3.x`?** Your code is probably okay, but check out [Upgrading From `uuid@3.x`](#upgrading-from-uuid3x) for details.
+**Upgrading from `uuid@3`?** Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3x) for details.
 
 ## Quickstart
 
@@ -424,7 +424,16 @@ These CDNs all provide the same [`uuidv4()`](#uuidv4options-buffer-offset) metho
 
 Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`uuidv3()`](#uuidv3name-namespace-buffer-offset) and [`uuidv5()`](#uuidv5name-namespace-buffer-offset)) are available from the files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
 
-## "getRandomValues() not supported"
+## Known issues
+
+### Duplicate UUIDs (Googlebot)
+
+This module may generate duplicate UUIDs when run in clients with _deterministic_ random number generators, such as [Googlebot crawlers](https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers). This can cause problems for apps that expect client-generated UUIDs to always be unique. Developers should be prepared for this and have a strategy for dealing with possible collisions, such as:
+
+- Check for duplicate UUIDs, fail gracefully
+- Disable write operations for Googlebot clients
+
+### "getRandomValues() not supported"
 
 This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
 
@@ -444,11 +453,11 @@ Note: If you are using Expo, you must be using at least `react-native-get-random
 
 [In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if you find one, please).
 
-## Upgrading From `uuid@7.x`
+## Upgrading From `uuid@7`
 
 ### Only Named Exports Supported When Using with Node.js ESM
 
-`uuid@7.x` did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in Node.js ESM consequently imported the CommonJS source with a default export. This library now comes with true Node.js ESM support and only provides named exports.
+`uuid@7` did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in Node.js ESM consequently imported the CommonJS source with a default export. This library now comes with true Node.js ESM support and only provides named exports.
 
 Instead of doing:
 
@@ -466,24 +475,24 @@ uuidv4();
 
 ### Deep Requires No Longer Supported
 
-Deep requires like `require('uuid/v4')` [which have been deprecated in `uuid@7.x`](#deep-requires-now-deprecated) are no longer supported.
+Deep requires like `require('uuid/v4')` [which have been deprecated in `uuid@7`](#deep-requires-now-deprecated) are no longer supported.
 
-## Upgrading From `uuid@3.x`
+## Upgrading From `uuid@3`
 
-"_Wait... what happened to `uuid@4.x` - `uuid@6.x`?!?_"
+"_Wait... what happened to `uuid@4` thru `uuid@6`?!?_"
 
 In order to avoid confusion with RFC [version 4](#uuidv4options-buffer-offset) and [version 5](#uuidv5name-namespace-buffer-offset) UUIDs, and a possible [version 6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been skipped.
 
 ### Deep Requires Now Deprecated
 
-`uuid@3.x` encouraged the use of deep requires to minimize the bundle size of browser builds:
+`uuid@3` encouraged the use of deep requires to minimize the bundle size of browser builds:
 
 ```javascript
 const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
 uuidv4();
 ```
 
-As of `uuid@7.x` this library now provides ECMAScript modules builds, which allow packagers like Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
+As of `uuid@7` this library now provides ECMAScript modules builds, which allow packagers like Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
@@ -499,10 +508,10 @@ uuidv4();
 
 ### Default Export Removed
 
-`uuid@3.x` was exporting the Version 4 UUID method as a default export:
+`uuid@3` was exporting the Version 4 UUID method as a default export:
 
 ```javascript
 const uuid = require('uuid'); // <== REMOVED!
 ```
 
-This usage pattern was already discouraged in `uuid@3.x` and has been removed in `uuid@7.x`.
+This usage pattern was already discouraged in `uuid@3` and has been removed in `uuid@7`.
