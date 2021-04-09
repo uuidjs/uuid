@@ -17,7 +17,7 @@ For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-**Upgrading from `uuid@3`?** Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3x) for details.
+**Upgrading from `uuid@3`?** Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
 
 ## Quickstart
 
