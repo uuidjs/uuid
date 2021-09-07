@@ -22,6 +22,19 @@ describe('validate', () => {
 
     assert.strictEqual(validate('00000000000000000000000000000000'), false);
 
+    // NIL UUIDs that have a bit set (incorrectly) should not validate
+    for (let charIndex = 0; charIndex < 36; charIndex++) {
+      if (charIndex === 14) continue; // version field
+
+      for (let bit = 0; bit < 4; bit++) {
+        const chars = NIL.split('');
+        if (chars[charIndex] === '-') continue;
+
+        chars[charIndex] = (1 << bit).toString(16);
+        assert.strictEqual(validate(chars.join('')), false);
+      }
+    }
+
     assert.strictEqual(
       validate(
         '=Y00a-f*v00b*-00c-00d#-p00f\b-00g-00h-####00i^^^-00j*1*2*3&-L00k-\n00l-/00m-----00n-fg000-00p-00r+'
