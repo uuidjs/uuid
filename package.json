@@ -27,7 +27,8 @@
       },
       "default": "./dist/esm-browser/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./v1": "./dist/v1.js"
   },
   "module": "./dist/esm-node/index.js",
   "browser": {
