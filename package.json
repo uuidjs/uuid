@@ -47,11 +47,11 @@
   "devDependencies": {
     "@babel/cli": "7.15.7",
     "@babel/core": "7.15.8",
+    "@babel/eslint-parser": "7.15.8",
     "@babel/preset-env": "7.15.8",
     "@commitlint/cli": "13.2.1",
     "@commitlint/config-conventional": "13.2.0",
     "@rollup/plugin-node-resolve": "13.0.6",
-    "babel-eslint": "10.1.0",
     "bundlewatch": "0.3.2",
     "eslint": "8.1.0",
     "eslint-config-prettier": "8.3.0",
