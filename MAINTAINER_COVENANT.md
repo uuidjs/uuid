@@ -1,10 +1,12 @@
 # Maintainer Covenant
 
-This document provides the criteria by which you should expect to hold the maintainers of this project accountable. Please note, however, this is not intended to be legally binding in any way. Rather, it is intended to aid people interested in assessing the overall integrity and security of this project.
-
-This is not intended to be legally binding. It is not a contract and provides no warranties. Rather, it is intended to provide a means by which the security of this project, and any associated risks that result from depending on this project, may be evaluated.
+This document provides the criteria by which you should expect to hold the maintainers of this project accountable. Please note, however, this is not intended to be legally binding in any way. Rather, it is an aid for people interested in assessing the overall integrity and security of this project.
 
 Constructive criticism is encouraged, and may be submitted [here](./issues/).
+
+Each section of this document contains a **Declaration** and **Criteria**. The Declaration provides the basic information relevant to the section (e.g. the name of each maintainer in the **Team** section).
+
+The Criteria is a list of measurable (or at least objectively evaluatable) criterion by which you should expect to evaluate this project. Each criterion is prefixed with a `snake-case-name` for easy reference. (The definitions for these may be broken out into a separate document at a later date, but are included here for now.)
 
 ## Definitions
 
@@ -18,54 +20,80 @@ Constructive criticism is encouraged, and may be submitted [here](./issues/).
 
 ## Team
 
+**Declaration**
+
+The maintainers of this project are:
+
+|                              |                           |
+| ---------------------------- | ------------------------- |
+| **Christoph Tavan, @ctavan** | Google                    |
+| **Robert Kieffer, @broofa**  | Google, Facebook, CodePen |
+
 **Criteria**
 
-- `bus-factor`: To mitigate the "[bus factor](https://en.wikipedia.org/wiki/Bus_factor)" risk, projects are expected to have 2 or more maintainers
-- `trusted-maintainers`: To mitigate bad-actor risk, maintainers are expected to verifiably reputable and trust-worthy members of the community.
-- `active-team`: To mitigate risks that come from an oversize team, maintainers who have not engaged with the project in 12 months should have their maintainer privileges revoked
+- [x] `bus-factor`: To mitigate the "[bus factor](https://en.wikipedia.org/wiki/Bus_factor)" risk, projects are expected to have 2 or more maintainers
+- [x] `trusted-maintainers`: To mitigate bad-actor risk, maintainers will be verifiably reputable and trustworthy members of the community. Current maintainers will do due diligence before adding any new maintainer to insure they meet this standard.
+- [ ] `active-team`: To mitigate risks that come from an oversize team, maintainers who have not engaged with the project in 12 months should have their maintainer privileges revoked
 
-**Status**
+## Source Code
 
-|                          |                           |
-| ------------------------ | ------------------------- |
-| Christoph Tavan, @ctavan | Google                    |
-| Robert Kieffer, @broofa  | Google, Facebook, CodePen |
+**Declaration** Source code for this project is maintained at https://github.com/uuidjs/uuid
+
+**Criteria**
+
+- [x] `review-required`: PRs require approval from other team members:
+- [ ] `no-main-commit`: Changes to main branch must be made via PR. (Implies force-push is disabled)
+
+## Publication
+
+This project is published at https://npmjs.org/uuid
+
+**Criteria**
+
+- [x] `semver`: Releases use Semantic Versioning
+- [x] `maintainer-only`: Only maintainers have publication privileges
 
 ## Data
 
+**Declaration**:
+
+This project uses BrowserStack for CI testing, which requires production API tokens
+
 **Criteria**
 
-- `secure-production-secrets`: All production "secrets" to be encrypted and maintained in secure locations
-- `no-passwords-in-repo`: No passwords or secrets in source repository
+- [x] `secure-production-secrets`: All production "secrets" to be encrypted and maintained in secure locations
+- [x] `no-passwords-in-repo`: No passwords or secrets in source repository
 
 ## Accounts
 
+**Declaration**:
+
+This project requires access to the following systems:
+
+|                  |                |
+| ---------------- | -------------- |
+| **GitHub**       | Source control |
+| **NpmJS**        | Publication    |
+| **BrowserStack** | CI testing     |
+
 **Criteria**
 
-- `2fa-enabled`: All maintainers to have 2FA enabled for any project-sensitive logins
-- `generated-passwords`: Passwords to be unique and randomly generated for each account
-- `no-shared-accounts`: Maintainers do not share account information. I.e. maintainer access can be managed via roles and permissions.
-- `no-local-secrets`: Secrets should not be kept on local devices
-- `managed-local-secrets`: Where necessary secrets on local devices to be kept in a secure, reputable password manager (e.g. 1Password, LastPass)
-
-**Status**:
-
-The following services are currently used by this project:
-
-| Service      | 2FA-required | Secrets | Purpose        |
-| ------------ | ------------ | ------- | -------------- |
-| Github       | &check;      | &check; | source control |
-| NPMJS.org    | &check;      | &check; | publication    |
-| BrowserStack | &check;      | &check; | CI testing     |
-
-This project uses the following services. Checked accounts are only accessible by team members who have 2-Factor authentication enabled 2-Factor authentication
+- [x] `2fa-enabled`: All maintainers to have 2FA enabled for any project-sensitive logins
+- [x] `generated-passwords`: Passwords to be unique and randomly generated for each account
+- [x] `no-shared-accounts`: Maintainers do not share account information. I.e. maintainer access can be managed via roles and permissions.
+- [n/a] `no-local-secrets`: Secrets should not be kept on local devices
+- [n/a] `managed-local-secrets`: Where necessary secrets on local devices to be kept in a secure, reputable password manager (e.g. 1Password, LastPass)
 
 ## Incident Response
 
-TODO: These criteria aren't exactly measurable. :-/
+**Declaration**
 
-Criteria:
+[TODO: This]
 
-- `incident-response`: Commit to responding to and fixing security issues in a timely manner
-- `incident-disclosure`: Commit to disclosing security incidents in a timely manner
-- `incident-post-mortem`: Commit to publishing a post-mortem analysis of any security incident that provides insight into incident causes, and what preventive measures can/should be taken as a result.
+**Criteria**
+
+[TODO: I think these are important, but they're not really evaluatable. More like a promise than a criteria. ]
+
+- [ ] `incident-response`: Commit to responding to and fixing security issues in a timely manner
+- [ ] `incident-disclosure`: Commit to disclosing security incidents in a timely manner
+- [ ] `incident-post-mortem`: Commit to publishing a post-mortem analysis of any security incident that provides insight into incident causes, and what preventive measures can/should be taken as a result.
