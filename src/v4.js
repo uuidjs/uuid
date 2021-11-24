@@ -1,5 +1,5 @@
 import rng from './rng.js';
-import stringify from './stringify.js';
+import { unsafeStringify } from './stringify.js';
 
 function v4(options, buf, offset) {
   options = options || {};
@@ -21,7 +21,7 @@ function v4(options, buf, offset) {
     return buf;
   }
 
-  return stringify(rnds);
+  return unsafeStringify(rnds);
 }
 
 export default v4;
