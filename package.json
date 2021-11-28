@@ -86,6 +86,7 @@
     "examples:browser:rollup:build": "cd examples/browser-rollup && npm install && npm run build",
     "examples:node:commonjs:test": "cd examples/node-commonjs && npm install && npm test",
     "examples:node:esmodules:test": "cd examples/node-esmodules && npm install && npm test",
+    "prepare": "husky install",
     "lint": "npm run eslint:check && npm run prettier:check",
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
@@ -111,12 +112,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/uuidjs/uuid.git"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,jsx,json,md}": [
