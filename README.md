@@ -4,12 +4,12 @@
 
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
-For the creation of [RFC4122](http://www.ietf.org/rfc/rfc4122.txt) UUIDs
+For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
 - **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
-  - Node 8, 10, 12, 14
+  - Node 10, 12, 14, 16
   - Chrome, Safari, Firefox, Edge, IE 11 browsers
   - Webpack and rollup.js module bundlers
   - [React Native / Expo](#react-native--expo)
@@ -122,22 +122,7 @@ Example:
 import { stringify as uuidStringify } from 'uuid';
 
 const uuidBytes = [
-  0x6e,
-  0xc0,
-  0xbd,
-  0x7f,
-  0x11,
-  0xc0,
-  0x43,
-  0xda,
-  0x97,
-  0x5e,
-  0x2a,
-  0x8a,
-  0xd9,
-  0xeb,
-  0xae,
-  0x0b,
+  0x6e, 0xc0, 0xbd, 0x7f, 0x11, 0xc0, 0x43, 0xda, 0x97, 0x5e, 0x2a, 0x8a, 0xd9, 0xeb, 0xae, 0x0b,
 ];
 
 uuidStringify(uuidBytes); // ⇨ '6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'
@@ -223,22 +208,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const v4options = {
   random: [
-    0x10,
-    0x91,
-    0x56,
-    0xbe,
-    0xc4,
-    0xfb,
-    0xc1,
-    0xea,
-    0x71,
-    0xb4,
-    0xef,
-    0xe1,
-    0x67,
-    0x1c,
-    0x58,
-    0x36,
+    0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
   ],
 };
 uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
