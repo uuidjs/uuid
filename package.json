@@ -32,6 +32,7 @@
   "module": "./dist/esm-node/index.js",
   "browser": {
     "./dist/md5.js": "./dist/md5-browser.js",
+    "./dist/native.js": "./dist/native-browser.js",
     "./dist/rng.js": "./dist/rng-browser.js",
     "./dist/sha1.js": "./dist/sha1-browser.js",
     "./dist/esm-node/index.js": "./dist/esm-browser/index.js"
