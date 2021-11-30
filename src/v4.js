@@ -3,11 +3,11 @@ import rng from './rng.js';
 import stringify from './stringify.js';
 
 function v4(options, buf, offset) {
-  options = options || {};
-
-  if (native.randomUUID && buf == null && options.random == null && options.rng == null) {
+  if (native.randomUUID && !buf && !options) {
     return native.randomUUID();
   }
+
+  options = options || {};
 
   const rnds = options.random || (options.rng || rng)();
 
