@@ -7,10 +7,10 @@
     "test": "npm run build && node dist/v1.js && node dist/v4.js && node dist/all.js"
   },
   "dependencies": {
-    "uuid": "file:../../.local"
+    "uuid": "file:../../.local/uuid"
   },
   "devDependencies": {
-    "webpack": "5.0.0-rc.3",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }

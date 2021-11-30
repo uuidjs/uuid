@@ -7,103 +7,122 @@ const GITHUB_REF = process.env.GITHUB_REF || '';
 const BUILD = GITHUB_SHA || GITHUB_REF ? `${GITHUB_REF} ${GITHUB_SHA}` : 'manual build';
 
 const commonCapabilities = {
-  project: PROJECT,
-  build: BUILD,
-  name: 'browser test',
-  'browserstack.local': true,
-  'browserstack.debug': false,
-  'browserstack.console': 'errors',
+  projectName: PROJECT,
+  buildName: BUILD,
+  sessionName: 'browser test',
   resolution: '1024x768',
 };
 
 const capabilities = [
   // IE
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      os: 'Windows',
+      osVersion: '10',
+      ...commonCapabilities,
+    },
     browserName: 'IE',
-    browser_version: '11.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '11.0',
   },
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '7',
+    },
     browserName: 'IE',
-    browser_version: '11.0',
-    os: 'Windows',
-    os_version: '7',
+    browserVersion: '11.0',
   },
 
   // Chrome
   // Chrome 92 introduced native support for crypto.randomUUID
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Chrome',
-    browser_version: '92.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '92.0',
   },
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Chrome',
-    browser_version: '81.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '81.0',
   },
   // Chrome 49 released on 2016-03-02 was the last version supported on Windows XP, Windows Vista, Mac OS X 10.6, 10.7, and 10.8
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Chrome',
-    browser_version: '49.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '49.0',
   },
 
   // Firefox
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Firefox',
-    browser_version: '75.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '75.0',
   },
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Firefox',
-    browser_version: '44.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '44.0',
   },
 
   // Edge
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Edge',
-    browser_version: '81.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '81.0',
   },
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'Windows',
+      osVersion: '10',
+    },
     browserName: 'Edge',
-    browser_version: '15.0',
-    os: 'Windows',
-    os_version: '10',
+    browserVersion: '15.0',
   },
 
   // Safari
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'OS X',
+      osVersion: 'Catalina',
+    },
     browserName: 'Safari',
-    browser_version: '13.0',
-    os: 'OS X',
-    os_version: 'Catalina',
+    browserVersion: '13.0',
   },
   {
-    ...commonCapabilities,
+    'bstack:options': {
+      ...commonCapabilities,
+      os: 'OS X',
+      osVersion: 'Sierra',
+    },
     browserName: 'Safari',
-    browser_version: '10.0',
-    os: 'OS X',
-    os_version: 'Sierra',
+    browserVersion: '10.0',
   },
 ];
 
@@ -140,7 +159,7 @@ exports.config = {
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
   framework: 'jasmine',
-  jasmineNodeOpts: {
+  jasmineOpts: {
     defaultTimeoutInterval: 120000,
   },
   reporters: ['spec'],
