@@ -3,13 +3,13 @@
   "plugins": [],
   "env": {
     "commonjs": {
-      "presets": [["@babel/preset-env", { "targets": { "node": "8" }, "modules": "commonjs" }]]
+      "presets": [["@babel/preset-env", { "targets": { "node": "10" }, "modules": "commonjs" }]]
     },
     "esmBrowser": {
       "presets": [["@babel/preset-env", { "modules": false }]]
     },
     "esmNode": {
-      "presets": [["@babel/preset-env", { "targets": { "node": "8" }, "modules": false }]]
+      "presets": [["@babel/preset-env", { "targets": { "node": "10" }, "modules": false }]]
     }
   }
 }
