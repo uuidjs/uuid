@@ -34,6 +34,14 @@ const capabilities = [
   },
 
   // Chrome
+  // Chrome 92 introduced native support for crypto.randomUUID
+  {
+    ...commonCapabilities,
+    browserName: 'Chrome',
+    browser_version: '92.0',
+    os: 'Windows',
+    os_version: '10',
+  },
   {
     ...commonCapabilities,
     browserName: 'Chrome',
@@ -41,6 +49,7 @@ const capabilities = [
     os: 'Windows',
     os_version: '10',
   },
+  // Chrome 49 released on 2016-03-02 was the last version supported on Windows XP, Windows Vista, Mac OS X 10.6, 10.7, and 10.8
   {
     ...commonCapabilities,
     browserName: 'Chrome',
