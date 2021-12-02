@@ -10,10 +10,10 @@ for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 0x100).toString(16).substr(1));
 }
 
-function stringify(arr, offset = 0) {
+export function unsafeStringify(arr, offset = 0) {
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-  const uuid = (
+  return (
     byteToHex[arr[offset + 0]] +
     byteToHex[arr[offset + 1]] +
     byteToHex[arr[offset + 2]] +
@@ -35,7 +35,10 @@ function stringify(arr, offset = 0) {
     byteToHex[arr[offset + 14]] +
     byteToHex[arr[offset + 15]]
   ).toLowerCase();
+}
 
+function stringify(arr, offset = 0) {
+  const uuid = unsafeStringify(arr, offset);
   // Consistency check for valid UUID.  If this throws, it's likely due to one
   // of the following:
   // - One or more input array values don't map to a hex octet (leading to

@@ -1,4 +1,4 @@
-import stringify from './stringify.js';
+import { unsafeStringify } from './stringify.js';
 import parse from './parse.js';
 
 function stringToBytes(str) {
@@ -51,7 +51,7 @@ export default function v35(name, version, hashfunc) {
       return buf;
     }
 
-    return stringify(bytes);
+    return unsafeStringify(bytes);
   }
 
   // Function#name is not settable on some platforms (#270)

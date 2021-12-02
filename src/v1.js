@@ -1,5 +1,5 @@
 import rng from './rng.js';
-import stringify from './stringify.js';
+import { unsafeStringify } from './stringify.js';
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -109,7 +109,7 @@ function v1(options, buf, offset) {
     b[i + n] = node[n];
   }
 
-  return buf || stringify(b);
+  return buf || unsafeStringify(b);
 }
 
 export default v1;
