@@ -1,7 +1,12 @@
+import native from './native.js';
 import rng from './rng.js';
 import stringify from './stringify.js';
 
 function v4(options, buf, offset) {
+  if (native.randomUUID && !buf && !options) {
+    return native.randomUUID();
+  }
+
   options = options || {};
 
   const rnds = options.random || (options.rng || rng)();
