@@ -12,6 +12,9 @@ require('crypto').randomFillSync = function (a) {
   for (let i = 0; i < 16; i++) a[i] = (seed = (seed * 0x41a7) & 0x7fffffff) & 0xff;
   return a;
 };
+
+// Prevent usage of native randomUUID implementation to ensure deterministic UUIDs
+require('crypto').randomUUID = undefined;
 ```
 
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)

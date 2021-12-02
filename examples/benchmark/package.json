@@ -6,7 +6,7 @@
     "test": "node benchmark.js"
   },
   "dependencies": {
-    "uuid": "file:../../.local"
+    "uuid": "file:../../.local/uuid"
   },
   "devDependencies": {
     "benchmark": "^2.1.4"
