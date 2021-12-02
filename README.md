@@ -10,7 +10,7 @@ For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
   - Node 10, 12, 14, 16
-  - Chrome, Safari, Firefox, Edge, IE 11 browsers
+  - Chrome, Safari, Firefox, Edge browsers
   - Webpack and rollup.js module bundlers
   - [React Native / Expo](#react-native--expo)
 - **Secure** - Cryptographically-strong random values
@@ -416,6 +416,10 @@ Note: If you are using Expo, you must be using at least `react-native-get-random
 ### Web Workers / Service Workers (Edge <= 18)
 
 [In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if you find one, please).
+
+### IE 11 (Internet Explorer)
+
+Support for IE11 and other legacy browsers has been dropped as of `uuid@9`. If you need to support legacy browsers, you can always transpile the uuid module source yourself (e.g. using [Babel](https://babeljs.io/)).
 
 ## Upgrading From `uuid@7`
 
