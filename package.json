@@ -13,6 +13,9 @@
     "rfc4122"
   ],
   "license": "MIT",
+  "engines": {
+    "node": "10 - 16"
+  },
   "bin": {
     "uuid": "./dist/bin/uuid"
   },
