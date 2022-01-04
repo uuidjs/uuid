@@ -16,6 +16,7 @@ babel --env-name commonjs src --source-root src --out-dir "$DIR" --copy-files --
 
 # Transpile ESM versions of files for the browser
 babel --env-name esmBrowser src --source-root src --out-dir "$DIR/esm-browser" --copy-files --quiet
+echo "{ \"type\": \"module\" }" > "$DIR/esm-browser/package.json"
 
 # Transpile ESM versions of files for node
 babel --env-name esmNode src --source-root src --out-dir "$DIR/esm-node" --copy-files --quiet
