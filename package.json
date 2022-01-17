@@ -27,7 +27,13 @@
       },
       "default": "./dist/esm-browser/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./v1": "./dist/v1.js",
+    "./v2": "./dist/v2.js",
+    "./v3": "./dist/v3.js",
+    "./v4": "./dist/v4.js",
+    "./v5": "./dist/v5.js",
+    "./v35": "./dist/v35.js"
   },
   "module": "./dist/esm-node/index.js",
   "browser": {
