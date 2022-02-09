@@ -17,7 +17,7 @@
     "uuid": "./dist/bin/uuid"
   },
   "sideEffects": false,
-  "main": "./dist/index.js",
+  "main": "./dist/index",
   "exports": {
     ".": {
       "node": {
@@ -39,7 +39,8 @@
     "./dist/native.js": "./dist/native-browser.js",
     "./dist/rng.js": "./dist/rng-browser.js",
     "./dist/sha1.js": "./dist/sha1-browser.js",
-    "./dist/esm-node/index.js": "./dist/esm-browser/index.js"
+    "./dist/esm-node/index.js": "./dist/esm-browser/index.js",
+    "./dist/index.mjs": "./dist/esm-browser/index.js"
   },
   "files": [
     "CHANGELOG.md",

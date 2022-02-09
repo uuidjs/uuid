@@ -38,6 +38,8 @@ babel --env-name esmBrowser src --source-root src --out-dir "$DIR/esm-browser" -
 # Transpile ESM versions of files for node
 babel --env-name esmNode src --source-root src --out-dir "$DIR/esm-node" --copy-files --quiet
 
+echo "export * from './esm-node';" > "$DIR/index.mjs"
+
 # No need to have the CLI files in the esm build
 rm -rf "$DIR/commonjs-browser/bin"
 rm -rf "$DIR/commonjs-browser/uuid-bin.js"
