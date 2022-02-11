@@ -25,7 +25,7 @@
         "require": "./dist/index.js",
         "import": "./wrapper.mjs"
       },
-      "browser": {,
+      "browser": {
         "import": "./dist/esm-browser/index.js",
         "require": "./dist/index.js",
         "default": "./dist/esm-browser/index.js"
