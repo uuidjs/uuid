@@ -27,8 +27,7 @@
       },
       "browser": {
         "import": "./dist/esm-browser/index.js",
-        "require": "./dist/index.js",
-        "default": "./dist/esm-browser/index.js"
+        "require": "./dist/index.js"
       },
       "default": "./dist/esm-browser/index.js"
     },
