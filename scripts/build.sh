@@ -11,8 +11,12 @@ DIR="$ROOT/dist"
 rm -rf "$DIR"
 mkdir -p "$DIR"
 
-# Transpile CommonJS versions of files
-babel --env-name commonjs src --source-root src --out-dir "$DIR" --copy-files --quiet
+# Transpile CommonJS versions of files for node
+babel --env-name commonjsNode src --source-root src --out-dir "$DIR" --copy-files --quiet
+
+# Transpile CommonJS versions of files for node
+babel --env-name commonjsBrowser src --source-root src --out-dir "$DIR/commonjs-browser" \
+    --copy-files --quiet
 
 # Transpile ESM versions of files for the browser
 babel --env-name esmBrowser src --source-root src --out-dir "$DIR/esm-browser" --copy-files --quiet
@@ -21,10 +25,18 @@ babel --env-name esmBrowser src --source-root src --out-dir "$DIR/esm-browser" -
 babel --env-name esmNode src --source-root src --out-dir "$DIR/esm-node" --copy-files --quiet
 
 # No need to have the CLI files in the esm build
+rm -rf "$DIR/commonjs-browser/bin"
+rm -rf "$DIR/commonjs-browser/uuid-bin.js"
 rm -rf "$DIR/esm-browser/bin"
 rm -rf "$DIR/esm-browser/uuid-bin.js"
 rm -rf "$DIR/esm-node/bin"
 rm -rf "$DIR/esm-node/uuid-bin.js"
+
+for FILE in "$DIR"/commonjs-browser/*-browser.js
+do
+    echo "Replacing node-specific file for commonjs-browser: $FILE"
+    mv "$FILE" "${FILE/-browser.js/.js}"
+done
 
 for FILE in "$DIR"/esm-browser/*-browser.js
 do
