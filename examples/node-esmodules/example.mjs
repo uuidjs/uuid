@@ -10,7 +10,7 @@ import {
   version as uuidVersion,
 } from 'uuid';
 import * as uuid from 'uuid';
-import pkg from 'uuid/package.json';
+import pkg from 'uuid/package.json' assert {type: 'json'};
 
 console.log('uuidv1()', uuidv1());
 
