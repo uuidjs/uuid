@@ -19,7 +19,7 @@ npm init -y
 npm install ../uuid/uuid-*.tgz
 
 node commonjs.js
-node esmodules.js
+node esmodules.mjs
 
 # Support for json esm imports requires import assertions starting in Node.js v16.14.0 which were
 # not supported in earlier versions. Therefore we restrict the ESM test to more recent versions of
