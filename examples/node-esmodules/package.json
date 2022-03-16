@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test:package": "( node --version | grep -vq 'v16' ) || ( node --experimental-json-modules package.mjs )",
-    "test:example": "node --experimental-json-modules example.mjs",
+    "test:example": "node example.mjs",
     "test": "npm-run-all test:*"
   },
   "dependencies": {
