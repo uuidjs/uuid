@@ -10,7 +10,6 @@ import {
   version as uuidVersion,
 } from 'uuid';
 import * as uuid from 'uuid';
-import pkg from 'uuid/package.json';
 
 console.log('uuidv1()', uuidv1());
 
@@ -65,6 +64,3 @@ console.log('uuid.parse()', uuid.parse(MY_NAMESPACE));
 console.log('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
 console.log('uuid.validate()', uuid.validate(MY_NAMESPACE));
 console.log('uuid.version()', uuid.version(MY_NAMESPACE));
-
-// Some tools like react-native need to introspect the package.json file
-console.log('pkg.name', pkg.name);

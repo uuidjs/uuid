@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "node --experimental-modules --experimental-json-modules example.mjs"
+    "test:package": "( node --version | grep -vq 'v16' ) || ( node --experimental-json-modules package.mjs )",
+    "test:example": "node example.mjs",
+    "test": "npm-run-all test:*"
   },
   "dependencies": {
     "uuid": "file:../../.local/uuid"
