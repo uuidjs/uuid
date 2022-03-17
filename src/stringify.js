@@ -7,7 +7,7 @@ import validate from './validate.js';
 const byteToHex = [];
 
 for (let i = 0; i < 256; ++i) {
-  byteToHex.push((i + 0x100).toString(16).substr(1));
+  byteToHex.push((i + 0x100).toString(16).slice(1));
 }
 
 export function unsafeStringify(arr, offset = 0) {
