@@ -26,7 +26,7 @@ export default function v35(name, version, hashfunc) {
       namespace = parse(namespace);
     }
 
-    if (namespace.length !== 16) {
+    if (namespace?.length !== 16) {
       throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
     }
 

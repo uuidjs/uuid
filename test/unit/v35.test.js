@@ -148,6 +148,24 @@ describe('v35', () => {
     assert.deepEqual(buf, ['landmaster', 'landmaster', 'landmaster'].concat(testBuf));
   });
 
+  test('v3 undefined/null', () => {
+    assert.throws(() => {
+      v3();
+    });
+
+    assert.throws(() => {
+      v3('hello');
+    });
+
+    assert.throws(() => {
+      v3('hello.example.com', undefined);
+    });
+
+    assert.throws(() => {
+      v3('hello.example.com', null, new Array(16));
+    });
+  });
+
   test('v5', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v5
     assert.strictEqual(v5('hello.example.com', v5.DNS), 'fdda765f-fc57-5604-a269-52a7df8164ec');
@@ -227,6 +245,24 @@ describe('v35', () => {
     v5('hello.example.com', v5.DNS, buf, 3);
 
     assert.deepEqual(buf, ['landmaster', 'landmaster', 'landmaster'].concat(testBuf));
+  });
+
+  test('v5 undefined/null', () => {
+    assert.throws(() => {
+      v5();
+    });
+
+    assert.throws(() => {
+      v5('hello');
+    });
+
+    assert.throws(() => {
+      v5('hello.example.com', undefined);
+    });
+
+    assert.throws(() => {
+      v5('hello.example.com', null, new Array(16));
+    });
   });
 
   test('v3/v5 constants', () => {
