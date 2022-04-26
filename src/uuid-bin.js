@@ -7,29 +7,39 @@ import v5 from './v5.js';
 
 function usage() {
   console.log('Usage:');
-  console.log('  uuid');
-  console.log('  uuid v1');
-  console.log('  uuid v3 <name> <namespace uuid>');
-  console.log('  uuid v4');
-  console.log('  uuid v5 <name> <namespace uuid>');
+  console.log('  uuid [-n]');
+  console.log('  uuid v1 [-n]');
+  console.log('  uuid v3 <name> <namespace uuid> [-n]');
+  console.log('  uuid v4 [-n]');
+  console.log('  uuid v5 <name> <namespace uuid> [-n]');
   console.log('  uuid --help');
+  console.log('    -n: prints without a newline at the end of the output');
   console.log(
     '\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122'
   );
 }
 
-const args = process.argv.slice(2);
+let args = process.argv.slice(2);
 
 if (args.indexOf('--help') >= 0) {
   usage();
   process.exit(0);
 }
 
+let printer = console.log.bind(console);
+
+const nnlArgIdx = args.indexOf('-n');
+const noNewLine = nnlArgIdx >= 0;
+if (noNewLine) {
+  args = args.slice(0, nnlArgIdx).concat(args.slice(nnlArgIdx + 1));
+  printer = process.stdout.write.bind(process.stdout);
+}
+
 const version = args.shift() || 'v4';
 
 switch (version) {
   case 'v1':
-    console.log(v1());
+    printer(v1());
     break;
 
   case 'v3': {
@@ -47,12 +57,12 @@ switch (version) {
       namespace = v3.DNS;
     }
 
-    console.log(v3(name, namespace));
+    printer(v3(name, namespace));
     break;
   }
 
   case 'v4':
-    console.log(v4());
+    printer(v4());
     break;
 
   case 'v5': {
@@ -70,7 +80,7 @@ switch (version) {
       namespace = v5.DNS;
     }
 
-    console.log(v5(name, namespace));
+    printer(v5(name, namespace));
     break;
   }
 
