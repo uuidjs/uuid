@@ -401,7 +401,7 @@ This module may generate duplicate UUIDs when run in clients with _deterministic
 
 This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
 
-### React Native / Expo
+### React Native / Expo (SDK 39-44)
 
 1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
 1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
@@ -412,6 +412,30 @@ import { v4 as uuidv4 } from 'uuid';
 ```
 
 Note: If you are using Expo, you must be using at least `react-native-get-random-values@1.5.0` and `expo@39.0.0`.
+
+### Expo SDK 45+ (expo@45.0.0)
+
+Since Expo has ported some modules to JSI, as of SDK 45 it is recommended to install the following packages and call the polyfill as follows instead of the old method:
+
+```expo install expo-random expo-standard-web-crypto```
+
+```javascript
+import { StyleSheet, Text, View } from "react-native";
+import { v4 } from "uuid";
+import { polyfillWebCrypto } from "expo-standard-web-crypto";
+
+polyfillWebCrypto();
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>{v4()}</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+```
 
 ### Web Workers / Service Workers (Edge <= 18)
 
