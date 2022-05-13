@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "8.3.2",
+  "version": "8.3.3",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "commitlint": {
     "extends": [
@@ -50,6 +50,7 @@
     "@babel/core": "7.16.0",
     "@babel/eslint-parser": "7.16.3",
     "@babel/preset-env": "7.16.4",
+    "@babel/preset-typescript": "7.16.7",
     "@commitlint/cli": "15.0.0",
     "@commitlint/config-conventional": "15.0.0",
     "@rollup/plugin-node-resolve": "13.0.6",
@@ -71,7 +72,8 @@
     "rollup": "2.60.2",
     "rollup-plugin-terser": "7.0.2",
     "runmd": "1.3.2",
-    "standard-version": "9.3.2"
+    "standard-version": "9.3.2",
+    "typescript": "4.6.4"
   },
   "optionalDevDependencies": {
     "@wdio/browserstack-service": "7.16.10",
@@ -82,6 +84,8 @@
     "@wdio/static-server-service": "7.16.6"
   },
   "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
     "examples:browser:webpack:build": "cd examples/browser-webpack && npm install && npm run build",
     "examples:browser:rollup:build": "cd examples/browser-rollup && npm install && npm run build",
     "examples:node:commonjs:test": "cd examples/node-commonjs && npm install && npm test",
@@ -106,6 +110,7 @@
     "docs": "( node --version | grep -q 'v16' ) && ( npm run build && runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "build": "./scripts/build.sh",
+    "build:types": "tsc --emitDeclarationOnly",
     "prepack": "npm run build",
     "release": "standard-version --no-verify"
   },
