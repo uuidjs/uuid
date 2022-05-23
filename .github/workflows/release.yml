@@ -1,0 +1,42 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+name: Release PR
+
+jobs:
+  release-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          package-name: test-release-please
+
+      #
+      # On release, checkout and run tests before publishing...
+      #
+      # TODO: Uncomment this once we're actually ready to roll a new release --RWK
+
+      # - uses: actions/checkout@v3
+      #   if: ${{ steps.release.outputs.release_created }}
+
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      #     registry-url: 'https://registry.npmjs.org'
+      #   if: ${{ steps.release.outputs.release_created }}
+
+      # - run: npm ci
+      #   if: ${{ steps.release.outputs.release_created }}
+
+      # - run: npm test
+      #   if: ${{ steps.release.outputs.release_created }}
+
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      #   if: ${{ steps.release.outputs.release_created }}
