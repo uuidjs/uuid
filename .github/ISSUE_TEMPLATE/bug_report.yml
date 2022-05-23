@@ -1,0 +1,39 @@
+name: Bug report
+description: File a bug against the `uuid` project
+labels: ["bug"]
+title: "[BUG] <title>"
+
+body:
+- type: checkboxes
+  attributes:
+    label: Before you begin...
+    options:
+    - label: I have searched the existing issues
+      required: true
+    - label: I am not using version 13.x of node  (if so, please upgrade)
+      required: true
+
+- type: textarea
+  attributes:
+    label: Description of the problem
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: Recipe for reproducing
+    description: "**IMPORTANT**: Failure to provide a [Minimal, Complete, and Verifiable](https://stackoverflow.com/help/minimal-reproducible-example) example will result in this issue being closed without further review."
+    render: bash
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: Additional information
+
+- type: textarea
+  attributes:
+    label: Environment
+    description: "Output of `npx envinfo --system --browsers --npmPackages --binaries` goes here:"
+  validations:
+    required: false
