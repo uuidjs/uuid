@@ -1,0 +1,13 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: ["feature"]
+
+body:
+- type: textarea
+  attributes:
+    label: Feature description
+
+- type: textarea
+  attributes:
+    label: Additional information
+    description: E.g. alternatives you've considered, examples, screenshots, or anything else that may be helpful
