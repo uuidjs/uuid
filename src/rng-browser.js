@@ -24,6 +24,8 @@ export default function rng() {
       );
     }
   }
+  
+  getRandomValues(rnds8)
 
-  return getRandomValues(rnds8);
+  return rnds8;
 }
