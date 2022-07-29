@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 16.x]
+        node-version: [12.x, 14.x, 16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -39,6 +39,6 @@ jobs:
       env:
         BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
     - run: npm run test:node
-      if: matrix.node-version >= '12.x'
+      if: matrix.node-version >= '16.x'
     - run: npm run test:pack
-      if: matrix.node-version >= '12.x'
+      if: matrix.node-version >= '16.x'
