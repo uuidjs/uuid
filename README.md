@@ -481,4 +481,4 @@ const uuid = require('uuid'); // <== REMOVED!
 This usage pattern was already discouraged in `uuid@3` and has been removed in `uuid@7`.
 
 ----
-Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
+Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](https://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
