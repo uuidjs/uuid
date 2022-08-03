@@ -25,6 +25,10 @@
         "require": "./dist/index.js",
         "import": "./wrapper.mjs"
       },
+      "browser": {
+        "import": "./dist/esm-browser/index.js",
+        "require": "./dist/commonjs-browser/index.js"
+      },
       "default": "./dist/esm-browser/index.js"
     },
     "./package.json": "./package.json"
@@ -86,12 +90,13 @@
     "examples:browser:rollup:build": "cd examples/browser-rollup && npm install && npm run build",
     "examples:node:commonjs:test": "cd examples/node-commonjs && npm install && npm test",
     "examples:node:esmodules:test": "cd examples/node-esmodules && npm install && npm test",
+    "examples:node:jest:test": "cd examples/node-jest && npm install && npm test",
     "prepare": "cd $( git rev-parse --show-toplevel ) && husky install",
     "lint": "npm run eslint:check && npm run prettier:check",
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
     "pretest": "[ -n $CI ] || npm run build",
-    "test": "BABEL_ENV=commonjs node --throw-deprecation node_modules/.bin/jest test/unit/",
+    "test": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest test/unit/",
     "pretest:browser": "optional-dev-dependency && npm run build && npm-run-all --parallel examples:browser:**",
     "test:browser": "wdio run ./wdio.conf.js",
     "pretest:node": "npm run build",
