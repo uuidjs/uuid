@@ -2,10 +2,15 @@
 
 ```
 npm install
-npm test
 ```
 
-To run the benchmark in the browser open `benchmark.html` and check the console.
+## Node.js
+
+To run the benchmark in Node.js, run `npm test`.
+
+## Browser
+
+To run the benchmark in the browser run `npm run start`, open `benchmark.html`, and check the console.
 
 Example output (`uuid@8.0.0`, MacBook Pro (Retina, 13-inch, Early 2015), 3.1 GHz Dual-Core Intel Core i7):
 

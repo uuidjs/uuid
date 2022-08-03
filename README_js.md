@@ -367,35 +367,9 @@ To load this module directly into modern browsers that [support loading ECMAScri
 
 ### UMD
 
-To load this module directly into older browsers you can use the [UMD (Universal Module Definition)](https://github.com/umdjs/umd) builds from any of the following CDNs:
+As of `uuid@9` [UMD (Universal Module Definition)](https://github.com/umdjs/umd) builds are no longer shipped with this library.
 
-**Using [UNPKG](https://unpkg.com/uuid@latest/dist/umd/)**:
-
-```html
-<script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
-```
-
-**Using [jsDelivr](https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/)**:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
-```
-
-**Using [cdnjs](https://cdnjs.com/libraries/uuid)**:
-
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
-```
-
-These CDNs all provide the same [`uuidv4()`](#uuidv4options-buffer-offset) method:
-
-```html
-<script>
-  uuidv4(); // ⇨ '55af1e37-0734-46d8-b070-a1e42e4fc392'
-</script>
-```
-
-Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`uuidv3()`](#uuidv3name-namespace-buffer-offset) and [`uuidv5()`](#uuidv5name-namespace-buffer-offset)) are available from the files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
+If you need a UMD build of this library, use a bundler like Webpack or Rollup. Alternatively, refer to the documentation of [`uuid@8.3.2`](https://github.com/uuidjs/uuid/blob/v8.3.2/README.md#umd) which was the last version that shipped UMD builds.
 
 ## Known issues
 
