@@ -60,7 +60,3 @@ done
 
 echo "Removing browser-specific files from esm-node"
 rm -f "$DIR"/esm-node/*-browser.js
-
-# UMD Build
-mkdir "$DIR/umd"
-rollup -c
