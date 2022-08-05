@@ -50,14 +50,14 @@
     "wrapper.mjs"
   ],
   "devDependencies": {
-    "@babel/cli": "7.18.9",
-    "@babel/core": "7.18.9",
+    "@babel/cli": "7.18.10",
+    "@babel/core": "7.18.10",
     "@babel/eslint-parser": "7.18.9",
-    "@babel/preset-env": "7.18.9",
+    "@babel/preset-env": "7.18.10",
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-conventional": "17.0.3",
     "bundlewatch": "0.3.3",
-    "eslint": "8.20.0",
+    "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "17.0.0",
     "eslint-plugin-import": "2.26.0",
