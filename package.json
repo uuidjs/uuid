@@ -29,7 +29,11 @@
         "import": "./dist/esm-browser/index.js",
         "require": "./dist/commonjs-browser/index.js"
       },
-      "default": "./dist/esm-browser/index.js"
+      "default": "./dist/esm-browser/index.js",
+      "types": {
+        "module": "./types.d.mts",
+        "default": "./types.d.ts"
+      }
     },
     "./package.json": "./package.json"
   },
