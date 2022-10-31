@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/uuidjs/uuid/compare/v8.3.2...v9.0.0) (2022-09-05)
+
+### ⚠ BREAKING CHANGES
+
+- Drop Node.js 10.x support. This library always aims at supporting one EOLed LTS release which by this time now is 12.x which has reached EOL 30 Apr 2022.
+
+- Remove the minified UMD build from the package.
+
+  Minified code is hard to audit and since this is a widely used library it seems more appropriate nowadays to optimize for auditability than to ship a legacy module format that, at best, serves educational purposes nowadays.
+
+  For production browser use cases, users should be using a bundler. For educational purposes, today's online sandboxes like replit.com offer convenient ways to load npm modules, so the use case for UMD through repos like UNPKG or jsDelivr has largely vanished.
+
+- Drop IE 11 and Safari 10 support. Drop support for browsers that don't correctly implement const/let and default arguments, and no longer transpile the browser build to ES2015.
+
+  This also removes the fallback on msCrypto instead of the crypto API.
+
+  Browser tests are run in the first supported version of each supported browser and in the latest (as of this commit) version available on Browserstack.
+
+### Features
+
+- optimize uuid.v1 by 1.3x uuid.v4 by 4.3x (430%) ([#597](https://github.com/uuidjs/uuid/issues/597)) ([3a033f6](https://github.com/uuidjs/uuid/commit/3a033f6bab6bb3780ece6d645b902548043280bc))
+- remove UMD build ([#645](https://github.com/uuidjs/uuid/issues/645)) ([e948a0f](https://github.com/uuidjs/uuid/commit/e948a0f22bf22f4619b27bd913885e478e20fe6f)), closes [#620](https://github.com/uuidjs/uuid/issues/620)
+- use native crypto.randomUUID when available ([#600](https://github.com/uuidjs/uuid/issues/600)) ([c9e076c](https://github.com/uuidjs/uuid/commit/c9e076c852edad7e9a06baaa1d148cf4eda6c6c4))
+
+### Bug Fixes
+
+- add Jest/jsdom compatibility ([#642](https://github.com/uuidjs/uuid/issues/642)) ([16f9c46](https://github.com/uuidjs/uuid/commit/16f9c469edf46f0786164cdf4dc980743984a6fd))
+- change default export to named function ([#545](https://github.com/uuidjs/uuid/issues/545)) ([c57bc5a](https://github.com/uuidjs/uuid/commit/c57bc5a9a0653273aa639cda9177ce52efabe42a))
+- handle error when parameter is not set in v3 and v5 ([#622](https://github.com/uuidjs/uuid/issues/622)) ([fcd7388](https://github.com/uuidjs/uuid/commit/fcd73881692d9fabb63872576ba28e30ff852091))
+- run npm audit fix ([#644](https://github.com/uuidjs/uuid/issues/644)) ([04686f5](https://github.com/uuidjs/uuid/commit/04686f54c5fed2cfffc1b619f4970c4bb8532353))
+- upgrading from uuid3 broken link ([#568](https://github.com/uuidjs/uuid/issues/568)) ([1c849da](https://github.com/uuidjs/uuid/commit/1c849da6e164259e72e18636726345b13a7eddd6))
+
+### build
+
+- drop Node.js 8.x from babel transpile target ([#603](https://github.com/uuidjs/uuid/issues/603)) ([aa11485](https://github.com/uuidjs/uuid/commit/aa114858260402107ec8a1e1a825dea0a259bcb5))
+- drop support for legacy browsers (IE11, Safari 10) ([#604](https://github.com/uuidjs/uuid/issues/604)) ([0f433e5](https://github.com/uuidjs/uuid/commit/0f433e5ec444edacd53016de67db021102f36148))
+
+- drop node 10.x to upgrade dev dependencies ([#653](https://github.com/uuidjs/uuid/issues/653)) ([28a5712](https://github.com/uuidjs/uuid/commit/28a571283f8abda6b9d85e689f95b7d3ee9e282e)), closes [#643](https://github.com/uuidjs/uuid/issues/643)
+
 ### [8.3.2](https://github.com/uuidjs/uuid/compare/v8.3.1...v8.3.2) (2020-12-08)
 
 ### Bug Fixes
