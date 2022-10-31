@@ -2,6 +2,10 @@
   "name": "uuid",
   "version": "9.0.0",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
+  "funding": [
+    "https://github.com/sponsors/broofa",
+    "https://github.com/sponsors/ctavan"
+  ],
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
