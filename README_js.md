@@ -147,7 +147,7 @@ Create an RFC version 1 (timestamp) UUID
 | [`options.node` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
 | [`options.clockseq`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
 | [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
-| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanseconds to add to `msecs`, should be 0-10,000) |
+| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
 | [`options.random`] | `Array` of 16 random bytes (0-255) |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
