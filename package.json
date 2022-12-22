@@ -1,6 +1,6 @@
 {
-  "name": "uuid",
-  "version": "9.0.0",
+  "name": "@dreamworld/uuid",
+  "version": "0.0.0-development",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "funding": [
     "https://github.com/sponsors/broofa",
@@ -16,6 +16,9 @@
     "guid",
     "rfc4122"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "bin": {
     "uuid": "./dist/bin/uuid"
@@ -54,6 +57,7 @@
     "wrapper.mjs"
   ],
   "devDependencies": {
+    "semantic-release": "17.0.8",
     "@babel/cli": "7.18.10",
     "@babel/core": "7.18.10",
     "@babel/eslint-parser": "7.18.9",
@@ -117,7 +121,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/uuidjs/uuid.git"
+    "url": "https://github.com/DreamworldSolutions/uuid.git"
   },
   "lint-staged": {
     "*.{js,jsx,json,md}": [
@@ -131,5 +135,16 @@
     "scripts": {
       "postchangelog": "prettier --write CHANGELOG.md"
     }
+  },
+  "release": {
+    "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
+      "main",
+      {
+          "name": "feature/*",
+          "prerelease": "${name.replace(/^feature\\//g, \"\")}",
+          "channel": "${name.replace(/^feature\\//g, \"\")}"
+      }
+    ]
   }
 }

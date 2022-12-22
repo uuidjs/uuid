@@ -4,3 +4,4 @@ dist/
 browserstack.err
 local.log
 *.tgz
+package-lock.json
