@@ -1,6 +1,6 @@
 import native from './native.js';
 import rng from './rng.js';
-import { unsafeStringify } from './stringify.js';
+import { unsafeStringify } from './stringify-internal.js';
 
 function v4(options, buf, offset) {
   if (native.randomUUID && !buf && !options) {

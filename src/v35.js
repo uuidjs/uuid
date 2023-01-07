@@ -1,4 +1,4 @@
-import { unsafeStringify } from './stringify.js';
+import { unsafeStringify } from './stringify-internal.js';
 import parse from './parse.js';
 
 function stringToBytes(str) {
