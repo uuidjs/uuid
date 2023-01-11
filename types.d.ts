@@ -238,4 +238,4 @@ export function validate(str: string): boolean
  * uuidVersion('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ 4
  * ```
  */
-export function version(str: string): boolean
+export function version(str: string): 0 | 1 | 2 | 3 | 4 | 5
