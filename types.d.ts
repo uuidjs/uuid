@@ -38,6 +38,7 @@ export const NIL: '00000000-0000-0000-0000-000000000000'
 export function parse(str: string): Uint8Array
 
 /**
+ * Convert array of bytes to UUID string
  *
  * @param arr Collection of 16 values (starting from `offset`) between 0-255
  * @param offset Starting index in the Array
