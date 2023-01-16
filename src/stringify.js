@@ -34,7 +34,7 @@ export function unsafeStringify(arr, offset = 0) {
     byteToHex[arr[offset + 13]] +
     byteToHex[arr[offset + 14]] +
     byteToHex[arr[offset + 15]]
-  ).toLowerCase();
+  );
 }
 
 function stringify(arr, offset = 0) {
