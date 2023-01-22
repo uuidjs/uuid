@@ -1,7 +1,7 @@
 {
   "name": "uuid",
   "version": "9.0.0",
-  "description": "RFC4122 (v1, v4, and v5) UUIDs",
+  "description": "RFC4122 (v1, v3, v4, v5, and v7) UUIDs",
   "funding": [
     "https://github.com/sponsors/broofa",
     "https://github.com/sponsors/ctavan"
