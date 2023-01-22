@@ -354,6 +354,7 @@ Usage:
   uuid v3 <name> <namespace uuid>
   uuid v4
   uuid v5 <name> <namespace uuid>
+  uuid v7
   uuid --help
 
 Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs

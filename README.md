@@ -268,7 +268,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '017f22e2-79b0-7cc3-98c4-dc0c0c07398f'
+uuidv7(); // ⇨ '01695553-c90c-7bad-9bdd-2b0d7b3dcb6d'
 ```
 
 ### uuid.validate(str)
@@ -346,7 +346,6 @@ Usage:
   uuid v4
   uuid v5 <name> <namespace uuid>
   uuid v7
-  uuid v7 <unix timestamp>
   uuid --help
 
 Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs

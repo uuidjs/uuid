@@ -14,7 +14,6 @@ function usage() {
   console.log('  uuid v4');
   console.log('  uuid v5 <name> <namespace uuid>');
   console.log('  uuid v7');
-  console.log('  uuid v7 <unix timestamp>');
   console.log('  uuid --help');
   console.log(
     '\nNote: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs defined by RFC4122'
@@ -77,16 +76,9 @@ switch (version) {
     break;
   }
 
-  case 'v7': {
-    const ts = args.shift();
-
-    console.log(
-      v7({
-        msecs: ts ? parseInt(ts) : undefined,
-      })
-    );
+  case 'v7':
+    console.log(v7());
     break;
-  }
 
   default:
     usage();
