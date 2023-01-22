@@ -20,35 +20,36 @@ function v7(options, buf, offset) {
   // milliseconds since unix epoch, 1970-01-01 00:00
   const msecs = options.msecs !== undefined ? options.msecs : Date.now();
 
-  // rands is Uint8Array(16) filled with random bytes
+  // rnds is Uint8Array(16) filled with random bytes
   const rnds = options.random || (options.rng || rng)();
 
-  // 48 bits of timestamp
-  rnds[0] = (msecs / 0x10000000000) & 0xff;
-  rnds[1] = (msecs / 0x100000000) & 0xff;
-  rnds[2] = (msecs / 0x1000000) & 0xff;
-  rnds[3] = (msecs / 0x10000) & 0xff;
-  rnds[4] = (msecs / 0x100) & 0xff;
-  rnds[5] = msecs & 0xff;
+  // initialize buffer and pointer
+  let i = (buf && offset) || 0;
+  const b = buf || new Uint8Array(16);
 
-  // set version (7)
-  rnds[6] = (rnds[6] & 0x0f) | 0x70;
+  // [bytes 0-5] 48 bits of timestamp
+  b[i++] = (msecs / 0x10000000000) & 0xff;
+  b[i++] = (msecs / 0x100000000) & 0xff;
+  b[i++] = (msecs / 0x1000000) & 0xff;
+  b[i++] = (msecs / 0x10000) & 0xff;
+  b[i++] = (msecs / 0x100) & 0xff;
+  b[i++] = msecs & 0xff;
 
-  // Per RFC4122 4.1.1, set the variant
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+  // [byte 6] - set 4 bits of version (7)
+  b[i++] = (rnds[6] & 0x0f) | 0x70;
 
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    offset = offset || 0;
+  // [byte 7] - set 8 bits of random
+  b[i++] = rnds[7];
 
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
+  // [byte 8] - Per RFC4122 4.1.1, set the variant (2 bits)
+  b[i++] = (rnds[8] & 0x3f) | 0x80;
 
-    return buf;
+  // [bytes 9-16] populate with random bytes
+  for (let n = 0; n < 7; ++n) {
+    b[i + n] = rnds[n + 9];
   }
 
-  return unsafeStringify(rnds);
+  return buf || unsafeStringify(b);
 }
 
 export default v7;
