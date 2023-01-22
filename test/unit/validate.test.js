@@ -24,9 +24,9 @@ describe('validate', () => {
     assert.strictEqual(validate('017f22e2-79b0-7cc3-98c4-dc0c0c07398f'), true);
 
     // test invalid/unsupported UUID versions
-    [2, 6, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'].forEach((v) => {
+    [0, 2, 6, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'].forEach((v) => {
       assert.strictEqual(
-        validate('00000000-0000-' + v + '000-0000-000000000000'),
+        validate('12300000-0000-' + v + '000-0000-000000000000'),
         false,
         'version ' + v + ' should not be valid'
       );
