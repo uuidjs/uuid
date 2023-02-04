@@ -45,9 +45,13 @@ function v7(options, buf, offset) {
   b[i++] = (rnds[8] & 0x3f) | 0x80;
 
   // [bytes 9-16] populate with random bytes
-  for (let n = 0; n < 7; ++n) {
-    b[i + n] = rnds[n + 9];
-  }
+  b[i++] = rnds[9];
+  b[i++] = rnds[10];
+  b[i++] = rnds[11];
+  b[i++] = rnds[12];
+  b[i++] = rnds[13];
+  b[i++] = rnds[14];
+  b[i++] = rnds[15];
 
   return buf || unsafeStringify(b);
 }
