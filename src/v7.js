@@ -12,10 +12,40 @@ import { unsafeStringify } from './stringify.js';
  * [DRAFT] Updated RFC 4122: https://github.com/ietf-wg-uuidrev/rfc4122bis
  *
  * Sample V7 value: https://ietf-wg-uuidrev.github.io/rfc4122bis/draft-00/draft-ietf-uuidrev-rfc4122bis.html#name-example-of-a-uuidv7-value
+ *
+ * Monotonic Bit Layout:
+ *     RFC 4122.6.2 Method 1, Dedicated Counter Bits
+ *     ref: https://ietf-wg-uuidrev.github.io/rfc4122bis/draft-00/draft-ietf-uuidrev-rfc4122bis.html#section-6.2-5.2.1
+ *   0                   1                   2                   3
+ *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *  |                          unix_ts_ms                           |
+ *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *  |          unix_ts_ms           |  ver  |        seq_hi         |
+ *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *  |var|               seq_low               |        rand         |
+ *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *  |                             rand                              |
+ *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *
+ * seq is a 31 bit serialized counter; comprised of 12 bit seq_hi and 19 bit seq_low,
+ * and randomly initialized upon timestamp change. 31 bit counter size was selected
+ * as any bitwise operations in node are done as _signed_ 32 bit ints. we exclude the sign bit.
  */
+
+let _seqLow = null;
+let _seqHigh = null;
+let _msecs = 0;
 
 function v7(options, buf, offset) {
   options = options || {};
+
+  // initialize buffer and pointer
+  let i = (buf && offset) || 0;
+  const b = buf || new Uint8Array(16);
+
+  let seqHigh = _seqHigh;
+  let seqLow = _seqLow;
 
   // milliseconds since unix epoch, 1970-01-01 00:00
   const msecs = options.msecs !== undefined ? options.msecs : Date.now();
@@ -23,30 +53,91 @@ function v7(options, buf, offset) {
   // rnds is Uint8Array(16) filled with random bytes
   const rnds = options.random || (options.rng || rng)();
 
-  // initialize buffer and pointer
-  let i = (buf && offset) || 0;
-  const b = buf || new Uint8Array(16);
+  // seq is user provided seq
+  let seq = options.seq !== undefined ? options.seq : null;
 
-  // [bytes 0-5] 48 bits of timestamp
-  b[i++] = (msecs / 0x10000000000) & 0xff;
-  b[i++] = (msecs / 0x100000000) & 0xff;
-  b[i++] = (msecs / 0x1000000) & 0xff;
-  b[i++] = (msecs / 0x10000) & 0xff;
-  b[i++] = (msecs / 0x100) & 0xff;
-  b[i++] = msecs & 0xff;
+  // if we have a user provided seq
+  if (seq !== null) {
+    // trim provided seq to 31 bits of value, avoiding overflow
+    if (seq > 0x7fffffff) {
+      seq = 0x7fffffff;
+    }
 
-  // [byte 6] - set 4 bits of version (7)
-  b[i++] = (rnds[6] & 0x0f) | 0x70;
+    // split provided seq into high/low parts
+    seqHigh = (seq >>> 19) & 0xfff;
+    seqLow = seq & 0x7ffff;
+  }
+  // else check if clock has advanced
+  else if (msecs !== _msecs) {
+    // reinitialize seq
+    seqHigh = null;
+    seqLow = null;
+  }
 
-  // [byte 7] - set 8 bits of random
-  b[i++] = rnds[7];
+  // randomly initialize seq if empty
+  if (seqHigh === null) {
+    seqHigh = rnds[6] & 0x7f;
+    seqHigh = (seqHigh << 8) | rnds[7];
+  }
 
-  // [byte 8] - Per RFC4122 4.1.1, set the variant (2 bits)
-  b[i++] = (rnds[8] & 0x3f) | 0x80;
+  if (seqLow === null) {
+    seqLow = rnds[8] & 0x3f; // pad for var
+    seqLow = (seqLow << 8) | rnds[9];
+    seqLow = (seqLow << 5) | (rnds[10] >>> 3);
+  }
 
-  // [bytes 9-16] populate with random bytes
-  b[i++] = rnds[9];
-  b[i++] = rnds[10];
+  // check if clock has advanced or user provided seq
+  if (msecs > _msecs || seq !== null) {
+    _msecs = msecs;
+  }
+  // increment seq if within msecs window
+  else if (msecs + 10000 > _msecs) {
+    seqLow += 1; // increment our seq
+    if (seqLow > 0x7ffff) {
+      seqLow = 0;
+
+      if (++seqHigh > 0xfff) {
+        seqHigh = 0;
+
+        // increment internal _msecs. this allows us to continue incrementing
+        // while staying monotonic. Note, once we hit 10k milliseconds beyond system
+        // clock, we will reset breaking monotonicity (after (2^31)*10000 generations)
+        _msecs++;
+      }
+    }
+  } else {
+    // resetting; we have advanced more than
+    // 10k milliseconds beyond system clock
+    _msecs = msecs;
+  }
+
+  _seqHigh = seqHigh;
+  _seqLow = seqLow;
+
+  // [bytes 0-5] 48 bits of local timestamp
+  b[i++] = (_msecs / 0x10000000000) & 0xff;
+  b[i++] = (_msecs / 0x100000000) & 0xff;
+  b[i++] = (_msecs / 0x1000000) & 0xff;
+  b[i++] = (_msecs / 0x10000) & 0xff;
+  b[i++] = (_msecs / 0x100) & 0xff;
+  b[i++] = _msecs & 0xff;
+
+  // [byte 6] - set 4 bits of version (7) with first 4 bits seq_hi
+  b[i++] = ((seqHigh >>> 4) & 0x0f) | 0x70;
+
+  // [byte 7] remaining 8 bits of seq_hi
+  b[i++] = seqHigh & 0xff;
+
+  // [byte 8] - variant (2 bits), first 6 bits seq_low
+  b[i++] = ((seqLow >>> 13) & 0x3f) | 0x80;
+
+  // [byte 9] 8 bits seq_low
+  b[i++] = (seqLow >>> 5) & 0xff;
+
+  // [byte 10] remaining 5 bits seq_low, 3 bits random
+  b[i++] = ((seqLow << 3) & 0xff) | (rnds[10] & 0x07);
+
+  // [bytes 11-15] always random
   b[i++] = rnds[11];
   b[i++] = rnds[12];
   b[i++] = rnds[13];

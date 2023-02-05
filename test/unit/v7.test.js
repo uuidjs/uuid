@@ -24,6 +24,8 @@ import v7 from '../../src/v7.js';
 
 describe('v7', () => {
   const msecsFixture = 1645557742000;
+  const seqFixture = 0x661b189b;
+
   const randomBytesFixture = [
     0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0x0c, 0xc3, 0x18, 0xc4, 0xdc, 0x0c, 0x0c, 0x07, 0x39, 0x8f,
   ];
@@ -40,6 +42,7 @@ describe('v7', () => {
     const id = v7({
       random: randomBytesFixture,
       msecs: msecsFixture,
+      seq: seqFixture,
     });
     assert.strictEqual(id, '017f22e2-79b0-7cc3-98c4-dc0c0c07398f');
   });
@@ -48,6 +51,7 @@ describe('v7', () => {
     const id = v7({
       rng: () => randomBytesFixture,
       msecs: msecsFixture,
+      seq: seqFixture,
     });
     assert.strictEqual(id, '017f22e2-79b0-7cc3-98c4-dc0c0c07398f');
   });
@@ -65,6 +69,7 @@ describe('v7', () => {
       {
         random: randomBytesFixture,
         msecs: msecsFixture,
+        seq: seqFixture,
       },
       buffer
     );
@@ -78,6 +83,7 @@ describe('v7', () => {
       {
         random: randomBytesFixture,
         msecs: msecsFixture,
+        seq: seqFixture,
       },
       buffer,
       0
@@ -86,10 +92,81 @@ describe('v7', () => {
       {
         random: randomBytesFixture,
         msecs: msecsFixture,
+        seq: seqFixture,
       },
       buffer,
       16
     );
     assert.deepEqual(buffer, expectedBytes.concat(expectedBytes));
+  });
+
+  //
+  // monotonic and lexicographical sorting tests
+  //
+
+  test('lexicographical sorting is preserved', () => {
+    let id;
+    let prior;
+    let msecs = msecsFixture;
+    for (let i = 0; i < 20000; ++i) {
+      if (i % 1500 === 0) {
+        // every 1500 runs increment msecs so seq is
+        // reinitialized, simulating passage of time
+        msecs += 1;
+      }
+
+      id = v7({ msecs });
+
+      if (i > 0) {
+        assert(prior < id, `${prior} < ${id}`);
+      }
+
+      prior = id;
+    }
+  });
+
+  test('handles seq rollover', () => {
+    const msecs = msecsFixture;
+    const a = v7({
+      msecs,
+      seq: 0x7fffffff,
+    });
+
+    v7({ msecs });
+
+    const c = v7({ msecs });
+
+    assert(a < c, `${a} < ${c}`);
+  });
+
+  test('can supply seq', () => {
+    let seq = 0x12345;
+    let uuid = v7({
+      msecs: msecsFixture,
+      seq,
+    });
+
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-891a-2');
+
+    seq = 0x6fffffff;
+    uuid = v7({
+      msecs: msecsFixture,
+      seq,
+    });
+
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7fff-bfff-f');
+  });
+
+  test('internal seq is reset upon timestamp change', () => {
+    v7({
+      msecs: msecsFixture,
+      seq: 0x6fffffff,
+    });
+
+    const uuid = v7({
+      msecs: msecsFixture + 1,
+    });
+
+    assert(uuid.indexOf('fff') !== 15);
   });
 });
