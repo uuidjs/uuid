@@ -16,6 +16,7 @@ import { unsafeStringify } from './stringify.js';
  * Monotonic Bit Layout:
  *     RFC 4122.6.2 Method 1, Dedicated Counter Bits
  *     ref: https://ietf-wg-uuidrev.github.io/rfc4122bis/draft-00/draft-ietf-uuidrev-rfc4122bis.html#section-6.2-5.2.1
+ *
  *   0                   1                   2                   3
  *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -44,17 +45,29 @@ function v7(options, buf, offset) {
   let i = (buf && offset) || 0;
   const b = buf || new Uint8Array(16);
 
-  let seqHigh = _seqHigh;
-  let seqLow = _seqLow;
+  // rnds is Uint8Array(16) filled with random bytes
+  const rnds = options.random || (options.rng || rng)();
 
   // milliseconds since unix epoch, 1970-01-01 00:00
   const msecs = options.msecs !== undefined ? options.msecs : Date.now();
 
-  // rnds is Uint8Array(16) filled with random bytes
-  const rnds = options.random || (options.rng || rng)();
-
-  // seq is user provided seq
+  // seq is user provided 31 bit counter
   let seq = options.seq !== undefined ? options.seq : null;
+
+  // initialize local seq high/low parts
+  let seqHigh = _seqHigh;
+  let seqLow = _seqLow;
+
+  // check if clock has advanced and user has not provided msecs
+  if (msecs > _msecs && options.msecs === undefined) {
+    _msecs = msecs;
+
+    // unless user provided seq, reset seq parts
+    if (seq !== null) {
+      seqHigh = null;
+      seqLow = null;
+    }
+  }
 
   // if we have a user provided seq
   if (seq !== null) {
@@ -67,33 +80,20 @@ function v7(options, buf, offset) {
     seqHigh = (seq >>> 19) & 0xfff;
     seqLow = seq & 0x7ffff;
   }
-  // else check if clock has advanced
-  else if (msecs !== _msecs) {
-    // reinitialize seq
-    seqHigh = null;
-    seqLow = null;
-  }
 
-  // randomly initialize seq if empty
-  if (seqHigh === null) {
+  // randomly initialize seq
+  if (seqHigh === null || seqLow === null) {
     seqHigh = rnds[6] & 0x7f;
     seqHigh = (seqHigh << 8) | rnds[7];
-  }
 
-  if (seqLow === null) {
     seqLow = rnds[8] & 0x3f; // pad for var
     seqLow = (seqLow << 8) | rnds[9];
     seqLow = (seqLow << 5) | (rnds[10] >>> 3);
   }
 
-  // check if clock has advanced or user provided seq
-  if (msecs > _msecs || seq !== null) {
-    _msecs = msecs;
-  }
   // increment seq if within msecs window
-  else if (msecs + 10000 > _msecs) {
-    seqLow += 1; // increment our seq
-    if (seqLow > 0x7ffff) {
+  if (msecs + 10000 > _msecs && seq === null) {
+    if (++seqLow > 0x7ffff) {
       seqLow = 0;
 
       if (++seqHigh > 0xfff) {
