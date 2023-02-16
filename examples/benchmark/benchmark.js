@@ -57,11 +57,25 @@ export default function benchmark(uuid, Benchmark) {
       .add('uuid.v4() fill existing array', function () {
         uuid.v4(null, array, 0);
       })
+      .add('uuid.v4() without native generation', function () {
+        uuid.v4({}); // passing an object instead of null bypasses native.randomUUID
+      })
       .add('uuid.v3()', function () {
         uuid.v3('hello.example.com', uuid.v3.DNS);
       })
       .add('uuid.v5()', function () {
         uuid.v5('hello.example.com', uuid.v5.DNS);
+      })
+      .add('uuid.v7()', function () {
+        uuid.v7();
+      })
+      .add('uuid.v7() fill existing array', function () {
+        uuid.v7(null, array, 0);
+      })
+      .add('uuid.v7() with defined time', function () {
+        uuid.v7({
+          msecs: 1645557742000,
+        });
       })
       .on('cycle', function (event) {
         console.log(event.target.toString());

@@ -27,6 +27,14 @@ module.exports = [
     },
     plugins,
   },
+  {
+    input: './example-v7.js',
+    output: {
+      file: 'dist/v7.js',
+      format: 'iife',
+    },
+    plugins,
+  },
 
   {
     input: './size-v1.js',
@@ -56,6 +64,14 @@ module.exports = [
     input: './size-v5.js',
     output: {
       file: 'dist/v5-size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
+    input: './size-v7.js',
+    output: {
+      file: 'dist/v7-size.js',
       format: 'cjs',
     },
     plugins,

@@ -6,6 +6,7 @@ const {
   v3: uuidv3,
   v4: uuidv4,
   v5: uuidv5,
+  v7: uuidv7,
   validate: uuidValidate,
   version: uuidVersion,
 } = require('uuid');
@@ -15,6 +16,8 @@ const pkg = require('uuid/package.json');
 console.log('uuidv1()', uuidv1());
 
 console.log('uuidv4()', uuidv4());
+
+console.log('uuidv7()', uuidv7());
 
 // ... using predefined DNS namespace (for domain names)
 console.log('uuidv3() DNS', uuidv3('hello.example.com', uuidv3.DNS));
@@ -53,6 +56,7 @@ console.log('Same with default export');
 
 console.log('uuid.v1()', uuid.v1());
 console.log('uuid.v4()', uuid.v4());
+console.log('uuid.v7()', uuid.v7());
 console.log('uuid.v3() DNS', uuid.v3('hello.example.com', uuid.v3.DNS));
 console.log('uuid.v3() URL', uuid.v3('http://example.com/hello', uuid.v3.URL));
 console.log('uuid.v3() MY_NAMESPACE', uuid.v3('Hello, World!', MY_NAMESPACE));
