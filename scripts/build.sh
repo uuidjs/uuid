@@ -4,7 +4,7 @@
 ROOT="$(pwd)/$(dirname "$0")/.."
 cd "$ROOT" || exit 1
 
-PATH="$(npm bin):$PATH"
+PATH="$(npm root)/.bin:$PATH"
 DIR="$ROOT/dist"
 
 # Clean up output dir
@@ -46,14 +46,12 @@ rm -rf "$DIR/esm-browser/uuid-bin.js"
 rm -rf "$DIR/esm-node/bin"
 rm -rf "$DIR/esm-node/uuid-bin.js"
 
-for FILE in "$DIR"/commonjs-browser/*-browser.js
-do
+for FILE in "$DIR"/commonjs-browser/*-browser.js; do
     echo "Replacing node-specific file for commonjs-browser: $FILE"
     mv "$FILE" "${FILE/-browser.js/.js}"
 done
 
-for FILE in "$DIR"/esm-browser/*-browser.js
-do
+for FILE in "$DIR"/esm-browser/*-browser.js; do
     echo "Replacing node-specific file for esm-browser: $FILE"
     mv "$FILE" "${FILE/-browser.js/.js}"
 done
