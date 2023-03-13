@@ -75,7 +75,7 @@
     "optional-dev-dependency": "2.0.1",
     "prettier": "2.7.1",
     "random-seed": "0.3.0",
-    "runmd": "1.3.6",
+    "runmd": "1.3.8",
     "standard-version": "9.5.0"
   },
   "optionalDevDependencies": {
@@ -109,7 +109,7 @@
     "prettier:fix": "prettier --write '**/*.{js,jsx,json,md}'",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
     "md": "runmd --watch --output=README.md README_js.md",
-    "docs": "( node --version | grep -q 'v16' ) && ( npm run build && runmd --output=README.md README_js.md )",
+    "docs": "( node --version | grep -q 'v16' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "build": "./scripts/build.sh",
     "prepack": "npm run build",
