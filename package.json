@@ -75,7 +75,7 @@
     "optional-dev-dependency": "2.0.1",
     "prettier": "2.7.1",
     "random-seed": "0.3.0",
-    "runmd": "1.3.8",
+    "runmd": "1.3.9",
     "standard-version": "9.5.0"
   },
   "optionalDevDependencies": {
