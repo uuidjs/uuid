@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   ci:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -12,33 +11,33 @@ jobs:
         node-version: [12.x, 14.x, 16.x, 18.x]
 
     steps:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 10
-    - name: Use Node.js 16.x to build
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.x
-    - run: npm install
-    - run: npm run build
-    - run: rm -rf node_modules
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run test
-      env:
-        CI: true
-    - run: npm run lint
-      if: matrix.node-version == '16.x'
-    - run: npm run docs:diff
-      if: matrix.node-version == '16.x'
-    - run: npm run bundlewatch
-      if: matrix.node-version == '16.x'
-      env:
-        BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
-    - run: npm run test:node
-      if: matrix.node-version >= '16.x'
-    - run: npm run test:pack
-      if: matrix.node-version >= '16.x'
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 10
+      - name: Use Node.js 16.x to build
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - run: npm install
+      - run: npm run build
+      - run: rm -rf node_modules
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run test
+        env:
+          CI: true
+      - run: npm run lint
+        if: matrix.node-version == '16.x'
+      - run: npm run docs:diff
+        if: matrix.node-version == '16.x'
+      - run: npm run bundlewatch
+        if: matrix.node-version == '16.x'
+        env:
+          BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
+      - run: npm run test:node
+        if: matrix.node-version >= '16.x'
+      - run: npm run test:pack
+        if: matrix.node-version >= '16.x'
