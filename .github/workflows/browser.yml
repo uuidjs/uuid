@@ -1,9 +1,13 @@
 name: Browser
 
-on: [push]
+on:
+  push:
+  pull_request_target:
+    types: [labeled]
 
 jobs:
   browser:
+    if: github.repository == 'uuidjs/uuid' && (contains(github.event.pull_request.labels.*.name, 'safe to test') || github.event_name == 'push')
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -12,13 +16,16 @@ jobs:
         with:
           fetch-depth: 10
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - run: npm install
+      - run: npm ci
       - name: Test Browser
         run: npm run test:browser
         env:
           CI: true
           BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      - run: npx bundlewatch --config bundlewatch.config.json
+        env:
+          BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
