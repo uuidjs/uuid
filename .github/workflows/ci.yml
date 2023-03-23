@@ -34,10 +34,6 @@ jobs:
       if: matrix.node-version == '16.x'
     - run: npm run docs:diff
       if: matrix.node-version == '16.x'
-    - run: npm run bundlewatch
-      if: matrix.node-version == '16.x'
-      env:
-        BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
     - run: npm run test:node
       if: matrix.node-version >= '16.x'
     - run: npm run test:pack
