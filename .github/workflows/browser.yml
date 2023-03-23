@@ -26,3 +26,4 @@ jobs:
     - run: npx bundlewatch --config bundlewatch.config.json
       env:
         BUNDLEWATCH_GITHUB_TOKEN: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
+        CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
