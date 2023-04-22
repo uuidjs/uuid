@@ -25,7 +25,7 @@ console.log('uuidv3() URL', uuidv3('http://example.com/hello', uuidv3.URL));
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
-// E.g. the one here was generated using this modules `uuid` CLI.
+// E.g. the one here was generated using these modules `uuid` CLI.
 const MY_NAMESPACE = '55238d15-c926-4598-b49d-cf4e913ba13c';
 console.log('uuidv3() MY_NAMESPACE', uuidv3('Hello, World!', MY_NAMESPACE));
 
@@ -38,7 +38,7 @@ console.log('uuidv5() URL', uuidv5('http://example.com/hello', uuidv5.URL));
 // ... using a custom namespace
 //
 // Note: Custom namespaces should be a UUID string specific to your application!
-// E.g. the one here was generated using this modules `uuid` CLI.
+// E.g. the one here was generated using these modules `uuid` CLI.
 // const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 console.log('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
