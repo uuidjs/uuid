@@ -67,6 +67,7 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 |  |  |  |
 | --- | --- | --- |
 | [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.3` |
+| [`uuid.MAX`](#uuidmax) | The max UUID string (all ones) | New in `uuid@9.1` |
 | [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
 | [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
@@ -88,6 +89,18 @@ Example:
 import { NIL as NIL_UUID } from 'uuid';
 
 NIL_UUID; // RESULT
+```
+
+### uuid.MAX
+
+The max UUID string (all zeros).
+
+Example:
+
+```javascript --run
+import { MAX as MAX_UUID } from 'uuid';
+
+MAX_UUID; // RESULT
 ```
 
 ### uuid.parse(str)

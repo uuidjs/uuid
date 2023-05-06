@@ -1,5 +1,6 @@
 import {
   NIL as NIL_UUID,
+  MAX as MAX_UUID,
   parse as uuidParse,
   stringify as uuidStringify,
   v1 as uuidv1,
@@ -48,6 +49,7 @@ testpage(function (addTest, done) {
 
   // Utility functions
   addTest('NIL_UUID', NIL_UUID);
+  addTest('MAX_UUID', MAX_UUID);
   addTest('uuidParse()', uuidParse(MY_NAMESPACE));
   addTest('uuidStringify()', uuidStringify(uuidParse(MY_NAMESPACE)));
   addTest('uuidValidate()', uuidValidate(MY_NAMESPACE));
@@ -65,6 +67,7 @@ testpage(function (addTest, done) {
   addTest('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
 
   addTest('uuid.NIL', uuid.NIL);
+  addTest('uuid.MAX', uuid.MAX);
   addTest('uuid.parse()', uuid.parse(MY_NAMESPACE));
   addTest('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
   addTest('uuid.validate()', uuid.validate(MY_NAMESPACE));

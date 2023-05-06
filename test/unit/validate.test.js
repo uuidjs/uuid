@@ -1,10 +1,12 @@
 import assert from 'assert';
 import validate from '../../src/validate.js';
 import NIL from '../../src/nil.js';
+import MAX from '../../src/max.js';
 
 describe('validate', () => {
   test('validate uuid', () => {
     assert.strictEqual(validate(NIL), true);
+    assert.strictEqual(validate(MAX), false);
 
     assert.strictEqual(validate('d9428888-122b-11e1-b85c-61cd3cbb3210'), true);
 

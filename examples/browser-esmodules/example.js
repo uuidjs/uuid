@@ -1,5 +1,6 @@
 import {
   NIL as NIL_UUID,
+  MAX as MAX_UUID,
   parse as uuidParse,
   stringify as uuidStringify,
   v1 as uuidv1,
@@ -43,6 +44,7 @@ console.log('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
 // Utility functions
 console.log('NIL_UUID', NIL_UUID);
+console.log('MAX_UUID', MAX_UUID);
 console.log('uuidParse()', uuidParse(MY_NAMESPACE));
 console.log('uuidStringify()', uuidStringify(uuidParse(MY_NAMESPACE)));
 console.log('uuidValidate()', uuidValidate(MY_NAMESPACE));
@@ -60,6 +62,7 @@ console.log('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
 console.log('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
 
 console.log('uuid.NIL', uuid.NIL);
+console.log('uuid.MAX', uuid.MAX);
 console.log('uuid.parse()', uuid.parse(MY_NAMESPACE));
 console.log('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
 console.log('uuid.validate()', uuid.validate(MY_NAMESPACE));
