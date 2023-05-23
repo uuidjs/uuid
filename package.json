@@ -33,6 +33,11 @@
         "import": "./dist/esm-browser/index.js",
         "require": "./dist/commonjs-browser/index.js"
       },
+      "react-native": {
+        "module": "./dist/esm-node/index.js",
+        "require": "./dist/index.js",
+        "import": "./wrapper.mjs"
+      },
       "default": "./dist/esm-browser/index.js"
     },
     "./package.json": "./package.json"
