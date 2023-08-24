@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.1](https://github.com/uuidjs/uuid/compare/v9.0.0...v9.0.1) (2023-08-24)
+
+
+### Performance Improvements
+
+* remove superfluous call to toLowerCase ([#677](https://github.com/uuidjs/uuid/issues/677)) ([e53793f](https://github.com/uuidjs/uuid/commit/e53793f5be93413cad68b05b3a339ca23e993342))
+
 ## [9.0.0](https://github.com/uuidjs/uuid/compare/v8.3.2...v9.0.0) (2022-09-05)
 
 ### ⚠ BREAKING CHANGES
