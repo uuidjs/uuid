@@ -1,3 +1,7 @@
+# Notes from broofa on how to use this action:
+#
+# * To reset a release PR, close the PR in github and delete the release branch created by
+
 on:
   workflow_dispatch:
   push:
@@ -18,6 +22,7 @@ jobs:
           package-name: uuid-release-test
           # pre-release suffix for version string.  E.g. "alpha" or "beta"
           pre-release: releasetest
+          prerelease: true
 
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
