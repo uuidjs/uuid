@@ -21,8 +21,9 @@ jobs:
           release-type: node
           package-name: uuid-release-test
           # pre-release suffix for version string.  E.g. "alpha" or "beta"
-          pre-release: releasetest
+          # pre-release: releasetest
           prerelease: true
+          default-branch: release-please
 
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
