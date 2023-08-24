@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - release-please
 
 name: Release PR
 
@@ -16,25 +17,25 @@ jobs:
           release-type: node
           package-name: test-release-please
 
+      - uses: actions/checkout@v3
+        if: ${{ steps.release.outputs.release_created }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm test
+        if: ${{ steps.release.outputs.release_created }}
+
       #
       # On release, checkout and run tests before publishing...
       #
       # TODO: Uncomment this once we're actually ready to roll a new release --RWK
-
-      # - uses: actions/checkout@v3
-      #   if: ${{ steps.release.outputs.release_created }}
-
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-      #     registry-url: 'https://registry.npmjs.org'
-      #   if: ${{ steps.release.outputs.release_created }}
-
-      # - run: npm ci
-      #   if: ${{ steps.release.outputs.release_created }}
-
-      # - run: npm test
-      #   if: ${{ steps.release.outputs.release_created }}
 
       # - run: npm publish
       #   env:
