@@ -2,6 +2,7 @@
   -- This file is auto-generated from README_js.md. Changes should be made there.
   -->
 
+
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
 For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
@@ -9,15 +10,17 @@ For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
-  - Node 10, 12, 14, 16
-  - Chrome, Safari, Firefox, Edge, IE 11 browsers
+  - Node 12, 14, 16, 18
+  - Chrome, Safari, Firefox, Edge browsers
   - Webpack and rollup.js module bundlers
   - [React Native / Expo](#react-native--expo)
 - **Secure** - Cryptographically-strong random values
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-**Upgrading from `uuid@3`?** Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
+> **Note** Upgrading from `uuid@3`? Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
+
+> **Note** Only interested in creating a version 4 UUID? You might be able to use [`crypto.randomUUID()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID), eliminating the need to install this library.
 
 ## Quickstart
 
@@ -138,7 +141,7 @@ Create an RFC version 1 (timestamp) UUID
 | [`options.node` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
 | [`options.clockseq`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
 | [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
-| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanseconds to add to `msecs`, should be 0-10,000) |
+| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
 | [`options.random`] | `Array` of 16 random bytes (0-255) |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
@@ -358,35 +361,9 @@ To load this module directly into modern browsers that [support loading ECMAScri
 
 ### UMD
 
-To load this module directly into older browsers you can use the [UMD (Universal Module Definition)](https://github.com/umdjs/umd) builds from any of the following CDNs:
+As of `uuid@9` [UMD (Universal Module Definition)](https://github.com/umdjs/umd) builds are no longer shipped with this library.
 
-**Using [UNPKG](https://unpkg.com/uuid@latest/dist/umd/)**:
-
-```html
-<script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
-```
-
-**Using [jsDelivr](https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/)**:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuidv4.min.js"></script>
-```
-
-**Using [cdnjs](https://cdnjs.com/libraries/uuid)**:
-
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
-```
-
-These CDNs all provide the same [`uuidv4()`](#uuidv4options-buffer-offset) method:
-
-```html
-<script>
-  uuidv4(); // ⇨ '55af1e37-0734-46d8-b070-a1e42e4fc392'
-</script>
-```
-
-Methods for the other algorithms ([`uuidv1()`](#uuidv1options-buffer-offset), [`uuidv3()`](#uuidv3name-namespace-buffer-offset) and [`uuidv5()`](#uuidv5name-namespace-buffer-offset)) are available from the files `uuidv1.min.js`, `uuidv3.min.js` and `uuidv5.min.js` respectively.
+If you need a UMD build of this library, use a bundler like Webpack or Rollup. Alternatively, refer to the documentation of [`uuid@8.3.2`](https://github.com/uuidjs/uuid/blob/v8.3.2/README.md#umd) which was the last version that shipped UMD builds.
 
 ## Known issues
 
@@ -416,6 +393,10 @@ Note: If you are using Expo, you must be using at least `react-native-get-random
 ### Web Workers / Service Workers (Edge <= 18)
 
 [In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if you find one, please).
+
+### IE 11 (Internet Explorer)
+
+Support for IE11 and other legacy browsers has been dropped as of `uuid@9`. If you need to support legacy browsers, you can always transpile the uuid module source yourself (e.g. using [Babel](https://babeljs.io/)).
 
 ## Upgrading From `uuid@7`
 
@@ -480,5 +461,6 @@ const uuid = require('uuid'); // <== REMOVED!
 
 This usage pattern was already discouraged in `uuid@3` and has been removed in `uuid@7`.
 
-----
-Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](http://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
+---
+
+Markdown generated from [README_js.md](README_js.md) by <a href="https://github.com/broofa/runmd"><image height="12px" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67" /></a>
