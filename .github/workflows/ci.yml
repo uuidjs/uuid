@@ -9,16 +9,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x, 18.x]
+        node-version: [14.x, 16.x, 18.x, 20.x]
 
     steps:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 10
-    - name: Use Node.js 16.x to build
+    - name: Use Node.js 18.x to build
       uses: actions/setup-node@v1
       with:
-        node-version: 16.x
+        node-version: 18.x
     - run: npm install
     - run: npm run build
     - run: rm -rf node_modules
@@ -31,10 +31,10 @@ jobs:
       env:
         CI: true
     - run: npm run lint
-      if: matrix.node-version == '16.x'
+      if: matrix.node-version == '18.x'
     - run: npm run docs:diff
-      if: matrix.node-version == '16.x'
+      if: matrix.node-version == '18.x'
     - run: npm run test:node
-      if: matrix.node-version >= '16.x'
+      if: matrix.node-version >= '18.x'
     - run: npm run test:pack
-      if: matrix.node-version >= '16.x'
+      if: matrix.node-version >= '18.x'
