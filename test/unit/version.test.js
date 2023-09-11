@@ -1,6 +1,7 @@
 import assert from 'assert';
 import version from '../../src/version.js';
 import NIL from '../../src/nil.js';
+import MAX from '../../src/max.js';
 
 describe('version', () => {
   test('check uuid version', () => {
@@ -17,6 +18,8 @@ describe('version', () => {
     assert.throws(() => version());
 
     assert.throws(() => version(''));
+
+    assert.throws(() => version(MAX));
 
     assert.throws(() => version('invalid uuid string'));
 
