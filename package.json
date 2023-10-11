@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "RFC4122 (v1, v4, and v5) UUIDs",
   "funding": [
     "https://github.com/sponsors/broofa",
@@ -109,7 +109,7 @@
     "prettier:fix": "prettier --write .",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
     "md": "runmd --watch --output=README.md README_js.md",
-    "docs": "( node --version | grep -q 'v16' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
+    "docs": "( node --version | grep -q 'v18' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "build": "./scripts/build.sh",
     "prepack": "npm run build",
