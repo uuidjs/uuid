@@ -105,8 +105,8 @@
     "test:pack": "./scripts/testpack.sh",
     "pretest:benchmark": "npm run build",
     "test:benchmark": "cd examples/benchmark && npm install && npm test",
-    "prettier:check": "prettier --check '**/*.{js,jsx,json,md}'",
-    "prettier:fix": "prettier --write '**/*.{js,jsx,json,md}'",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
     "md": "runmd --watch --output=README.md README_js.md",
     "docs": "( node --version | grep -q 'v18' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
@@ -120,7 +120,7 @@
     "url": "https://github.com/uuidjs/uuid.git"
   },
   "lint-staged": {
-    "*.{js,jsx,json,md}": [
+    "*": [
       "prettier --write"
     ],
     "*.{js,jsx}": [
