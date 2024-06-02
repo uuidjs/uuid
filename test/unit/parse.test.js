@@ -4,7 +4,7 @@ import parse from '../../src/parse.js';
 import stringify from '../../src/stringify.js';
 import gen from 'random-seed';
 
-// Use deterministic PRNG for reproducable tests
+// Use deterministic PRNG for reproducible tests
 const rand = gen.create('He who wonders discovers that this in itself is wonder.');
 function rng(bytes = []) {
   for (let i = 0; i < 16; i++) {

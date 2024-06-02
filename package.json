@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "RFC4122 (v1, v3, v4, v5, and v7) UUIDs",
   "funding": [
     "https://github.com/sponsors/broofa",
@@ -75,7 +75,7 @@
     "optional-dev-dependency": "2.0.1",
     "prettier": "2.7.1",
     "random-seed": "0.3.0",
-    "runmd": "1.3.6",
+    "runmd": "1.3.9",
     "standard-version": "9.5.0"
   },
   "optionalDevDependencies": {
@@ -106,11 +106,11 @@
     "test:pack": "./scripts/testpack.sh",
     "pretest:benchmark": "npm run build",
     "test:benchmark": "cd examples/benchmark && npm install && npm test",
-    "prettier:check": "prettier --check '**/*.{js,jsx,json,md}'",
-    "prettier:fix": "prettier --write '**/*.{js,jsx,json,md}'",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
     "md": "runmd --watch --output=README.md README_js.md",
-    "docs": "( node --version | grep -q 'v16' ) && ( npm run build && runmd --output=README.md README_js.md )",
+    "docs": "( node --version | grep -q 'v18' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "build": "./scripts/build.sh",
     "prepack": "npm run build",
@@ -121,7 +121,7 @@
     "url": "https://github.com/uuidjs/uuid.git"
   },
   "lint-staged": {
-    "*.{js,jsx,json,md}": [
+    "*": [
       "prettier --write"
     ],
     "*.{js,jsx}": [
