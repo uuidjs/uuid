@@ -21,10 +21,10 @@ require('crypto').randomUUID = undefined;
 
 For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
-- **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
+- **Complete** - Support for RFC4122 version 1, 3, 4, 5, and 7 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
-  - Node 12, 14, 16, 18
+  - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
   - Chrome, Safari, Firefox, Edge browsers
   - Webpack and rollup.js module bundlers
   - [React Native / Expo](#react-native--expo)
@@ -32,9 +32,13 @@ For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-> **Note** Upgrading from `uuid@3`? Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Upgrading from `uuid@3`? Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
 
-> **Note** Only interested in creating a version 4 UUID? You might be able to use [`crypto.randomUUID()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID), eliminating the need to install this library.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Only interested in creating a version 4 UUID? You might be able to use [`crypto.randomUUID()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID), eliminating the need to install this library.
 
 ## Quickstart
 
@@ -67,12 +71,14 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 |  |  |  |
 | --- | --- | --- |
 | [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.3` |
+| [`uuid.MAX`](#uuidmax) | The max UUID string (all ones) | New in `uuid@9.1` |
 | [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
 | [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
+| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | `experimental support` |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
@@ -90,6 +96,18 @@ import { NIL as NIL_UUID } from 'uuid';
 NIL_UUID; // RESULT
 ```
 
+### uuid.MAX
+
+The max UUID string (all ones).
+
+Example:
+
+```javascript --run
+import { MAX as MAX_UUID } from 'uuid';
+
+MAX_UUID; // RESULT
+```
+
 ### uuid.parse(str)
 
 Convert UUID string to array of bytes
@@ -100,7 +118,9 @@ Convert UUID string to array of bytes
 | _returns_ | `Uint8Array[16]`                         |
 | _throws_  | `TypeError` if `str` is not a valid UUID |
 
-Note: Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
 Example:
 
@@ -125,7 +145,9 @@ Convert array of bytes to UUID string
 | _returns_      | `String`                                                                     |
 | _throws_       | `TypeError` if a valid UUID string cannot be generated                       |
 
-Note: Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
 Example:
 
@@ -157,9 +179,13 @@ Create an RFC version 1 (timestamp) UUID
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 | _throws_ | `Error` if more than 10M UUIDs/sec are requested |
 
-Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
+<!-- prettier-ignore -->
+> [!NOTE]
+> The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
 
-Note: `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
+<!-- prettier-ignore -->
+> [!NOTE]
+> `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
 
 Example:
 
@@ -189,7 +215,9 @@ Create an RFC version 3 (namespace w/ MD5) UUID
 
 API is identical to `v5()`, but uses "v3" instead.
 
-&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
 
 ### uuid.v4([options[, buffer[, offset]]])
 
@@ -237,7 +265,9 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
-Note: The RFC `DNS` and `URL` namespaces are available as `v5.DNS` and `v5.URL`.
+<!-- prettier-ignore -->
+> [!NOTE]
+> The RFC `DNS` and `URL` namespaces are available as `v5.DNS` and `v5.URL`.
 
 Example with custom namespace:
 
@@ -257,6 +287,29 @@ Example with RFC `URL` namespace:
 import { v5 as uuidv5 } from 'uuid';
 
 uuidv5('https://www.w3.org/', uuidv5.URL); // RESULT
+```
+
+### uuid.v7([options[, buffer[, offset]]])
+
+Create an RFC version 7 (random) UUID
+
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.seq`] | 31 bit monotonic sequence counter as `Number` between 0 - 0x7fffffff |
+| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
+
+Example:
+
+```javascript --run
+import { v7 as uuidv7 } from 'uuid';
+
+uuidv7(); // RESULT
 ```
 
 ### uuid.validate(str)
@@ -313,6 +366,10 @@ uuidVersion('45637ec4-c85f-11ea-87d0-0242ac130003'); // RESULT
 uuidVersion('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
 ```
 
+<!-- prettier-ignore -->
+> [!NOTE]
+> This method returns `0` for the `NIL` UUID, and `15` for the `MAX` UUID.
+
 ## Command Line
 
 UUIDs can be generated from the command line using `uuid`.
@@ -333,6 +390,7 @@ Usage:
   uuid v3 <name> <namespace uuid>
   uuid v4
   uuid v5 <name> <namespace uuid>
+  uuid v7
   uuid --help
 
 Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs
@@ -396,7 +454,9 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 ```
 
-Note: If you are using Expo, you must be using at least `react-native-get-random-values@1.5.0` and `expo@39.0.0`.
+<!-- prettier-ignore -->
+> [!NOTE]
+> If you are using Expo, you must be using at least `react-native-get-random-values@1.5.0` and `expo@39.0.0`.
 
 ### Web Workers / Service Workers (Edge <= 18)
 
