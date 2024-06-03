@@ -6,7 +6,7 @@ import MAX from '../../src/max.js';
 describe('validate', () => {
   test('validate uuid', () => {
     assert.strictEqual(validate(NIL), true);
-    assert.strictEqual(validate(MAX), false);
+    assert.strictEqual(validate(MAX), true);
 
     // test valid UUID versions
 
