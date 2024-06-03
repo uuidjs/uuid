@@ -1,7 +1,7 @@
 {
   "name": "uuid",
   "version": "9.0.1",
-  "description": "RFC4122 (v1, v4, and v5) UUIDs",
+  "description": "RFC4122 (v1, v3, v4, v5, and v7) UUIDs",
   "funding": [
     "https://github.com/sponsors/broofa",
     "https://github.com/sponsors/ctavan"
@@ -98,6 +98,7 @@
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
     "pretest": "[ -n $CI ] || npm run build",
     "test": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest test/unit/",
+    "test:matching": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest test/unit/ -t",
     "pretest:browser": "optional-dev-dependency && npm run build && npm-run-all --parallel examples:browser:**",
     "test:browser": "wdio run ./wdio.conf.js",
     "pretest:node": "npm run build",

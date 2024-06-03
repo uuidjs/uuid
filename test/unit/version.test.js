@@ -14,6 +14,8 @@ describe('version', () => {
 
     assert.strictEqual(version('90123e1c-7512-523e-bb28-76fab9f2f73d'), 5);
 
+    assert.strictEqual(version('017f22e2-79b0-7cc3-98c4-dc0c0c07398f'), 7);
+
     assert.throws(() => version());
 
     assert.throws(() => version(''));

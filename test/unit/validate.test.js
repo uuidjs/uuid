@@ -6,13 +6,31 @@ describe('validate', () => {
   test('validate uuid', () => {
     assert.strictEqual(validate(NIL), true);
 
+    // test valid UUID versions
+
+    // v1
     assert.strictEqual(validate('d9428888-122b-11e1-b85c-61cd3cbb3210'), true);
 
-    assert.strictEqual(validate('109156be-c4fb-41ea-b1b4-efe1671c5836'), true);
-
+    // v3
     assert.strictEqual(validate('a981a0c2-68b1-35dc-bcfc-296e52ab01ec'), true);
 
+    // v4
+    assert.strictEqual(validate('109156be-c4fb-41ea-b1b4-efe1671c5836'), true);
+
+    // v5
     assert.strictEqual(validate('90123e1c-7512-523e-bb28-76fab9f2f73d'), true);
+
+    // v7
+    assert.strictEqual(validate('017f22e2-79b0-7cc3-98c4-dc0c0c07398f'), true);
+
+    // test invalid/unsupported UUID versions
+    [0, 2, 6, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'].forEach((v) => {
+      assert.strictEqual(
+        validate('12300000-0000-' + v + '000-0000-000000000000'),
+        false,
+        'version ' + v + ' should not be valid'
+      );
+    });
 
     assert.strictEqual(validate(), false);
 
