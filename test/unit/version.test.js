@@ -6,6 +6,7 @@ import MAX from '../../src/max.js';
 describe('version', () => {
   test('check uuid version', () => {
     assert.strictEqual(version(NIL), 0);
+    assert.strictEqual(version(MAX), 15);
 
     assert.strictEqual(version('d9428888-122b-11e1-b85c-61cd3cbb3210'), 1);
 
@@ -20,8 +21,6 @@ describe('version', () => {
     assert.throws(() => version());
 
     assert.throws(() => version(''));
-
-    assert.throws(() => version(MAX));
 
     assert.throws(() => version('invalid uuid string'));
 
