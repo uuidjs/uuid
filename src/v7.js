@@ -4,21 +4,22 @@ import { unsafeStringify } from './stringify.js';
 /**
  * UUID V7 - Unix Epoch time-based UUID
  *
- * The IETF has introduced a draft to update RFC4122, introducing 3 new
- * UUID versions (6,7,8). This implementation of V7 is based on the accepted,
- * though not yet approved, revisions.
+ * The IETF has published RFC9562, introducing 3 new UUID versions (6,7,8). This
+ * implementation of V7 is based on the accepted, though not yet approved,
+ * revisions.
  *
- * RFC 4122: https://www.ietf.org/rfc/rfc4122.html
- * [DRAFT] Updated RFC 4122: https://github.com/ietf-wg-uuidrev/rfc4122bis
+ * RFC 4122:https://www.rfc-editor.org/rfc/rfc9562.html Universally Unique
+ * IDentifiers (UUIDs)
+
  *
- * Sample V7 value: https://ietf-wg-uuidrev.github.io/rfc4122bis/draft-00/draft-ietf-uuidrev-rfc4122bis.html#name-example-of-a-uuidv7-value
+ * Sample V7 value:
+ * https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv7-value
  *
- * Monotonic Bit Layout:
- *     RFC 4122.6.2 Method 1, Dedicated Counter Bits
- *     ref: https://ietf-wg-uuidrev.github.io/rfc4122bis/draft-00/draft-ietf-uuidrev-rfc4122bis.html#section-6.2-5.2.1
+ * Monotonic Bit Layout: RFC rfc9562.6.2 Method 1, Dedicated Counter Bits ref:
+ *     https://www.rfc-editor.org/rfc/rfc9562.html#section-6.2-5.1
  *
- *   0                   1                   2                   3
- *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ *   0                   1                   2                   3 0 1 2 3 4 5 6
+ *   7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  *  |                          unix_ts_ms                           |
  *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -29,9 +30,10 @@ import { unsafeStringify } from './stringify.js';
  *  |                             rand                              |
  *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  *
- * seq is a 31 bit serialized counter; comprised of 12 bit seq_hi and 19 bit seq_low,
- * and randomly initialized upon timestamp change. 31 bit counter size was selected
- * as any bitwise operations in node are done as _signed_ 32 bit ints. we exclude the sign bit.
+ * seq is a 31 bit serialized counter; comprised of 12 bit seq_hi and 19 bit
+ * seq_low, and randomly initialized upon timestamp change. 31 bit counter size
+ * was selected as any bitwise operations in node are done as _signed_ 32 bit
+ * ints. we exclude the sign bit.
  */
 
 let _seqLow = null;
