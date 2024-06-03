@@ -21,10 +21,10 @@ require('crypto').randomUUID = undefined;
 
 For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
 
-- **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
+- **Complete** - Support for RFC4122 version 1, 3, 4, 5, and 7 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
-  - Node 12, 14, 16, 18
+  - NodeJS 12+ ([LTS releases](https://github.com/nodejs/Release))
   - Chrome, Safari, Firefox, Edge browsers
   - Webpack and rollup.js module bundlers
   - [React Native / Expo](#react-native--expo)
@@ -74,6 +74,7 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
+| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | `experimental support` |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
@@ -272,6 +273,29 @@ import { v5 as uuidv5 } from 'uuid';
 uuidv5('https://www.w3.org/', uuidv5.URL); // RESULT
 ```
 
+### uuid.v7([options[, buffer[, offset]]])
+
+Create an RFC version 7 (random) UUID
+
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.seq`] | 31 bit monotonic sequence counter as `Number` between 0 - 0x7fffffff |
+| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
+
+Example:
+
+```javascript --run
+import { v7 as uuidv7 } from 'uuid';
+
+uuidv7(); // RESULT
+```
+
 ### uuid.validate(str)
 
 Test a string to see if it is a valid UUID
@@ -346,6 +370,7 @@ Usage:
   uuid v3 <name> <namespace uuid>
   uuid v4
   uuid v5 <name> <namespace uuid>
+  uuid v7
   uuid --help
 
 Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs

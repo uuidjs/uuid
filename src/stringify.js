@@ -13,6 +13,9 @@ for (let i = 0; i < 256; ++i) {
 export function unsafeStringify(arr, offset = 0) {
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+  //
+  // Note to future-self: No, you can't remove the `toLowerCase()` call.
+  // REF: https://github.com/uuidjs/uuid/pull/677#issuecomment-1757351351
   return (
     byteToHex[arr[offset + 0]] +
     byteToHex[arr[offset + 1]] +
@@ -34,7 +37,7 @@ export function unsafeStringify(arr, offset = 0) {
     byteToHex[arr[offset + 13]] +
     byteToHex[arr[offset + 14]] +
     byteToHex[arr[offset + 15]]
-  );
+  ).toLowerCase();
 }
 
 function stringify(arr, offset = 0) {
