@@ -107,7 +107,7 @@
     "prettier:fix": "prettier --write .",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
     "md": "runmd --watch --output=README.md README_js.md",
-    "docs": "( node --version | grep -q 'v18' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
+    "docs": "( node --version | grep -q 'v20' ) && ( npm run build && npx runmd --output=README.md README_js.md )",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "build": "./scripts/build.sh",
     "prepack": "npm run build",
