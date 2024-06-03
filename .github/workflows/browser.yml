@@ -5,6 +5,9 @@ on:
   pull_request_target:
     types: [labeled]
 
+env:
+  HUSKY: 0
+
 jobs:
   browser:
     if: github.repository == 'uuidjs/uuid' && (contains(github.event.pull_request.labels.*.name, 'safe to test') || github.event_name == 'push')
