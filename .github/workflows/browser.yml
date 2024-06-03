@@ -5,6 +5,9 @@ on:
   pull_request_target:
     types: [labeled]
 
+env:
+  HUSKY: 0
+
 jobs:
   browser:
     if: github.repository == 'uuidjs/uuid' && (contains(github.event.pull_request.labels.*.name, 'safe to test') || github.event_name == 'push')
@@ -16,7 +19,7 @@ jobs:
         with:
           fetch-depth: 10
       - name: Use Node.js 20.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
       - run: npm ci
