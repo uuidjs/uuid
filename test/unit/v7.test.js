@@ -3,7 +3,7 @@ import v7 from '../../src/v7.js';
 
 /**
  * fixture bit layout:
- * ref: https://ietf-wg-uuidrev.github.io/rfc4122bis/draft-00/draft-ietf-uuidrev-rfc4122bis.html#name-example-of-a-uuidv7-value
+ * ref: https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv7-value
  *
  * expectedBytes was calculated using this script:
  * https://gist.github.com/d5382ac3a1ce4ba9ba40a90d9da8cbf1

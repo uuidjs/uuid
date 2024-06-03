@@ -8,7 +8,7 @@ import { unsafeStringify } from './stringify.js';
  * implementation of V7 is based on the accepted, though not yet approved,
  * revisions.
  *
- * RFC 4122:https://www.rfc-editor.org/rfc/rfc9562.html Universally Unique
+ * RFC 9562:https://www.rfc-editor.org/rfc/rfc9562.html Universally Unique
  * IDentifiers (UUIDs)
 
  *
