@@ -84,7 +84,7 @@ NIL_UUID; // ⇨ '00000000-0000-0000-0000-000000000000'
 
 ### uuid.MAX
 
-The max UUID string (all zeros).
+The max UUID string (all ones).
 
 Example:
 

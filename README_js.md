@@ -98,7 +98,7 @@ NIL_UUID; // RESULT
 
 ### uuid.MAX
 
-The max UUID string (all zeros).
+The max UUID string (all ones).
 
 Example:
 
