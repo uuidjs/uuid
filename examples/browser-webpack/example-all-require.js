@@ -1,6 +1,7 @@
 const uuid = require('uuid');
 const {
   NIL: NIL_UUID,
+  MAX: MAX_UUID,
   parse: uuidParse,
   stringify: uuidStringify,
   v1: uuidv1,
@@ -51,6 +52,7 @@ testpage(function (addTest, done) {
 
   // Utility functions
   addTest('NIL_UUID', NIL_UUID);
+  addTest('MAX_UUID', MAX_UUID);
   addTest('uuidParse()', uuidParse(MY_NAMESPACE));
   addTest('uuidStringify()', uuidStringify(uuidParse(MY_NAMESPACE)));
   addTest('uuidValidate()', uuidValidate(MY_NAMESPACE));
@@ -69,6 +71,7 @@ testpage(function (addTest, done) {
   addTest('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
 
   addTest('uuid.NIL', uuid.NIL);
+  addTest('uuid.MAX', uuid.MAX);
   addTest('uuid.parse()', uuid.parse(MY_NAMESPACE));
   addTest('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
   addTest('uuid.validate()', uuid.validate(MY_NAMESPACE));

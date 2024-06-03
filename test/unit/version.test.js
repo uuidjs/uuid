@@ -1,10 +1,12 @@
 import assert from 'assert';
 import version from '../../src/version.js';
 import NIL from '../../src/nil.js';
+import MAX from '../../src/max.js';
 
 describe('version', () => {
   test('check uuid version', () => {
     assert.strictEqual(version(NIL), 0);
+    assert.strictEqual(version(MAX), 15);
 
     assert.strictEqual(version('d9428888-122b-11e1-b85c-61cd3cbb3210'), 1);
 
