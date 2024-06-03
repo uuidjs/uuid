@@ -14,9 +14,11 @@ describe('v1 <-> v6 conversion', () => {
   test('v1 -> v6 conversion (w', () => {
     const id = v1tov6(v1Fixture, true);
 
-    //
+    // clock_seq and node fields should differ from original
     assert.notEqual(id, v6Fixture);
-    assert.equal(id.slice(0, 24), v6Fixture.slice(0, 24));
+
+    // timestamp field should match the original
+    assert.equal(id.slice(0, 19), v6Fixture.slice(0, 19));
   });
 
   test('v6 -> v1 conversion', () => {

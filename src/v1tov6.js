@@ -3,6 +3,21 @@ import rng from './rng.js';
 import stringify from './stringify.js';
 import version from './version.js';
 
+/**
+ * Convert a v1 UUID to a v6 UUID.
+ *
+ * Note: Per https://www.rfc-editor.org/rfc/rfc9562.html#section-5.6-4, the
+ * clock_seq and node fields SHOULD be randomized to aid in collision resistance
+ * and security.  However. this behavior is not enabled by default for two reasons:
+ *
+ * 1. Doing so makes the conversion non-reversible.  I.e. `v6tov1(v1tov6(uuid))
+ *    !== uuid`.
+ * 2. Doing so makes the conversion non-deterministic.  I.e. `v1tov6(uuid) !==
+ *    v1tov6(uuid)`
+ *
+ * Callers wishing to enable the RFC-recommended randomization can do so by
+ * passing `true` for the second parameter.
+ */
 export default function v1tov6(uuid, randomize = false) {
   if (version(uuid) !== 1) {
     throw new Error('id is not a valid v1 UUID');
