@@ -9,6 +9,7 @@ const {
   v3: uuidv3,
   v4: uuidv4,
   v5: uuidv5,
+  v6: uuidv6,
   v6ToV1: uuidv6ToV1,
   v7: uuidv7,
   validate: uuidValidate,
@@ -58,6 +59,8 @@ testpage(function (addTest, done) {
   // const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
   addTest('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
+  addTest('uuidv6()', uuidv6());
+
   // Utility functions
   addTest('NIL_UUID', NIL_UUID);
   addTest('MAX_UUID', MAX_UUID);
@@ -77,6 +80,7 @@ testpage(function (addTest, done) {
   addTest('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
   addTest('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
   addTest('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
+  addTest('uuid.v6()', uuid.v6());
 
   addTest('uuid.v1ToV6()', uuid.v1ToV6(V1_ID));
   addTest('uuid.v6ToV1()', uuid.v6ToV1(V6_ID));

@@ -2,6 +2,7 @@
 
 const v1Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-1[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const v4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+const v6Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-6[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const v7Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-7[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 const V1_ID = 'f1207660-21d2-11ef-8c4f-419efbd44d48';
@@ -9,6 +10,7 @@ const V6_ID = '1ef21d2f-1207-6660-8c4f-419efbd44d48';
 
 const v1 = (result) => expect(result).toMatch(v1Regex);
 const v4 = (result) => expect(result).toMatch(v4Regex);
+const v6 = (result) => expect(result).toMatch(v6Regex);
 const v7 = (result) => expect(result).toMatch(v7Regex);
 const v3dns = (result) => expect(result).toBe('9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
 const v3url = (result) => expect(result).toBe('c6235813-3ba4-3801-ae84-e0a6ebb7d138');
@@ -31,6 +33,7 @@ const version = (result) => expect(result).toBe('4');
 const expectations = {
   'uuidv1()': v1,
   'uuidv4()': v4,
+  'uuidv6()': v6,
   'uuidv7()': v7,
   'uuidv3() DNS': v3dns,
   'uuidv3() URL': v3url,
@@ -51,6 +54,7 @@ const expectations = {
 
   'uuid.v1()': v1,
   'uuid.v4()': v4,
+  'uuid.v6()': v6,
   'uuid.v7()': v7,
   'uuid.v3() DNS': v3dns,
   'uuid.v3() URL': v3url,

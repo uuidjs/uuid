@@ -69,6 +69,14 @@ module.exports = [
     plugins,
   },
   {
+    input: './size-v6.js',
+    output: {
+      file: 'dist/v6-size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
     input: './size-v7.js',
     output: {
       file: 'dist/v7-size.js',

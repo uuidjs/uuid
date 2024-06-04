@@ -66,6 +66,9 @@ export default function benchmark(uuid, Benchmark) {
       .add('uuid.v5()', function () {
         uuid.v5('hello.example.com', uuid.v5.DNS);
       })
+      .add('uuid.v6()', function () {
+        uuid.v6();
+      })
       .add('uuid.v7()', function () {
         uuid.v7();
       })

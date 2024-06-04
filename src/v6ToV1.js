@@ -1,35 +1,47 @@
 import parse from './parse.js';
-import stringify from './stringify.js';
-import version from './version.js';
+import { unsafeStringify } from './stringify.js';
 
+/**
+ * Convert a v6 UUID to a v1 UUID
+ *
+ * @param {string|Uint8Array} uuid - The v1 UUID to convert to v6
+ * @param {boolean} [randomize=false] - Whether to randomize the clock_seq and
+ * node fields
+ * @returns {string|Uint8Array} The v6 UUID as the same type as the `uuid` arg
+ * (string or Uint8Array)
+ */
 export default function v6ToV1(uuid) {
-  if (version(uuid) !== 6) {
-    throw new Error('id is not a valid v6 UUID');
-  }
+  // Non-string UUIDs are documented as being Uint8Arrays, but we don't enforce
+  // that.  They just need to be "array-like".  And some day when we port this
+  // to TypeScript we'll have to take an actual stance on this.
+  const v6Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
-  const v1Bytes = parse(uuid);
+  const v1Bytes = _v6ToV1(v6Bytes);
 
-  const v6Bytes = Uint8Array.from([
-    ((v1Bytes[3] & 0x0f) << 4) | ((v1Bytes[4] >> 4) & 0x0f),
-    ((v1Bytes[4] & 0x0f) << 4) | ((v1Bytes[5] & 0xf0) >> 4),
-    ((v1Bytes[5] & 0x0f) << 4) | (v1Bytes[6] & 0x0f),
-    v1Bytes[7],
+  return typeof uuid === 'string' ? unsafeStringify(v1Bytes) : v1Bytes;
+}
 
-    ((v1Bytes[1] & 0x0f) << 4) | ((v1Bytes[2] & 0xf0) >> 4),
-    ((v1Bytes[2] & 0x0f) << 4) | ((v1Bytes[3] & 0xf0) >> 4),
+// Do the field transformation needed for v6 -> v1
+function _v6ToV1(v6Bytes) {
+  return Uint8Array.of(
+    ((v6Bytes[3] & 0x0f) << 4) | ((v6Bytes[4] >> 4) & 0x0f),
+    ((v6Bytes[4] & 0x0f) << 4) | ((v6Bytes[5] & 0xf0) >> 4),
+    ((v6Bytes[5] & 0x0f) << 4) | (v6Bytes[6] & 0x0f),
+    v6Bytes[7],
 
-    0x10 | ((v1Bytes[0] & 0xf0) >> 4),
-    ((v1Bytes[0] & 0x0f) << 4) | ((v1Bytes[1] & 0xf0) >> 4),
+    ((v6Bytes[1] & 0x0f) << 4) | ((v6Bytes[2] & 0xf0) >> 4),
+    ((v6Bytes[2] & 0x0f) << 4) | ((v6Bytes[3] & 0xf0) >> 4),
 
-    v1Bytes[8],
-    v1Bytes[9],
-    v1Bytes[10],
-    v1Bytes[11],
-    v1Bytes[12],
-    v1Bytes[13],
-    v1Bytes[14],
-    v1Bytes[15],
-  ]);
+    0x10 | ((v6Bytes[0] & 0xf0) >> 4),
+    ((v6Bytes[0] & 0x0f) << 4) | ((v6Bytes[1] & 0xf0) >> 4),
 
-  return stringify(v6Bytes);
+    v6Bytes[8],
+    v6Bytes[9],
+    v6Bytes[10],
+    v6Bytes[11],
+    v6Bytes[12],
+    v6Bytes[13],
+    v6Bytes[14],
+    v6Bytes[15]
+  );
 }

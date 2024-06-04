@@ -13,6 +13,7 @@ module.exports = {
     'v3-size': './size-v3.js',
     'v4-size': './size-v4.js',
     'v5-size': './size-v5.js',
+    'v6-size': './size-v6.js',
     'v7-size': './size-v7.js',
   },
   // Webpack now produces builds that are incompatible with IE11:

@@ -29,7 +29,7 @@ function v1(options, buf, offset) {
     const seedBytes = options.random || (options.rng || rng)();
 
     if (node == null) {
-      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      // Per 4.5, create a 48-bit node id, (47 random bits + multicast bit = 1)
       node = _nodeId = [
         seedBytes[0] | 0x01,
         seedBytes[1],

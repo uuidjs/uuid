@@ -8,6 +8,7 @@ const {
   v3: uuidv3,
   v4: uuidv4,
   v5: uuidv5,
+  v6: uuidv6,
   v6ToV1: uuidv6ToV1,
   v7: uuidv7,
   validate: uuidValidate,
@@ -48,6 +49,8 @@ console.log('uuidv5() URL', uuidv5('http://example.com/hello', uuidv5.URL));
 // const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 console.log('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
+console.log('uuidv6()', uuidv6());
+
 // v6 <-> v1 conversion
 const V1_ID = 'f1207660-21d2-11ef-8c4f-419efbd44d48';
 const V6_ID = '1ef21d2f-1207-6660-8c4f-419efbd44d48';
@@ -73,6 +76,7 @@ console.log('uuid.v3() MY_NAMESPACE', uuid.v3('Hello, World!', MY_NAMESPACE));
 console.log('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
 console.log('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
 console.log('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
+console.log('uuid.v6()', uuid.v6());
 
 console.log('uuid.v1ToV6()', uuid.v1ToV6(V1_ID));
 console.log('uuid.v6ToV1()', uuid.v6ToV1(V6_ID));
