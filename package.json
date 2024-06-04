@@ -92,7 +92,7 @@
     "examples:node:commonjs:test": "cd examples/node-commonjs && npm install && npm test",
     "examples:node:esmodules:test": "cd examples/node-esmodules && npm install && npm test",
     "examples:node:jest:test": "cd examples/node-jest && npm install && npm test",
-    "x-prepare": "husky install",
+    "prepare": "husky install",
     "lint": "npm run eslint:check && npm run prettier:check",
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
@@ -105,7 +105,7 @@
     "test:node": "npm-run-all --parallel examples:node:**",
     "test:pack": "./scripts/testpack.sh",
     "pretest:benchmark": "npm run build",
-    "test:benchmark": "cd examples/benchmark && npm install && npm test",
+    "test:benchmark": "cd examples/benchmark && HUSKY=0 npm install && npm test",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
@@ -121,6 +121,9 @@
     "url": "https://github.com/uuidjs/uuid.git"
   },
   "lint-staged": {
+    "*": [
+      "prettier --no-error-on-unmatched-pattern --write"
+    ],
     "*.{js,jsx}": [
       "eslint --no-error-on-unmatched-pattern --fix"
     ]
