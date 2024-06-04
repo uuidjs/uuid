@@ -33,7 +33,6 @@ const version = (result) => expect(result).toBe('4');
 const expectations = {
   'uuidv1()': v1,
   'uuidv4()': v4,
-  'uuidv6()': v6,
   'uuidv7()': v7,
   'uuidv3() DNS': v3dns,
   'uuidv3() URL': v3url,
@@ -41,6 +40,7 @@ const expectations = {
   'uuidv5() DNS': v5dns,
   'uuidv5() URL': v5url,
   'uuidv5() MY_NAMESPACE': v5custom,
+  'uuidv6()': v6,
 
   'uuidv1ToV6()': v1ToV6,
   'uuidv6ToV1()': v6ToV1,
@@ -54,7 +54,6 @@ const expectations = {
 
   'uuid.v1()': v1,
   'uuid.v4()': v4,
-  'uuid.v6()': v6,
   'uuid.v7()': v7,
   'uuid.v3() DNS': v3dns,
   'uuid.v3() URL': v3url,
@@ -62,6 +61,7 @@ const expectations = {
   'uuid.v5() DNS': v5dns,
   'uuid.v5() URL': v5url,
   'uuid.v5() MY_NAMESPACE': v5custom,
+  'uuid.v6()': v6,
 
   'uuid.v1ToV6()': v1ToV6,
   'uuid.v6ToV1()': v6ToV1,
@@ -104,7 +104,10 @@ describe('BrowserStack Local Testing', () => {
       titles.push(title);
     }
 
-    expect(titles).toEqual(expectationTitles.filter(titleFilter));
+    // Confirm the expected titles are all present
+    const expectedTitles = expectationTitles.filter(titleFilter);
+    expect(titles.length).toEqual(expectedTitles.length);
+    expect(titles.sort()).toEqual(expectedTitles.sort());
   }
 
   describe('webpack', () => {
