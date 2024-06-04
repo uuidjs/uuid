@@ -92,7 +92,7 @@
     "examples:node:commonjs:test": "cd examples/node-commonjs && npm install && npm test",
     "examples:node:esmodules:test": "cd examples/node-esmodules && npm install && npm test",
     "examples:node:jest:test": "cd examples/node-jest && npm install && npm test",
-    "prepare": "husky install",
+    "x-prepare": "husky install",
     "lint": "npm run eslint:check && npm run prettier:check",
     "eslint:check": "eslint src/ test/ examples/ *.js",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.js",
@@ -121,16 +121,21 @@
     "url": "https://github.com/uuidjs/uuid.git"
   },
   "lint-staged": {
-    "*": [
-      "prettier --write"
-    ],
     "*.{js,jsx}": [
-      "eslint --fix"
+      "eslint --no-error-on-unmatched-pattern --fix"
     ]
   },
   "standard-version": {
     "scripts": {
       "postchangelog": "prettier --write CHANGELOG.md"
     }
+  },
+  "dependencies": {
+    "@wdio/browserstack-service": "7.16.10",
+    "@wdio/cli": "7.16.10",
+    "@wdio/jasmine-framework": "7.16.6",
+    "@wdio/local-runner": "7.16.10",
+    "@wdio/spec-reporter": "7.16.9",
+    "@wdio/static-server-service": "7.16.6"
   }
 }

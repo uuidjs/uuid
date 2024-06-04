@@ -2,7 +2,7 @@ import parse from './parse.js';
 import stringify from './stringify.js';
 import version from './version.js';
 
-export default function v6tov1(uuid) {
+export default function v6ToV1(uuid) {
   if (version(uuid) !== 6) {
     throw new Error('id is not a valid v6 UUID');
   }

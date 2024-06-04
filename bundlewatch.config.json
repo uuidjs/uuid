@@ -20,6 +20,14 @@
       "path": "./examples/browser-rollup/dist/v5-size.js",
       "maxSize": "1.5 kB"
     },
+    {
+      "path": "./examples/browser-rollup/dist/v1ToV6-size.js",
+      "maxSize": "0 kB"
+    },
+    {
+      "path": "./examples/browser-rollup/dist/v6ToV1-size.js",
+      "maxSize": "0 kB"
+    },
     { "path": "./examples/browser-rollup/dist/v7-size.js", "maxSize": "0.8 kB" },
 
     {
@@ -37,6 +45,14 @@
     {
       "path": "./examples/browser-webpack/dist/v5-size.js",
       "maxSize": "1.5 kB"
+    },
+    {
+      "path": "./examples/browser-webpack/dist/v1ToV6-size.js",
+      "maxSize": "0.5 kB"
+    },
+    {
+      "path": "./examples/browser-webpack/dist/v6ToV1-size.js",
+      "maxSize": "0 kB"
     },
     { "path": "./examples/browser-webpack/dist/v7-size.js", "maxSize": "0.8 kB" }
   ]

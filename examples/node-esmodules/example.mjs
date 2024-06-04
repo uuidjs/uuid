@@ -1,17 +1,20 @@
+import * as uuid from 'uuid';
 import {
-  NIL as NIL_UUID,
   MAX as MAX_UUID,
+  NIL as NIL_UUID,
   parse as uuidParse,
   stringify as uuidStringify,
+  validate as uuidValidate,
+  version as uuidVersion,
   v1 as uuidv1,
+  v1ToV6 as uuidv1ToV6,
   v3 as uuidv3,
   v4 as uuidv4,
   v5 as uuidv5,
+  v6ToV1 as uuidv6ToV1,
   v7 as uuidv7,
-  validate as uuidValidate,
-  version as uuidVersion,
 } from 'uuid';
-import * as uuid from 'uuid';
+import pkg from 'uuid/package.json';
 
 console.log('uuidv1()', uuidv1());
 
@@ -45,6 +48,12 @@ console.log('uuidv5() URL', uuidv5('http://example.com/hello', uuidv5.URL));
 // const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 console.log('uuidv5() MY_NAMESPACE', uuidv5('Hello, World!', MY_NAMESPACE));
 
+// v6 <-> v1 conversion
+const V1_ID = 'f1207660-21d2-11ef-8c4f-419efbd44d48';
+const V6_ID = '1ef21d2f-1207-6660-8c4f-419efbd44d48';
+console.log('uuidv1ToV6()', uuidv1ToV6(V1_ID));
+console.log('uuidv6ToV1()', uuidv6ToV1(V6_ID));
+
 // Utility functions
 console.log('NIL_UUID', NIL_UUID);
 console.log('MAX_UUID', MAX_UUID);
@@ -65,9 +74,15 @@ console.log('uuid.v5() DNS', uuid.v5('hello.example.com', uuid.v5.DNS));
 console.log('uuid.v5() URL', uuid.v5('http://example.com/hello', uuid.v5.URL));
 console.log('uuid.v5() MY_NAMESPACE', uuid.v5('Hello, World!', MY_NAMESPACE));
 
+console.log('uuid.v1ToV6()', uuid.v1ToV6(V1_ID));
+console.log('uuid.v6ToV1()', uuid.v6ToV1(V6_ID));
+
 console.log('uuid.NIL', uuid.NIL);
 console.log('uuid.MAX', uuid.MAX);
 console.log('uuid.parse()', uuid.parse(MY_NAMESPACE));
 console.log('uuid.stringify()', uuid.stringify(uuid.parse(MY_NAMESPACE)));
 console.log('uuid.validate()', uuid.validate(MY_NAMESPACE));
 console.log('uuid.version()', uuid.version(MY_NAMESPACE));
+
+// Some tools like react-native need to introspect the package.json file
+console.log('pkg.name', pkg.name);
