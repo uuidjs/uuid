@@ -46,7 +46,7 @@ export default function benchmark(uuid, Benchmark) {
         try {
           uuid.v1(null, array, 0);
         } catch (err) {
-          // The spec (https://tools.ietf.org/html/rfc4122#section-4.2.1.2) defines that only 10M/s v1
+          // The spec (https://datatracker.ietf.org/doc/html/rfc9562#name-timestamp-considerations) defines that only 10M/s v1
           // UUIDs can be generated on a single node. This library throws an error if we hit that limit
           // (which can happen on modern hardware and modern Node.js versions).
         }

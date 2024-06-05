@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 const PORT = 9000;
 const PROJECT = process.env.GITHUB_REPOSITORY || 'node-uuid';
 const GITHUB_SHA = process.env.GITHUB_SHA || '';

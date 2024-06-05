@@ -19,9 +19,9 @@ require('crypto').randomUUID = undefined;
 
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
-For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
+For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
-- **Complete** - Support for RFC4122 version 1, 3, 4, 5, and 7 UUIDs
+- **Complete** - Support for RFC9562 version 1, 3, 4, 5, and 7 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
   - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
@@ -184,7 +184,7 @@ Create an RFC version 1 (timestamp) UUID
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
+> The default [node id](https://datatracker.ietf.org/doc/html/rfc9562#section-5.1) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
 
 <!-- prettier-ignore -->
 > [!NOTE]
@@ -443,7 +443,7 @@ Usage:
   uuid --help
 
 Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs
-defined by RFC4122
+defined by RFC9562
 ```
 
 ## ECMAScript Modules
