@@ -303,7 +303,7 @@ import { v5 as uuidv5 } from 'uuid';
 uuidv5('https://www.w3.org/', uuidv5.URL); // RESULT
 ```
 
-### uuid.v6([options, [, buffer[, offset]]])
+### uuid.v6([options[, buffer[, offset]]])
 
 Create an RFC version 6 (timestamp, reordered) UUID
 
