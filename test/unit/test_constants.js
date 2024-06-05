@@ -92,8 +92,9 @@ for (let charIndex = 0; charIndex < 36; charIndex++) {
     charIndex === 14 || // version char
     charIndex === 18 ||
     charIndex === 23
-  )
+  ) {
     continue;
+  }
 
   const nilChars = NIL.split('');
   const maxChars = MAX.split('');
