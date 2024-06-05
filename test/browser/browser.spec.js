@@ -98,7 +98,9 @@ describe('BrowserStack Local Testing', () => {
       const resultEl = await element.$('dd');
       const result = await resultEl.getText();
 
-      if (!expectations[title]) throw new Error(`Unexpected title: ${title}`);
+      if (!expectations[title]) {
+        throw new Error(`Unexpected title: ${title}`);
+      }
 
       expectations[title](result);
       titles.push(title);

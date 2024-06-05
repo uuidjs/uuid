@@ -61,12 +61,12 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 | [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
 | [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
-| [`uuid.v1ToV6()`](#uuidv7options-buffer-offset) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
+| [`uuid.v1ToV6()`](#uuidv1tov6uuid) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
-| [`uuid.v6()`](#uuidv5name-namespace-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
-| [`uuid.v6ToV1()`](#uuidv7options-buffer-offset) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
+| [`uuid.v6()`](#uuidv6options-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
+| [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
 | [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
 | ~~[`uuid.v8()`](#uuidv8)~~ | "Intentionally left blank" |  |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
@@ -121,7 +121,7 @@ import { parse as uuidParse } from 'uuid';
 const bytes = uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b');
 
 // Convert to hex strings to show byte order (for documentation purposes)
-[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨ 
+[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨
   // [
   //   '6e', 'c0', 'bd', '7f',
   //   '11', 'c0', '43', 'da',
@@ -196,13 +196,13 @@ Example using `options`:
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-const v1options = {
+const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
+uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
 ```
 
 ### uuid.v1ToV6(uuid)
@@ -299,7 +299,7 @@ uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095
 
 Create an RFC version 6 (timestamp, reordered) UUID
 
-This method takes the same args as uuid.v1().
+This method takes the same arguments as uuid.v1().
 
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
@@ -312,13 +312,13 @@ Example using `options`:
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-const v1options = {
+const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv6(v1options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
+uuidv6(options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
 ```
 
 ### uuid.v6ToV1(uuid)

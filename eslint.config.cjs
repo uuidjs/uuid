@@ -21,8 +21,11 @@ module.exports = [
       },
       parser: babelParser,
     },
+  },
+  {
     rules: {
       'no-var': ['error'],
+      curly: ['error', 'all'],
     },
   },
   {
