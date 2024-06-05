@@ -139,5 +139,6 @@
     "@wdio/local-runner": "7.16.10",
     "@wdio/spec-reporter": "7.16.9",
     "@wdio/static-server-service": "7.16.6"
-  }
+  },
+  "packageManager": "npm@10.8.1+sha256.b8807aebb9656758e2872fa6e7c564b506aa2faa9297439a478d471d2fe32483"
 }
