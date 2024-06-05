@@ -57,7 +57,6 @@ export default function v35(name, version, hashfunc) {
   // Function#name is not settable on some platforms (#270)
   try {
     generateUUID.name = name;
-    // eslint-disable-next-line no-empty
   } catch (err) {}
 
   // For CommonJS default export support
