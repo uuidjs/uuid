@@ -14,41 +14,49 @@ describe('v6', () => {
     node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10],
   };
 
-  test('v6 (full options)', () => {
+  const EXPECTED_BYTES = [30, 17, 34, 189, 148, 40, 104, 136, 184, 92, 97, 205, 60, 187, 50, 16];
+
+  test('default behavior', () => {
+    // Verify explicit options produce expected id
+    const id = v6();
+    assert(
+      /[0-9a-f]{8}-[0-9a-f]{4}-6[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/.test(id),
+      'id is valid v6 UUID'
+    );
+  });
+
+  test('default behavior (binary type)', () => {
+    const buffer = [];
+    const result = v6(fullOptions, buffer);
+    assert.deepEqual(buffer, EXPECTED_BYTES);
+    assert.strictEqual(buffer, result);
+  });
+
+  test('all options', () => {
     // Verify explicit options produce expected id
     const id = v6(fullOptions);
     assert.equal(id, '1e1122bd-9428-6888-b85c-61cd3cbb3210');
   });
 
-  const expectedBytes = [30, 17, 34, 189, 148, 40, 104, 136, 184, 92, 97, 205, 60, 187, 50, 16];
-
-  test('v6 (binary)', () => {
-    const buffer = [];
-    const result = v6(fullOptions, buffer);
-    assert.deepEqual(buffer, expectedBytes);
-    assert.strictEqual(buffer, result);
+  test('sort by creation time', () => {
+    // Verify ids sort by creation time
+    const ids = [];
+    for (let i = 0; i < 5; i++) {
+      ids.push(v6({ msecs: i * 1000 }));
+    }
+    assert.deepEqual(ids, ids.slice().sort());
   });
 
-  test('v6 (binary w/ buffer offset)', () => {
+  test('creating at array offset', () => {
     const buffer = [];
     v6(fullOptions, buffer, 0);
     v6(fullOptions, buffer, 16);
-    assert.deepEqual(buffer, expectedBytes.concat(expectedBytes));
+    assert.deepEqual(buffer, EXPECTED_BYTES.concat(EXPECTED_BYTES));
   });
 
   test('v1 -> v6 conversion', () => {
     const id = v1ToV6(V1_ID);
     assert.equal(id, V6_ID);
-  });
-
-  test('v1 -> v6 conversion (randomized0', () => {
-    const id = v1ToV6(V1_ID, true);
-
-    // clock_seq and node fields should be randomized
-    assert.notEqual(id, V6_ID);
-
-    // timestamp field should not change
-    assert.equal(id.slice(0, 19), V6_ID.slice(0, 19));
   });
 
   test('v6 -> v1 conversion', () => {

@@ -1,47 +1,18 @@
 import parse from './parse.js';
-import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
 /**
  * Convert a v1 UUID to a v6 UUID
  *
- * Note: Per https://www.rfc-editor.org/rfc/rfc9562.html#section-5.6-4, the
- * clock_seq and node fields SHOULD be set to random values for each new v6 UUID
- * to aid in collision resistance and security.  This function does not do this
- * by default, however, for two reasons:
- *
- * 1. Doing so makes the conversion non-reversible.  I.e. `v6ToV1(v1ToV6(uuid))
- *    !== uuid`.
- * 2. Doing so makes the conversion non-deterministic.  I.e. `v1ToV6(uuid) !==
- *    v1ToV6(uuid)`
- *
- * Callers needing the RFC-recommended randomization can enable this by passing
- * `true` for the `randomize` argument.
- *
  * @param {string|Uint8Array} uuid - The v1 UUID to convert to v6
- * @param {boolean} [randomize=false] - Whether to randomize the clock_seq and
- * node fields
- * @returns {string|Uint8Array} The v6 UUID as a string or Uint8Array
+ * @returns {string|Uint8Array} The v6 UUID as the same type as the `uuid` arg
+ * (string or Uint8Array)
  */
-export default function v1ToV6(uuid, randomize = false) {
-  // Non-string UUIDs are documented as being Uint8Arrays, but we don't enforce
-  // that.  They just need to be "array-like".  And some day when we port this
-  // to TypeScript we'll have to take an actual stance on this.
+export default function v1ToV6(uuid) {
   const v1Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
   const v6Bytes = _v1ToV6(v1Bytes);
 
-  if (randomize) {
-    const rnds = rng();
-    v6Bytes[8] = (rnds[0] & 0x3f) | 0x80;
-    v6Bytes[9] = rnds[1];
-    v6Bytes[10] = rnds[2];
-    v6Bytes[11] = rnds[3];
-    v6Bytes[12] = rnds[4];
-    v6Bytes[13] = rnds[5];
-    v6Bytes[14] = rnds[6];
-    v6Bytes[15] = rnds[7];
-  }
   return typeof uuid === 'string' ? unsafeStringify(v6Bytes) : v6Bytes;
 }
 

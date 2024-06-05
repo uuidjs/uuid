@@ -4,16 +4,11 @@ import { unsafeStringify } from './stringify.js';
 /**
  * Convert a v6 UUID to a v1 UUID
  *
- * @param {string|Uint8Array} uuid - The v1 UUID to convert to v6
- * @param {boolean} [randomize=false] - Whether to randomize the clock_seq and
- * node fields
- * @returns {string|Uint8Array} The v6 UUID as the same type as the `uuid` arg
+ * @param {string|Uint8Array} uuid - The v6 UUID to convert to v6
+ * @returns {string|Uint8Array} The v1 UUID as the same type as the `uuid` arg
  * (string or Uint8Array)
  */
 export default function v6ToV1(uuid) {
-  // Non-string UUIDs are documented as being Uint8Arrays, but we don't enforce
-  // that.  They just need to be "array-like".  And some day when we port this
-  // to TypeScript we'll have to take an actual stance on this.
   const v6Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
   const v1Bytes = _v6ToV1(v6Bytes);
