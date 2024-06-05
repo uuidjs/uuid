@@ -17,7 +17,9 @@
     "rfc4122"
   ],
   "license": "MIT",
-  "bin": "./dist/bin/uuid",
+  "bin": {
+    "uuid": "./dist/bin/uuid"
+  },
   "sideEffects": false,
   "main": "./dist/index.js",
   "exports": {
