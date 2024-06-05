@@ -47,11 +47,15 @@ describe('validate', () => {
 
     // NIL UUIDs that have a bit set (incorrectly) should not validate
     for (let charIndex = 0; charIndex < 36; charIndex++) {
-      if (charIndex === 14) continue; // version field
+      if (charIndex === 14) {
+        continue;
+      } // version field
 
       for (let bit = 0; bit < 4; bit++) {
         const chars = NIL.split('');
-        if (chars[charIndex] === '-') continue;
+        if (chars[charIndex] === '-') {
+          continue;
+        }
 
         chars[charIndex] = (1 << bit).toString(16);
         assert.strictEqual(validate(chars.join('')), false);

@@ -24,8 +24,12 @@ function v1(options, buf, offset) {
 
   // v1 only: Use cached `node` and `clockseq` values
   if (!options._v6) {
-    if (!node) node = _nodeId;
-    if (clockseq == null) clockseq = _clockseq;
+    if (!node) {
+      node = _nodeId;
+    }
+    if (clockseq == null) {
+      clockseq = _clockseq;
+    }
   }
 
   // Handle cases where we need entropy.  We do this lazily to minimize issues

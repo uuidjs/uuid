@@ -203,13 +203,13 @@ Example using `options`:
 ```javascript --run
 import { v1 as uuidv1 } from 'uuid';
 
-const v1options = {
+const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv1(v1options); // RESULT
+uuidv1(options); // RESULT
 ```
 
 ### uuid.v1ToV6(uuid)
@@ -306,7 +306,7 @@ uuidv5('https://www.w3.org/', uuidv5.URL); // RESULT
 
 Create an RFC version 6 (timestamp, reordered) UUID
 
-This method takes the same args as uuid.v1().
+This method takes the same arguments as uuid.v1().
 
 ```javascript --run
 import { v6 as uuidv6 } from 'uuid';
@@ -319,13 +319,13 @@ Example using `options`:
 ```javascript --run
 import { v6 as uuidv6 } from 'uuid';
 
-const v1options = {
+const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv6(v1options); // RESULT
+uuidv6(options); // RESULT
 ```
 
 ### uuid.v6ToV1(uuid)
