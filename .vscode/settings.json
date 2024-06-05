@@ -1,5 +1,0 @@
-{
-  "files.autoSave": "afterDelay",
-  "editor.formatOnSave": false,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-}
