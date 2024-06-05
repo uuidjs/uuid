@@ -294,7 +294,7 @@ import { v5 as uuidv5 } from 'uuid';
 uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
 ```
 
-### uuid.v6([options, [, buffer[, offset]]])
+### uuid.v6([options[, buffer[, offset]]])
 
 Create an RFC version 6 (timestamp, reordered) UUID
 
