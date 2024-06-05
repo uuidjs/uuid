@@ -6,7 +6,7 @@
 
 For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
-- **Complete** - Support for RFC9562 version 1, 3, 4, 5, and 7 UUIDs
+- **Complete** - Support for all RFC9562 UUID versions
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
   - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
