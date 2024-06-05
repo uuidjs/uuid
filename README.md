@@ -2,11 +2,12 @@
   -- This file is auto-generated from README_js.md. Changes should be made there.
   -->
 
+
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
 For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
-- **Complete** - Support for all RFC9562 UUID versions
+- **Complete** - Support for RFC9562 version 1, 3, 4, 5, and 7 UUIDs
 - **Cross-platform** - Support for ...
   - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
   - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
@@ -60,12 +61,12 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 | [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
 | [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
-| [`uuid.v1ToV6()`](#uuidv7options-buffer-offset) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
+| [`uuid.v1ToV6()`](#uuidv1tov6uuid) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
-| [`uuid.v6()`](#uuidv5name-namespace-buffer-offset) | Create a version 6 (timestamp, reordered) UUID  | New in `uuid@10` |
-| [`uuid.v6ToV1()`](#uuidv7options-buffer-offset) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
+| [`uuid.v6()`](#uuidv6options-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
+| [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
 | [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
@@ -194,13 +195,13 @@ Example using `options`:
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-const v1options = {
+const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
+uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
 ```
 
 ### uuid.v1ToV6(uuid)
@@ -297,7 +298,7 @@ uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095
 
 Create an RFC version 6 (timestamp, reordered) UUID
 
-This method takes the same args as uuid.v1().
+This method takes the same arguments as uuid.v1().
 
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
@@ -310,13 +311,13 @@ Example using `options`:
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-const v1options = {
+const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv6(v1options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
+uuidv6(options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
 ```
 
 ### uuid.v6ToV1(uuid)
@@ -326,7 +327,7 @@ Convert a UUID from version 6 to version 1
 ```javascript
 import { v6ToV1 } from 'uuid';
 
-v6ToV1('92f62d9e-22c4-11ef-97e9-325096b39f47'); // ⇨ 'e22c41ef-62d9-192f-97e9-325096b39f47'
+v6ToV1('1ef22c49-2f62-6d9e-97e9-325096b39f47'); // ⇨ '92f62d9e-22c4-11ef-97e9-325096b39f47'
 ```
 
 ### uuid.v7([options[, buffer[, offset]]])
@@ -569,5 +570,6 @@ const uuid = require('uuid'); // <== REMOVED!
 
 This usage pattern was already discouraged in `uuid@3` and has been removed in `uuid@7`.
 
-----
-Markdown generated from [README_js.md](README_js.md) by [![RunMD Logo](https://i.imgur.com/h0FVyzU.png)](https://github.com/broofa/runmd)
+---
+
+Markdown generated from [README_js.md](README_js.md) by <a href="https://github.com/broofa/runmd"><image height="12px" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67" /></a>
