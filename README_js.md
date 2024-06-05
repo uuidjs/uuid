@@ -335,7 +335,7 @@ Convert a UUID from version 6 to version 1
 ```javascript --run
 import { v6ToV1 } from 'uuid';
 
-v6ToV1('92f62d9e-22c4-11ef-97e9-325096b39f47'); // RESULT
+v6ToV1('1ef22c49-2f62-6d9e-97e9-325096b39f47'); // RESULT
 ```
 
 ### uuid.v7([options[, buffer[, offset]]])
