@@ -61,10 +61,13 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 | [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
 | [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
+| [`uuid.v1ToV6()`](#uuidv7options-buffer-offset) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
-| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | `experimental support` |
+| [`uuid.v6()`](#uuidv5name-namespace-buffer-offset) | Create a version 6 (timestamp, reordered) UUID  | New in `uuid@10` |
+| [`uuid.v6ToV1()`](#uuidv7options-buffer-offset) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
+| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
@@ -201,6 +204,16 @@ const v1options = {
 uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
 ```
 
+### uuid.v1ToV6(uuid)
+
+Convert a UUID from version 1 to version 6
+
+```javascript
+import { v1ToV6 } from 'uuid';
+
+v1ToV6('92f62d9e-22c4-11ef-97e9-325096b39f47'); // ⇨ '1ef22c49-2f62-6d9e-97e9-325096b39f47'
+```
+
 ### uuid.v3(name, namespace[, buffer[, offset]])
 
 Create an RFC version 3 (namespace w/ MD5) UUID
@@ -281,6 +294,42 @@ import { v5 as uuidv5 } from 'uuid';
 uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
 ```
 
+### uuid.v6([options, [, buffer[, offset]]])
+
+Create an RFC version 6 (timestamp, reordered) UUID
+
+This method takes the same args as uuid.v1().
+
+```javascript
+import { v6 as uuidv6 } from 'uuid';
+
+uuidv6(); // ⇨ '1e940672-c5ea-64c0-8bad-9b1deb4d3b7d'
+```
+
+Example using `options`:
+
+```javascript
+import { v6 as uuidv6 } from 'uuid';
+
+const v1options = {
+  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  clockseq: 0x1234,
+  msecs: new Date('2011-11-01').getTime(),
+  nsecs: 5678,
+};
+uuidv6(v1options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
+```
+
+### uuid.v6ToV1(uuid)
+
+Convert a UUID from version 6 to version 1
+
+```javascript
+import { v6ToV1 } from 'uuid';
+
+v6ToV1('92f62d9e-22c4-11ef-97e9-325096b39f47'); // ⇨ 'e22c41ef-62d9-192f-97e9-325096b39f47'
+```
+
 ### uuid.v7([options[, buffer[, offset]]])
 
 Create an RFC version 7 (random) UUID
@@ -301,7 +350,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '01695553-c90c-7aad-9bdd-330d7b3dcb6d'
+uuidv7(); // ⇨ '01695553-c90c-722d-9b5d-b38dfbbd4bed'
 ```
 
 ### uuid.validate(str)
