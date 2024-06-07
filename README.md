@@ -68,6 +68,7 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 | [`uuid.v6()`](#uuidv6options-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
 | [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
 | [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
+| ~~[`uuid.v8()`](#uuidv8)~~ | "Intentionally left blank" |  |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
@@ -120,7 +121,7 @@ import { parse as uuidParse } from 'uuid';
 const bytes = uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b');
 
 // Convert to hex strings to show byte order (for documentation purposes)
-[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨ 
+[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨
   // [
   //   '6e', 'c0', 'bd', '7f',
   //   '11', 'c0', '43', 'da',
@@ -352,6 +353,14 @@ import { v7 as uuidv7 } from 'uuid';
 
 uuidv7(); // ⇨ '01695553-c90c-722d-9b5d-b38dfbbd4bed'
 ```
+
+### ~~uuid.v8()~~
+
+**_"Intentionally left blank"_**
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> Version 8 (experimental) UUIDs are "[for experimental or vendor-specific use cases](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-8)".  The RFC does not define a creation algorithm for them, which is why this package does not offer a `v8()` method.  The `validate()` and `version()` methods do work with such UUIDs, however.
 
 ### uuid.validate(str)
 
