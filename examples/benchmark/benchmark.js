@@ -66,6 +66,9 @@ export default function benchmark(uuid, Benchmark) {
       .add('uuid.v5()', function () {
         uuid.v5('hello.example.com', uuid.v5.DNS);
       })
+      .add('uuid.v6()', function () {
+        uuid.v6();
+      })
       .add('uuid.v7()', function () {
         uuid.v7();
       })
@@ -82,10 +85,38 @@ export default function benchmark(uuid, Benchmark) {
       })
       .on('complete', function () {
         console.log('Fastest is ' + this.filter('fastest').map('name'));
+        console.log('---\n');
+      })
+      .run();
+  }
+
+  function testV6Conversion() {
+    const suite = new Benchmark.Suite({
+      onError(event) {
+        console.error(event.target.error);
+      },
+    });
+
+    const V1_ID = 'f1207660-21d2-11ef-8c4f-419efbd44d48';
+    const V6_ID = '1ef21d2f-1207-6660-8c4f-419efbd44d48';
+
+    suite
+      .add('uuid.v1ToV6()', function () {
+        uuid.v1ToV6(V1_ID);
+      })
+      .add('uuid.v1ToV6() w/ randomization', function () {
+        uuid.v1ToV6(V1_ID, true);
+      })
+      .add('uuid.v6ToV1()', function () {
+        uuid.v6ToV1(V6_ID);
+      })
+      .on('cycle', function (event) {
+        console.log(event.target.toString());
       })
       .run();
   }
 
   testParseAndStringify();
   testGeneration();
+  testV6Conversion();
 }

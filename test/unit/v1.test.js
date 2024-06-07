@@ -74,7 +74,7 @@ describe('v1', () => {
     node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10],
   };
 
-  test('explicit options product expected id', () => {
+  test('explicit options produce expected id', () => {
     // Verify explicit options produce expected id
     const id = v1(fullOptions);
     assert(id === 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');

@@ -1,7 +1,7 @@
 import assert from 'assert';
-import validate from '../../src/validate.js';
-import NIL from '../../src/nil.js';
 import MAX from '../../src/max.js';
+import NIL from '../../src/nil.js';
+import validate from '../../src/validate.js';
 
 describe('validate', () => {
   test('validate uuid', () => {
@@ -22,11 +22,14 @@ describe('validate', () => {
     // v5
     assert.strictEqual(validate('90123e1c-7512-523e-bb28-76fab9f2f73d'), true);
 
+    // v6
+    assert.strictEqual(validate('1ef21d2f-1207-6660-8c4f-419efbd44d48'), true);
+
     // v7
     assert.strictEqual(validate('017f22e2-79b0-7cc3-98c4-dc0c0c07398f'), true);
 
     // test invalid/unsupported UUID versions
-    [0, 2, 6, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'].forEach((v) => {
+    [0, 2, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'].forEach((v) => {
       assert.strictEqual(
         validate('12300000-0000-' + v + '000-0000-000000000000'),
         false,
@@ -44,11 +47,15 @@ describe('validate', () => {
 
     // NIL UUIDs that have a bit set (incorrectly) should not validate
     for (let charIndex = 0; charIndex < 36; charIndex++) {
-      if (charIndex === 14) continue; // version field
+      if (charIndex === 14) {
+        continue;
+      } // version field
 
       for (let bit = 0; bit < 4; bit++) {
         const chars = NIL.split('');
-        if (chars[charIndex] === '-') continue;
+        if (chars[charIndex] === '-') {
+          continue;
+        }
 
         chars[charIndex] = (1 << bit).toString(16);
         assert.strictEqual(validate(chars.join('')), false);

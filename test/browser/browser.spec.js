@@ -2,10 +2,15 @@
 
 const v1Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-1[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const v4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+const v6Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-6[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const v7Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-7[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+
+const V1_ID = 'f1207660-21d2-11ef-8c4f-419efbd44d48';
+const V6_ID = '1ef21d2f-1207-6660-8c4f-419efbd44d48';
 
 const v1 = (result) => expect(result).toMatch(v1Regex);
 const v4 = (result) => expect(result).toMatch(v4Regex);
+const v6 = (result) => expect(result).toMatch(v6Regex);
 const v7 = (result) => expect(result).toMatch(v7Regex);
 const v3dns = (result) => expect(result).toBe('9125a8dc-52ee-365b-a5aa-81b0b3681cf6');
 const v3url = (result) => expect(result).toBe('c6235813-3ba4-3801-ae84-e0a6ebb7d138');
@@ -13,6 +18,9 @@ const v3custom = (result) => expect(result).toBe('f5a52d34-dcd7-30f7-b581-0112fa
 const v5dns = (result) => expect(result).toBe('fdda765f-fc57-5604-a269-52a7df8164ec');
 const v5url = (result) => expect(result).toBe('3bbcee75-cecc-5b56-8031-b6641c1ed1f1');
 const v5custom = (result) => expect(result).toBe('c49c5142-4d9a-5940-a926-612ede0ec632');
+
+const v1ToV6 = (result) => expect(result).toBe(V6_ID);
+const v6ToV1 = (result) => expect(result).toBe(V1_ID);
 
 const nil = (result) => expect(result).toBe('00000000-0000-0000-0000-000000000000');
 const max = (result) => expect(result).toBe('ffffffff-ffff-ffff-ffff-ffffffffffff');
@@ -32,6 +40,10 @@ const expectations = {
   'uuidv5() DNS': v5dns,
   'uuidv5() URL': v5url,
   'uuidv5() MY_NAMESPACE': v5custom,
+  'uuidv6()': v6,
+
+  'uuidv1ToV6()': v1ToV6,
+  'uuidv6ToV1()': v6ToV1,
 
   NIL_UUID: nil,
   MAX_UUID: max,
@@ -49,6 +61,10 @@ const expectations = {
   'uuid.v5() DNS': v5dns,
   'uuid.v5() URL': v5url,
   'uuid.v5() MY_NAMESPACE': v5custom,
+  'uuid.v6()': v6,
+
+  'uuid.v1ToV6()': v1ToV6,
+  'uuid.v6ToV1()': v6ToV1,
 
   'uuid.NIL': nil,
   'uuid.MAX': max,
@@ -82,13 +98,18 @@ describe('BrowserStack Local Testing', () => {
       const resultEl = await element.$('dd');
       const result = await resultEl.getText();
 
-      if (!expectations[title]) throw new Error(`Unexpected title: ${title}`);
+      if (!expectations[title]) {
+        throw new Error(`Unexpected title: ${title}`);
+      }
 
       expectations[title](result);
       titles.push(title);
     }
 
-    expect(titles).toEqual(expectationTitles.filter(titleFilter));
+    // Confirm the expected titles are all present
+    const expectedTitles = expectationTitles.filter(titleFilter);
+    expect(titles.length).toEqual(expectedTitles.length);
+    expect(titles.sort()).toEqual(expectedTitles.sort());
   }
 
   describe('webpack', () => {
@@ -96,10 +117,10 @@ describe('BrowserStack Local Testing', () => {
       testExpectations('browser-webpack/example-all.html', () => true));
 
     it('it renders v1 only', async () =>
-      testExpectations('browser-webpack/example-v1.html', (title) => title.includes('uuidv1')));
+      testExpectations('browser-webpack/example-v1.html', (title) => title.includes('uuidv1()')));
 
     it('it renders v4 only', async () =>
-      testExpectations('browser-webpack/example-v4.html', (title) => title.includes('uuidv4')));
+      testExpectations('browser-webpack/example-v4.html', (title) => title.includes('uuidv4()')));
   });
 
   describe('rollup', () => {
@@ -107,9 +128,9 @@ describe('BrowserStack Local Testing', () => {
       testExpectations('browser-rollup/example-all.html', () => true));
 
     it('it renders v1 only', async () =>
-      testExpectations('browser-rollup/example-v1.html', (title) => title.includes('uuidv1')));
+      testExpectations('browser-rollup/example-v1.html', (title) => title.includes('uuidv1()')));
 
     it('it renders v4 only', async () =>
-      testExpectations('browser-rollup/example-v4.html', (title) => title.includes('uuidv4')));
+      testExpectations('browser-rollup/example-v4.html', (title) => title.includes('uuidv4(')));
   });
 });
