@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "9.0.1",
+  "version": "10.0.0",
   "description": "RFC9562 UUIDs",
   "funding": [
     "https://github.com/sponsors/broofa",

@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/uuidjs/uuid/compare/v9.0.0...v10.0.0) (2024-06-07)
+
+### ⚠ BREAKING CHANGES
+
+- update node support (drop node@12, node@14, add node@20) (#750)
+
+### Features
+
+- support support rfc9562 MAX uuid (new in RFC9562) ([#714](https://github.com/uuidjs/uuid/issues/714)) ([0385cd3](https://github.com/uuidjs/uuid/commit/0385cd3f18ae9920678b2849932fa7a9d9aee7d0))
+- support rfc9562 v6 uuids ([#754](https://github.com/uuidjs/uuid/issues/754)) ([c4ed13e](https://github.com/uuidjs/uuid/commit/c4ed13e7159d87c9e42a349bdd9dc955f1af46b6))
+- support rfc9562 v7 uuids ([#681](https://github.com/uuidjs/uuid/issues/681)) ([db76a12](https://github.com/uuidjs/uuid/commit/db76a1284760c441438f50a57924b322dae08891))
+- update node support matrix (only support node 16-20) ([#750](https://github.com/uuidjs/uuid/issues/750)) ([883b163](https://github.com/uuidjs/uuid/commit/883b163b9ab9d6655bfbd8a35e61a3c71674dfe1))
+- support rfc9562 v8 uuids ([#759](https://github.com/uuidjs/uuid/issues/759)) ([35a5342](https://github.com/uuidjs/uuid/commit/35a53428202657e402e6b4aa68f56c08194541bf))
+
+### Bug Fixes
+
+- revert "perf: remove superfluous call to toLowerCase ([#677](https://github.com/uuidjs/uuid/issues/677))" ([#738](https://github.com/uuidjs/uuid/issues/738)) ([e267b90](https://github.com/uuidjs/uuid/commit/e267b9073df1d0ce119ee53c0487fe76acb2be37))
+
 ## [9.0.1](https://github.com/uuidjs/uuid/compare/v9.0.0...v9.0.1) (2023-09-12)
 
 ### build
