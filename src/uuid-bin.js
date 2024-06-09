@@ -4,6 +4,7 @@ import v1 from './v1.js';
 import v3 from './v3.js';
 import v4 from './v4.js';
 import v5 from './v5.js';
+import v6 from './v6.js';
 import v7 from './v7.js';
 
 function usage() {
@@ -13,6 +14,7 @@ function usage() {
   console.log('  uuid v3 <name> <namespace uuid>');
   console.log('  uuid v4');
   console.log('  uuid v5 <name> <namespace uuid>');
+  console.log('  uuid v6');
   console.log('  uuid v7');
   console.log('  uuid --help');
   console.log(
@@ -75,6 +77,10 @@ switch (version) {
     console.log(v5(name, namespace));
     break;
   }
+
+  case 'v6':
+    console.log(v6());
+    break;
 
   case 'v7':
     console.log(v7());
