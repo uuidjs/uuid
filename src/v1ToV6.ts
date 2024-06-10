@@ -8,7 +8,7 @@ import { unsafeStringify } from './stringify.js';
  * @returns {string|Uint8Array} The v6 UUID as the same type as the `uuid` arg
  * (string or Uint8Array)
  */
-export default function v1ToV6(uuid) {
+export default function v1ToV6(uuid: string | Uint8Array) {
   const v1Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
   const v6Bytes = _v1ToV6(v1Bytes);
@@ -17,7 +17,7 @@ export default function v1ToV6(uuid) {
 }
 
 // Do the field transformation needed for v1 -> v6
-function _v1ToV6(v1Bytes, randomize = false) {
+function _v1ToV6(v1Bytes: Uint8Array, randomize = false) {
   return Uint8Array.of(
     ((v1Bytes[6] & 0x0f) << 4) | ((v1Bytes[7] >> 4) & 0x0f),
     ((v1Bytes[7] & 0x0f) << 4) | ((v1Bytes[4] & 0xf0) >> 4),
