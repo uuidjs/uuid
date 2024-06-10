@@ -1,4 +1,4 @@
-import { UUIDString, Version7Options } from './_types.js';
+import { UUIDString, UUIDTypes, Version7Options } from './_types.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
@@ -43,11 +43,7 @@ let _msecs = 0;
 
 function v7(options: Version7Options, buf: undefined, offset?: number): UUIDString;
 function v7(options: Version7Options, buf: Uint8Array, offset?: number): Uint8Array;
-function v7(
-  options: Version7Options = {},
-  buf?: Uint8Array,
-  offset?: number
-): UUIDString | Uint8Array {
+function v7(options: Version7Options = {}, buf?: Uint8Array, offset?: number): UUIDTypes {
   // initialize buffer and pointer
   let i = (buf && offset) || 0;
   const b = buf || new Uint8Array(16);

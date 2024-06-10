@@ -1,13 +1,14 @@
-import { unsafeStringify } from './stringify.js';
+import { UUIDString, UUIDTypes } from './_types.js';
 import parse from './parse.js';
+import { unsafeStringify } from './stringify.js';
 
-function stringToBytes(str) {
+function stringToBytes(str: string) {
   str = unescape(encodeURIComponent(str)); // UTF8 escape
 
-  const bytes = [];
+  const bytes = new Uint8Array(str.length);
 
   for (let i = 0; i < str.length; ++i) {
-    bytes.push(str.charCodeAt(i));
+    bytes[i] = str.charCodeAt(i);
   }
 
   return bytes;
@@ -16,52 +17,57 @@ function stringToBytes(str) {
 export const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
-export default function v35(name, version, hashfunc) {
-  function generateUUID(value, namespace, buf, offset) {
-    if (typeof value === 'string') {
-      value = stringToBytes(value);
-    }
+type HashFunction = (bytes: Uint8Array) => Uint8Array;
 
-    if (typeof namespace === 'string') {
-      namespace = parse(namespace);
-    }
+type NamespaceUuidFunction<BufType, ReturnType> = (
+  value: string | Uint8Array,
+  namespace: string | Uint8Array,
+  buf?: BufType,
+  offset?: number
+) => ReturnType;
 
-    if (namespace?.length !== 16) {
-      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
-    }
-
-    // Compute hash of namespace and value, Per 4.3
-    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
-    // hashfunc([...namespace, ... value])`
-    let bytes = new Uint8Array(16 + value.length);
-    bytes.set(namespace);
-    bytes.set(value, namespace.length);
-    bytes = hashfunc(bytes);
-
-    bytes[6] = (bytes[6] & 0x0f) | version;
-    bytes[8] = (bytes[8] & 0x3f) | 0x80;
-
-    if (buf) {
-      offset = offset || 0;
-
-      for (let i = 0; i < 16; ++i) {
-        buf[offset + i] = bytes[i];
-      }
-
-      return buf;
-    }
-
-    return unsafeStringify(bytes);
+export default function v35(
+  version: 0x30 | 0x50,
+  hash: HashFunction,
+  value: string | Uint8Array,
+  namespace: UUIDTypes,
+  buf?: Uint8Array,
+  offset?: number
+) {
+  const valueBytes: Uint8Array = typeof value === 'string' ? stringToBytes(value) : value;
+  const namespaceBytes: Uint8Array = typeof namespace === 'string' ? parse(namespace) : namespace;
+  if (typeof value === 'string') {
+    value = stringToBytes(value);
   }
 
-  // Function#name is not settable on some platforms (#270)
-  try {
-    generateUUID.name = name;
-  } catch (err) {}
+  if (typeof namespace === 'string') {
+    namespace = parse(namespace);
+  }
 
-  // For CommonJS default export support
-  generateUUID.DNS = DNS;
-  generateUUID.URL = URL;
+  if (namespace?.length !== 16) {
+    throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
+  }
 
-  return generateUUID;
+  // Compute hash of namespace and value, Per 4.3
+  // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
+  // hashfunc([...namespace, ... value])`
+  let bytes = new Uint8Array(16 + valueBytes.length);
+  bytes.set(namespaceBytes);
+  bytes.set(valueBytes, namespaceBytes.length);
+  bytes = hash(bytes);
+
+  bytes[6] = (bytes[6] & 0x0f) | version;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+  if (buf) {
+    offset = offset || 0;
+
+    for (let i = 0; i < 16; ++i) {
+      buf[offset + i] = bytes[i];
+    }
+
+    return buf;
+  }
+
+  return unsafeStringify(bytes);
 }
