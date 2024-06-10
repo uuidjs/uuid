@@ -1,22 +1,32 @@
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
+type Version1Options = {
+  node?: Uint8Array;
+  clockseq?: number;
+  random?: Uint8Array;
+  rng?: () => Uint8Array;
+  msecs?: number;
+  nsecs?: number;
+  _v6?: boolean; // Internal use only!
+};
+
 // **`v1()` - Generate time-based UUID**
 //
 // Inspired by https://github.com/LiosK/UUID.js
 // and http://docs.python.org/library/uuid.html
 
-let _nodeId;
-let _clockseq;
+let _nodeId: Uint8Array;
+let _clockseq: number;
 
 // Previous uuid creation time
 let _lastMSecs = 0;
 let _lastNSecs = 0;
 
 // See https://github.com/uuidjs/uuid for API details
-function v1(options, buf, offset) {
+function v1(options: Version1Options = {}, buf?: Uint8Array, offset: number = 0) {
   let i = (buf && offset) || 0;
-  const b = buf || new Array(16);
+  const b = buf || new Uint8Array(16);
 
   options = options || {};
   let node = options.node;
@@ -39,7 +49,14 @@ function v1(options, buf, offset) {
 
     // Randomize node
     if (node == null) {
-      node = [seedBytes[0], seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+      node = Uint8Array.of(
+        seedBytes[0],
+        seedBytes[1],
+        seedBytes[2],
+        seedBytes[3],
+        seedBytes[4],
+        seedBytes[5]
+      );
 
       // v1 only: cache node value for reuse
       if (!_nodeId && !options._v6) {

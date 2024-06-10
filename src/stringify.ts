@@ -4,13 +4,13 @@ import validate from './validate.js';
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
  */
-const byteToHex = [];
+const byteToHex: string[] = [];
 
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 0x100).toString(16).slice(1));
 }
 
-export function unsafeStringify(arr, offset = 0) {
+export function unsafeStringify(arr: Uint8Array, offset = 0) {
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
   //
@@ -40,8 +40,9 @@ export function unsafeStringify(arr, offset = 0) {
   ).toLowerCase();
 }
 
-function stringify(arr, offset = 0) {
+function stringify(arr: Uint8Array, offset = 0) {
   const uuid = unsafeStringify(arr, offset);
+
   // Consistency check for valid UUID.  If this throws, it's likely due to one
   // of the following:
   // - One or more input array values don't map to a hex octet (leading to
