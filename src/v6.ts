@@ -1,3 +1,4 @@
+import { Version1Options } from './_types.js';
 import { unsafeStringify } from './stringify.js';
 import v1 from './v1.js';
 import v1ToV6 from './v1ToV6.js';
@@ -9,7 +10,7 @@ import v1ToV6 from './v1ToV6.js';
  * @param {number=} offset
  * @returns
  */
-export default function v6(options = {}, buf, offset = 0) {
+export default function v6(options: Version1Options = {}, buf?: Uint8Array, offset = 0) {
   // v6 is v1 with different field layout, so we start with a v1 UUID, albeit
   // with slightly different behavior around how the clock_seq and node fields
   // are randomized, which is why we call v1 with _v6: true.

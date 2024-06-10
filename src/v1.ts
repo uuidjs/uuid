@@ -1,15 +1,6 @@
+import { Version1Options } from './_types.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
-
-type Version1Options = {
-  node?: Uint8Array;
-  clockseq?: number;
-  random?: Uint8Array;
-  rng?: () => Uint8Array;
-  msecs?: number;
-  nsecs?: number;
-  _v6?: boolean; // Internal use only!
-};
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -23,8 +14,9 @@ let _clockseq: number;
 let _lastMSecs = 0;
 let _lastNSecs = 0;
 
-// See https://github.com/uuidjs/uuid for API details
-function v1(options: Version1Options = {}, buf?: Uint8Array, offset: number = 0) {
+function v1(options: Version1Options, buf: undefined, offset?: number): string;
+function v1(options: Version1Options, buf: Uint8Array, offset?: number): Uint8Array;
+function v1(options: Version1Options = {}, buf?: Uint8Array, offset?: number) {
   let i = (buf && offset) || 0;
   const b = buf || new Uint8Array(16);
 
