@@ -1,6 +1,7 @@
+import { UUIDString } from './_types.js';
 import validate from './validate.js';
 
-function version(uuid) {
+function version(uuid: UUIDString) {
   if (!validate(uuid)) {
     throw TypeError('Invalid UUID');
   }

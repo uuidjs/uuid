@@ -1,3 +1,4 @@
+import { UUIDString } from './_types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 
@@ -8,9 +9,9 @@ import { unsafeStringify } from './stringify.js';
  * @returns {string|Uint8Array} The v1 UUID as the same type as the `uuid` arg
  * (string or Uint8Array)
  */
-export default function v6ToV1(uuid: string): string;
-export default function v6ToV1(uuid: Uint8Array): string;
-export default function v6ToV1(uuid: string | Uint8Array) {
+export default function v6ToV1(uuid: UUIDString): UUIDString;
+export default function v6ToV1(uuid: Uint8Array): Uint8Array;
+export default function v6ToV1(uuid: UUIDString | Uint8Array): UUIDString | Uint8Array {
   const v6Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
   const v1Bytes = _v6ToV1(v6Bytes);
