@@ -17,7 +17,7 @@ function ROTL(x: number, n: number) {
   return (x << n) | (x >>> (32 - n));
 }
 
-function sha1(bytes: Uint8Array) {
+function sha1(bytes: Uint8Array): Uint8Array {
   const K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
   const H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
 
@@ -28,7 +28,7 @@ function sha1(bytes: Uint8Array) {
 
   const l = bytes.length / 4 + 2;
   const N = Math.ceil(l / 16);
-  const M = new Array(N);
+  const M: Uint32Array[] = new Array(N);
 
   for (let i = 0; i < N; ++i) {
     const arr = new Uint32Array(16);
@@ -82,28 +82,29 @@ function sha1(bytes: Uint8Array) {
     H[4] = (H[4] + e) >>> 0;
   }
 
-  return [
-    (H[0] >> 24) & 0xff,
-    (H[0] >> 16) & 0xff,
-    (H[0] >> 8) & 0xff,
-    H[0] & 0xff,
-    (H[1] >> 24) & 0xff,
-    (H[1] >> 16) & 0xff,
-    (H[1] >> 8) & 0xff,
-    H[1] & 0xff,
-    (H[2] >> 24) & 0xff,
-    (H[2] >> 16) & 0xff,
-    (H[2] >> 8) & 0xff,
-    H[2] & 0xff,
-    (H[3] >> 24) & 0xff,
-    (H[3] >> 16) & 0xff,
-    (H[3] >> 8) & 0xff,
-    H[3] & 0xff,
-    (H[4] >> 24) & 0xff,
-    (H[4] >> 16) & 0xff,
-    (H[4] >> 8) & 0xff,
-    H[4] & 0xff,
-  ];
+  // Note: Uint8Array.of() does `& 0xff` for each value
+  return Uint8Array.of(
+    H[0] >> 24,
+    H[0] >> 16,
+    H[0] >> 8,
+    H[0],
+    H[1] >> 24,
+    H[1] >> 16,
+    H[1] >> 8,
+    H[1],
+    H[2] >> 24,
+    H[2] >> 16,
+    H[2] >> 8,
+    H[2],
+    H[3] >> 24,
+    H[3] >> 16,
+    H[3] >> 8,
+    H[3],
+    H[4] >> 24,
+    H[4] >> 16,
+    H[4] >> 8,
+    H[4]
+  );
 }
 
 export default sha1;
