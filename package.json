@@ -2,6 +2,7 @@
   "name": "uuid",
   "version": "10.0.0",
   "description": "RFC9562 UUIDs",
+  "type": "module",
   "funding": [
     "https://github.com/sponsors/broofa",
     "https://github.com/sponsors/ctavan"
@@ -19,32 +20,35 @@
   ],
   "license": "MIT",
   "bin": {
-    "uuid": "./dist/bin/uuid"
+    "uuid": "./dist/esm/bin/uuid"
   },
   "sideEffects": false,
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
       "node": {
-        "module": "./dist/esm-node/index.js",
-        "require": "./dist/index.js",
+        "module": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js",
         "import": "./wrapper.mjs"
       },
       "browser": {
-        "import": "./dist/esm-browser/index.js",
-        "require": "./dist/commonjs-browser/index.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/esm-browser/index.js"
+      "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
   },
-  "module": "./dist/esm-node/index.js",
+  "module": "./dist/esm/index.js",
   "browser": {
-    "./dist/esm-node/index.js": "./dist/esm-browser/index.js",
-    "./dist/md5.js": "./dist/md5-browser.js",
-    "./dist/native.js": "./dist/native-browser.js",
-    "./dist/rng.js": "./dist/rng-browser.js",
-    "./dist/sha1.js": "./dist/sha1-browser.js"
+    "./dist/cjs/md5.js": "./dist/cjs/md5-browser.js",
+    "./dist/cjs/native.js": "./dist/cjs/native-browser.js",
+    "./dist/cjs/rng.js": "./dist/cjs/rng-browser.js",
+    "./dist/cjs/sha1.js": "./dist/cjs/sha1-browser.js",
+    "./dist/esm/md5.js": "./dist/esm/md5-browser.js",
+    "./dist/esm/native.js": "./dist/esm/native-browser.js",
+    "./dist/esm/rng.js": "./dist/esm/rng-browser.js",
+    "./dist/esm/sha1.js": "./dist/esm/sha1-browser.js"
   },
   "files": [
     "CHANGELOG.md",
