@@ -1,7 +1,9 @@
 import assert from 'assert';
 
+import { UUIDString } from './_types.js';
 import v1 from './v1.js';
 import v3 from './v3.js';
+import { DNS, URL } from './v35.js';
 import v4 from './v4.js';
 import v5 from './v5.js';
 import v6 from './v6.js';
@@ -44,14 +46,14 @@ switch (version) {
     assert(namespace != null, 'v3 namespace not specified');
 
     if (namespace === 'URL') {
-      namespace = v3.URL;
+      namespace = URL;
     }
 
     if (namespace === 'DNS') {
-      namespace = v3.DNS;
+      namespace = DNS;
     }
 
-    console.log(v3(name, namespace));
+    console.log(v3(name, namespace as UUIDString));
     break;
   }
 
@@ -67,14 +69,14 @@ switch (version) {
     assert(namespace != null, 'v5 namespace not specified');
 
     if (namespace === 'URL') {
-      namespace = v5.URL;
+      namespace = URL;
     }
 
     if (namespace === 'DNS') {
-      namespace = v5.DNS;
+      namespace = DNS;
     }
 
-    console.log(v5(name, namespace));
+    console.log(v5(name, namespace as UUIDString));
     break;
   }
 

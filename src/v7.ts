@@ -41,9 +41,11 @@ let _seqLow: number | null = null;
 let _seqHigh: number | null = null;
 let _msecs = 0;
 
-function v7(options: Version7Options, buf: undefined, offset?: number): UUIDString;
-function v7(options: Version7Options, buf: Uint8Array, offset?: number): Uint8Array;
-function v7(options: Version7Options = {}, buf?: Uint8Array, offset?: number): UUIDTypes {
+function v7(options?: Version7Options, buf?: undefined, offset?: number): UUIDString;
+function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): Uint8Array;
+function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): UUIDTypes {
+  options ??= {};
+
   // initialize buffer and pointer
   let i = (buf && offset) || 0;
   const b = buf || new Uint8Array(16);

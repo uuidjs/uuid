@@ -18,6 +18,8 @@ export type Version4Options = {
   rng?: () => Uint8Array;
 };
 
+export type Version6Options = Version1Options;
+
 export type Version7Options = {
   random?: Uint8Array;
   msecs?: number;

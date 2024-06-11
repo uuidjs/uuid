@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-function sha1(bytes: string | Uint8Array) {
+function sha1(bytes: Uint8Array) {
   if (Array.isArray(bytes)) {
     bytes = Buffer.from(bytes);
   } else if (typeof bytes === 'string') {

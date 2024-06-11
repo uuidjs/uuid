@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 
-function md5(bytes) {
+function md5(bytes: Uint8Array) {
   if (Array.isArray(bytes)) {
     bytes = Buffer.from(bytes);
   } else if (typeof bytes === 'string') {

@@ -3,7 +3,8 @@ import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 
 function stringToBytes(str: string) {
-  str = unescape(encodeURIComponent(str)); // UTF8 escape
+  // TODO: Use TextEncoder (see https://stackoverflow.com/a/48762658/109538)
+  str = unescape(encodeURIComponent(str));
 
   const bytes = new Uint8Array(str.length);
 

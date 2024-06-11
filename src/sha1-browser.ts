@@ -1,6 +1,6 @@
 // Adapted from Chris Veness' SHA1 code at
 // http://www.movable-type.co.uk/scripts/sha1.html
-function f(s, x, y, z) {
+function f(s: 0 | 1 | 2 | 3, x: number, y: number, z: number) {
   switch (s) {
     case 0:
       return (x & y) ^ (~x & z);
@@ -13,28 +13,18 @@ function f(s, x, y, z) {
   }
 }
 
-function ROTL(x, n) {
+function ROTL(x: number, n: number) {
   return (x << n) | (x >>> (32 - n));
 }
 
-function sha1(bytes) {
+function sha1(bytes: Uint8Array) {
   const K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
   const H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
 
-  if (typeof bytes === 'string') {
-    const msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
-
-    bytes = [];
-
-    for (let i = 0; i < msg.length; ++i) {
-      bytes.push(msg.charCodeAt(i));
-    }
-  } else if (!Array.isArray(bytes)) {
-    // Convert Array-like to Array
-    bytes = Array.prototype.slice.call(bytes);
-  }
-
-  bytes.push(0x80);
+  const newBytes = new Uint8Array(bytes.length + 1);
+  newBytes.set(bytes);
+  newBytes[bytes.length] = 0x80;
+  bytes = newBytes;
 
   const l = bytes.length / 4 + 2;
   const N = Math.ceil(l / 16);
@@ -76,7 +66,7 @@ function sha1(bytes) {
     let e = H[4];
 
     for (let t = 0; t < 80; ++t) {
-      const s = Math.floor(t / 20);
+      const s = Math.floor(t / 20) as 0 | 1 | 2 | 3;
       const T = (ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t]) >>> 0;
       e = d;
       d = c;
