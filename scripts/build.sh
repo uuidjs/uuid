@@ -10,11 +10,31 @@ DIR="$ROOT/dist"
 rm -rf "$DIR"
 mkdir -p "$DIR"
 
-# Build CKS version
-tsc -p tsconfig.cjs.json
+for MODULE_TYPE in esm cjs; do
+  echo "Building ${MODULE_TYPE}"
 
-# Build ESM version
-tsc -p tsconfig.esm.json
+  DIST_DIR="$DIR/${MODULE_TYPE}"
+  BROWSER_DIR="$DIR/${MODULE_TYPE}-browser"
 
-# Copy CLI files
-cp -pr "$DIR/../src/bin" "$DIR/esm"
+  tsc -p tsconfig.${MODULE_TYPE}.json
+
+  # Clone files for browser builds
+  cp -pr ${DIST_DIR} ${BROWSER_DIR}
+
+  # Remove browser files from non-browser builds
+  for FILE in ${DIST_DIR}/*-browser*;do
+    rm -f $FILE
+  done
+
+  # Move browser files into place for browser builds
+  for FILE in ${BROWSER_DIR}/*-browser*;do
+    mv $FILE ${FILE/-browser/}
+  done
+
+  # If MODULE_TYPE is esm, copy bin files to dist
+  if [ "$MODULE_TYPE" = "esm" ]; then
+    cp -pr "$DIR/../src/bin" "$DIST_DIR"
+  fi
+done
+
+echo "-- fin --"

@@ -32,24 +32,14 @@
         "import": "./wrapper.mjs"
       },
       "browser": {
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
+        "import": "./dist/esm-browser/index.js",
+        "require": "./dist/cjs-browser/index.js"
       },
-      "default": "./dist/esm/index.js"
+      "default": "./dist/esm-browser/index.js"
     },
     "./package.json": "./package.json"
   },
   "module": "./dist/esm/index.js",
-  "browser": {
-    "./dist/cjs/md5.js": "./dist/cjs/md5-browser.js",
-    "./dist/cjs/native.js": "./dist/cjs/native-browser.js",
-    "./dist/cjs/rng.js": "./dist/cjs/rng-browser.js",
-    "./dist/cjs/sha1.js": "./dist/cjs/sha1-browser.js",
-    "./dist/esm/md5.js": "./dist/esm/md5-browser.js",
-    "./dist/esm/native.js": "./dist/esm/native-browser.js",
-    "./dist/esm/rng.js": "./dist/esm/rng-browser.js",
-    "./dist/esm/sha1.js": "./dist/esm/sha1-browser.js"
-  },
   "files": [
     "CHANGELOG.md",
     "CONTRIBUTING.md",

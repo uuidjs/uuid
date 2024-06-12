@@ -1,4 +1,4 @@
-import assert from 'assert';
+import * as assert from 'assert';
 
 import { UUIDString } from './_types.js';
 import v1 from './v1.js';
