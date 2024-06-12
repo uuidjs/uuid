@@ -1,4 +1,4 @@
-import crypto from 'node:crypto';
+import { createHash } from 'node:crypto';
 
 function sha1(bytes: Uint8Array) {
   if (Array.isArray(bytes)) {
@@ -7,7 +7,7 @@ function sha1(bytes: Uint8Array) {
     bytes = Buffer.from(bytes, 'utf8');
   }
 
-  return crypto.createHash('sha1').update(bytes).digest();
+  return createHash('sha1').update(bytes).digest();
 }
 
 export default sha1;
