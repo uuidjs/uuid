@@ -1,12 +1,13 @@
-import { UUIDString, UUIDTypes, Version6Options } from './_types.js';
+import { UUIDTypes, Version6Options } from './_types.js';
 import { unsafeStringify } from './stringify.js';
 import v1 from './v1.js';
 import v1ToV6 from './v1ToV6.js';
 
-export function v6(options?: Version6Options, buf?: undefined, offset?: number): UUIDString;
-export function v6(options?: Version6Options, buf?: Uint8Array, offset?: number): Uint8Array;
-export default function v6(options?: Version6Options, buf?: Uint8Array, offset = 0): UUIDTypes {
+function v6(options?: Version6Options, buf?: undefined, offset?: number): string;
+function v6(options?: Version6Options, buf?: Uint8Array, offset?: number): Uint8Array;
+function v6(options?: Version6Options, buf?: Uint8Array, offset?: number): UUIDTypes {
   options ??= {};
+  offset ??= 0;
 
   // v6 is v1 with different field layout, so we start with a v1 UUID, albeit
   // with slightly different behavior around how the clock_seq and node fields
@@ -26,3 +27,10 @@ export default function v6(options?: Version6Options, buf?: Uint8Array, offset =
 
   return unsafeStringify(bytes);
 }
+
+const a = v6();
+const b = v6({ msecs: 0 });
+const c = v6({ msecs: 1 }, new Uint8Array(16));
+const d = v6({ msecs: 1 }, new Uint8Array(16), 1);
+
+export default v6;

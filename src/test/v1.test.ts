@@ -1,5 +1,6 @@
-import assert from 'assert';
-import v1 from '../../src/v1.js';
+import * as assert from 'assert';
+import { describe } from 'node:test';
+import v1 from '../v1.js';
 
 // Verify ordering of v1 ids created with explicit times
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
@@ -71,7 +72,7 @@ describe('v1', () => {
     msecs: 1321651533573,
     nsecs: 5432,
     clockseq: 0x385c,
-    node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10],
+    node: Uint8Array.of(0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10),
   };
 
   test('explicit options produce expected id', () => {
@@ -94,16 +95,21 @@ describe('v1', () => {
   const expectedBytes = [217, 66, 136, 136, 18, 43, 17, 225, 184, 92, 97, 205, 60, 187, 50, 16];
 
   test('fills one UUID into a buffer as expected', () => {
-    const buffer = [];
+    const buffer = new Uint8Array(16);
     const result = v1(fullOptions, buffer);
     assert.deepEqual(buffer, expectedBytes);
     assert.strictEqual(buffer, result);
   });
 
   test('fills two UUIDs into a buffer as expected', () => {
-    const buffer = [];
+    const buffer = new Uint8Array(32);
     v1(fullOptions, buffer, 0);
     v1(fullOptions, buffer, 16);
-    assert.deepEqual(buffer, expectedBytes.concat(expectedBytes));
+
+    const expectedBuf = new Uint8Array(32);
+    expectedBuf.set(expectedBytes);
+    expectedBuf.set(expectedBytes, 16);
+
+    assert.deepEqual(buffer, expectedBuf);
   });
 });

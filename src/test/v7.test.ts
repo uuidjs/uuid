@@ -1,5 +1,6 @@
-import assert from 'assert';
-import v7 from '../../src/v7.js';
+import * as assert from 'assert';
+import { describe } from 'node:test';
+import v7 from '../v7.js';
 
 /**
  * fixture bit layout:
@@ -26,11 +27,43 @@ describe('v7', () => {
   const msecsFixture = 1645557742000;
   const seqFixture = 0x661b189b;
 
-  const randomBytesFixture = [
-    0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0x0c, 0xc3, 0x18, 0xc4, 0xdc, 0x0c, 0x0c, 0x07, 0x39, 0x8f,
-  ];
+  const randomBytesFixture = Uint8Array.of(
+    0x10,
+    0x91,
+    0x56,
+    0xbe,
+    0xc4,
+    0xfb,
+    0x0c,
+    0xc3,
+    0x18,
+    0xc4,
+    0xdc,
+    0x0c,
+    0x0c,
+    0x07,
+    0x39,
+    0x8f
+  );
 
-  const expectedBytes = [1, 127, 34, 226, 121, 176, 124, 195, 152, 196, 220, 12, 12, 7, 57, 143];
+  const expectedBytes = Uint8Array.of(
+    1,
+    127,
+    34,
+    226,
+    121,
+    176,
+    124,
+    195,
+    152,
+    196,
+    220,
+    12,
+    12,
+    7,
+    57,
+    143
+  );
 
   test('subsequent UUIDs are different', () => {
     const id1 = v7();
@@ -64,7 +97,7 @@ describe('v7', () => {
   });
 
   test('fills one UUID into a buffer as expected', () => {
-    const buffer = [];
+    const buffer = new Uint8Array(16);
     const result = v7(
       {
         random: randomBytesFixture,
@@ -78,7 +111,7 @@ describe('v7', () => {
   });
 
   test('fills two UUIDs into a buffer as expected', () => {
-    const buffer = [];
+    const buffer = new Uint8Array(16);
     v7(
       {
         random: randomBytesFixture,
@@ -97,7 +130,10 @@ describe('v7', () => {
       buffer,
       16
     );
-    assert.deepEqual(buffer, expectedBytes.concat(expectedBytes));
+    const expected = new Uint8Array(32);
+    expected.set(expectedBytes);
+    expected.set(expectedBytes, 16);
+    assert.deepEqual(buffer, expected);
   });
 
   //
@@ -117,7 +153,7 @@ describe('v7', () => {
 
       id = v7({ msecs });
 
-      if (i > 0) {
+      if (prior !== undefined) {
         assert(prior < id, `${prior} < ${id}`);
       }
 

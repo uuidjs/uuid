@@ -113,24 +113,24 @@ describe('BrowserStack Local Testing', () => {
   }
 
   describe('webpack', () => {
-    it('it renders all', async () =>
+    test('it renders all', async () =>
       testExpectations('browser-webpack/example-all.html', () => true));
 
-    it('it renders v1 only', async () =>
+    test('it renders v1 only', async () =>
       testExpectations('browser-webpack/example-v1.html', (title) => title.includes('uuidv1()')));
 
-    it('it renders v4 only', async () =>
+    test('it renders v4 only', async () =>
       testExpectations('browser-webpack/example-v4.html', (title) => title.includes('uuidv4()')));
   });
 
   describe('rollup', () => {
-    it('it renders all', async () =>
+    test('it renders all', async () =>
       testExpectations('browser-rollup/example-all.html', () => true));
 
-    it('it renders v1 only', async () =>
+    test('it renders v1 only', async () =>
       testExpectations('browser-rollup/example-v1.html', (title) => title.includes('uuidv1()')));
 
-    it('it renders v4 only', async () =>
+    test('it renders v4 only', async () =>
       testExpectations('browser-rollup/example-v4.html', (title) => title.includes('uuidv4(')));
   });
 });

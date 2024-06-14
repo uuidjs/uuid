@@ -1,4 +1,4 @@
-import { UUIDString, UUIDTypes, Version1Options } from './_types.js';
+import { UUIDTypes, Version1Options } from './_types.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
@@ -14,7 +14,12 @@ let _clockseq: number;
 let _lastMSecs = 0;
 let _lastNSecs = 0;
 
-function v1(options?: Version1Options, buf?: undefined, offset?: number): UUIDString;
+const a = v1();
+const b = v1({ msecs: 0 });
+const c = v1({ msecs: 1 }, new Uint8Array(16));
+const d = v1({ msecs: 1 }, new Uint8Array(16), 1);
+
+function v1(options?: Version1Options, buf?: undefined, offset?: number): string;
 function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): Uint8Array;
 function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDTypes {
   options ??= {};

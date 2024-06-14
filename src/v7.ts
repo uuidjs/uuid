@@ -1,4 +1,4 @@
-import { UUIDString, UUIDTypes, Version7Options } from './_types.js';
+import { UUIDTypes, Version7Options } from './_types.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
@@ -41,7 +41,7 @@ let _seqLow: number | null = null;
 let _seqHigh: number | null = null;
 let _msecs = 0;
 
-function v7(options?: Version7Options, buf?: undefined, offset?: number): UUIDString;
+function v7(options?: Version7Options, buf?: undefined, offset?: number): string;
 function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): Uint8Array;
 function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): UUIDTypes {
   options ??= {};

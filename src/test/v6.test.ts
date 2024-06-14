@@ -1,7 +1,8 @@
-import assert from 'assert';
-import v1ToV6 from '../../src/v1ToV6.js';
-import v6 from '../../src/v6.js';
-import v6ToV1 from '../../src/v6ToV1.js';
+import * as assert from 'assert';
+import { describe } from 'node:test';
+import v1ToV6 from '../v1ToV6.js';
+import v6 from '../v6.js';
+import v6ToV1 from '../v6ToV1.js';
 
 describe('v6', () => {
   const V1_ID = 'f1207660-21d2-11ef-8c4f-419efbd44d48';
@@ -11,22 +12,40 @@ describe('v6', () => {
     msecs: 1321651533573,
     nsecs: 5432,
     clockseq: 0x385c,
-    node: [0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10],
+    node: Uint8Array.of(0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10),
   };
 
-  const EXPECTED_BYTES = [30, 17, 34, 189, 148, 40, 104, 136, 184, 92, 97, 205, 60, 187, 50, 16];
+  const EXPECTED_BYTES = Uint8Array.of(
+    30,
+    17,
+    34,
+    189,
+    148,
+    40,
+    104,
+    136,
+    184,
+    92,
+    97,
+    205,
+    60,
+    187,
+    50,
+    16
+  );
 
   test('default behavior', () => {
     // Verify explicit options produce expected id
     const id = v6();
     assert(
       /[0-9a-f]{8}-[0-9a-f]{4}-6[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/.test(id),
+
       'id is valid v6 UUID'
     );
   });
 
   test('default behavior (binary type)', () => {
-    const buffer = [];
+    const buffer = new Uint8Array(16);
     const result = v6(fullOptions, buffer);
     assert.deepEqual(buffer, EXPECTED_BYTES);
     assert.strictEqual(buffer, result);
@@ -48,10 +67,15 @@ describe('v6', () => {
   });
 
   test('creating at array offset', () => {
-    const buffer = [];
+    const buffer = new Uint8Array(32);
     v6(fullOptions, buffer, 0);
     v6(fullOptions, buffer, 16);
-    assert.deepEqual(buffer, EXPECTED_BYTES.concat(EXPECTED_BYTES));
+
+    const expectedBuf = new Uint8Array(32);
+    expectedBuf.set(EXPECTED_BYTES, 0);
+    expectedBuf.set(EXPECTED_BYTES, 16);
+
+    assert.deepEqual(buffer, expectedBuf);
   });
 
   test('v1 -> v6 conversion', () => {

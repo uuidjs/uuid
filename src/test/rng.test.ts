@@ -1,5 +1,6 @@
-import assert from 'assert';
-import rng from '../../src/rng.js';
+import * as assert from 'assert';
+import { describe } from 'node:test';
+import rng from '../rng.js';
 
 describe('rng', () => {
   test('Node.js RNG', () => {

@@ -1,8 +1,8 @@
-import { UUIDString, UUIDTypes } from './_types.js';
+import { UUIDTypes } from './_types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 
-function stringToBytes(str: string) {
+export function stringToBytes(str: string) {
   // TODO: Use TextEncoder (see https://stackoverflow.com/a/48762658/109538)
   str = unescape(encodeURIComponent(str));
 

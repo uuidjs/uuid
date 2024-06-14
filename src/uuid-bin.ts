@@ -1,6 +1,5 @@
 import * as assert from 'assert';
 
-import { UUIDString } from './_types.js';
 import v1 from './v1.js';
 import v3 from './v3.js';
 import { DNS, URL } from './v35.js';
@@ -53,7 +52,7 @@ switch (version) {
       namespace = DNS;
     }
 
-    console.log(v3(name, namespace as UUIDString));
+    console.log(v3(name, namespace));
     break;
   }
 
@@ -76,7 +75,7 @@ switch (version) {
       namespace = DNS;
     }
 
-    console.log(v5(name, namespace as UUIDString));
+    console.log(v5(name, namespace));
     break;
   }
 

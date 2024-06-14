@@ -1,7 +1,5 @@
 // Copied from crypto.randomUUID()
-export type UUIDString = `${string}-${string}-${string}-${string}-${string}`;
-
-export type UUIDTypes = UUIDString | Uint8Array;
+export type UUIDTypes = string | Uint8Array;
 
 export type Version1Options = {
   node?: Uint8Array;

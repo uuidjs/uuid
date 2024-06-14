@@ -1,5 +1,6 @@
-import assert from 'assert';
-import validate from '../../src/validate.js';
+import * as assert from 'assert';
+import { describe } from 'node:test';
+import validate from '../validate.js';
 import { TESTS } from './test_constants.js';
 
 describe('validate() tests', () => {

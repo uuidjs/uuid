@@ -1,12 +1,14 @@
-import assert from 'assert';
-import uuidv4 from '../../src/v4.js';
-import parse from '../../src/parse.js';
-import stringify from '../../src/stringify.js';
-import gen from 'random-seed';
+import * as assert from 'assert';
+import { describe } from 'node:test';
+import * as gen from 'random-seed';
+import parse from '../parse.js';
+import stringify from '../stringify.js';
+import uuidv4 from '../v4.js';
 
 // Use deterministic PRNG for reproducible tests
 const rand = gen.create('He who wonders discovers that this in itself is wonder.');
-function rng(bytes = []) {
+
+function rng(bytes = new Uint8Array(16)) {
   for (let i = 0; i < 16; i++) {
     bytes[i] = rand(256);
   }
@@ -47,7 +49,9 @@ describe('parse', () => {
   });
 
   test('UUID validation', () => {
+    // @ts-expect-error
     assert.throws(() => parse());
+
     assert.throws(() => parse('invalid uuid'));
     assert.throws(() => parse('zyxwvuts-rqpo-nmlk-jihg-fedcba000000'));
   });

@@ -1,5 +1,5 @@
-import MAX from '../../src/max.js';
-import NIL from '../../src/nil.js';
+import MAX from '../max.js';
+import NIL from '../nil.js';
 
 // Table of [uuid value, expected validate(), [expected version()]]
 export const TESTS = [

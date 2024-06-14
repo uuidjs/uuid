@@ -1,4 +1,3 @@
-import { UUIDString } from './_types.js';
 import validate from './validate.js';
 
 /**
@@ -11,7 +10,7 @@ for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 0x100).toString(16).slice(1));
 }
 
-export function unsafeStringify(arr: Uint8Array, offset = 0): UUIDString {
+export function unsafeStringify(arr: Uint8Array, offset = 0): string {
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
   //
@@ -38,7 +37,7 @@ export function unsafeStringify(arr: Uint8Array, offset = 0): UUIDString {
     byteToHex[arr[offset + 13]] +
     byteToHex[arr[offset + 14]] +
     byteToHex[arr[offset + 15]]
-  ).toLowerCase() as UUIDString;
+  ).toLowerCase();
 }
 
 function stringify(arr: Uint8Array, offset = 0) {

@@ -28,19 +28,20 @@ function md5(bytes: Uint8Array) {
  * Convert an array of little-endian words to an array of bytes
  */
 function md5ToHexEncodedArray(input: Uint32Array) {
-  const output = [];
-  const length32 = input.length * 32;
+  const byteLength = input.length * 4;
+  const bytes = new Uint8Array(byteLength);
   const hexTab = '0123456789abcdef';
 
-  for (let i = 0; i < length32; i += 8) {
-    const x = (input[i >> 5] >>> i % 32) & 0xff;
+  // TODO: Can we just create a Uint8Array on top of input.arrayBuffer?
+  for (let i = 0; i < byteLength; i++) {
+    const x = (input[i >> 2] >>> i % 4) & 0xff;
 
     const hex = parseInt(hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f), 16);
 
-    output.push(hex);
+    bytes[i] = hex;
   }
 
-  return output;
+  return bytes;
 }
 
 /**
