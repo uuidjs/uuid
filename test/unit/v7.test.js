@@ -24,6 +24,7 @@ import v7 from '../../src/v7.js';
 
 describe('v7', () => {
   const msecsFixture = 1645557742000;
+  const msecsFutureFixture = Date.UTC('2100');
   const seqFixture = 0x661b189b;
 
   const randomBytesFixture = [
@@ -61,6 +62,26 @@ describe('v7', () => {
       msecs: msecsFixture,
     });
     assert.strictEqual(id.indexOf('017f22e2'), 0);
+  });
+
+  test('explicit options.msecs after a standard call randomises seq', () => {
+    const id1 = v7();
+    const id2 = v7({
+      msecs: msecsFixture,
+    });
+
+    assert.notDeepStrictEqual(id1.slice(14, 23), id2.slice(14, 23));
+  });
+
+  test('providing current options.msecs after past options.msecs works', () => {
+    const id1 = v7({
+      msecs: msecsFixture,
+    });
+    const id2 = v7({
+      msecs: Date.now(),
+    });
+
+    assert.notDeepStrictEqual(id1.slice(0, 13), id2.slice(0, 13));
   });
 
   test('fills one UUID into a buffer as expected', () => {
@@ -168,5 +189,12 @@ describe('v7', () => {
     });
 
     assert(uuid.indexOf('fff') !== 15);
+  });
+
+  test('explicit options.msecs in the future produces expected result', () => {
+    const id = v7({
+      msecs: msecsFutureFixture,
+    });
+    assert.match(id, /^3bb2cc3/);
   });
 });
