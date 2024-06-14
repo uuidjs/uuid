@@ -195,6 +195,7 @@ describe('v7', () => {
     const id = v7({
       msecs: msecsFutureFixture,
     });
-    assert.match(id, /^3bb2cc3/);
+
+    assert(id.indexOf('03bb2cc3') === 0);
   });
 });
