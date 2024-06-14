@@ -32,14 +32,6 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 - **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
 
-## Usage Trend
-
-[Usage Trend of uuid](https://npm-compare.com/uuid#timeRange=FIVE_YEARS)
-  
-<a href="https://npm-compare.com/uuid#timeRange=FIVE_YEARS" target="_blank">
-  <img src="https://npm-compare.com/img/npm-trend/FIVE_YEARS/uuid.png" width="100%" alt="NPM Usage Trend of uuid" />
-</a>
-
 <!-- prettier-ignore -->
 > [!NOTE]
 > Upgrading from `uuid@3`? Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
@@ -47,6 +39,14 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 <!-- prettier-ignore -->
 > [!NOTE]
 > Only interested in creating a version 4 UUID? You might be able to use [`crypto.randomUUID()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID), eliminating the need to install this library.
+
+## Usage Trend
+
+[Usage Trend of uuid](https://npm-compare.com/uuid#timeRange=FIVE_YEARS)
+  
+<a href="https://npm-compare.com/uuid#timeRange=FIVE_YEARS" target="_blank">
+  <img src="https://npm-compare.com/img/npm-trend/FIVE_YEARS/uuid.png" width="100%" alt="NPM Usage Trend of uuid" />
+</a>
 
 ## Quickstart
 
