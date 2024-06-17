@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
-// @ts-ignore random-seed is an old CJS module.  we should update an ESM seeded
+// @ts-expect-error random-seed is an old CJS module.  we should update an ESM seeded
 // RNG at some point, but keeping this for now to ensure the TS port works with
 // the legacy tests here.
 import gen from 'random-seed';
@@ -52,7 +52,7 @@ describe('parse', () => {
   });
 
   test('UUID validation', () => {
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => parse());
 
     assert.throws(() => parse('invalid uuid'));

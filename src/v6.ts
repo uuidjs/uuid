@@ -28,9 +28,4 @@ function v6(options?: Version6Options, buf?: Uint8Array, offset?: number): UUIDT
   return unsafeStringify(bytes);
 }
 
-const a = v6();
-const b = v6({ msecs: 0 });
-const c = v6({ msecs: 1 }, new Uint8Array(16));
-const d = v6({ msecs: 1 }, new Uint8Array(16), 1);
-
 export default v6;

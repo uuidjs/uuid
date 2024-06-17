@@ -3,9 +3,11 @@ const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommen
 const globals = require('globals');
 const js = require('@eslint/js');
 const neostandard = require('neostandard')({ semi: true, noStyle: true });
+const tseslint = require('typescript-eslint');
 
 module.exports = [
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   ...neostandard,
   eslintPluginPrettierRecommended,
   {
@@ -19,17 +21,20 @@ module.exports = [
         ...globals.node,
         msCrypto: true,
       },
-      parser: babelParser,
     },
   },
   {
     rules: {
+      '@typescript-eslint/no-redeclare': 'error',
+      '@typescript-eslint/no-require-imports': 'off',
+      'no-redeclare': 'off',
       'no-var': ['error'],
       curly: ['error', 'all'],
     },
   },
   {
     ignores: [
+      'eslint.config.cjs',
       '!.babelrc.js',
       '.local/',
       '**/dist/',

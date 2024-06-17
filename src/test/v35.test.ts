@@ -50,13 +50,13 @@ describe('v35', () => {
   });
 
   HASH_SAMPLES.forEach(function (sample, i) {
-    test('sha1(browser) HASH_SAMPLES[${i}]', () => {
+    test(`sha1(browser) HASH_SAMPLES[${i}]`, () => {
       assert.equal(hashToHex(sha1Browser(sample.input)), sample.sha1);
     });
   });
 
   HASH_SAMPLES.forEach(function (sample, i) {
-    test('md5(node) HASH_SAMPLES[${i}]', () => {
+    test(`md5(node) HASH_SAMPLES[${i}]`, () => {
       assert.equal(hashToHex(md5(sample.input)), sample.md5);
     });
   });
@@ -162,13 +162,13 @@ describe('v35', () => {
   });
 
   test('v3 undefined/null', () => {
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v3());
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v3('hello'));
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v3('hello.example.com', undefined));
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v3('hello.example.com', null, new Uint8Array(16)));
   });
 
@@ -267,13 +267,13 @@ describe('v35', () => {
   });
 
   test('v5 undefined/null', () => {
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v5());
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v5('hello'));
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v5('hello.example.com', undefined));
-    // @ts-expect-error
+    // @ts-expect-error testing invalid input
     assert.throws(() => v5('hello.example.com', null, new Uint8Array(16)));
   });
 

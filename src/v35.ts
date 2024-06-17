@@ -20,13 +20,6 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 type HashFunction = (bytes: Uint8Array) => Uint8Array;
 
-type NamespaceUuidFunction<BufType, ReturnType> = (
-  value: string | Uint8Array,
-  namespace: string | Uint8Array,
-  buf?: BufType,
-  offset?: number
-) => ReturnType;
-
 export default function v35(
   version: 0x30 | 0x50,
   hash: HashFunction,
