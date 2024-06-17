@@ -21,27 +21,23 @@ const BYTES = Uint8Array.of(
   0x4b
 );
 
-describe('unsafeStringify', () => {
-  describe('default', () => {
-    test('Stringify Array', () => {
-      assert.equal(unsafeStringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
-    });
-
-    test('Stringify w/ offset', () => {
-      const bytes = new Uint8Array(19).fill(0);
-      bytes.set(BYTES, 3);
-      assert.equal(unsafeStringify(bytes, 3), '0f5abcd1-c194-47f3-905b-2df7263a084b');
-    });
+describe('stringify', () => {
+  test('Stringify Array (unsafe)', () => {
+    assert.equal(unsafeStringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
   });
 
-  describe('safe', () => {
-    test('Stringify Array', () => {
-      assert.equal(stringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
-    });
+  test('Stringify w/ offset (unsafe)', () => {
+    const bytes = new Uint8Array(19).fill(0);
+    bytes.set(BYTES, 3);
+    assert.equal(unsafeStringify(bytes, 3), '0f5abcd1-c194-47f3-905b-2df7263a084b');
+  });
 
-    test('Throws on not enough values', () => {
-      const bytes = BYTES.slice(0, 15);
-      assert.throws(() => stringify(bytes));
-    });
+  test('Stringify Array (safe)', () => {
+    assert.equal(stringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
+  });
+
+  test('Throws on not enough values (safe)', () => {
+    const bytes = BYTES.slice(0, 15);
+    assert.throws(() => stringify(bytes));
   });
 });

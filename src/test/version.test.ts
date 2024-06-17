@@ -3,7 +3,7 @@ import test, { describe } from 'node:test';
 import version from '../version.js';
 import { TESTS } from './test_constants.js';
 
-describe('version() tests', () => {
+describe('version()', () => {
   test('TESTS cases', () => {
     for (const { value, expectedValidate, expectedVersion } of TESTS) {
       try {

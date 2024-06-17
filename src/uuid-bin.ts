@@ -2,7 +2,6 @@ import * as assert from 'assert';
 
 import v1 from './v1.js';
 import v3 from './v3.js';
-import { DNS, URL } from './v35.js';
 import v4 from './v4.js';
 import v5 from './v5.js';
 import v6 from './v6.js';
@@ -45,11 +44,11 @@ switch (version) {
     assert.ok(namespace != null, 'v3 namespace not specified');
 
     if (namespace === 'URL') {
-      namespace = URL;
+      namespace = v3.URL;
     }
 
     if (namespace === 'DNS') {
-      namespace = DNS;
+      namespace = v3.DNS;
     }
 
     console.log(v3(name, namespace));
@@ -68,11 +67,11 @@ switch (version) {
     assert.ok(namespace != null, 'v5 namespace not specified');
 
     if (namespace === 'URL') {
-      namespace = URL;
+      namespace = v5.URL;
     }
 
     if (namespace === 'DNS') {
-      namespace = DNS;
+      namespace = v5.DNS;
     }
 
     console.log(v5(name, namespace));

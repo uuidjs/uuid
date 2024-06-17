@@ -1,6 +1,9 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
-import * as gen from 'random-seed';
+// @ts-ignore random-seed is an old CJS module.  we should update an ESM seeded
+// RNG at some point, but keeping this for now to ensure the TS port works with
+// the legacy tests here.
+import gen from 'random-seed';
 import parse from '../parse.js';
 import stringify from '../stringify.js';
 import uuidv4 from '../v4.js';

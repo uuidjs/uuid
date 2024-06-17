@@ -4,7 +4,7 @@ import v1 from '../v1.js';
 
 // Since the clockseq is cached in the module this test must run in a separate file in order to
 // initialize the v1 clockseq with controlled random data.
-describe('v1', () => {
+describe('v1-rng', () => {
   const randomBytesFixture = Uint8Array.of(
     0x10,
     0x91,
