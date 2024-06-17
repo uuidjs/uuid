@@ -20,27 +20,24 @@
  */
 function md5(bytes: Uint8Array) {
   const words = uint8ToUint32(bytes);
+
   const md5Bytes = wordsToMd5(words, bytes.length * 8);
-  return md5ToHexEncodedArray(md5Bytes);
+  return uint32ToUint8(md5Bytes);
 }
 
 /*
  * Convert an array of little-endian words to an array of bytes
  */
-function md5ToHexEncodedArray(input: Uint32Array) {
-  const byteLength = input.length * 4;
-  const bytes = new Uint8Array(byteLength);
-  const hexTab = '0123456789abcdef';
-
-  // TODO: Can we just create a Uint8Array on top of input.arrayBuffer?
-  for (let i = 0; i < byteLength; i++) {
-    const x = (input[i >> 2] >>> i % 4) & 0xff;
-
-    const hex = parseInt(hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f), 16);
-
-    bytes[i] = hex;
+function uint32ToUint8(input: Uint32Array) {
+  // Note: On little endian platforms we could simply return `new
+  // Uint8Array(input.buffer)` here, but that that won't work on big-endian
+  // systems.  (That said, there's code below that appears to already assume
+  // little-endian, so maybe this is a moot point?  Either way, keeping the
+  // existing code for now to be safe.)
+  const bytes = new Uint8Array(input.length * 4);
+  for (let i = 0; i < input.length * 4; i++) {
+    bytes[i] = (input[i >> 2] >>> ((i % 4) * 8)) & 0xff;
   }
-
   return bytes;
 }
 
@@ -56,8 +53,11 @@ function getOutputLength(inputLength8: number) {
  */
 function wordsToMd5(x: Uint32Array, len: number) {
   /* append padding */
-  x[len >> 5] |= 0x80 << len % 32;
-  x[getOutputLength(len) - 1] = len;
+  const xpad = new Uint32Array(getOutputLength(len)).fill(0);
+  xpad.set(x);
+  xpad[len >> 5] |= 0x80 << len % 32;
+  xpad[xpad.length - 1] = len;
+  x = xpad;
 
   let a = 1732584193;
   let b = -271733879;
@@ -155,14 +155,10 @@ function uint8ToUint32(input: Uint8Array) {
     return new Uint32Array();
   }
 
-  const inputBitLength = input.length * 8;
-
-  const output = new Uint32Array(getOutputLength(inputBitLength)).fill(0);
-
+  const output = new Uint32Array(getOutputLength(input.length * 8)).fill(0);
   for (let i = 0; i < input.length; i++) {
-    output[i >> 2] |= (input[i] & 0xff) << (i & 0x3);
+    output[i >> 2] |= (input[i] & 0xff) << ((i % 4) * 8);
   }
-
   return output;
 }
 

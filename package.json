@@ -56,7 +56,6 @@
     "@babel/preset-env": "7.24.6",
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
-    "@types/jest": "29.5.12",
     "@types/random-seed": "0.3.5",
     "@wdio/browserstack-service": "7.16.10",
     "@wdio/cli": "7.16.10",
@@ -117,7 +116,7 @@
     "test:node": "npm-run-all --parallel examples:node:**",
     "test:pack": "./scripts/testpack.sh",
     "test:watch": "node --test --watch dist/esm/test",
-    "test": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest dist/esm/test"
+    "test": "node --test dist/esm/test"
   },
   "repository": {
     "type": "git",
