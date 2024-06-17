@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import validate from '../validate.js';
 import { TESTS } from './test_constants.js';
 

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import * as gen from 'random-seed';
 import parse from '../parse.js';
 import stringify from '../stringify.js';

@@ -37,9 +37,6 @@ export default function v35(
 ) {
   const valueBytes: Uint8Array = typeof value === 'string' ? stringToBytes(value) : value;
   const namespaceBytes: Uint8Array = typeof namespace === 'string' ? parse(namespace) : namespace;
-  if (typeof value === 'string') {
-    value = stringToBytes(value);
-  }
 
   if (typeof namespace === 'string') {
     namespace = parse(namespace);

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import md5Browser from '../md5-browser.js';
 import md5 from '../md5.js';
 import sha1Browser from '../sha1-browser.js';
@@ -43,27 +43,27 @@ describe('v35', () => {
     return chars.join('');
   }
 
-  test('sha1 node', () => {
-    HASH_SAMPLES.forEach(function (sample) {
+  HASH_SAMPLES.forEach(function (sample, i) {
+    test(`sha1(node) HASH_SAMPLES[${i}]`, () => {
       assert.equal(hashToHex(sha1(sample.input)), sample.sha1);
     });
   });
 
-  test('sha1 browser', () => {
-    HASH_SAMPLES.forEach(function (sample) {
+  HASH_SAMPLES.forEach(function (sample, i) {
+    test('sha1(browser) HASH_SAMPLES[${i}]', () => {
       assert.equal(hashToHex(sha1Browser(sample.input)), sample.sha1);
     });
   });
 
-  test('md5 node', () => {
-    HASH_SAMPLES.forEach(function (sample) {
+  HASH_SAMPLES.forEach(function (sample, i) {
+    test('md5(node) HASH_SAMPLES[${i}]', () => {
       assert.equal(hashToHex(md5(sample.input)), sample.md5);
     });
   });
 
-  test('md5 browser', () => {
-    HASH_SAMPLES.forEach(function (sample) {
-      assert.equal(hashToHex(md5Browser(sample.input)), sample.md5);
+  HASH_SAMPLES.forEach(function (sample, i) {
+    test(`md5(browser) (HASH_SAMPLES[${i}])`, () => {
+      assert.equal(hashToHex(md5Browser(sample.input) as unknown as Uint8Array), sample.md5);
     });
   });
 
@@ -151,7 +151,7 @@ describe('v35', () => {
     assert.strictEqual(result, buf);
 
     // test offsets as well
-    buf = new Uint8Array(19);
+    buf = new Uint8Array(19).fill(0xaa);
 
     const expectedBuf = new Uint8Array(19).fill(0xaa);
     expectedBuf.set(expectedUuid, 3);
@@ -256,7 +256,7 @@ describe('v35', () => {
     assert.strictEqual(result, buf);
 
     // test offsets as well
-    buf = new Uint8Array(19);
+    buf = new Uint8Array(19).fill(0xaa);
 
     const expectedBuf = new Uint8Array(19).fill(0xaa);
     expectedBuf.set(expectedUuid, 3);

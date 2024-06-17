@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import stringify, { unsafeStringify } from '../stringify.js';
 
 const BYTES = Uint8Array.of(

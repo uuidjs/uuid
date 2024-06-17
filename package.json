@@ -89,6 +89,7 @@
   },
   "scripts": {
     "build": "./scripts/build.sh",
+    "build:watch": "tsc --watch -p tsconfig.esm.json",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
     "docs:diff": "npm run docs && git diff --quiet README.md",
     "docs": "npm run build && npx runmd --output=README.md README_js.md",
@@ -115,7 +116,8 @@
     "test:matching": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest test/unit/ -t",
     "test:node": "npm-run-all --parallel examples:node:**",
     "test:pack": "./scripts/testpack.sh",
-    "test": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest dist/esm/test/"
+    "test:watch": "node --test --watch dist/esm/test",
+    "test": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest dist/esm/test"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import v7 from '../v7.js';
 
 /**
@@ -68,7 +68,7 @@ describe('v7', () => {
   test('subsequent UUIDs are different', () => {
     const id1 = v7();
     const id2 = v7();
-    assert(id1 !== id2);
+    assert.ok(id1 !== id2);
   });
 
   test('explicit options.random and options.msecs produces expected result', () => {
@@ -111,7 +111,8 @@ describe('v7', () => {
   });
 
   test('fills two UUIDs into a buffer as expected', () => {
-    const buffer = new Uint8Array(16);
+    const buffer = new Uint8Array(32);
+
     v7(
       {
         random: randomBytesFixture,
@@ -154,7 +155,7 @@ describe('v7', () => {
       id = v7({ msecs });
 
       if (prior !== undefined) {
-        assert(prior < id, `${prior} < ${id}`);
+        assert.ok(prior < id, `${prior} < ${id}`);
       }
 
       prior = id;
@@ -172,7 +173,7 @@ describe('v7', () => {
 
     const c = v7({ msecs });
 
-    assert(a < c, `${a} < ${c}`);
+    assert.ok(a < c, `${a} < ${c}`);
   });
 
   test('can supply seq', () => {
@@ -203,6 +204,6 @@ describe('v7', () => {
       msecs: msecsFixture + 1,
     });
 
-    assert(uuid.indexOf('fff') !== 15);
+    assert.ok(uuid.indexOf('fff') !== 15);
   });
 });

@@ -41,8 +41,8 @@ switch (version) {
     const name = args.shift();
     let namespace = args.shift();
 
-    assert(name != null, 'v3 name not specified');
-    assert(namespace != null, 'v3 namespace not specified');
+    assert.ok(name != null, 'v3 name not specified');
+    assert.ok(namespace != null, 'v3 namespace not specified');
 
     if (namespace === 'URL') {
       namespace = URL;
@@ -64,8 +64,8 @@ switch (version) {
     const name = args.shift();
     let namespace = args.shift();
 
-    assert(name != null, 'v5 name not specified');
-    assert(namespace != null, 'v5 namespace not specified');
+    assert.ok(name != null, 'v5 name not specified');
+    assert.ok(namespace != null, 'v5 namespace not specified');
 
     if (namespace === 'URL') {
       namespace = URL;

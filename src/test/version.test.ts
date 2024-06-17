@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import version from '../version.js';
 import { TESTS } from './test_constants.js';
 
@@ -10,10 +10,10 @@ describe('version() tests', () => {
         // @ts-expect-error
         const actualVersion = version(value);
 
-        assert(expectedValidate, `version(${value}) should throw`);
+        assert.ok(expectedValidate, `version(${value}) should throw`);
         assert.strictEqual(actualVersion, expectedVersion);
       } catch (err) {
-        assert(!expectedValidate, `version(${value}) threw unexpectedly`);
+        assert.ok(!expectedValidate, `version(${value}) threw unexpectedly`);
       }
     }
   });

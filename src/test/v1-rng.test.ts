@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import v1 from '../v1.js';
 
 // Since the clockseq is cached in the module this test must run in a separate file in order to

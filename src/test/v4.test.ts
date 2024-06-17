@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import v4 from '../v4.js';
 
 const randomBytesFixture = Uint8Array.of(
@@ -44,8 +44,8 @@ describe('v4', () => {
   test('subsequent UUIDs are different', () => {
     const id1 = v4();
     const id2 = v4();
-    console.log('FJAFDSJKLFDSJA', id1, id2);
-    assert(id1 !== id2);
+
+    assert.ok(id1 !== id2);
   });
 
   test('explicit options.random produces expected result', () => {
@@ -67,7 +67,7 @@ describe('v4', () => {
   });
 
   test('fills two UUIDs into a buffer as expected', () => {
-    const buffer = new Uint8Array(16);
+    const buffer = new Uint8Array(32);
     v4({ random: randomBytesFixture }, buffer, 0);
     v4({ random: randomBytesFixture }, buffer, 16);
 

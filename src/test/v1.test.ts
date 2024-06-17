@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { describe } from 'node:test';
+import test, { describe } from 'node:test';
 import v1 from '../v1.js';
 
 // Verify ordering of v1 ids created with explicit times
@@ -39,7 +39,10 @@ describe('v1', () => {
 
   test('msec', () => {
     // eslint-disable-next-line no-self-compare
-    assert(v1({ msecs: TIME }) !== v1({ msecs: TIME }), 'IDs created at same msec are different');
+    assert.ok(
+      v1({ msecs: TIME }) !== v1({ msecs: TIME }),
+      'IDs created at same msec are different'
+    );
   });
 
   test('exception thrown when > 10k ids created in 1ms', () => {
@@ -52,7 +55,7 @@ describe('v1', () => {
     // Verify clock regression bumps clockseq
     const uidt = v1({ msecs: TIME });
     const uidtb = v1({ msecs: TIME - 1 });
-    assert(
+    assert.ok(
       parseInt(uidtb.split('-')[3], 16) - parseInt(uidt.split('-')[3], 16) === 1,
       'Clock regression by msec increments the clockseq'
     );
@@ -62,7 +65,7 @@ describe('v1', () => {
     // Verify clock regression bumps clockseq
     const uidtn = v1({ msecs: TIME, nsecs: 10 });
     const uidtnb = v1({ msecs: TIME, nsecs: 9 });
-    assert(
+    assert.ok(
       parseInt(uidtnb.split('-')[3], 16) - parseInt(uidtn.split('-')[3], 16) === 1,
       'Clock regression by nsec increments the clockseq'
     );
@@ -78,7 +81,10 @@ describe('v1', () => {
   test('explicit options produce expected id', () => {
     // Verify explicit options produce expected id
     const id = v1(fullOptions);
-    assert(id === 'd9428888-122b-11e1-b85c-61cd3cbb3210', 'Explicit options produce expected id');
+    assert.ok(
+      id === 'd9428888-122b-11e1-b85c-61cd3cbb3210',
+      'Explicit options produce expected id'
+    );
   });
 
   test('ids spanning 1ms boundary are 100ns apart', () => {
@@ -89,10 +95,27 @@ describe('v1', () => {
     const before = u0.split('-')[0];
     const after = u1.split('-')[0];
     const dt = parseInt(after, 16) - parseInt(before, 16);
-    assert(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
+    assert.ok(dt === 1, 'Ids spanning 1ms boundary are 100ns apart');
   });
 
-  const expectedBytes = [217, 66, 136, 136, 18, 43, 17, 225, 184, 92, 97, 205, 60, 187, 50, 16];
+  const expectedBytes = Uint8Array.of(
+    217,
+    66,
+    136,
+    136,
+    18,
+    43,
+    17,
+    225,
+    184,
+    92,
+    97,
+    205,
+    60,
+    187,
+    50,
+    16
+  );
 
   test('fills one UUID into a buffer as expected', () => {
     const buffer = new Uint8Array(16);
