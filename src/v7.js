@@ -38,7 +38,8 @@ import { unsafeStringify } from './stringify.js';
 
 let _seqLow = null;
 let _seqHigh = null;
-let _msecs = 0;
+let _prevMsecs = 0;
+let _overflowMsecs = 0;
 
 function v7(options, buf, offset) {
   options = options || {};
@@ -60,12 +61,13 @@ function v7(options, buf, offset) {
   let seqHigh = _seqHigh;
   let seqLow = _seqLow;
 
-  // check if clock has advanced and user has not provided msecs
-  if (msecs > _msecs && options.msecs === undefined) {
-    _msecs = msecs;
+  // reset if msecs is not the overflow window
+  if (msecs < _prevMsecs || msecs > _prevMsecs + _overflowMsecs) {
+    _prevMsecs = msecs;
+    _overflowMsecs = 0;
 
     // unless user provided seq, reset seq parts
-    if (seq !== null) {
+    if (seq === null) {
       seqHigh = null;
       seqLow = null;
     }
@@ -94,35 +96,38 @@ function v7(options, buf, offset) {
   }
 
   // increment seq if within msecs window
-  if (msecs + 10000 > _msecs && seq === null) {
+  if (_overflowMsecs < 10000 && seq === null) {
     if (++seqLow > 0x7ffff) {
       seqLow = 0;
 
       if (++seqHigh > 0xfff) {
         seqHigh = 0;
 
-        // increment internal _msecs. this allows us to continue incrementing
-        // while staying monotonic. Note, once we hit 10k milliseconds beyond system
-        // clock, we will reset breaking monotonicity (after (2^31)*10000 generations)
-        _msecs++;
+        // increment internal _overflowMsecs. This allows us to continue incrementing
+        // while staying monotonic. Note, once we hit 10k milliseconds beyond original
+        // time, we will reset breaking monotonicity (after (2^31)*10000 generations)
+        _overflowMsecs++;
       }
     }
   } else {
     // resetting; we have advanced more than
-    // 10k milliseconds beyond system clock
-    _msecs = msecs;
+    // 10k milliseconds beyond the original time
+    _prevMsecs = msecs;
+    _overflowMsecs = 0;
   }
 
   _seqHigh = seqHigh;
   _seqLow = seqLow;
 
+  const timestamp = _prevMsecs + _overflowMsecs;
+
   // [bytes 0-5] 48 bits of local timestamp
-  b[i++] = (_msecs / 0x10000000000) & 0xff;
-  b[i++] = (_msecs / 0x100000000) & 0xff;
-  b[i++] = (_msecs / 0x1000000) & 0xff;
-  b[i++] = (_msecs / 0x10000) & 0xff;
-  b[i++] = (_msecs / 0x100) & 0xff;
-  b[i++] = _msecs & 0xff;
+  b[i++] = (timestamp / 0x10000000000) & 0xff;
+  b[i++] = (timestamp / 0x100000000) & 0xff;
+  b[i++] = (timestamp / 0x1000000) & 0xff;
+  b[i++] = (timestamp / 0x10000) & 0xff;
+  b[i++] = (timestamp / 0x100) & 0xff;
+  b[i++] = timestamp & 0xff;
 
   // [byte 6] - set 4 bits of version (7) with first 4 bits seq_hi
   b[i++] = ((seqHigh >>> 4) & 0x0f) | 0x70;
