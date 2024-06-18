@@ -3,7 +3,7 @@
     "declaration": true,
     "removeComments": true,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "inlineSourceMap": true,
     "strict": true,
     "target": "ES2022"
   }
