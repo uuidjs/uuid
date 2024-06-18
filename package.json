@@ -49,11 +49,6 @@
     "wrapper.mjs"
   ],
   "devDependencies": {
-    "@babel/cli": "7.24.6",
-    "@babel/core": "7.24.6",
-    "@babel/eslint-parser": "7.24.6",
-    "@babel/plugin-syntax-import-attributes": "7.24.6",
-    "@babel/preset-env": "7.24.6",
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
     "@eslint/js": "9.5.0",
@@ -116,7 +111,6 @@
     "release": "standard-version --no-verify",
     "test:benchmark": "cd examples/benchmark && HUSKY=0 npm install && npm test",
     "test:browser": "wdio run ./wdio.conf.js",
-    "test:matching": "BABEL_ENV=commonjsNode node --throw-deprecation node_modules/.bin/jest test/unit/ -t",
     "test:node": "npm-run-all --parallel examples:node:**",
     "test:pack": "./scripts/testpack.sh",
     "test:watch": "node --test --watch dist/esm/test",
