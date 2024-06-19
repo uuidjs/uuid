@@ -2,5 +2,6 @@
 browserstack.err
 dist/
 local.log
+logs/
 node_modules/
 vscode/
