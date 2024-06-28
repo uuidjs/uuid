@@ -39,7 +39,6 @@ describe('v1', () => {
 
   test('msec', () => {
     assert.ok(
-      // eslint-disable-next-line no-self-compare
       v1({ msecs: TIME }) !== v1({ msecs: TIME }),
       'IDs created at same msec are different'
     );
