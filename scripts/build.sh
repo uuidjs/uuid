@@ -1,15 +1,25 @@
 #!/bin/bash -eu
 
-# cd to the root dir
+# This script generates 4 builds, as follows:
+# - dist/esm: ESM build for Node.js
+# - dist/esm-browser: ESM build for the Browser
+# - dist/cjs: CommonJS build for Node.js
+# - dist/cjs-browser: CommonJS build for the Browser
+#
+# Note: that the "preferred" build for testing (local and CI) is the ESM build,
+# except where we specifically test the other builds
+
+# Change to project root
 ROOT="$(pwd)/$(dirname "$0")/.."
 cd "$ROOT" || exit 1
 
 DIR="$ROOT/dist"
 
-# Clean up output dir
+# Clean output dir
 rm -rf "$DIR"
 mkdir -p "$DIR"
 
+# Build each module type
 for MODULE_TYPE in esm cjs; do
   echo "Building ${MODULE_TYPE}"
 
