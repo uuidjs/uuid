@@ -1,4 +1,3 @@
-// Copied from crypto.randomUUID()
 export type UUIDTypes = string | Uint8Array;
 
 export type Version1Options = {
