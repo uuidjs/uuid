@@ -110,7 +110,7 @@ const capabilities = [
   },
 ];
 
-exports.config = {
+export const config = {
   specs: ['./test/browser/browser.spec.js'],
 
   user: process.env.BROWSERSTACK_USER,

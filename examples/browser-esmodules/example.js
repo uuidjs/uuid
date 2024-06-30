@@ -1,4 +1,3 @@
-import pkg from 'uuid/package.json';
 import * as uuid from './node_modules/uuid/dist/esm-browser/index.js';
 import {
   MAX as MAX_UUID,
@@ -16,6 +15,9 @@ import {
   v6ToV1 as uuidv6ToV1,
   v7 as uuidv7,
 } from './node_modules/uuid/dist/esm-browser/index.js';
+import pkg from './node_modules/uuid/package.json' with { type: 'json' };
+
+console.log('pkg', pkg);
 
 console.log('uuidv1()', uuidv1());
 

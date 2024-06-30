@@ -1,6 +1,7 @@
 module.exports = {
   resolve: {
     extensions: ['*', '.js'],
+    fallback: { crypto: false },
   },
   entry: {
     all: './example-all.js',

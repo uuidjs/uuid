@@ -8,6 +8,7 @@ module.exports = [
     output: {
       file: 'dist/all.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },
@@ -16,6 +17,7 @@ module.exports = [
     output: {
       file: 'dist/v1.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },
@@ -24,6 +26,7 @@ module.exports = [
     output: {
       file: 'dist/v4.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },
@@ -32,6 +35,7 @@ module.exports = [
     output: {
       file: 'dist/v7.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },

@@ -1,4 +1,4 @@
-import uuid from './dist/index.js';
+import * as uuid from './dist/esm/index.js';
 export const v1 = uuid.v1;
 export const v1ToV6 = uuid.v1ToV6;
 export const v3 = uuid.v3;
