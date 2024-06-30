@@ -1,14 +1,15 @@
-const babelParser = require('@babel/eslint-parser');
-const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
-const globals = require('globals');
-const js = require('@eslint/js');
-const neostandard = require('neostandard')({ semi: true, noStyle: true });
-const tseslint = require('typescript-eslint');
+import js from '@eslint/js';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import neostandard from 'neostandard';
+import tseslint from 'typescript-eslint';
 
-module.exports = [
+const neostandardConfig = neostandard({ semi: true, noStyle: true });
+
+export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  ...neostandard,
+  ...neostandardConfig,
   eslintPluginPrettierRecommended,
   {
     languageOptions: {
