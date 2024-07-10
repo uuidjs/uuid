@@ -1,5 +1,6 @@
 import assert from 'assert';
 import v7 from '../../src/v7.js';
+import parse from '../../src/parse.js';
 
 /**
  * fixture bit layout:
@@ -154,7 +155,7 @@ describe('v7', () => {
       seq,
     });
 
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7fff-bfff-f');
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7dff-bfff-f');
   });
 
   test('internal seq is reset upon timestamp change', () => {
@@ -168,5 +169,34 @@ describe('v7', () => {
     });
 
     assert(uuid.indexOf('fff') !== 15);
+  });
+
+  test('flipping bits changes the result', () => {
+    const flip = (data, n) => data ^ (1n << (127n - n));
+    const optionsFrom = (data) => {
+      const ms = data >> (128n - 48n);
+      const hi = (data >> (43n + 19n + 2n)) & 0xfffn;
+      const lo = (data >> 43n) & 0x7ffffn;
+      const r = data & 0x7ff_ffff_ffffn;
+      return {
+        msecs: Number(ms),
+        seq: Number((hi << 19n) | lo),
+        random: [
+          ...Array(10).fill(0),
+          ...Array(6)
+            .fill(0)
+            .map((_, i) => Number((r >> (BigInt(i) * 8n)) & 0xffn))
+            .reverse(),
+        ],
+      };
+    };
+    const id = v7();
+    const data = parse(id).reduce((l, r) => (BigInt(l) << 8n) | BigInt(r));
+    for (let i = 0; i < 128; ++i) {
+      if ([48, 49, 50, 51, 64, 65].includes(i)) {
+        continue;
+      }
+      assert(v7(optionsFrom(flip(data, BigInt(i)))) !== id);
+    }
   });
 });
