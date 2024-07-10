@@ -1,6 +1,6 @@
 import assert from 'assert';
 import v7 from '../../src/v7.js';
-import parse from '../../src/parse.js';
+import stringify from '../../src/stringify.js';
 
 /**
  * fixture bit layout:
@@ -172,6 +172,7 @@ describe('v7', () => {
   });
 
   test('flipping bits changes the result', () => {
+    const asBigInt = (buf) => buf.reduce((l, r) => (BigInt(l) << 8n) | BigInt(r));
     const flip = (data, n) => data ^ (1n << (127n - n));
     const optionsFrom = (data) => {
       const ms = data >> (128n - 48n);
@@ -190,13 +191,16 @@ describe('v7', () => {
         ],
       };
     };
-    const id = v7();
-    const data = parse(id).reduce((l, r) => (BigInt(l) << 8n) | BigInt(r));
+    const buf = new Uint8Array(16);
+    const data = asBigInt(v7({}, buf));
+    const id = stringify(buf);
     for (let i = 0; i < 128; ++i) {
       if ([48, 49, 50, 51, 64, 65].includes(i)) {
         continue;
       }
-      assert(v7(optionsFrom(flip(data, BigInt(i)))) !== id);
+      const flipped = flip(data, BigInt(i));
+      assert(asBigInt(v7(optionsFrom(flipped), buf)) === flipped);
+      assert(stringify(buf) !== id);
     }
   });
 });
