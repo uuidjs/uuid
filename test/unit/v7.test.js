@@ -172,21 +172,29 @@ describe('v7', () => {
   });
 
   test('flipping bits changes the result', () => {
-    const asBigInt = (buf) => buf.reduce((l, r) => (BigInt(l) << 8n) | BigInt(r));
-    const flip = (data, n) => data ^ (1n << (127n - n));
+    // convert uint8array to BigInt (BE)
+    const asBigInt = (buf) => buf.reduce((acc, v) => (acc << 8n) | BigInt(v), 0n);
+
+    // convert the given number of bits (LE) to number
+    const asNumber = (bits, data) => Number(BigInt.asUintN(bits, data));
+
+    // flip the nth bit  (BE) in a BigInt
+    const flip = (data, n) => data ^ (1n << BigInt(127 - n));
+
+    // Extract v7 `options` from a (BigInt) UUID
     const optionsFrom = (data) => {
-      const ms = data >> (128n - 48n);
-      const hi = (data >> (43n + 19n + 2n)) & 0xfffn;
-      const lo = (data >> 43n) & 0x7ffffn;
-      const r = data & 0x7ff_ffff_ffffn;
+      const ms = asNumber(48, data >> (128n - 48n));
+      const hi = asNumber(12, data >> (43n + 19n + 2n));
+      const lo = asNumber(19, data >> 43n);
+      const r = BigInt.asUintN(43, data);
       return {
-        msecs: Number(ms),
-        seq: Number((hi << 19n) | lo),
+        msecs: ms,
+        seq: (hi << 19) | lo,
         random: [
           ...Array(10).fill(0),
           ...Array(6)
             .fill(0)
-            .map((_, i) => Number((r >> (BigInt(i) * 8n)) & 0xffn))
+            .map((_, i) => asNumber(8, r >> (BigInt(i) * 8n)))
             .reverse(),
         ],
       };
@@ -194,13 +202,14 @@ describe('v7', () => {
     const buf = new Uint8Array(16);
     const data = asBigInt(v7({}, buf));
     const id = stringify(buf);
+    const reserved = [48, 49, 50, 51, 64, 65];
     for (let i = 0; i < 128; ++i) {
-      if ([48, 49, 50, 51, 64, 65].includes(i)) {
-        continue;
+      if (reserved.includes(i)) {
+        continue; // skip bits used for version and variant
       }
-      const flipped = flip(data, BigInt(i));
-      assert(asBigInt(v7(optionsFrom(flipped), buf)) === flipped);
-      assert(stringify(buf) !== id);
+      const flipped = flip(data, i);
+      assert.strictEqual(asBigInt(v7(optionsFrom(flipped), buf)), flipped, i);
+      assert.notStrictEqual(stringify(buf), id);
     }
   });
 });
