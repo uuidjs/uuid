@@ -128,7 +128,7 @@ function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): UUIDT
   b[i++] = _msecs & 0xff;
 
   // [byte 6] - set 4 bits of version (7) with first 4 bits seq_hi
-  b[i++] = ((seqHigh >>> 4) & 0x0f) | 0x70;
+  b[i++] = ((seqHigh >>> 8) & 0x0f) | 0x70;
 
   // [byte 7] remaining 8 bits of seq_hi
   b[i++] = seqHigh & 0xff;

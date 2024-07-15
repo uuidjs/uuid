@@ -1,6 +1,8 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
+import { Version7Options } from '../_types.js';
 import v7 from '../v7.js';
+import stringify from '../stringify.js';
 
 /**
  * fixture bit layout:
@@ -191,7 +193,7 @@ describe('v7', () => {
       seq,
     });
 
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7fff-bfff-f');
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7dff-bfff-f');
   });
 
   test('internal seq is reset upon timestamp change', () => {
@@ -205,5 +207,51 @@ describe('v7', () => {
     });
 
     assert.ok(uuid.indexOf('fff') !== 15);
+  });
+
+  test('flipping bits changes the result', () => {
+    // convert uint8array to BigInt (BE)
+    const asBigInt = (buf: Uint8Array) => buf.reduce((acc, v) => (acc << 8n) | BigInt(v), 0n);
+
+    // convert the given number of bits (LE) to number
+    const asNumber = (bits: number, data: bigint) => Number(BigInt.asUintN(bits, data));
+
+    // flip the nth bit  (BE) in a BigInt
+    const flip = (data: bigint, n: number) => data ^ (1n << BigInt(127 - n));
+
+    // Extract v7 `options` from a (BigInt) UUID
+    const optionsFrom = (data: bigint): Version7Options => {
+      const ms = asNumber(48, data >> (128n - 48n));
+      const hi = asNumber(12, data >> (43n + 19n + 2n));
+      const lo = asNumber(19, data >> 43n);
+      const r = BigInt.asUintN(43, data);
+      return {
+        msecs: ms,
+        seq: (hi << 19) | lo,
+        random: Uint8Array.from([
+          ...Array(10).fill(0),
+          ...Array(6)
+            .fill(0)
+            .map((_, i) => asNumber(8, r >> (BigInt(i) * 8n)))
+            .reverse(),
+        ]),
+      };
+    };
+    const buf = new Uint8Array(16);
+    const data = asBigInt(v7({}, buf));
+    const id = stringify(buf);
+    const reserved = [48, 49, 50, 51, 64, 65];
+    for (let i = 0; i < 128; ++i) {
+      if (reserved.includes(i)) {
+        continue; // skip bits used for version and variant
+      }
+      const flipped = flip(data, i);
+      assert.strictEqual(
+        asBigInt(v7(optionsFrom(flipped), buf)),
+        flipped,
+        `Unequal uuids at bit ${i}`
+      );
+      assert.notStrictEqual(stringify(buf), id);
+    }
   });
 });
