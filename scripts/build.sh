@@ -1,61 +1,50 @@
 #!/bin/bash -eu
 
-# cd to the root dir
+# This script generates 4 builds, as follows:
+# - dist/esm: ESM build for Node.js
+# - dist/esm-browser: ESM build for the Browser
+# - dist/cjs: CommonJS build for Node.js
+# - dist/cjs-browser: CommonJS build for the Browser
+#
+# Note: that the "preferred" build for testing (local and CI) is the ESM build,
+# except where we specifically test the other builds
+
+# Change to project root
 ROOT="$(pwd)/$(dirname "$0")/.."
 cd "$ROOT" || exit 1
 
 DIR="$ROOT/dist"
 
-# Clean up output dir
+# Clean output dir
 rm -rf "$DIR"
 mkdir -p "$DIR"
 
-# We ship 4 builds of this library: ESM and CommonJS, each for Node.js and the Browser.
-# In ./src, code that uses browser APIs lives in `-browser.js` files, while code for node APIs
-# lives in files without suffix.
-# For historical reasons, the Node.js CommonJS build lives in the top level ./dist directory while
-# the other 3 builds live in their respective ./dist/{commonjs,esm}-{node,browser}/ subdirectories.
-#
-# The code below produces this layout:
-#
-#   dist (<-- the commonjs-node build)
-#   ├── commonjs-browser
-#   ├── esm-node
-#   ├── esm-node
-#   └── bin (<-- Node.js CLI)
+# Build each module type
+for MODULE_TYPE in esm cjs; do
+  echo "Building ${MODULE_TYPE}"
 
-# Transpile CommonJS versions of files for node
-npx babel --env-name commonjsNode src --source-root src --out-dir "$DIR" --copy-files --quiet
+  DIST_DIR="$DIR/${MODULE_TYPE}"
+  BROWSER_DIR="$DIR/${MODULE_TYPE}-browser"
 
-# Transpile CommonJS versions of files for the browser
-npx babel --env-name commonjsBrowser src --source-root src --out-dir "$DIR/commonjs-browser" \
-    --copy-files --quiet
+  tsc -p tsconfig.${MODULE_TYPE}.json
 
-# Transpile ESM versions of files for the browser
-npx babel --env-name esmBrowser src --source-root src --out-dir "$DIR/esm-browser" --copy-files --quiet
+  # Clone files for browser builds
+  cp -pr ${DIST_DIR} ${BROWSER_DIR}
 
-# Transpile ESM versions of files for node
-npx babel --env-name esmNode src --source-root src --out-dir "$DIR/esm-node" --copy-files --quiet
+  # Remove browser files from non-browser builds
+  for FILE in ${DIST_DIR}/*-browser*;do
+    rm -f $FILE
+  done
 
-# No need to have the CLI files in the esm build
-rm -rf "$DIR/commonjs-browser/bin"
-rm -rf "$DIR/commonjs-browser/uuid-bin.js"
-rm -rf "$DIR/esm-browser/bin"
-rm -rf "$DIR/esm-browser/uuid-bin.js"
-rm -rf "$DIR/esm-node/bin"
-rm -rf "$DIR/esm-node/uuid-bin.js"
+  # Move browser files into place for browser builds
+  for FILE in ${BROWSER_DIR}/*-browser*;do
+    mv $FILE ${FILE/-browser/}
+  done
 
-for FILE in "$DIR"/commonjs-browser/*-browser.js
-do
-    echo "Replacing node-specific file for commonjs-browser: $FILE"
-    mv "$FILE" "${FILE/-browser.js/.js}"
+  # If MODULE_TYPE is esm, copy bin files to dist
+  if [ "$MODULE_TYPE" = "esm" ]; then
+    cp -pr "$DIR/../src/bin" "$DIST_DIR"
+  fi
 done
 
-for FILE in "$DIR"/esm-browser/*-browser.js
-do
-    echo "Replacing node-specific file for esm-browser: $FILE"
-    mv "$FILE" "${FILE/-browser.js/.js}"
-done
-
-echo "Removing browser-specific files from esm-node"
-rm -f "$DIR"/esm-node/*-browser.js
+echo "-- fin --"
