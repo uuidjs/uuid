@@ -346,10 +346,10 @@ Create an RFC version 7 (random) UUID
 |  |  |
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
-| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch). Default = `Date.now()` |
 | [`options.random`] | `Array` of 16 random bytes (0-255) |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
-| [`options.seq`] | 31 bit monotonic sequence counter as `Number` between 0 - 0x7fffffff |
+| [`options.seq`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help insure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
