@@ -11,9 +11,10 @@ const RFC_V7 = '017f22e2-79b0-7cc3-98c4-dc0c0c07398f';
 const RFC_V7_BYTES = parse('017f22e2-79b0-7cc3-98c4-dc0c0c07398f');
 const RFC_MSECS = 0x17f22e279b0;
 
-// `seq` and `random` values needed to create the above RFC uuid.  These are
-// specific to our implementation here, and are not part of the RFC.
-const RFC_SEQ = 0x661b189b;
+// `option.seq` for the above RFC uuid
+const RFC_SEQ = (0x0cc3 << 20) | (0x98c4dc >> 2);
+
+// `option,random` for the above RFC uuid
 const RFC_RANDOM = Uint8Array.of(
   0x10,
   0x91,
@@ -197,7 +198,7 @@ describe('v7', () => {
       seq,
     });
 
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-891a-2');
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-848d-1');
 
     seq = 0x6fffffff;
     uuid = v7({
@@ -205,7 +206,7 @@ describe('v7', () => {
       seq,
     });
 
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7dff-bfff-f');
+    assert.strictEqual(uuid.substring(0, 25), '017f22e2-79b0-76ff-bfff-f');
   });
 
   test('internal seq is reset upon timestamp change', () => {
@@ -228,18 +229,18 @@ describe('v7', () => {
     // convert the given number of bits (LE) to number
     const asNumber = (bits: number, data: bigint) => Number(BigInt.asUintN(bits, data));
 
-    // flip the nth bit  (BE) in a BigInt
+    // flip the nth bit (BE) in a BigInt
     const flip = (data: bigint, n: number) => data ^ (1n << BigInt(127 - n));
 
     // Extract v7 `options` from a (BigInt) UUID
     const optionsFrom = (data: bigint): Version7Options => {
-      const ms = asNumber(48, data >> (128n - 48n));
-      const hi = asNumber(12, data >> (43n + 19n + 2n));
-      const lo = asNumber(19, data >> 43n);
-      const r = BigInt.asUintN(43, data);
+      const ms = asNumber(48, data >> 80n);
+      const hi = asNumber(12, data >> 64n);
+      const lo = asNumber(20, data >> 42n);
+      const r = BigInt.asUintN(42, data);
       return {
         msecs: ms,
-        seq: (hi << 19) | lo,
+        seq: (hi << 20) | lo,
         random: Uint8Array.from([
           ...Array(10).fill(0),
           ...Array(6)
@@ -259,8 +260,8 @@ describe('v7', () => {
       }
       const flipped = flip(data, i);
       assert.strictEqual(
-        asBigInt(v7(optionsFrom(flipped), buf)),
-        flipped,
+        asBigInt(v7(optionsFrom(flipped), buf)).toString(16),
+        flipped.toString(16),
         `Unequal uuids at bit ${i}`
       );
       assert.notStrictEqual(stringify(buf), id);

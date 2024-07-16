@@ -18,7 +18,7 @@ function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): UUIDT
   let bytes: Uint8Array;
 
   if (options) {
-    // w/ options: Make UUID independent of internal state
+    // With options: Make UUID independent of internal state
     bytes = v7Bytes(
       options.random ?? options.rng?.() ?? rng(),
       options.msecs,
@@ -50,8 +50,8 @@ export function updateV7State(state: V7State, now: number, rnds: Uint8Array) {
     // Bump sequence counter w/ 32-bit rollover
     state.seq = (state.seq + 1) | 0;
 
-    // Handle rollover case by bumping timestamp to preserve monotonicity. This
-    // is allowed by the RFC and will self-correct as the system clock catches
+    // In case of rollover, bump timestamp to preserve monotonicity. This is
+    // allowed by the RFC and should self-correct as the system clock catches
     // up. See https://www.rfc-editor.org/rfc/rfc9562.html#section-6.2-9.4
     if (state.seq === 0) {
       state.msecs++;
@@ -72,7 +72,7 @@ function v7Bytes(
   msecs ??= Date.now();
   seq ??= ((rnds[6] * 0x7f) << 24) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
 
-  // [bytes 0-5] 48 bits of local timestamp
+  // byte 0-5: timestamp (48 bits)
   buf[offset++] = (msecs / 0x10000000000) & 0xff;
   buf[offset++] = (msecs / 0x100000000) & 0xff;
   buf[offset++] = (msecs / 0x1000000) & 0xff;
@@ -80,22 +80,22 @@ function v7Bytes(
   buf[offset++] = (msecs / 0x100) & 0xff;
   buf[offset++] = msecs & 0xff;
 
-  // [byte 6] - `version` | seq bits 31-28 (4 bits)
-  buf[offset++] = 0x70 | ((seq >>> 27) & 0x0f);
+  // byte 6: `version` (4 bits) | sequence bits 28-31 (4 bits)
+  buf[offset++] = 0x70 | ((seq >>> 28) & 0x0f);
 
-  // [byte 7] seq bits 27-20 (8 bits)
-  buf[offset++] = (seq >>> 19) & 0xff;
+  // byte 7: sequence bits 20-27 (8 bits)
+  buf[offset++] = (seq >>> 20) & 0xff;
 
-  // [byte 8] - `variant` (2 bits) | seq bits 19-14 (6 bits)
-  buf[offset++] = ((seq >>> 13) & 0x3f) | 0x80;
+  // byte 8: `variant` (2 bits) | sequence bits 14-19 (6 bits)
+  buf[offset++] = 0x80 | ((seq >>> 14) & 0x3f);
 
-  // [byte 9] seq bits 13-6 (8 bits)
-  buf[offset++] = (seq >>> 5) & 0xff;
+  // byte 9: sequence bits 6-13 (8 bits)
+  buf[offset++] = (seq >>> 6) & 0xff;
 
-  // [byte 10] seq bits 5-0 (6 bits) | random (2 bits)
-  buf[offset++] = ((seq << 3) & 0xff) | (rnds[10] & 0x07);
+  // byte 10: sequence bits 0-5 (6 bits) | random (2 bits)
+  buf[offset++] = ((seq << 2) & 0xff) | (rnds[10] & 0x03);
 
-  // [bytes 11-15] always random
+  // bytes 11-15: random (40 bits)
   buf[offset++] = rnds[11];
   buf[offset++] = rnds[12];
   buf[offset++] = rnds[13];
