@@ -1,20 +1,29 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
-// @ts-expect-error random-seed is an old CJS module.  we should update an ESM seeded
-// RNG at some point, but keeping this for now to ensure the TS port works with
-// the legacy tests here.
-import gen from 'random-seed';
 import parse from '../parse.js';
 import stringify from '../stringify.js';
 import uuidv4 from '../v4.js';
 
-// Use deterministic PRNG for reproducible tests
-const rand = gen.create('He who wonders discovers that this in itself is wonder.');
+// Deterministic PRNG for reproducible tests
+// See https://stackoverflow.com/a/47593316/109538
+function splitmix32(a: number) {
+  return function () {
+    a |= 0;
+    a = (a + 0x9e3779b9) | 0;
+    let t = a ^ (a >>> 16);
+    t = Math.imul(t, 0x21f0aaad);
+    t = t ^ (t >>> 15);
+    t = Math.imul(t, 0x735a2d97);
+    return ((t = t ^ (t >>> 15)) >>> 0) / 4294967296;
+  };
+}
+const rand = splitmix32(0x12345678);
 
 function rng(bytes = new Uint8Array(16)) {
   for (let i = 0; i < 16; i++) {
-    bytes[i] = rand(256);
+    bytes[i] = rand() * 256;
   }
+
   return bytes;
 }
 
