@@ -1,72 +1,40 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
 import { Version7Options } from '../_types.js';
-import v7 from '../v7.js';
+import parse from '../parse.js';
 import stringify from '../stringify.js';
+import v7, { updateV7State } from '../v7.js';
 
-/**
- * fixture bit layout:
- * ref: https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv7-value
- *
- * expectedBytes was calculated using this script:
- * https://gist.github.com/d5382ac3a1ce4ba9ba40a90d9da8cbf1
- *
- * -------------------------------
- * field      bits    value
- * -------------------------------
- * unix_ts_ms   48    0x17F22E279B0
- * ver           4    0x7
- * rand_a       12    0xCC3
- * var           2    b10
- * rand_b       62    b01, 0x8C4DC0C0C07398F
- * -------------------------------
- * total       128
- * -------------------------------
- * final: 017f22e2-79b0-7cc3-98c4-dc0c0c07398f
- */
+// Fixture values for testing with the rfc v7 UUID example:
+// https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv7-value
+const RFC_V7 = '017f22e2-79b0-7cc3-98c4-dc0c0c07398f';
+const RFC_V7_BYTES = parse('017f22e2-79b0-7cc3-98c4-dc0c0c07398f');
+const RFC_MSECS = 0x17f22e279b0;
+
+// `option.seq` for the above RFC uuid
+const RFC_SEQ = (0x0cc3 << 20) | (0x98c4dc >> 2);
+
+// `option,random` for the above RFC uuid
+const RFC_RANDOM = Uint8Array.of(
+  0x10,
+  0x91,
+  0x56,
+  0xbe,
+  0xc4,
+  0xfb,
+  0x0c,
+  0xc3,
+  0x18,
+  0xc4,
+  0x6c,
+  0x0c,
+  0x0c,
+  0x07,
+  0x39,
+  0x8f
+);
 
 describe('v7', () => {
-  const msecsFixture = 1645557742000;
-  const seqFixture = 0x661b189b;
-
-  const randomBytesFixture = Uint8Array.of(
-    0x10,
-    0x91,
-    0x56,
-    0xbe,
-    0xc4,
-    0xfb,
-    0x0c,
-    0xc3,
-    0x18,
-    0xc4,
-    0xdc,
-    0x0c,
-    0x0c,
-    0x07,
-    0x39,
-    0x8f
-  );
-
-  const expectedBytes = Uint8Array.of(
-    1,
-    127,
-    34,
-    226,
-    121,
-    176,
-    124,
-    195,
-    152,
-    196,
-    220,
-    12,
-    12,
-    7,
-    57,
-    143
-  );
-
   test('subsequent UUIDs are different', () => {
     const id1 = v7();
     const id2 = v7();
@@ -75,25 +43,25 @@ describe('v7', () => {
 
   test('explicit options.random and options.msecs produces expected result', () => {
     const id = v7({
-      random: randomBytesFixture,
-      msecs: msecsFixture,
-      seq: seqFixture,
+      random: RFC_RANDOM,
+      msecs: RFC_MSECS,
+      seq: RFC_SEQ,
     });
-    assert.strictEqual(id, '017f22e2-79b0-7cc3-98c4-dc0c0c07398f');
+    assert.strictEqual(id, RFC_V7);
   });
 
   test('explicit options.rng produces expected result', () => {
     const id = v7({
-      rng: () => randomBytesFixture,
-      msecs: msecsFixture,
-      seq: seqFixture,
+      rng: () => RFC_RANDOM,
+      msecs: RFC_MSECS,
+      seq: RFC_SEQ,
     });
-    assert.strictEqual(id, '017f22e2-79b0-7cc3-98c4-dc0c0c07398f');
+    assert.strictEqual(id, RFC_V7);
   });
 
   test('explicit options.msecs produces expected result', () => {
     const id = v7({
-      msecs: msecsFixture,
+      msecs: RFC_MSECS,
     });
     assert.strictEqual(id.indexOf('017f22e2'), 0);
   });
@@ -102,13 +70,15 @@ describe('v7', () => {
     const buffer = new Uint8Array(16);
     const result = v7(
       {
-        random: randomBytesFixture,
-        msecs: msecsFixture,
-        seq: seqFixture,
+        random: RFC_RANDOM,
+        msecs: RFC_MSECS,
+        seq: RFC_SEQ,
       },
       buffer
     );
-    assert.deepEqual(buffer, expectedBytes);
+    stringify(buffer);
+
+    assert.deepEqual(buffer, RFC_V7_BYTES);
     assert.strictEqual(buffer, result);
   });
 
@@ -117,25 +87,25 @@ describe('v7', () => {
 
     v7(
       {
-        random: randomBytesFixture,
-        msecs: msecsFixture,
-        seq: seqFixture,
+        random: RFC_RANDOM,
+        msecs: RFC_MSECS,
+        seq: RFC_SEQ,
       },
       buffer,
       0
     );
     v7(
       {
-        random: randomBytesFixture,
-        msecs: msecsFixture,
-        seq: seqFixture,
+        random: RFC_RANDOM,
+        msecs: RFC_MSECS,
+        seq: RFC_SEQ,
       },
       buffer,
       16
     );
     const expected = new Uint8Array(32);
-    expected.set(expectedBytes);
-    expected.set(expectedBytes, 16);
+    expected.set(RFC_V7_BYTES);
+    expected.set(RFC_V7_BYTES, 16);
     assert.deepEqual(buffer, expected);
   });
 
@@ -146,7 +116,7 @@ describe('v7', () => {
   test('lexicographical sorting is preserved', () => {
     let id;
     let prior;
-    let msecs = msecsFixture;
+    let msecs = RFC_MSECS;
     for (let i = 0; i < 20000; ++i) {
       if (i % 1500 === 0) {
         // every 1500 runs increment msecs so seq is
@@ -154,7 +124,7 @@ describe('v7', () => {
         msecs += 1;
       }
 
-      id = v7({ msecs });
+      id = v7({ msecs, seq: i });
 
       if (prior !== undefined) {
         assert.ok(prior < id, `${prior} < ${id}`);
@@ -164,46 +134,89 @@ describe('v7', () => {
     }
   });
 
-  test('handles seq rollover', () => {
-    const msecs = msecsFixture;
-    const a = v7({
-      msecs,
-      seq: 0x7fffffff,
-    });
-
-    v7({ msecs });
-
-    const c = v7({ msecs });
-
-    assert.ok(a < c, `${a} < ${c}`);
+  test('internal state updates properly', () => {
+    const tests = [
+      {
+        title: 'new time interval',
+        state: { msecs: 1, seq: 123 },
+        now: 2,
+        expected: {
+          msecs: 2, // time interval should update
+          seq: 0x6c318c4, // sequence should be randomized
+        },
+      },
+      {
+        title: 'same time interval',
+        state: { msecs: 1, seq: 123 },
+        now: 1,
+        expected: {
+          msecs: 1, // timestamp unchanged
+          seq: 124, // sequence increments
+        },
+      },
+      {
+        title: 'same time interval (sequence rollover)',
+        state: { msecs: 1, seq: 0xffffffff },
+        now: 1,
+        expected: {
+          msecs: 2, // timestamp increments
+          seq: 0, // sequence rolls over
+        },
+      },
+      {
+        title: 'time regression',
+        state: { msecs: 2, seq: 123 },
+        now: 1,
+        expected: {
+          msecs: 2, // timestamp unchanged
+          seq: 124, // sequence increments
+        },
+      },
+      {
+        title: 'time regression (sequence rollover)',
+        state: { msecs: 2, seq: 0xffffffff },
+        now: 1,
+        expected: {
+          // timestamp increments (crazy, right? The system clock goes backwards
+          // but the UUID timestamp moves forward?  Weird, but it's what's
+          // required to maintain monotonicity... and this is why we have unit
+          // tests!)
+          msecs: 3,
+          seq: 0, // sequence rolls over
+        },
+      },
+    ];
+    for (const { title, state, now, expected } of tests) {
+      assert.deepStrictEqual(updateV7State(state, now, RFC_RANDOM), expected, `Failed: ${title}`);
+    }
   });
 
   test('can supply seq', () => {
     let seq = 0x12345;
     let uuid = v7({
-      msecs: msecsFixture,
+      msecs: RFC_MSECS,
       seq,
     });
 
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-891a-2');
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-848d-1');
 
     seq = 0x6fffffff;
     uuid = v7({
-      msecs: msecsFixture,
+      msecs: RFC_MSECS,
       seq,
     });
 
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7dff-bfff-f');
+    assert.strictEqual(uuid.substring(0, 25), '017f22e2-79b0-76ff-bfff-f');
   });
 
   test('internal seq is reset upon timestamp change', () => {
     v7({
-      msecs: msecsFixture,
+      msecs: RFC_MSECS,
       seq: 0x6fffffff,
     });
 
     const uuid = v7({
-      msecs: msecsFixture + 1,
+      msecs: RFC_MSECS + 1,
     });
 
     assert.ok(uuid.indexOf('fff') !== 15);
@@ -216,18 +229,18 @@ describe('v7', () => {
     // convert the given number of bits (LE) to number
     const asNumber = (bits: number, data: bigint) => Number(BigInt.asUintN(bits, data));
 
-    // flip the nth bit  (BE) in a BigInt
+    // flip the nth bit (BE) in a BigInt
     const flip = (data: bigint, n: number) => data ^ (1n << BigInt(127 - n));
 
     // Extract v7 `options` from a (BigInt) UUID
     const optionsFrom = (data: bigint): Version7Options => {
-      const ms = asNumber(48, data >> (128n - 48n));
-      const hi = asNumber(12, data >> (43n + 19n + 2n));
-      const lo = asNumber(19, data >> 43n);
-      const r = BigInt.asUintN(43, data);
+      const ms = asNumber(48, data >> 80n);
+      const hi = asNumber(12, data >> 64n);
+      const lo = asNumber(20, data >> 42n);
+      const r = BigInt.asUintN(42, data);
       return {
         msecs: ms,
-        seq: (hi << 19) | lo,
+        seq: (hi << 20) | lo,
         random: Uint8Array.from([
           ...Array(10).fill(0),
           ...Array(6)
@@ -247,8 +260,8 @@ describe('v7', () => {
       }
       const flipped = flip(data, i);
       assert.strictEqual(
-        asBigInt(v7(optionsFrom(flipped), buf)),
-        flipped,
+        asBigInt(v7(optionsFrom(flipped), buf)).toString(16),
+        flipped.toString(16),
         `Unequal uuids at bit ${i}`
       );
       assert.notStrictEqual(stringify(buf), id);
