@@ -3,13 +3,13 @@ import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
 type V7State = {
-  msecs: number;
-  seq: number;
+  msecs: number; // time, milliseconds
+  seq: number; // sequence number (32-bits)
 };
 
 const _state: V7State = {
-  msecs: -Infinity, // time, milliseconds
-  seq: 0, // sequence number (32-bits)
+  msecs: -Infinity,
+  seq: 0,
 };
 
 function v7(options?: Version7Options, buf?: undefined, offset?: number): string;
@@ -61,13 +61,12 @@ export function updateV7State(state: V7State, now: number, rnds: Uint8Array) {
   return state;
 }
 
-function v7Bytes(
-  rnds: Uint8Array,
-  msecs: number | undefined,
-  seq: number | undefined,
-  buf = new Uint8Array(16),
-  offset = 0
-) {
+function v7Bytes(rnds: Uint8Array, msecs?: number, seq?: number, buf?: Uint8Array, offset = 0) {
+  if (!buf) {
+    buf = new Uint8Array(16);
+    offset = 0;
+  }
+
   // Defaults
   msecs ??= Date.now();
   seq ??= ((rnds[6] * 0x7f) << 24) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
