@@ -86,6 +86,36 @@ describe('v1', () => {
     );
   });
 
+  test('explicit options.random produces expected id', () => {
+    function rng() {
+      return Uint8Array.of(
+        0x10,
+        0x91,
+        0x56,
+        0xbe,
+        0xc4,
+        0xfb,
+        0xc1,
+        0xea,
+        0x71,
+        0xb4,
+        0xef,
+        0xe1,
+        0x67,
+        0x1c,
+        0x58,
+        0x36
+      );
+    }
+
+    const id = v1({
+      msecs: 1321651533573,
+      nsecs: 5432,
+      rng,
+    });
+    assert.strictEqual(id, 'd9428888-122b-11e1-81ea-119156bec4fb');
+  });
+
   test('ids spanning 1ms boundary are 100ns apart', () => {
     // Verify adjacent ids across a msec boundary are 1 time unit apart
     const u0 = v1({ msecs: TIME, nsecs: 9999 });
