@@ -9,29 +9,29 @@ describe('v6', () => {
   const V6_ID = '1ef21d2f-1207-6660-8c4f-419efbd44d48';
 
   const fullOptions = {
-    msecs: 1321651533573,
-    nsecs: 5432,
+    msecs: 0x133b891f705,
+    nsecs: 0x1538,
     clockseq: 0x385c,
     node: Uint8Array.of(0x61, 0xcd, 0x3c, 0xbb, 0x32, 0x10),
   };
 
   const EXPECTED_BYTES = Uint8Array.of(
-    30,
-    17,
-    34,
-    189,
-    148,
-    40,
-    104,
-    136,
-    184,
-    92,
-    97,
-    205,
-    60,
-    187,
-    50,
-    16
+    0x1e,
+    0x11,
+    0x22,
+    0xbd,
+    0x94,
+    0x28,
+    0x68,
+    0x88,
+    0xb8,
+    0x5c,
+    0x61,
+    0xcd,
+    0x3c,
+    0xbb,
+    0x32,
+    0x10
   );
 
   test('default behavior', () => {

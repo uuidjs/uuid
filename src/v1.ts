@@ -11,19 +11,18 @@ type V1State = {
   node?: Uint8Array; // node id (47-bit random)
   clockseq?: number; // sequence number (14-bit)
 
-  // v1 & v6 timestamps count 100-nanosecond intervals since the Gregorian
-  // epoch, (1582-10-15 00:00). JS Numbers aren't precise enough for this, so we
-  // represent them internally using 'msecs' (integer milliseconds, unix epoch)
-  // and 'nsecs' (100-nanoseconds offset from `msecs`).
+  // v1 & v6 timestamps are a pain to deal with.  They specify time from the
+  // Gregorian epoch in 100ns intervals, which requires values with 57+ bits of
+  // precision.  But that's outside the precision of IEEE754 floats (i.e. JS
+  // numbers).  To work around this, we represent them internally using 'msecs'
+  // (milliseconds since unix epoch) and 'nsecs' (100-nanoseconds offset from
+  // `msecs`).
 
-  msecs: number; // timestamp (milliseconds, unix epoch)
-  nsecs: number; // timestamp (100-nanoseconds offset from 'msecs')
+  msecs?: number; // timestamp (milliseconds, unix epoch)
+  nsecs?: number; // timestamp (100-nanoseconds offset from 'msecs')
 };
 
-const _state: V1State = {
-  msecs: -Infinity,
-  nsecs: 0,
-};
+const _state: V1State = {};
 
 function v1(options?: Version1Options, buf?: undefined, offset?: number): string;
 function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): Uint8Array;
@@ -76,6 +75,9 @@ function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDT
 }
 
 export function updateV1State(state: V1State, now: number, rnds: Uint8Array) {
+  state.nsecs ??= 0;
+  state.msecs ??= -Infinity;
+
   // Update timestamp
   if (now === state.msecs) {
     // Same msec-interval = simulate higher clock resolution by bumping `nsecs`
@@ -85,8 +87,8 @@ export function updateV1State(state: V1State, now: number, rnds: Uint8Array) {
     // Check for `nsecs` overflow (nsecs is capped at 10K intervals / msec)
     if (state.nsecs >= 10000) {
       // Prior to uuid@11 this would throw an error, however the RFCs allow for
-      // selecting a new node in this case.  This slightly breaks monotonicity
-      // at msec granularity, but that's not a significant concern.
+      // changing the node in this case.  This slightly breaks monotonicity at
+      // msec granularity, but that's not a significant concern.
       // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.1-2.16
       state.node = undefined;
       state.nsecs = 0;
@@ -94,10 +96,19 @@ export function updateV1State(state: V1State, now: number, rnds: Uint8Array) {
   } else if (now > state.msecs) {
     // Reset nsec counter when clock advances to a new msec interval
     state.nsecs = 0;
+  } else if (now < state.msecs) {
+    // Handle clock regression
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.1-2.7
+    //
+    // Note: Unsetting node here causes both it and clockseq to be randomized,
+    // below.
+    state.node = undefined;
   }
-  state.msecs = now;
 
-  // Init node (do this after timestamp update which may reset the node)
+  // Init node and clock sequence (do this after timestamp update which may
+  // reset the node) https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-7
+  //
+  // Note:
   if (!state.node) {
     state.node = rnds.slice(10, 16);
 
@@ -107,19 +118,10 @@ export function updateV1State(state: V1State, now: number, rnds: Uint8Array) {
 
     // Clock sequence must be randomized
     // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-8
-    state.clockseq = undefined;
+    state.clockseq = ((rnds[8] << 8) | rnds[9]) & 0x3fff;
   }
 
-  // Init clock sequence to random value (do this after node initialization,
-  // which may reset the clock sequence)
-  // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-7
-  if (state.clockseq === undefined) {
-    state.clockseq = ((rnds[6] << 8) | rnds[7]) & 0x3fff;
-  } else if (now < state.msecs) {
-    // Bump clockseq on clock regression
-    // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-7
-    state.clockseq = (state.clockseq + 1) & 0x3fff;
-  }
+  state.msecs = now;
 
   return state;
 }
@@ -140,8 +142,8 @@ function v1Bytes(
   }
   msecs ??= Date.now();
   nsecs ??= 0;
-  clockseq ??= ((rnds[6] << 8) | rnds[7]) & 0x3fff;
-  node ??= rnds.slice(0, 6);
+  clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
+  node ??= rnds.slice(10, 16);
 
   // Offset to Gregorian epoch
   // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-1
