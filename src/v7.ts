@@ -3,14 +3,11 @@ import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 
 type V7State = {
-  msecs: number; // time, milliseconds
-  seq: number; // sequence number (32-bits)
+  msecs?: number; // time, milliseconds
+  seq?: number; // sequence number (32-bits)
 };
 
-const _state: V7State = {
-  msecs: -Infinity,
-  seq: 0,
-};
+const _state: V7State = {};
 
 function v7(options?: Version7Options, buf?: undefined, offset?: number): string;
 function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): Uint8Array;
@@ -42,6 +39,9 @@ function v7(options?: Version7Options, buf?: Uint8Array, offset?: number): UUIDT
 // (Private!)  Do not use.  This method is only exported for testing purposes
 // and may change without notice.
 export function updateV7State(state: V7State, now: number, rnds: Uint8Array) {
+  state.msecs ??= -Infinity;
+  state.seq ??= 0;
+
   if (now > state.msecs) {
     // Time has moved on! Pick a new random sequence number
     state.seq = (rnds[6] << 23) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];

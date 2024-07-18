@@ -96,76 +96,76 @@ describe('v1', () => {
 
     assert.deepEqual(buffer, expectedBuf);
   });
-});
 
-test('v1() state transitions', () => {
-  // Test fixture for internal state passed into updateV1State function
-  const PRE_STATE = {
-    msecs: 10,
-    nsecs: 20,
-    clockseq: 0x1234,
-    node: Uint8Array.of(0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc),
-  };
+  test('v1() state transitions', () => {
+    // Test fixture for internal state passed into updateV1State function
+    const PRE_STATE = {
+      msecs: 10,
+      nsecs: 20,
+      clockseq: 0x1234,
+      node: Uint8Array.of(0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc),
+    };
 
-  // Note: The test code, below, passes RFC_RANDOM as the `rnds` argument for
-  // convenience.  This allows us to test that fields have been initialized from
-  // the rnds argument by testing for RFC_OPTIONS values in the output state.
+    // Note: The test code, below, passes RFC_RANDOM as the `rnds` argument for
+    // convenience.  This allows us to test that fields have been initialized from
+    // the rnds argument by testing for RFC_OPTIONS values in the output state.
 
-  const tests = [
-    {
-      title: 'initial state',
-      state: {},
-      now: 10,
-      expected: {
-        msecs: 10, // -> now
-        nsecs: 0, // -> init
-        clockseq: RFC_OPTIONS.clockseq, // -> random
-        node: RFC_OPTIONS.node, // -> random
+    const tests = [
+      {
+        title: 'initial state',
+        state: {},
+        now: 10,
+        expected: {
+          msecs: 10, // -> now
+          nsecs: 0, // -> init
+          clockseq: RFC_OPTIONS.clockseq, // -> random
+          node: RFC_OPTIONS.node, // -> random
+        },
       },
-    },
-    {
-      title: 'same time interval',
-      state: { ...PRE_STATE },
-      now: PRE_STATE.msecs,
-      expected: {
-        ...PRE_STATE,
-        nsecs: 21, // -> +1
+      {
+        title: 'same time interval',
+        state: { ...PRE_STATE },
+        now: PRE_STATE.msecs,
+        expected: {
+          ...PRE_STATE,
+          nsecs: 21, // -> +1
+        },
       },
-    },
-    {
-      title: 'new time interval',
-      state: { ...PRE_STATE },
-      now: PRE_STATE.msecs + 1,
-      expected: {
-        ...PRE_STATE,
-        msecs: PRE_STATE.msecs + 1, // -> +1
-        nsecs: 0, // -> init
+      {
+        title: 'new time interval',
+        state: { ...PRE_STATE },
+        now: PRE_STATE.msecs + 1,
+        expected: {
+          ...PRE_STATE,
+          msecs: PRE_STATE.msecs + 1, // -> +1
+          nsecs: 0, // -> init
+        },
       },
-    },
-    {
-      title: 'same time interval (nsecs overflow)',
-      state: { ...PRE_STATE, nsecs: 9999 },
-      now: PRE_STATE.msecs,
-      expected: {
-        ...PRE_STATE,
-        nsecs: 0, // -> init
-        clockseq: RFC_OPTIONS.clockseq, // -> init
-        node: RFC_OPTIONS.node, // -> init
+      {
+        title: 'same time interval (nsecs overflow)',
+        state: { ...PRE_STATE, nsecs: 9999 },
+        now: PRE_STATE.msecs,
+        expected: {
+          ...PRE_STATE,
+          nsecs: 0, // -> init
+          clockseq: RFC_OPTIONS.clockseq, // -> init
+          node: RFC_OPTIONS.node, // -> init
+        },
       },
-    },
-    {
-      title: 'time regression',
-      state: { ...PRE_STATE },
-      now: PRE_STATE.msecs - 1,
-      expected: {
-        ...PRE_STATE,
-        msecs: PRE_STATE.msecs - 1, // -> now
-        clockseq: RFC_OPTIONS.clockseq, // -> init
-        node: RFC_OPTIONS.node, // -> init
+      {
+        title: 'time regression',
+        state: { ...PRE_STATE },
+        now: PRE_STATE.msecs - 1,
+        expected: {
+          ...PRE_STATE,
+          msecs: PRE_STATE.msecs - 1, // -> now
+          clockseq: RFC_OPTIONS.clockseq, // -> init
+          node: RFC_OPTIONS.node, // -> init
+        },
       },
-    },
-  ];
-  for (const { title, state, now, expected } of tests) {
-    assert.deepStrictEqual(updateV1State(state, now, RFC_RANDOM), expected, `Failed: ${title}`);
-  }
+    ];
+    for (const { title, state, now, expected } of tests) {
+      assert.deepStrictEqual(updateV1State(state, now, RFC_RANDOM), expected, `Failed: ${title}`);
+    }
+  });
 });

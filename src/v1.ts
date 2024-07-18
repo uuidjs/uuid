@@ -64,6 +64,8 @@ function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDT
       rnds,
       _state.msecs,
       _state.nsecs,
+      // v6 UUIDs get random `clockseq` and `node` for every UUID
+      // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.6-4
       isV6 ? undefined : _state.clockseq,
       isV6 ? undefined : _state.node,
       buf,
@@ -74,9 +76,11 @@ function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDT
   return buf ? bytes : unsafeStringify(bytes);
 }
 
+// (Private!)  Do not use.  This method is only exported for testing purposes
+// and may change without notice.
 export function updateV1State(state: V1State, now: number, rnds: Uint8Array) {
-  state.nsecs ??= 0;
   state.msecs ??= -Infinity;
+  state.nsecs ??= 0;
 
   // Update timestamp
   if (now === state.msecs) {
