@@ -6,7 +6,7 @@ import v1, { updateV1State } from '../v1.js';
 // Verify ordering of v1 ids created with explicit times
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
 
-// Fixture values for testing with the rfc v7 UUID example:
+// Fixture values for testing with the rfc v1 UUID example:
 // https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv1-value
 const RFC_V1 = 'c232ab00-9414-11ec-b3c8-9f68deced846';
 const RFC_V1_BYTES = parse(RFC_V1);
