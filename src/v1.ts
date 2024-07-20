@@ -7,133 +7,180 @@ import { unsafeStringify } from './stringify.js';
 // Inspired by https://github.com/LiosK/UUID.js
 // and http://docs.python.org/library/uuid.html
 
-let _nodeId: Uint8Array;
-let _clockseq: number;
+type V1State = {
+  node?: Uint8Array; // node id (47-bit random)
+  clockseq?: number; // sequence number (14-bit)
 
-// Previous uuid creation time
-let _lastMSecs = 0;
-let _lastNSecs = 0;
+  // v1 & v6 timestamps are a pain to deal with.  They specify time from the
+  // Gregorian epoch in 100ns intervals, which requires values with 57+ bits of
+  // precision.  But that's outside the precision of IEEE754 floats (i.e. JS
+  // numbers).  To work around this, we represent them internally using 'msecs'
+  // (milliseconds since unix epoch) and 'nsecs' (100-nanoseconds offset from
+  // `msecs`).
+
+  msecs?: number; // timestamp (milliseconds, unix epoch)
+  nsecs?: number; // timestamp (100-nanoseconds offset from 'msecs')
+};
+
+const _state: V1State = {};
 
 function v1(options?: Version1Options, buf?: undefined, offset?: number): string;
 function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): Uint8Array;
 function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDTypes {
-  options ??= {};
+  let bytes: Uint8Array;
 
-  let i = (buf && offset) || 0;
-  const b = buf || new Uint8Array(16);
-
-  let node = options.node;
-  let clockseq = options.clockseq;
-
-  // v1 only: Use cached `node` and `clockseq` values
-  if (!options._v6) {
-    if (!node) {
-      node = _nodeId;
-    }
-    if (clockseq == null) {
-      clockseq = _clockseq;
+  // Extract _v6 flag from options, clearing options if appropriate
+  const isV6 = options?._v6 ?? false;
+  if (options) {
+    const optionsKeys = Object.keys(options);
+    if (optionsKeys.length === 1 && optionsKeys[0] === '_v6') {
+      options = undefined;
     }
   }
 
-  // Handle cases where we need entropy.  We do this lazily to minimize issues
-  // related to insufficient system entropy.  See #189
-  if (node == null || clockseq == null) {
-    const seedBytes = options.random || (options.rng || rng)();
+  if (options) {
+    // With options: Make UUID independent of internal state
+    bytes = v1Bytes(
+      options.random ?? options.rng?.() ?? rng(),
+      options.msecs,
+      options.nsecs,
+      options.clockseq,
+      options.node,
+      buf,
+      offset
+    );
+  } else {
+    // Without options: Make UUID from internal state
+    const now = Date.now();
+    const rnds = rng();
 
-    // Randomize node
-    if (node == null) {
-      node = Uint8Array.of(
-        seedBytes[0],
-        seedBytes[1],
-        seedBytes[2],
-        seedBytes[3],
-        seedBytes[4],
-        seedBytes[5]
-      );
+    updateV1State(_state, now, rnds);
 
-      // v1 only: cache node value for reuse
-      if (!_nodeId && !options._v6) {
-        // per RFC4122 4.5: Set MAC multicast bit (v1 only)
-        node[0] |= 0x01; // Set multicast bit
+    // Geenerate UUID.  Note that v6 uses random values for `clockseq` and
+    // `node`.
+    //
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.6-4
+    bytes = v1Bytes(
+      rnds,
+      _state.msecs,
+      _state.nsecs,
+      // v6 UUIDs get random `clockseq` and `node` for every UUID
+      // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.6-4
+      isV6 ? undefined : _state.clockseq,
+      isV6 ? undefined : _state.node,
+      buf,
+      offset
+    );
+  }
 
-        _nodeId = node;
-      }
+  return buf ? bytes : unsafeStringify(bytes);
+}
+
+// (Private!)  Do not use.  This method is only exported for testing purposes
+// and may change without notice.
+export function updateV1State(state: V1State, now: number, rnds: Uint8Array) {
+  state.msecs ??= -Infinity;
+  state.nsecs ??= 0;
+
+  // Update timestamp
+  if (now === state.msecs) {
+    // Same msec-interval = simulate higher clock resolution by bumping `nsecs`
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.1-2.6
+    state.nsecs++;
+
+    // Check for `nsecs` overflow (nsecs is capped at 10K intervals / msec)
+    if (state.nsecs >= 10000) {
+      // Prior to uuid@11 this would throw an error, however the RFCs allow for
+      // changing the node in this case.  This slightly breaks monotonicity at
+      // msec granularity, but that's not a significant concern.
+      // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.1-2.16
+      state.node = undefined;
+      state.nsecs = 0;
     }
-
-    // Randomize clockseq
-    if (clockseq == null) {
-      // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = ((seedBytes[6] << 8) | seedBytes[7]) & 0x3fff;
-      if (_clockseq === undefined && !options._v6) {
-        _clockseq = clockseq;
-      }
-    }
+  } else if (now > state.msecs) {
+    // Reset nsec counter when clock advances to a new msec interval
+    state.nsecs = 0;
+  } else if (now < state.msecs) {
+    // Handle clock regression
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.1-2.7
+    //
+    // Note: Unsetting node here causes both it and clockseq to be randomized,
+    // below.
+    state.node = undefined;
   }
 
-  // v1 & v6 timestamps are 100 nano-second units since the Gregorian epoch,
-  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so time is
-  // handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  let msecs = options.msecs !== undefined ? options.msecs : Date.now();
+  // Init node and clock sequence (do this after timestamp update which may
+  // reset the node) https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-7
+  //
+  // Note:
+  if (!state.node) {
+    state.node = rnds.slice(10, 16);
 
-  // Per 4.2.1.2, use count of uuid's generated during the current clock
-  // cycle to simulate higher resolution clock
-  let nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+    // Set multicast bit
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
+    state.node[0] |= 0x01; // Set multicast bit
 
-  // Time since last uuid creation (in msecs)
-  const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000;
-
-  // Per 4.2.1.2, Bump clockseq on clock regression
-  if (dt < 0 && options.clockseq === undefined) {
-    clockseq = (clockseq + 1) & 0x3fff;
+    // Clock sequence must be randomized
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-8
+    state.clockseq = ((rnds[8] << 8) | rnds[9]) & 0x3fff;
   }
 
-  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-  // time interval
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-    nsecs = 0;
+  state.msecs = now;
+
+  return state;
+}
+
+function v1Bytes(
+  rnds: Uint8Array,
+  msecs?: number,
+  nsecs?: number,
+  clockseq?: number,
+  node?: Uint8Array,
+  buf?: Uint8Array,
+  offset = 0
+) {
+  // Defaults
+  if (!buf) {
+    buf = new Uint8Array(16);
+    offset = 0;
   }
+  msecs ??= Date.now();
+  nsecs ??= 0;
+  clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
+  node ??= rnds.slice(10, 16);
 
-  // Per 4.2.1.2 Throw error if too many uuids are requested
-  if (nsecs >= 10000) {
-    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-  }
-
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq;
-
-  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+  // Offset to Gregorian epoch
+  // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-1
   msecs += 12219292800000;
 
   // `time_low`
   const tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-  b[i++] = (tl >>> 24) & 0xff;
-  b[i++] = (tl >>> 16) & 0xff;
-  b[i++] = (tl >>> 8) & 0xff;
-  b[i++] = tl & 0xff;
+  buf[offset++] = (tl >>> 24) & 0xff;
+  buf[offset++] = (tl >>> 16) & 0xff;
+  buf[offset++] = (tl >>> 8) & 0xff;
+  buf[offset++] = tl & 0xff;
 
   // `time_mid`
   const tmh = ((msecs / 0x100000000) * 10000) & 0xfffffff;
-  b[i++] = (tmh >>> 8) & 0xff;
-  b[i++] = tmh & 0xff;
+  buf[offset++] = (tmh >>> 8) & 0xff;
+  buf[offset++] = tmh & 0xff;
 
   // `time_high_and_version`
-  b[i++] = ((tmh >>> 24) & 0xf) | 0x10; // include version
-  b[i++] = (tmh >>> 16) & 0xff;
+  buf[offset++] = ((tmh >>> 24) & 0xf) | 0x10; // include version
+  buf[offset++] = (tmh >>> 16) & 0xff;
 
-  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-  b[i++] = (clockseq >>> 8) | 0x80;
+  // `clock_seq_hi_and_reserved` | variant
+  buf[offset++] = (clockseq >>> 8) | 0x80;
 
   // `clock_seq_low`
-  b[i++] = clockseq & 0xff;
+  buf[offset++] = clockseq & 0xff;
 
   // `node`
   for (let n = 0; n < 6; ++n) {
-    b[i + n] = node[n];
+    buf[offset++] = node[n];
   }
 
-  return buf || unsafeStringify(b);
+  return buf;
 }
 
 export default v1;

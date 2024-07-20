@@ -104,9 +104,6 @@ export default function benchmark(uuid, Benchmark) {
       .add('uuid.v1ToV6()', function () {
         uuid.v1ToV6(V1_ID);
       })
-      .add('uuid.v1ToV6() w/ randomization', function () {
-        uuid.v1ToV6(V1_ID, true);
-      })
       .add('uuid.v6ToV1()', function () {
         uuid.v6ToV1(V6_ID);
       })

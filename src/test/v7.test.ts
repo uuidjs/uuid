@@ -134,7 +134,38 @@ describe('v7', () => {
     }
   });
 
-  test('internal state updates properly', () => {
+  test('can supply seq', () => {
+    let seq = 0x12345;
+    let uuid = v7({
+      msecs: RFC_MSECS,
+      seq,
+    });
+
+    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-848d-1');
+
+    seq = 0x6fffffff;
+    uuid = v7({
+      msecs: RFC_MSECS,
+      seq,
+    });
+
+    assert.strictEqual(uuid.substring(0, 25), '017f22e2-79b0-76ff-bfff-f');
+  });
+
+  test('internal seq is reset upon timestamp change', () => {
+    v7({
+      msecs: RFC_MSECS,
+      seq: 0x6fffffff,
+    });
+
+    const uuid = v7({
+      msecs: RFC_MSECS + 1,
+    });
+
+    assert.ok(uuid.indexOf('fff') !== 15);
+  });
+
+  test('v7() state transitions', () => {
     const tests = [
       {
         title: 'new time interval',
@@ -189,37 +220,6 @@ describe('v7', () => {
     for (const { title, state, now, expected } of tests) {
       assert.deepStrictEqual(updateV7State(state, now, RFC_RANDOM), expected, `Failed: ${title}`);
     }
-  });
-
-  test('can supply seq', () => {
-    let seq = 0x12345;
-    let uuid = v7({
-      msecs: RFC_MSECS,
-      seq,
-    });
-
-    assert.strictEqual(uuid.substr(0, 25), '017f22e2-79b0-7000-848d-1');
-
-    seq = 0x6fffffff;
-    uuid = v7({
-      msecs: RFC_MSECS,
-      seq,
-    });
-
-    assert.strictEqual(uuid.substring(0, 25), '017f22e2-79b0-76ff-bfff-f');
-  });
-
-  test('internal seq is reset upon timestamp change', () => {
-    v7({
-      msecs: RFC_MSECS,
-      seq: 0x6fffffff,
-    });
-
-    const uuid = v7({
-      msecs: RFC_MSECS + 1,
-    });
-
-    assert.ok(uuid.indexOf('fff') !== 15);
   });
 
   test('flipping bits changes the result', () => {
