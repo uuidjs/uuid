@@ -121,7 +121,7 @@ import { parse as uuidParse } from 'uuid';
 const bytes = uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b');
 
 // Convert to hex strings to show byte order (for documentation purposes)
-[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨
+[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨ 
   // [
   //   '6e', 'c0', 'bd', '7f',
   //   '11', 'c0', '43', 'da',
@@ -188,7 +188,7 @@ Example:
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
+uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-9bdd-2b0d7b3dcb6d'
 ```
 
 Example using `options`:
@@ -243,7 +243,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
 Example using predefined `random` values:
@@ -304,7 +304,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-uuidv6(); // ⇨ '1e940672-c5ea-64c0-8bad-9b1deb4d3b7d'
+uuidv6(); // ⇨ '1e940672-c5ea-64c0-9b5d-ab8dfbbd4bed'
 ```
 
 Example using `options`:
@@ -351,7 +351,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '01695553-c90c-722d-9b5d-b38dfbbd4bed'
+uuidv7(); // ⇨ '01695553-c90c-705a-b56d-778dfbbd4bed'
 ```
 
 ### ~~uuid.v8()~~

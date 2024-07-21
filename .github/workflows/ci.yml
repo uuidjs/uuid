@@ -13,9 +13,10 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
       - run: npm ci
       - run: npm run lint
+      - run: npm run docs:diff
 
   test:
     runs-on: ubuntu-latest
@@ -23,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x, 18.x, 20.x, 22.x]
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -33,9 +34,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test
-      - run: npm run docs:diff
-        if: matrix.node-version == 20
       - run: npm run test:node
-        if: matrix.node-version >= 20
       - run: npm run test:pack
-        if: matrix.node-version >= 20

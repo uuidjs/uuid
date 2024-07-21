@@ -1,7 +1,7 @@
 ```javascript --hide
 runmd.onRequire = (path) => {
   if (path == 'rng') return fun;
-  return path.replace(/^uuid/, './dist/');
+  return path.replace(/^uuid/, './dist/cjs/');
 };
 
 // Shim Date and crypto so generated ids are consistent across doc revisions
