@@ -36,3 +36,5 @@ jobs:
       - run: npm run test
       - run: npm run test:node
       - run: npm run test:pack
+        # import assertions use "with" only supported on node@20+
+        if: matrix.node-version >= 20
