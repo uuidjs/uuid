@@ -14,11 +14,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-
       - run: npm ci
-
       - run: npm run lint
-
       - run: npm run docs:diff
 
   test:
@@ -35,15 +32,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-
       - run: npm ci
-
       - run: npm run test
-
       - run: npm run test:node
-        # import assertions use "with" only supported on node@20+
-        if: matrix.node-version >= 20
-
       - run: npm run test:pack
-        # import assertions use "with" only supported on node@20+
-        if: matrix.node-version >= 20
