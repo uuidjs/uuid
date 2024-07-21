@@ -101,7 +101,7 @@
     "lint": "npm run eslint:check && npm run prettier:check",
     "md": "runmd --watch --output=README.md README_js.md",
     "prepack": "npm run build",
-    "prepare": "husky install",
+    "prepare": "husky",
     "pretest:benchmark": "npm run build",
     "pretest:browser": "optional-dev-dependency && npm run build && npm-run-all --parallel examples:browser:**",
     "pretest:node": "npm run build",
