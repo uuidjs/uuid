@@ -4,7 +4,8 @@
 ROOT="$(pwd)/$(dirname "$0")/.."
 cd "$ROOT" || exit 1
 
-TEST_DIR=/tmp/test-pack
+TEST_DIR=$(mktemp -d)
+
 TARBALL=${TEST_DIR}/uuid.tgz
 
 mkdir -p ${TEST_DIR}
@@ -13,7 +14,7 @@ mkdir -p ${TEST_DIR}
 npm pack --pack-destination=${TEST_DIR}
 
 # Set up a test project in the test directory
-cd ${TEST_DIR}
+pushd ${TEST_DIR}
 npm init -y
 cp ${ROOT}/examples/node-commonjs/example.js commonjs.js
 cp ${ROOT}/examples/node-esmodules/example.mjs esmodules.mjs
@@ -30,3 +31,5 @@ node esmodules.mjs
 # not supported in earlier versions. Therefore we restrict the ESM test to more recent versions of
 # Node.js:
 ( node --version | grep -vq 'v16' ) || ( node --experimental-json-modules esmodules-package.mjs )
+
+trap 'popd && rm -rf $TEST_DIR' EXIT
