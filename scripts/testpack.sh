@@ -6,8 +6,6 @@ cd "$ROOT" || exit 1
 
 TEST_DIR=$(mktemp -d)
 
-TARBALL=${TEST_DIR}/uuid.tgz
-
 mkdir -p ${TEST_DIR}
 
 # Create package tarball
