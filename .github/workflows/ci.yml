@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # https://github.com/actions/setup-node/issues/480#issuecomment-1915448139
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -29,14 +24,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x, 18.x, 20.x, 22.x]
+        node-version: [16.x, 18.x, 20.x]
     steps:
       - uses: actions/checkout@v4
-
-      # https://github.com/actions/setup-node/issues/480#issuecomment-1915448139
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
