@@ -41,9 +41,14 @@ for MODULE_TYPE in esm cjs; do
     mv $FILE ${FILE/-browser/}
   done
 
-  # If MODULE_TYPE is esm, copy bin files to dist
+  # esm/cjs-specific logic
   if [ "$MODULE_TYPE" = "esm" ]; then
+    # ESM: copy bin files to dist
     cp -pr "$DIR/../src/bin" "$DIST_DIR"
+  else
+    # CJS: Add package.json that specifies type: commonjs
+    echo "{\"type\":\"commonjs\"}" > "$DIST_DIR/package.json"
+    echo "{\"type\":\"commonjs\"}" > "$BROWSER_DIR/package.json"
   fi
 done
 
