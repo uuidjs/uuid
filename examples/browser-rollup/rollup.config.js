@@ -1,5 +1,5 @@
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const { terser } = require('rollup-plugin-terser');
+const terser = require('@rollup/plugin-terser');
 
 const plugins = [nodeResolve({ browser: true }), terser()];
 module.exports = [
