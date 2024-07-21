@@ -15,7 +15,7 @@ import {
   v6ToV1 as uuidv6ToV1,
   v7 as uuidv7,
 } from 'uuid';
-import pkg from 'uuid/package.json';
+import pkg from 'uuid/package.json' assert { type: 'json' };
 
 console.log('uuidv1()', uuidv1());
 
