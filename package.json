@@ -133,5 +133,5 @@
       "postchangelog": "prettier --write CHANGELOG.md"
     }
   },
-  "packageManager": "npm@10.8.1+sha256.b8807aebb9656758e2872fa6e7c564b506aa2faa9297439a478d471d2fe32483"
+  "packageManager": "npm@10.8.2+sha256.c8c61ba0fa0ab3b5120efd5ba97fdaf0e0b495eef647a97c4413919eda0a878b"
 }
