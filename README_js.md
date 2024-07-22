@@ -1,7 +1,7 @@
 ```javascript --hide
 runmd.onRequire = (path) => {
   if (path == 'rng') return fun;
-  return path.replace(/^uuid/, './dist/');
+  return path.replace(/^uuid/, './dist/cjs/');
 };
 
 // Shim Date and crypto so generated ids are consistent across doc revisions
@@ -21,28 +21,23 @@ require('crypto').randomUUID = undefined;
 
 For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
-- **Complete** - Support for all RFC9562 (nee RFC4122) UUID versions
+- **Complete** - Support for all RFC9562 UUID versions
 - **Cross-platform** - Support for ...
-  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
+  - CommonJS, [ECMAScript Modules](#ecmascript-modules)
   - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
   - Chrome, Safari, Firefox, Edge browsers
-  - Webpack and rollup.js module bundlers
-  - [React Native / Expo](#react-native--expo)
 - **Secure** - Cryptographically-strong random values
-- **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
+- **Compact** - No dependencies, [tree-shakable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
+- **Typescript** - Types now included
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> Upgrading from `uuid@3`? Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
-
-<!-- prettier-ignore -->
-> [!NOTE]
-> Only interested in creating a version 4 UUID? You might be able to use [`crypto.randomUUID()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID), eliminating the need to install this library.
+> `uuid@11` has the following breaking changes:
+> * Passing `options` to `v1()`, `v6()`, and `v7()` now behaves slightly differently. [See details](#options-handling-for-timestamp-uuids)
+> * Binary UUIDs are now of type `Uint8Array`.  This may affect code utilizing `parse()`, `stringify()`,  or that passes a `buf` argument to any of the `v1()`-`v7()` methods.
 
 ## Quickstart
-
-To create a random UUID...
 
 **1. Install**
 
@@ -50,14 +45,16 @@ To create a random UUID...
 npm install uuid
 ```
 
-**2. Create a UUID** (ES6 module syntax)
+**2. Create a UUID**
+
+ESM-syntax (must use named exports):
 
 ```javascript --run
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // RESULT
 ```
 
-... or using CommonJS syntax:
+... CommonJS:
 
 ```javascript --run
 const { v4: uuidv4 } = require('uuid');
@@ -132,10 +129,7 @@ Example:
 import { parse as uuidParse } from 'uuid';
 
 // Parse a UUID
-const bytes = uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b');
-
-// Convert to hex strings to show byte order (for documentation purposes)
-[...bytes].map((v) => v.toString(16).padStart(2, '0')); // RESULT
+uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // RESULT
 ```
 
 ### uuid.stringify(arr[, offset])
@@ -158,9 +152,24 @@ Example:
 ```javascript --run
 import { stringify as uuidStringify } from 'uuid';
 
-const uuidBytes = [
-  0x6e, 0xc0, 0xbd, 0x7f, 0x11, 0xc0, 0x43, 0xda, 0x97, 0x5e, 0x2a, 0x8a, 0xd9, 0xeb, 0xae, 0x0b,
-];
+const uuidBytes = Uint8Array.of(
+  0x6e,
+  0xc0,
+  0xbd,
+  0x7f,
+  0x11,
+  0xc0,
+  0x43,
+  0xda,
+  0x97,
+  0x5e,
+  0x2a,
+  0x8a,
+  0xd9,
+  0xeb,
+  0xae,
+  0x0b
+);
 
 uuidStringify(uuidBytes); // RESULT
 ```
@@ -205,7 +214,7 @@ Example using `options`:
 import { v1 as uuidv1 } from 'uuid';
 
 const options = {
-  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  node: Uint8Array.of(0x01, 0x23, 0x45, 0x67, 0x89, 0xab),
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
@@ -260,9 +269,24 @@ Example using predefined `random` values:
 import { v4 as uuidv4 } from 'uuid';
 
 const v4options = {
-  random: [
-    0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
-  ],
+  random: Uint8Array.of(
+    0x10,
+    0x91,
+    0x56,
+    0xbe,
+    0xc4,
+    0xfb,
+    0xc1,
+    0xea,
+    0x71,
+    0xb4,
+    0xef,
+    0xe1,
+    0x67,
+    0x1c,
+    0x58,
+    0x36
+  ),
 };
 uuidv4(v4options); // RESULT
 ```
@@ -455,134 +479,11 @@ Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs
 defined by RFC9562
 ```
 
-## ECMAScript Modules
+## `options` Handling for Timestamp UUIDs
 
-This library comes with [ECMAScript Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) support for Node.js versions that support it ([example](./examples/node-esmodules/)) as well as bundlers like [rollup.js](https://rollupjs.org/guide/en/#tree-shaking) ([example](./examples/browser-rollup/)) and [webpack](https://webpack.js.org/guides/tree-shaking/) ([example](./examples/browser-webpack/)) (targeting both, Node.js and browser environments).
+As of `uuid@11`, all timestamp-based UUID APIs (`v1()`, `v6()`, and `v7()`) now operate in two distinct modes:
 
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-```
+- Without `options`: If no `options` argument is passed, these APIs will make use of internal state such as a sequence counter to improve UUID uniqueness.
+- With `options`: If an `options` argument of any kind is passed, no internal state is used or updated. Instead, appropriate defaults are used. See the respective APIs for details.
 
-To run the examples you must first create a dist build of this library in the module root:
-
-```shell
-npm run build
-```
-
-## CDN Builds
-
-### ECMAScript Modules
-
-To load this module directly into modern browsers that [support loading ECMAScript Modules](https://caniuse.com/#feat=es6-module) you can make use of [jspm](https://jspm.org/):
-
-```html
-<script type="module">
-  import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
-  console.log(uuidv4()); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-</script>
-```
-
-### UMD
-
-As of `uuid@9` [UMD (Universal Module Definition)](https://github.com/umdjs/umd) builds are no longer shipped with this library.
-
-If you need a UMD build of this library, use a bundler like Webpack or Rollup. Alternatively, refer to the documentation of [`uuid@8.3.2`](https://github.com/uuidjs/uuid/blob/v8.3.2/README.md#umd) which was the last version that shipped UMD builds.
-
-## Known issues
-
-### Duplicate UUIDs (Googlebot)
-
-This module may generate duplicate UUIDs when run in clients with _deterministic_ random number generators, such as [Googlebot crawlers](https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers). This can cause problems for apps that expect client-generated UUIDs to always be unique. Developers should be prepared for this and have a strategy for dealing with possible collisions, such as:
-
-- Check for duplicate UUIDs, fail gracefully
-- Disable write operations for Googlebot clients
-
-### "getRandomValues() not supported"
-
-This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
-
-### React Native / Expo
-
-1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
-1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
-
-```javascript
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
-```
-
-<!-- prettier-ignore -->
-> [!NOTE]
-> If you are using Expo, you must be using at least `react-native-get-random-values@1.5.0` and `expo@39.0.0`.
-
-### Web Workers / Service Workers (Edge <= 18)
-
-[In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if you find one, please).
-
-### IE 11 (Internet Explorer)
-
-Support for IE11 and other legacy browsers has been dropped as of `uuid@9`. If you need to support legacy browsers, you can always transpile the uuid module source yourself (e.g. using [Babel](https://babeljs.io/)).
-
-## Upgrading From `uuid@7`
-
-### Only Named Exports Supported When Using with Node.js ESM
-
-`uuid@7` did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in Node.js ESM consequently imported the CommonJS source with a default export. This library now comes with true Node.js ESM support and only provides named exports.
-
-Instead of doing:
-
-```javascript
-import uuid from 'uuid';
-uuid.v4();
-```
-
-you will now have to use the named exports:
-
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4();
-```
-
-### Deep Requires No Longer Supported
-
-Deep requires like `require('uuid/v4')` [which have been deprecated in `uuid@7`](#deep-requires-now-deprecated) are no longer supported.
-
-## Upgrading From `uuid@3`
-
-"_Wait... what happened to `uuid@4` thru `uuid@6`?!?_"
-
-In order to avoid confusion with RFC [version 4](#uuidv4options-buffer-offset) and [version 5](#uuidv5name-namespace-buffer-offset) UUIDs, and a possible [version 6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been skipped.
-
-### Deep Requires Now Deprecated
-
-`uuid@3` encouraged the use of deep requires to minimize the bundle size of browser builds:
-
-```javascript
-const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
-uuidv4();
-```
-
-As of `uuid@7` this library now provides ECMAScript modules builds, which allow packagers like Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
-
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4();
-```
-
-... or for CommonJS:
-
-```javascript
-const { v4: uuidv4 } = require('uuid');
-uuidv4();
-```
-
-### Default Export Removed
-
-`uuid@3` was exporting the Version 4 UUID method as a default export:
-
-```javascript
-const uuid = require('uuid'); // <== REMOVED!
-```
-
-This usage pattern was already discouraged in `uuid@3` and has been removed in `uuid@7`.
+Prior to `uuid@11`, this distinction was less clear. Internal state was was being combined with `options` values in ways that were difficult to rationalize about, and that could lead to unpredictable behavior. Hence, this change.
