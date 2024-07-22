@@ -8,6 +8,8 @@ TEST_DIR=$(mktemp -d)
 
 mkdir -p ${TEST_DIR}
 
+trap 'popd && rm -rf $TEST_DIR' EXIT
+
 # Create package tarball
 npm pack --pack-destination=${TEST_DIR}
 
@@ -29,5 +31,3 @@ node esmodules.mjs
 # not supported in earlier versions. Therefore we restrict the ESM test to more recent versions of
 # Node.js:
 ( node --version | grep -vq 'v16' ) || ( node --experimental-json-modules esmodules-package.mjs )
-
-trap 'popd && rm -rf $TEST_DIR' EXIT
