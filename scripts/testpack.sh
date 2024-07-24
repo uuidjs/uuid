@@ -4,20 +4,26 @@
 ROOT="$(pwd)/$(dirname "$0")/.."
 cd "$ROOT" || exit 1
 
-npm pack
+TEST_DIR=$(mktemp -d)
 
-mkdir -p ../test-pack
+mkdir -p ${TEST_DIR}
 
-cp examples/node-commonjs/example.js ../test-pack/commonjs.js
-cp examples/node-esmodules/example.mjs ../test-pack/esmodules.mjs
-cp examples/node-esmodules/package.mjs ../test-pack/esmodules-package.mjs
+trap 'rm -rf $TEST_DIR' EXIT
 
-cd ../test-pack
+# Create package tarball
+npm pack --pack-destination=${TEST_DIR}
 
+# Set up a test project in the test directory
+pushd ${TEST_DIR}
 npm init -y
+cp ${ROOT}/examples/node-commonjs/example.js commonjs.js
+cp ${ROOT}/examples/node-esmodules/example.mjs esmodules.mjs
+cp ${ROOT}/examples/node-esmodules/package.mjs esmodules-package.mjs
 
-npm install ../uuid/uuid-*.tgz
+# Install the tarball
+npm install uuid*.tgz
 
+# Verify scripts that depend on package work
 node commonjs.js
 node esmodules.mjs
 

@@ -15,7 +15,11 @@ import {
   v6ToV1 as uuidv6ToV1,
   v7 as uuidv7,
 } from './node_modules/uuid/dist/esm-browser/index.js';
-import pkg from './node_modules/uuid/package.json' with { type: 'json' };
+
+// Import attribute syntax is still awaiting finalization.   In the meantime we
+// use dynamic import to allows to specifyg both "assert" and "with" clauses.
+// See https://github.com/tc39/proposal-import-attributes
+const pkg = await import('uuid/package.json', { assert: { type: 'json' }, with: { type: 'json' } });
 
 console.log('pkg', pkg);
 
