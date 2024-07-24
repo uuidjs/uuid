@@ -8,7 +8,7 @@ TEST_DIR=$(mktemp -d)
 
 mkdir -p ${TEST_DIR}
 
-trap 'popd && rm -rf $TEST_DIR' EXIT
+trap 'rm -rf $TEST_DIR' EXIT
 
 # Create package tarball
 npm pack --pack-destination=${TEST_DIR}
