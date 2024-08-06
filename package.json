@@ -29,11 +29,19 @@
       "node": {
         "module": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js",
-        "import": "./wrapper.mjs"
+        "import": "./wrapper.mjs",
+        "types": {
+          "import": "./dist/esm/index.d.ts",
+          "default": "./dist/cjs/index.d.ts"
+        }
       },
       "browser": {
         "import": "./dist/esm-browser/index.js",
-        "require": "./dist/cjs-browser/index.js"
+        "require": "./dist/cjs-browser/index.js",
+        "types": {
+          "import": "./dist/esm-browser/index.d.ts",
+          "default": "./dist/cjs-browser/index.d.ts"
+        }
       },
       "default": "./dist/esm-browser/index.js"
     },
