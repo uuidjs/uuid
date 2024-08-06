@@ -1,6 +1,7 @@
 import * as assert from 'assert';
-import test, { describe } from 'node:test';
+import test, { describe, mock } from 'node:test';
 import v4 from '../v4.js';
+import native from '../native.js';
 
 const randomBytesFixture = Uint8Array.of(
   0x10,
@@ -46,6 +47,26 @@ describe('v4', () => {
     const id2 = v4();
 
     assert.ok(id1 !== id2);
+  });
+
+  test('should uses native randomUUID() if no option is passed', () => {
+    mock.method(native, 'randomUUID');
+
+    assert.equal((native.randomUUID as any).mock.callCount(), 0);
+    v4();
+    assert.equal((native.randomUUID as any).mock.callCount(), 1);
+
+    mock.restoreAll();
+  });
+
+  test('should not use native randomUUID() if an option is passed', () => {
+    mock.method(native, 'randomUUID');
+
+    assert.equal((native.randomUUID as any).mock.callCount(), 0);
+    v4({});
+    assert.equal((native.randomUUID as any).mock.callCount(), 0);
+
+    mock.restoreAll();
   });
 
   test('explicit options.random produces expected result', () => {
