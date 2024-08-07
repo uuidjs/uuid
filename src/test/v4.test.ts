@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import test, { describe, mock } from 'node:test';
+import test, { describe } from 'node:test';
 import native from '../native.js';
 import v4 from '../v4.js';
 
@@ -49,7 +49,15 @@ describe('v4', () => {
     assert.ok(id1 !== id2);
   });
 
-  test('should uses native randomUUID() if no option is passed', () => {
+  test('should uses native randomUUID() if no option is passed', async () => {
+    // TODO: `mock` is not supported until node@18, so we feature-detect it
+    // here.  Once node@16 drops off our support matrix, we can just
+    // static-import it normally
+    const mock = (await import('node:test')).default.mock;
+    if (!mock) {
+      return;
+    }
+
     const mockRandomUUID = mock.method(native, 'randomUUID');
 
     assert.equal(mockRandomUUID.mock.callCount(), 0);
@@ -59,7 +67,15 @@ describe('v4', () => {
     mock.restoreAll();
   });
 
-  test('should not use native randomUUID() if an option is passed', () => {
+  test('should not use native randomUUID() if an option is passed', async () => {
+    // TODO: `mock` is not supported until node@18, so we feature-detect it
+    // here.  Once node@16 drops off our support matrix, we can just
+    // static-import it normally
+    const mock = (await import('node:test')).default.mock;
+    if (!mock) {
+      return;
+    }
+
     const mockRandomUUID = mock.method(native, 'randomUUID');
 
     assert.equal(mockRandomUUID.mock.callCount(), 0);
