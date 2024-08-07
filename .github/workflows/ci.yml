@@ -24,8 +24,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Omitting 16.x for the time being, as Node's test-runner API doesn't
-        # support mocking until 18.x
         node-version: [16.x, 18.x, 20.x]
     steps:
       - uses: actions/checkout@v4
