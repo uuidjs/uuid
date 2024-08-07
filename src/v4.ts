@@ -6,8 +6,6 @@ import { unsafeStringify } from './stringify.js';
 function v4(options?: Version4Options, buf?: undefined, offset?: number): string;
 function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): Uint8Array;
 function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDTypes {
-  options ??= {};
-
   if (native.randomUUID && !buf && !options) {
     return native.randomUUID();
   }
