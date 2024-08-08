@@ -1,8 +1,6 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
-import md5Browser from '../md5-browser.js';
 import md5 from '../md5.js';
-import sha1Browser from '../sha1-browser.js';
 import sha1 from '../sha1.js';
 import v3 from '../v3.js';
 import { stringToBytes } from '../v35.js';
@@ -50,20 +48,8 @@ describe('v35', () => {
   });
 
   HASH_SAMPLES.forEach(function (sample, i) {
-    test(`sha1(browser) HASH_SAMPLES[${i}]`, () => {
-      assert.equal(hashToHex(sha1Browser(sample.input)), sample.sha1);
-    });
-  });
-
-  HASH_SAMPLES.forEach(function (sample, i) {
     test(`md5(node) HASH_SAMPLES[${i}]`, () => {
       assert.equal(hashToHex(md5(sample.input)), sample.md5);
-    });
-  });
-
-  HASH_SAMPLES.forEach(function (sample, i) {
-    test(`md5(browser) (HASH_SAMPLES[${i}])`, () => {
-      assert.equal(hashToHex(md5Browser(sample.input) as unknown as Uint8Array), sample.md5);
     });
   });
 

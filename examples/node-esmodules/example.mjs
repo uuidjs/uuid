@@ -93,4 +93,4 @@ console.log('uuid.validate()', uuid.validate(MY_NAMESPACE));
 console.log('uuid.version()', uuid.version(MY_NAMESPACE));
 
 // Some tools like react-native need to introspect the package.json file
-console.log('pkg.name', pkg.name);
+console.log('pkg.name', pkg.default.name);
