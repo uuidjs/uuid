@@ -19,7 +19,10 @@ import {
 // Import attribute syntax is still awaiting finalization.   In the meantime we
 // use dynamic import to allows to specifyg both "assert" and "with" clauses.
 // See https://github.com/tc39/proposal-import-attributes
-const pkg = await import('uuid/package.json', { assert: { type: 'json' }, with: { type: 'json' } });
+const pkg = await import('./node_modules/uuid/package.json', {
+  assert: { type: 'json' },
+  with: { type: 'json' },
+});
 
 console.log('pkg', pkg);
 

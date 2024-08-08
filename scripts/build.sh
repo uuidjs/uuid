@@ -43,7 +43,6 @@ for MODULE_TYPE in esm cjs; do
     cd ${BROWSER_DIR}
 
     for FILE in *-browser*;do
-      echo "mv $FILE ${FILE/-browser/}"
       mv $FILE ${FILE/-browser/}
     done
   )
