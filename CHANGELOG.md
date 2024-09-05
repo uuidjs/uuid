@@ -13,11 +13,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-- add support for MAX uuid (new in RFC9562) ([#714](https://github.com/uuidjs/uuid/issues/714)) ([0385cd3](https://github.com/uuidjs/uuid/commit/0385cd3f18ae9920678b2849932fa7a9d9aee7d0))
 - Port to TypeScript, closes [#762](https://github.com/uuidjs/uuid/issues/762) ([#763](https://github.com/uuidjs/uuid/issues/763)) ([1e0f987](https://github.com/uuidjs/uuid/commit/1e0f9870db864ca93f7a69db0d468b5e1b7605e7))
-- support v6 uuids ([#754](https://github.com/uuidjs/uuid/issues/754)) ([c4ed13e](https://github.com/uuidjs/uuid/commit/c4ed13e7159d87c9e42a349bdd9dc955f1af46b6))
 - update node support matrix (only support node 16-20) ([#750](https://github.com/uuidjs/uuid/issues/750)) ([883b163](https://github.com/uuidjs/uuid/commit/883b163b9ab9d6655bfbd8a35e61a3c71674dfe1))
-- v8 support ([#759](https://github.com/uuidjs/uuid/issues/759)) ([35a5342](https://github.com/uuidjs/uuid/commit/35a53428202657e402e6b4aa68f56c08194541bf))
 
 ### Bug Fixes
 
@@ -25,7 +22,6 @@ All notable changes to this project will be documented in this file. See [standa
 - refactor v1 internal state and options logic ([#780](https://github.com/uuidjs/uuid/issues/780)) ([031b3d3](https://github.com/uuidjs/uuid/commit/031b3d3d738bc6694501ac0a37152b95ed500989))
 - refactor v7 internal state and options logic, fixes [#764](https://github.com/uuidjs/uuid/issues/764) ([#779](https://github.com/uuidjs/uuid/issues/779)) ([9dbd1cd](https://github.com/uuidjs/uuid/commit/9dbd1cd4177c43fcaac961a3b16fb2d044c9940a))
 - remove v4 options default assignment preventing native.randomUUID from being used ([#786](https://github.com/uuidjs/uuid/issues/786)) ([afe6232](https://github.com/uuidjs/uuid/commit/afe62323c4408a824755a39d7b971a8ae06f7199)), closes [#763](https://github.com/uuidjs/uuid/issues/763)
-- revert "perf: remove superfluous call to toLowerCase ([#677](https://github.com/uuidjs/uuid/issues/677))" ([#738](https://github.com/uuidjs/uuid/issues/738)) ([e267b90](https://github.com/uuidjs/uuid/commit/e267b9073df1d0ce119ee53c0487fe76acb2be37))
 - seq_hi shift for byte 6 ([#775](https://github.com/uuidjs/uuid/issues/775)) ([1d532ca](https://github.com/uuidjs/uuid/commit/1d532ca374f181932a24a83fa98f71a5bd4f3e96))
 - tsconfig module type ([#778](https://github.com/uuidjs/uuid/issues/778)) ([7eff835](https://github.com/uuidjs/uuid/commit/7eff835cba334ad418f57768c00d15b918a9b419))
 
