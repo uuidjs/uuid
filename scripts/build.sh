@@ -37,9 +37,15 @@ for MODULE_TYPE in esm cjs; do
   done
 
   # Move browser files into place for browser builds
-  for FILE in ${BROWSER_DIR}/*-browser*;do
-    mv $FILE ${FILE/-browser/}
-  done
+  (
+    # Temporarily cd into BROWSER_DIR to avoid having to deal with "-browser"
+    # appearing in both the dir name and file name of FILE's full path
+    cd ${BROWSER_DIR}
+
+    for FILE in *-browser*;do
+      mv $FILE ${FILE/-browser/}
+    done
+  )
 
   # esm/cjs-specific logic
   if [ "$MODULE_TYPE" = "esm" ]; then
