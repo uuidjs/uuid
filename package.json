@@ -122,7 +122,7 @@
   },
   "lint-staged": {
     "*": [
-      "prettier --no-error-on-unmatched-pattern --ignore-unknown --write"
+      "prettier --no-error-on-unmatched-pattern --write"
     ],
     "*.{js,jsx}": [
       "eslint --no-error-on-unmatched-pattern --fix"
