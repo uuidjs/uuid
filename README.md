@@ -19,8 +19,11 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> `uuid@11` has the following breaking changes:
-> * Passing `options` to `v1()`, `v6()`, and `v7()` now behaves slightly differently. [See details](#options-handling-for-timestamp-uuids)
+> `uuid@11`(prerelease) is now available!  Install "uuid@beta" to get the latest version.  See the [CHANGELOG for details](./CHANGELOG.md).
+>
+> TL;DR:
+> * TS types now included!  (`@types/uuid` should no longer be needed)
+> * The `options` arg is interpreted differently for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
 > * Binary UUIDs are now of type `Uint8Array`.  This may affect code utilizing `parse()`, `stringify()`,  or that passes a `buf` argument to any of the `v1()`-`v7()` methods.
 
 ## Quickstart
@@ -173,11 +176,11 @@ Create an RFC version 1 (timestamp) UUID
 |  |  |
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
-| [`options.node` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
-| [`options.clockseq`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
-| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
-| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
-| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.node = (random)` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
+| [`options.clockseq = (random)`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
+| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
+| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
@@ -362,10 +365,10 @@ Create an RFC version 7 (random) UUID
 |  |  |
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
-| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch). Default = `Date.now()` |
-| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
-| [`options.seq`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help insure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
+| [`options.seq = (random)`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help insure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
@@ -473,12 +476,10 @@ defined by RFC9562
 
 ## `options` Handling for Timestamp UUIDs
 
-As of `uuid@11`, all timestamp-based UUID APIs (`v1()`, `v6()`, and `v7()`) now operate in two distinct modes:
+Prior to `uuid@11`, it was possible for `options` state to interfere with the internal state used to insure uniqueness of timestamp-based UUIDs (the `v1()`, `v6()`, and `v7()` methods). Starting with `uuid@11`, this issue has been addressed by using the presence of the `options` argument as a flag to select between two possible behaviors:
 
-- Without `options`: If no `options` argument is passed, these APIs will make use of internal state such as a sequence counter to improve UUID uniqueness.
-- With `options`: If an `options` argument of any kind is passed, no internal state is used or updated. Instead, appropriate defaults are used. See the respective APIs for details.
-
-Prior to `uuid@11`, this distinction was less clear. Internal state was was being combined with `options` values in ways that were difficult to rationalize about, and that could lead to unpredictable behavior. Hence, this change.
+- Without `options`: Methods use and update internal state such as a sequence counter to improve uniqueness.
+- With `options`: Methods do **NOT** use or update internal state. Instead, appropriate defaults are used as needed. See individual method docs for details.
 
 ---
 
