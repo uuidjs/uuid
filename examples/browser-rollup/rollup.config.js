@@ -1,5 +1,5 @@
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const { terser } = require('rollup-plugin-terser');
+const terser = require('@rollup/plugin-terser');
 
 const plugins = [nodeResolve({ browser: true }), terser()];
 module.exports = [
@@ -8,6 +8,7 @@ module.exports = [
     output: {
       file: 'dist/all.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },
@@ -16,6 +17,7 @@ module.exports = [
     output: {
       file: 'dist/v1.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },
@@ -24,6 +26,16 @@ module.exports = [
     output: {
       file: 'dist/v4.js',
       format: 'iife',
+      globals: { crypto: 'crypto' },
+    },
+    plugins,
+  },
+  {
+    input: './example-v7.js',
+    output: {
+      file: 'dist/v7.js',
+      format: 'iife',
+      globals: { crypto: 'crypto' },
     },
     plugins,
   },
@@ -56,6 +68,22 @@ module.exports = [
     input: './size-v5.js',
     output: {
       file: 'dist/v5-size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
+    input: './size-v6.js',
+    output: {
+      file: 'dist/v6-size.js',
+      format: 'cjs',
+    },
+    plugins,
+  },
+  {
+    input: './size-v7.js',
+    output: {
+      file: 'dist/v7-size.js',
       format: 'cjs',
     },
     plugins,

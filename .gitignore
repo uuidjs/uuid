@@ -1,6 +1,6 @@
-node_modules/
-dist/
-# Browserstack
-browserstack.err
-local.log
 *.tgz
+browserstack.err
+dist/
+local.log
+logs/
+node_modules/

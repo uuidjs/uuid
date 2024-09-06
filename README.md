@@ -5,26 +5,28 @@
 
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
-For the creation of [RFC4122](https://www.ietf.org/rfc/rfc4122.txt) UUIDs
+For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
-- **Complete** - Support for RFC4122 version 1, 3, 4, and 5 UUIDs
+- **Complete** - Support for all RFC9562 UUID versions
 - **Cross-platform** - Support for ...
-  - CommonJS, [ECMAScript Modules](#ecmascript-modules) and [CDN builds](#cdn-builds)
-  - Node 12, 14, 16, 18
+  - CommonJS, [ECMAScript Modules](#ecmascript-modules)
+  - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
   - Chrome, Safari, Firefox, Edge browsers
-  - Webpack and rollup.js module bundlers
-  - [React Native / Expo](#react-native--expo)
 - **Secure** - Cryptographically-strong random values
-- **Small** - Zero-dependency, small footprint, plays nice with "tree shaking" packagers
+- **Compact** - No dependencies, [tree-shakable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
+- **Typescript** - Types now included
 
-> **Note** Upgrading from `uuid@3`? Your code is probably okay, but check out [Upgrading From `uuid@3`](#upgrading-from-uuid3) for details.
-
-> **Note** Only interested in creating a version 4 UUID? You might be able to use [`crypto.randomUUID()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID), eliminating the need to install this library.
+<!-- prettier-ignore -->
+> [!NOTE]
+> `uuid@11`(prerelease) is now available!  Install "uuid@beta" to get the latest version.  See the [CHANGELOG for details](./CHANGELOG.md).
+>
+> TL;DR:
+> * TS types now included!  (`@types/uuid` should no longer be needed)
+> * The `options` arg is interpreted differently for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
+> * Binary UUIDs are now of type `Uint8Array`.  This may affect code utilizing `parse()`, `stringify()`,  or that passes a `buf` argument to any of the `v1()`-`v7()` methods.
 
 ## Quickstart
-
-To create a random UUID...
 
 **1. Install**
 
@@ -32,14 +34,16 @@ To create a random UUID...
 npm install uuid
 ```
 
-**2. Create a UUID** (ES6 module syntax)
+**2. Create a UUID**
+
+ESM-syntax (must use named exports):
 
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
-... or using CommonJS syntax:
+... CommonJS:
 
 ```javascript
 const { v4: uuidv4 } = require('uuid');
@@ -53,12 +57,18 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 |  |  |  |
 | --- | --- | --- |
 | [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.3` |
+| [`uuid.MAX`](#uuidmax) | The max UUID string (all ones) | New in `uuid@9.1` |
 | [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
 | [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
 | [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
+| [`uuid.v1ToV6()`](#uuidv1tov6uuid) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
 | [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
 | [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
 | [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
+| [`uuid.v6()`](#uuidv6options-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
+| [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
+| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
+| ~~[`uuid.v8()`](#uuidv8)~~ | "Intentionally left blank" |  |
 | [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
 | [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
@@ -76,6 +86,18 @@ import { NIL as NIL_UUID } from 'uuid';
 NIL_UUID; // ⇨ '00000000-0000-0000-0000-000000000000'
 ```
 
+### uuid.MAX
+
+The max UUID string (all ones).
+
+Example:
+
+```javascript
+import { MAX as MAX_UUID } from 'uuid';
+
+MAX_UUID; // ⇨ 'ffffffff-ffff-ffff-ffff-ffffffffffff'
+```
+
 ### uuid.parse(str)
 
 Convert UUID string to array of bytes
@@ -86,7 +108,9 @@ Convert UUID string to array of bytes
 | _returns_ | `Uint8Array[16]`                         |
 | _throws_  | `TypeError` if `str` is not a valid UUID |
 
-Note: Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
 Example:
 
@@ -94,15 +118,12 @@ Example:
 import { parse as uuidParse } from 'uuid';
 
 // Parse a UUID
-const bytes = uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b');
-
-// Convert to hex strings to show byte order (for documentation purposes)
-[...bytes].map((v) => v.toString(16).padStart(2, '0')); // ⇨ 
-  // [
-  //   '6e', 'c0', 'bd', '7f',
-  //   '11', 'c0', '43', 'da',
-  //   '97', '5e', '2a', '8a',
-  //   'd9', 'eb', 'ae', '0b'
+uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ 
+  // Uint8Array(16) [
+  //   110, 192, 189, 127,  17,
+  //   192,  67, 218, 151,  94,
+  //    42, 138, 217, 235, 174,
+  //    11
   // ]
 ```
 
@@ -117,16 +138,33 @@ Convert array of bytes to UUID string
 | _returns_      | `String`                                                                     |
 | _throws_       | `TypeError` if a valid UUID string cannot be generated                       |
 
-Note: Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
+<!-- prettier-ignore -->
+> [!NOTE]
+> Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
 Example:
 
 ```javascript
 import { stringify as uuidStringify } from 'uuid';
 
-const uuidBytes = [
-  0x6e, 0xc0, 0xbd, 0x7f, 0x11, 0xc0, 0x43, 0xda, 0x97, 0x5e, 0x2a, 0x8a, 0xd9, 0xeb, 0xae, 0x0b,
-];
+const uuidBytes = Uint8Array.of(
+  0x6e,
+  0xc0,
+  0xbd,
+  0x7f,
+  0x11,
+  0xc0,
+  0x43,
+  0xda,
+  0x97,
+  0x5e,
+  0x2a,
+  0x8a,
+  0xd9,
+  0xeb,
+  0xae,
+  0x0b
+);
 
 uuidStringify(uuidBytes); // ⇨ '6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'
 ```
@@ -138,27 +176,31 @@ Create an RFC version 1 (timestamp) UUID
 |  |  |
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
-| [`options.node` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
-| [`options.clockseq`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
-| [`options.msecs`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
-| [`options.nsecs`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
-| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.node = (random)` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
+| [`options.clockseq = (random)`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
+| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
+| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 | _throws_ | `Error` if more than 10M UUIDs/sec are requested |
 
-Note: The default [node id](https://tools.ietf.org/html/rfc4122#section-4.1.6) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
+<!-- prettier-ignore -->
+> [!NOTE]
+> The default [node id](https://datatracker.ietf.org/doc/html/rfc9562#section-5.1) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
 
-Note: `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
+<!-- prettier-ignore -->
+> [!NOTE]
+> `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
 
 Example:
 
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
+uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-9bdd-2b0d7b3dcb6d'
 ```
 
 Example using `options`:
@@ -166,13 +208,23 @@ Example using `options`:
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-const v1options = {
-  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+const options = {
+  node: Uint8Array.of(0x01, 0x23, 0x45, 0x67, 0x89, 0xab),
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
-uuidv1(v1options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
+uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
+```
+
+### uuid.v1ToV6(uuid)
+
+Convert a UUID from version 1 to version 6
+
+```javascript
+import { v1ToV6 } from 'uuid';
+
+v1ToV6('92f62d9e-22c4-11ef-97e9-325096b39f47'); // ⇨ '1ef22c49-2f62-6d9e-97e9-325096b39f47'
 ```
 
 ### uuid.v3(name, namespace[, buffer[, offset]])
@@ -181,7 +233,9 @@ Create an RFC version 3 (namespace w/ MD5) UUID
 
 API is identical to `v5()`, but uses "v3" instead.
 
-&#x26a0;&#xfe0f; Note: Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
 
 ### uuid.v4([options[, buffer[, offset]]])
 
@@ -201,7 +255,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 ```
 
 Example using predefined `random` values:
@@ -210,9 +264,24 @@ Example using predefined `random` values:
 import { v4 as uuidv4 } from 'uuid';
 
 const v4options = {
-  random: [
-    0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
-  ],
+  random: Uint8Array.of(
+    0x10,
+    0x91,
+    0x56,
+    0xbe,
+    0xc4,
+    0xfb,
+    0xc1,
+    0xea,
+    0x71,
+    0xb4,
+    0xef,
+    0xe1,
+    0x67,
+    0x1c,
+    0x58,
+    0x36
+  ),
 };
 uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
 ```
@@ -229,7 +298,9 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
-Note: The RFC `DNS` and `URL` namespaces are available as `v5.DNS` and `v5.URL`.
+<!-- prettier-ignore -->
+> [!NOTE]
+> The RFC `DNS` and `URL` namespaces are available as `v5.DNS` and `v5.URL`.
 
 Example with custom namespace:
 
@@ -250,6 +321,73 @@ import { v5 as uuidv5 } from 'uuid';
 
 uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
 ```
+
+### uuid.v6([options[, buffer[, offset]]])
+
+Create an RFC version 6 (timestamp, reordered) UUID
+
+This method takes the same arguments as uuid.v1().
+
+```javascript
+import { v6 as uuidv6 } from 'uuid';
+
+uuidv6(); // ⇨ '1e940672-c5ea-64c0-9b5d-ab8dfbbd4bed'
+```
+
+Example using `options`:
+
+```javascript
+import { v6 as uuidv6 } from 'uuid';
+
+const options = {
+  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  clockseq: 0x1234,
+  msecs: new Date('2011-11-01').getTime(),
+  nsecs: 5678,
+};
+uuidv6(options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
+```
+
+### uuid.v6ToV1(uuid)
+
+Convert a UUID from version 6 to version 1
+
+```javascript
+import { v6ToV1 } from 'uuid';
+
+v6ToV1('1ef22c49-2f62-6d9e-97e9-325096b39f47'); // ⇨ '92f62d9e-22c4-11ef-97e9-325096b39f47'
+```
+
+### uuid.v7([options[, buffer[, offset]]])
+
+Create an RFC version 7 (random) UUID
+
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.seq = (random)`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help insure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
+| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
+
+Example:
+
+```javascript
+import { v7 as uuidv7 } from 'uuid';
+
+uuidv7(); // ⇨ '01695553-c90c-705a-b56d-778dfbbd4bed'
+```
+
+### ~~uuid.v8()~~
+
+**_"Intentionally left blank"_**
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> Version 8 (experimental) UUIDs are "[for experimental or vendor-specific use cases](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-8)".  The RFC does not define a creation algorithm for them, which is why this package does not offer a `v8()` method.  The `validate()` and `version()` methods do work with such UUIDs, however.
 
 ### uuid.validate(str)
 
@@ -305,6 +443,10 @@ uuidVersion('45637ec4-c85f-11ea-87d0-0242ac130003'); // ⇨ 1
 uuidVersion('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ 4
 ```
 
+<!-- prettier-ignore -->
+> [!NOTE]
+> This method returns `0` for the `NIL` UUID, and `15` for the `MAX` UUID.
+
 ## Command Line
 
 UUIDs can be generated from the command line using `uuid`.
@@ -325,141 +467,19 @@ Usage:
   uuid v3 <name> <namespace uuid>
   uuid v4
   uuid v5 <name> <namespace uuid>
+  uuid v7
   uuid --help
 
 Note: <namespace uuid> may be "URL" or "DNS" to use the corresponding UUIDs
-defined by RFC4122
+defined by RFC9562
 ```
 
-## ECMAScript Modules
+## `options` Handling for Timestamp UUIDs
 
-This library comes with [ECMAScript Modules](https://www.ecma-international.org/ecma-262/6.0/#sec-modules) (ESM) support for Node.js versions that support it ([example](./examples/node-esmodules/)) as well as bundlers like [rollup.js](https://rollupjs.org/guide/en/#tree-shaking) ([example](./examples/browser-rollup/)) and [webpack](https://webpack.js.org/guides/tree-shaking/) ([example](./examples/browser-webpack/)) (targeting both, Node.js and browser environments).
+Prior to `uuid@11`, it was possible for `options` state to interfere with the internal state used to insure uniqueness of timestamp-based UUIDs (the `v1()`, `v6()`, and `v7()` methods). Starting with `uuid@11`, this issue has been addressed by using the presence of the `options` argument as a flag to select between two possible behaviors:
 
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-```
-
-To run the examples you must first create a dist build of this library in the module root:
-
-```shell
-npm run build
-```
-
-## CDN Builds
-
-### ECMAScript Modules
-
-To load this module directly into modern browsers that [support loading ECMAScript Modules](https://caniuse.com/#feat=es6-module) you can make use of [jspm](https://jspm.org/):
-
-```html
-<script type="module">
-  import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
-  console.log(uuidv4()); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-</script>
-```
-
-### UMD
-
-As of `uuid@9` [UMD (Universal Module Definition)](https://github.com/umdjs/umd) builds are no longer shipped with this library.
-
-If you need a UMD build of this library, use a bundler like Webpack or Rollup. Alternatively, refer to the documentation of [`uuid@8.3.2`](https://github.com/uuidjs/uuid/blob/v8.3.2/README.md#umd) which was the last version that shipped UMD builds.
-
-## Known issues
-
-### Duplicate UUIDs (Googlebot)
-
-This module may generate duplicate UUIDs when run in clients with _deterministic_ random number generators, such as [Googlebot crawlers](https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers). This can cause problems for apps that expect client-generated UUIDs to always be unique. Developers should be prepared for this and have a strategy for dealing with possible collisions, such as:
-
-- Check for duplicate UUIDs, fail gracefully
-- Disable write operations for Googlebot clients
-
-### "getRandomValues() not supported"
-
-This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
-
-### React Native / Expo
-
-1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
-1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
-
-```javascript
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
-```
-
-Note: If you are using Expo, you must be using at least `react-native-get-random-values@1.5.0` and `expo@39.0.0`.
-
-### Web Workers / Service Workers (Edge <= 18)
-
-[In Edge <= 18, Web Crypto is not supported in Web Workers or Service Workers](https://caniuse.com/#feat=cryptography) and we are not aware of a polyfill (let us know if you find one, please).
-
-### IE 11 (Internet Explorer)
-
-Support for IE11 and other legacy browsers has been dropped as of `uuid@9`. If you need to support legacy browsers, you can always transpile the uuid module source yourself (e.g. using [Babel](https://babeljs.io/)).
-
-## Upgrading From `uuid@7`
-
-### Only Named Exports Supported When Using with Node.js ESM
-
-`uuid@7` did not come with native ECMAScript Module (ESM) support for Node.js. Importing it in Node.js ESM consequently imported the CommonJS source with a default export. This library now comes with true Node.js ESM support and only provides named exports.
-
-Instead of doing:
-
-```javascript
-import uuid from 'uuid';
-uuid.v4();
-```
-
-you will now have to use the named exports:
-
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4();
-```
-
-### Deep Requires No Longer Supported
-
-Deep requires like `require('uuid/v4')` [which have been deprecated in `uuid@7`](#deep-requires-now-deprecated) are no longer supported.
-
-## Upgrading From `uuid@3`
-
-"_Wait... what happened to `uuid@4` thru `uuid@6`?!?_"
-
-In order to avoid confusion with RFC [version 4](#uuidv4options-buffer-offset) and [version 5](#uuidv5name-namespace-buffer-offset) UUIDs, and a possible [version 6](http://gh.peabody.io/uuidv6/), releases 4 thru 6 of this module have been skipped.
-
-### Deep Requires Now Deprecated
-
-`uuid@3` encouraged the use of deep requires to minimize the bundle size of browser builds:
-
-```javascript
-const uuidv4 = require('uuid/v4'); // <== NOW DEPRECATED!
-uuidv4();
-```
-
-As of `uuid@7` this library now provides ECMAScript modules builds, which allow packagers like Webpack and Rollup to do "tree-shaking" to remove dead code. Instead, use the `import` syntax:
-
-```javascript
-import { v4 as uuidv4 } from 'uuid';
-uuidv4();
-```
-
-... or for CommonJS:
-
-```javascript
-const { v4: uuidv4 } = require('uuid');
-uuidv4();
-```
-
-### Default Export Removed
-
-`uuid@3` was exporting the Version 4 UUID method as a default export:
-
-```javascript
-const uuid = require('uuid'); // <== REMOVED!
-```
-
-This usage pattern was already discouraged in `uuid@3` and has been removed in `uuid@7`.
+- Without `options`: Methods use and update internal state such as a sequence counter to improve uniqueness.
+- With `options`: Methods do **NOT** use or update internal state. Instead, appropriate defaults are used as needed. See individual method docs for details.
 
 ---
 
