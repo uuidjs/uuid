@@ -20,7 +20,6 @@ export default [
         ...globals.commonjs,
         ...globals.jest,
         ...globals.node,
-        msCrypto: true,
       },
     },
   },
