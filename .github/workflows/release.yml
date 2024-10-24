@@ -1,0 +1,50 @@
+# Notes from broofa on how to use this action:
+#
+# * To reset a release PR, close the PR in github and delete the release branch created by
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - release-please
+
+name: Release PR
+
+jobs:
+  release-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          package-name: uuid-release-test
+          # pre-release suffix for version string.  E.g. "alpha" or "beta"
+          prerelease: true
+          default-branch: release-please
+
+      - uses: actions/checkout@v3
+        if: ${{ steps.release.outputs.release_created }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm test
+        if: ${{ steps.release.outputs.release_created }}
+
+      #
+      # On release, checkout and run tests before publishing...
+      #
+      # TODO: Uncomment this once we're actually ready to roll a new release --RWK
+
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      #   if: ${{ steps.release.outputs.release_created }}
