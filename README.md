@@ -19,12 +19,10 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> `uuid@11`(prerelease) is now available!  Install "uuid@beta" to get the latest version.  See the [CHANGELOG for details](./CHANGELOG.md).
->
-> TL;DR:
-> * TS types now included!  (`@types/uuid` should no longer be needed)
-> * The `options` arg is interpreted differently for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
-> * Binary UUIDs are now of type `Uint8Array`.  This may affect code utilizing `parse()`, `stringify()`,  or that passes a `buf` argument to any of the `v1()`-`v7()` methods.
+w> `uuid@11` is now available:  See the [CHANGELOG](./CHANGELOG.md) for details. TL;DR:
+> * TypeScript support is now included  (remove `@types/uuid` from your dependencies)
+> * Subtle changes to how the `options` arg is interpreted for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
+> * Binary UUIDs are now `Uint8Array`s.  (May impact callers of `parse()`, `stringify()`,  or that pass an `option#buf` argument to `v1()`-`v7()`.)
 
 ## Quickstart
 
@@ -478,8 +476,8 @@ defined by RFC9562
 
 Prior to `uuid@11`, it was possible for `options` state to interfere with the internal state used to insure uniqueness of timestamp-based UUIDs (the `v1()`, `v6()`, and `v7()` methods). Starting with `uuid@11`, this issue has been addressed by using the presence of the `options` argument as a flag to select between two possible behaviors:
 
-- Without `options`: Methods use and update internal state such as a sequence counter to improve uniqueness.
-- With `options`: Methods do **NOT** use or update internal state. Instead, appropriate defaults are used as needed. See individual method docs for details.
+- Without `options`: Internal state is utilized to improve UUID uniqueness.
+- With `options`: Internal state is **NOT** used and, instead, appropriate defaults are applied as needed.
 
 ---
 
