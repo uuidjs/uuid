@@ -1,7 +1,3 @@
-# Notes from broofa on how to use this action:
-#
-# * To reset a release PR, close the PR in github and delete the release branch created by
-
 on:
   workflow_dispatch:
   push:
@@ -9,27 +5,28 @@ on:
       - main
       - release-please
 
-name: Release PR
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
 
 jobs:
-  release-pr:
+  release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v3
-        id: release
+      - uses: googleapis/release-please-action@v4
         with:
+          token: ${{ secrets.UUID_RELEASE_PLEASE_TOKEN }}
           release-type: node
-          package-name: uuid-release-test
-          # pre-release suffix for version string.  E.g. "alpha" or "beta"
-          prerelease: true
-          default-branch: release-please
 
-      - uses: actions/checkout@v3
+      # Steps below handle publication to NPM
+
+      - uses: actions/checkout@v4
         if: ${{ steps.release.outputs.release_created }}
-
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
 
@@ -39,12 +36,7 @@ jobs:
       - run: npm test
         if: ${{ steps.release.outputs.release_created }}
 
-      #
-      # On release, checkout and run tests before publishing...
-      #
-      # TODO: Uncomment this once we're actually ready to roll a new release --RWK
-
-      # - run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      #   if: ${{ steps.release.outputs.release_created }}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
