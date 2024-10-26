@@ -1,9 +1,12 @@
+# Docs Release Please usage can be found at:
+# - https://github.com/googleapis/release-please
+# - https://github.com/googleapis/release-please-action
+
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-      - release-please
 
 permissions:
   contents: write
@@ -38,5 +41,5 @@ jobs:
 
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.UUID_NPM_RELEASE_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
