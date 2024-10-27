@@ -24,6 +24,8 @@ jobs:
           token: ${{ secrets.UUID_RELEASE_PLEASE_TOKEN }}
           release-type: node
 
+      - run: echo "Release created?... ${{ steps.release.outputs.release_created }}"
+
       # Steps below handle publication to NPM
 
       - uses: actions/checkout@v4
