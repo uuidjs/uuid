@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/uuidjs/uuid/compare/v9.0.0...v11.0.0) (2024-10-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor v1 internal state and options logic ([#780](https://github.com/uuidjs/uuid/issues/780))
+* refactor v7 internal state and options logic, fixes #764 ([#779](https://github.com/uuidjs/uuid/issues/779))
+* Port to TypeScript, closes  #762 ([#763](https://github.com/uuidjs/uuid/issues/763))
+* update node support matrix (only support node 16-20) ([#750](https://github.com/uuidjs/uuid/issues/750))
+
+### Features
+
+* add support for MAX uuid (new in RFC9562) ([#714](https://github.com/uuidjs/uuid/issues/714)) ([0385cd3](https://github.com/uuidjs/uuid/commit/0385cd3f18ae9920678b2849932fa7a9d9aee7d0))
+* Port to TypeScript, closes  [#762](https://github.com/uuidjs/uuid/issues/762) ([#763](https://github.com/uuidjs/uuid/issues/763)) ([1e0f987](https://github.com/uuidjs/uuid/commit/1e0f9870db864ca93f7a69db0d468b5e1b7605e7))
+* support v6 uuids ([#754](https://github.com/uuidjs/uuid/issues/754)) ([c4ed13e](https://github.com/uuidjs/uuid/commit/c4ed13e7159d87c9e42a349bdd9dc955f1af46b6))
+* update node support matrix (only support node 16-20) ([#750](https://github.com/uuidjs/uuid/issues/750)) ([883b163](https://github.com/uuidjs/uuid/commit/883b163b9ab9d6655bfbd8a35e61a3c71674dfe1))
+* v8 support ([#759](https://github.com/uuidjs/uuid/issues/759)) ([35a5342](https://github.com/uuidjs/uuid/commit/35a53428202657e402e6b4aa68f56c08194541bf))
+
+
+### Bug Fixes
+
+* missing v7 expectations in browser spec ([#751](https://github.com/uuidjs/uuid/issues/751)) ([f54a866](https://github.com/uuidjs/uuid/commit/f54a866cedb2b3b96581157c1f4ac935a0b11411))
+* refactor v1 internal state and options logic ([#780](https://github.com/uuidjs/uuid/issues/780)) ([031b3d3](https://github.com/uuidjs/uuid/commit/031b3d3d738bc6694501ac0a37152b95ed500989))
+* refactor v7 internal state and options logic, fixes [#764](https://github.com/uuidjs/uuid/issues/764) ([#779](https://github.com/uuidjs/uuid/issues/779)) ([9dbd1cd](https://github.com/uuidjs/uuid/commit/9dbd1cd4177c43fcaac961a3b16fb2d044c9940a))
+* remove v4 options default assignment preventing native.randomUUID from being used ([#786](https://github.com/uuidjs/uuid/issues/786)) ([afe6232](https://github.com/uuidjs/uuid/commit/afe62323c4408a824755a39d7b971a8ae06f7199))
+* revert "perf: remove superfluous call to toLowerCase ([#677](https://github.com/uuidjs/uuid/issues/677))" ([#738](https://github.com/uuidjs/uuid/issues/738)) ([e267b90](https://github.com/uuidjs/uuid/commit/e267b9073df1d0ce119ee53c0487fe76acb2be37))
+* seq_hi shift for byte 6 ([#775](https://github.com/uuidjs/uuid/issues/775)) ([1d532ca](https://github.com/uuidjs/uuid/commit/1d532ca374f181932a24a83fa98f71a5bd4f3e96))
+* tsconfig module type ([#778](https://github.com/uuidjs/uuid/issues/778)) ([7eff835](https://github.com/uuidjs/uuid/commit/7eff835cba334ad418f57768c00d15b918a9b419))
+
+
+### Performance Improvements
+
+* remove superfluous call to toLowerCase ([#677](https://github.com/uuidjs/uuid/issues/677)) ([e53793f](https://github.com/uuidjs/uuid/commit/e53793f5be93413cad68b05b3a339ca23e993342))
+
+
+### Miscellaneous Chores
+
+* release 11.0.0 ([#805](https://github.com/uuidjs/uuid/issues/805)) ([b003cde](https://github.com/uuidjs/uuid/commit/b003cdeda4c6a7ab525f79b9a3d87d1395a1fb4e))
+
 ## [11.0.0-0](https://github.com/uuidjs/uuid/compare/v9.0.0...v11.0.0-0) (2024-09-05)
 
 ### ⚠ BREAKING CHANGES
