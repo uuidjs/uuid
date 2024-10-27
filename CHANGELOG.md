@@ -1,5 +1,12 @@
 ## [11.0.0](https://github.com/uuidjs/uuid/compare/v11.0.0...v11.0.0) (2024-10-27)
 
+## [11.0.1](https://github.com/uuidjs/uuid/compare/v11.0.0...v11.0.1) (2024-10-27)
+
+
+### Bug Fixes
+
+* restore package.json#browser field ([#817](https://github.com/uuidjs/uuid/issues/817)) ([ae8f386](https://github.com/uuidjs/uuid/commit/ae8f38657bca0ee053bf29c88c006b1ea05af1b5))
+
 ## [11.0.0-0](https://github.com/uuidjs/uuid/compare/v9.0.0...v11.0.0-0) (2024-09-05)
 
 ### ⚠ BREAKING CHANGES
