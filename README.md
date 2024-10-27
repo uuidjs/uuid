@@ -12,6 +12,7 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
   - CommonJS, [ECMAScript Modules](#ecmascript-modules)
   - NodeJS 16+ ([LTS releases](https://github.com/nodejs/Release))
   - Chrome, Safari, Firefox, Edge browsers
+  - [React Native / Expo](#react-native--expo)
 - **Secure** - Cryptographically-strong random values
 - **Compact** - No dependencies, [tree-shakable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
 - **CLI** - Includes the [`uuid` command line](#command-line) utility
@@ -478,6 +479,18 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 - Without `options`: Internal state is utilized to improve UUID uniqueness.
 - With `options`: Internal state is **NOT** used and, instead, appropriate defaults are applied as needed.
+
+## Known issues
+
+### React Native / Expo
+
+1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
+1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
+
+```javascript
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+```
 
 ---
 

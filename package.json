@@ -40,6 +40,10 @@
     "./package.json": "./package.json"
   },
   "module": "./dist/esm/index.js",
+  "browser": {
+    "./dist/esm/index.js": "./dist/esm-browser/index.js",
+    "./dist/cjs/index.js": "./dist/cjs-browser/index.js"
+  },
   "files": [
     "CHANGELOG.md",
     "CONTRIBUTING.md",
