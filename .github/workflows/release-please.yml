@@ -27,9 +27,8 @@ jobs:
       - run: echo "Release created?... ${{ steps.release.outputs.release_created }}"
 
       # Steps below handle publication to NPM
-
       - uses: actions/checkout@v4
-        if: ${{ steps.release.outputs.release_created }}
+        # if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
