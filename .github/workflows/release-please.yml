@@ -1,0 +1,45 @@
+# Relevent docs:
+# - https://github.com/googleapis/release-please
+# - https://github.com/googleapis/release-please-action
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.UUID_RELEASE_PLEASE_TOKEN }}
+          release-type: node
+
+      # Steps below handle publication to NPM
+
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm test
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.UUID_NPM_RELEASE_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
