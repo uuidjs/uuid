@@ -5,6 +5,14 @@
 
 * restore package.json#browser field ([#817](https://github.com/uuidjs/uuid/issues/817)) ([ae8f386](https://github.com/uuidjs/uuid/commit/ae8f38657bca0ee053bf29c88c006b1ea05af1b5))
 
+## [11.0.2](https://github.com/uuidjs/uuid/compare/v11.0.1...v11.0.2) (2024-10-28)
+
+
+### Bug Fixes
+
+* remove wrapper.mjs ([2a18871](https://github.com/uuidjs/uuid/commit/2a18871f00f6f9effa9f8afadd98278e6866112c))
+* remove wrapper.mjs ([#822](https://github.com/uuidjs/uuid/issues/822)) ([6683ad3](https://github.com/uuidjs/uuid/commit/6683ad38b048375b451eac1194960f24ba20e0ca))
+
 ## [11.0.0](https://github.com/uuidjs/uuid/compare/v9.0.0...v11.0.0) (2024-10-26)
 
 ### ⚠ BREAKING CHANGES
