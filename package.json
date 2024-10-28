@@ -29,7 +29,7 @@
       "node": {
         "module": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js",
-        "import": "./dist/esm/index.js"
+        "import": "./wrapper.mjs"
       },
       "browser": {
         "import": "./dist/esm-browser/index.js",
@@ -49,7 +49,8 @@
     "CONTRIBUTING.md",
     "LICENSE.md",
     "README.md",
-    "dist"
+    "dist",
+    "wrapper.mjs"
   ],
   "devDependencies": {
     "@babel/eslint-parser": "7.25.9",
