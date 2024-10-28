@@ -27,9 +27,8 @@
   "exports": {
     ".": {
       "node": {
-        "module": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js",
-        "import": "./dist/esm/index.js"
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
       },
       "browser": {
         "import": "./dist/esm-browser/index.js",
