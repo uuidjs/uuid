@@ -1,5 +1,12 @@
 ## [11.0.0](https://github.com/uuidjs/uuid/compare/v11.0.0...v11.0.0) (2024-10-27)
 
+## [11.0.2](https://github.com/uuidjs/uuid/compare/v11.0.1...v11.0.2) (2024-10-28)
+
+
+### Bug Fixes
+
+* remove wrapper.mjs ([2a18871](https://github.com/uuidjs/uuid/commit/2a18871f00f6f9effa9f8afadd98278e6866112c))
+
 ## [11.0.1](https://github.com/uuidjs/uuid/compare/v11.0.0...v11.0.1) (2024-10-27)
 
 
