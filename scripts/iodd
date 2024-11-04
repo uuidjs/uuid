@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+import { program } from 'commander';
+import { spawn } from 'node:child_process';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+program
+  .name('iodd')
+  .description(
+    '(I)nstall (o)ptional (d)ev (d)ependencies from package.json#optionalDevDependencies'
+  )
+  .option('-v, --verbose', 'Output npm install output to stdout/stderr')
+  .option('-r, --required', 'Exit with non-zero code if dependencies fail to install')
+  .argument('[packagePath]', 'Path to package.json file', './package.json')
+  .action(main);
+
+async function main(packagePath, options) {
+  // Get list of optional dependencies from package.json
+  const json = await fs.readFile(path.join(process.cwd(), packagePath));
+  const packageJson = JSON.parse(json);
+  const { optionalDevDependencies: deps } = packageJson;
+
+  if (!deps) {
+    console.error(`No optional dependencies found in ${packagePath}`);
+    process.exit(1);
+  }
+
+  const packageRefs = Object.entries(deps).map(([name, version]) => `${name}@${version}`);
+
+  // Install optional dependencies with child_process running npm
+  const args = ['install', '--no-save', ...packageRefs];
+  console.log('Running: ', 'npm', args.join(' '));
+
+  const cp = spawn('npm', args);
+
+  if (options.verbose) {
+    cp.stdout.pipe(process.stdout);
+    cp.stderr.pipe(process.stderr);
+  }
+
+  const exitCode = await new Promise((resolve) => {
+    cp.on('close', resolve);
+  });
+
+  if (exitCode !== 0) {
+    console.error('Dependencies failed to install');
+
+    if (options.required) {
+      process.exit(exitCode);
+    }
+  }
+}
+
+program.parseAsync();
