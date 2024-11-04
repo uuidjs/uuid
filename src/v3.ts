@@ -13,7 +13,7 @@ function v3(
 function v3(
   value: string | Uint8Array,
   namespace: UUIDTypes,
-  buf?: Uint8Array,
+  buf: Uint8Array,
   offset?: number
 ): Uint8Array;
 function v3(value: string | Uint8Array, namespace: UUIDTypes, buf?: Uint8Array, offset?: number) {
