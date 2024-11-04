@@ -1,5 +1,15 @@
 # Change Log
 
+## [11.0.3](https://github.com/uuidjs/uuid/compare/v11.0.2...v11.0.3) (2024-11-04)
+
+
+### Bug Fixes
+
+* apply stricter typing to the v* signatures ([#831](https://github.com/uuidjs/uuid/issues/831)) ([c2d3fed](https://github.com/uuidjs/uuid/commit/c2d3fed22cfd47c22c8f22f6154abb5060648ce5))
+* export internal uuid types ([#833](https://github.com/uuidjs/uuid/issues/833)) ([341edf4](https://github.com/uuidjs/uuid/commit/341edf444ced63708ba336285dbec29443523939))
+* remove sourcemaps ([#827](https://github.com/uuidjs/uuid/issues/827)) ([b93ea10](https://github.com/uuidjs/uuid/commit/b93ea101af7382053032d4fb61cc85599d6c7216))
+* revert "simplify type for v3 and v5" ([#835](https://github.com/uuidjs/uuid/issues/835)) ([e2dee69](https://github.com/uuidjs/uuid/commit/e2dee691e95aba854a892d2507d8cd9f009bf61d))
+
 ## [11.0.2](https://github.com/uuidjs/uuid/compare/v11.0.1...v11.0.2) (2024-10-28)
 
 ### Bug Fixes
