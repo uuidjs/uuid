@@ -1,4 +1,4 @@
-import { UUIDTypes } from './_types.js';
+import { UUIDTypes } from './types.js';
 import md5 from './md5.js';
 import v35, { DNS, URL } from './v35.js';
 

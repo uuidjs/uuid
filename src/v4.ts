@@ -1,4 +1,4 @@
-import { UUIDTypes, Version4Options } from './_types.js';
+import { UUIDTypes, Version4Options } from './types.js';
 import native from './native.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';

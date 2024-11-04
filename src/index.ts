@@ -1,3 +1,4 @@
+export type * from './types.js';
 export { default as MAX } from './max.js';
 export { default as NIL } from './nil.js';
 export { default as parse } from './parse.js';

@@ -1,4 +1,4 @@
-import { UUIDTypes } from './_types.js';
+import { UUIDTypes } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 
