@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import test, { describe } from 'node:test';
-import { Version7Options } from '../_types.js';
+import { Version7Options } from '../types.js';
 import parse from '../parse.js';
 import stringify from '../stringify.js';
 import v7, { updateV7State } from '../v7.js';

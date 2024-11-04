@@ -1,4 +1,4 @@
-import { UUIDTypes, Version6Options } from './_types.js';
+import { UUIDTypes, Version6Options } from './types.js';
 import { unsafeStringify } from './stringify.js';
 import v1 from './v1.js';
 import v1ToV6 from './v1ToV6.js';
