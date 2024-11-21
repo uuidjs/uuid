@@ -102,7 +102,7 @@
     "pretest:benchmark": "npm run build",
     "pretest:browser": "./scripts/iodd && npm run build && npm-run-all --parallel examples:browser:**",
     "pretest:node": "npm run build",
-    "pretest": "npm run build",
+    "pretest": "tsc -p tsconfig.test.json",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "release": "standard-version --no-verify",

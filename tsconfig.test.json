@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.esm.json",
+  "compilerOptions": {
+    "declaration": false
+  },
+  "exclude": []
+}
