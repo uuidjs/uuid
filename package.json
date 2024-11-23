@@ -44,11 +44,8 @@
     "./dist/cjs/index.js": "./dist/cjs-browser/index.js"
   },
   "files": [
-    "CHANGELOG.md",
-    "CONTRIBUTING.md",
-    "LICENSE.md",
-    "README.md",
-    "dist"
+    "dist",
+    "!dist/**/test"
   ],
   "devDependencies": {
     "@babel/eslint-parser": "7.25.9",
@@ -102,7 +99,7 @@
     "pretest:benchmark": "npm run build",
     "pretest:browser": "./scripts/iodd && npm run build && npm-run-all --parallel examples:browser:**",
     "pretest:node": "npm run build",
-    "pretest": "tsc -p tsconfig.test.json",
+    "pretest": "npm run build",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "release": "standard-version --no-verify",
