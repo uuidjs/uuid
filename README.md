@@ -490,7 +490,12 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 ## Known issues
 
-### React Native / Expo
+<!-- This header is referenced as an anchor in src/rng-browser.ts -->
+### "getRandomValues() not supported"
+
+This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
+
+#### React Native / Expo
 
 1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
 1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
