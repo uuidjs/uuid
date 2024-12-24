@@ -1,7 +1,7 @@
-import { UUIDTypes, Version4Options } from './types.js';
 import native from './native.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
+import { UUIDTypes, Version4Options } from './types.js';
 
 function v4(options?: Version4Options, buf?: undefined, offset?: number): string;
 function v4(options: Version4Options | undefined, buf: Uint8Array, offset?: number): Uint8Array;
@@ -12,15 +12,9 @@ function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDT
 
   options = options || {};
 
-  let rnds = options.random || (options.rng || rng)();
+  const rnds = options.random ?? options.rng?.() ?? rng();
   if (rnds.length < 16) {
-    const newRnds = rng()
-    for (let i = 0; i < 16; i++) {
-      if (rnds[i]) {
-        newRnds[i] = rnds[i]
-      }
-    }
-    rnds = newRnds;
+    throw new Error('Random bytes length must be >= 16');
   }
 
   // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
@@ -29,10 +23,10 @@ function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDT
 
   // Copy bytes to buffer, if provided
   if (buf) {
-    if (buf.length < 16) {
-      throw new Error('The buffer length must not be less than 16');
-    }
     offset = offset || 0;
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+    }
 
     for (let i = 0; i < 16; ++i) {
       buf[offset + i] = rnds[i];

@@ -1,6 +1,6 @@
-import { UUIDTypes, Version7Options } from './types.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
+import { UUIDTypes, Version7Options } from './types.js';
 
 type V7State = {
   msecs?: number; // time, milliseconds
@@ -62,9 +62,17 @@ export function updateV7State(state: V7State, now: number, rnds: Uint8Array) {
 }
 
 function v7Bytes(rnds: Uint8Array, msecs?: number, seq?: number, buf?: Uint8Array, offset = 0) {
+  if (rnds.length < 16) {
+    throw new Error('Random bytes length must be >= 16');
+  }
+
   if (!buf) {
     buf = new Uint8Array(16);
     offset = 0;
+  } else {
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+    }
   }
 
   // Defaults

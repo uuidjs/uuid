@@ -2,9 +2,6 @@ import * as assert from 'assert';
 import test, { describe } from 'node:test';
 import native from '../native.js';
 import v4 from '../v4.js';
-import parse from '../parse.js';
-import version from '../version.js';
-import { unsafeStringify } from '../stringify.js';
 
 const randomBytesFixture = Uint8Array.of(
   0x10,
@@ -24,7 +21,7 @@ const randomBytesFixture = Uint8Array.of(
   0x58,
   0x36
 );
-const randomBytesFixtureLess = Uint8Array.of(16);
+
 const expectedBytes = Uint8Array.of(
   16,
   145,
@@ -117,21 +114,28 @@ describe('v4', () => {
 
     assert.deepEqual(buffer, expectedBuf);
   });
-  test('fills three UUID into a buffer as expected', () => {
-    const buffer = new Uint8Array(16);
-    const resultBuffer = v4({ random: randomBytesFixtureLess }, buffer);
-    const id = unsafeStringify(resultBuffer);
-    const v = version(id);
-    parse(id);
-    assert.deepEqual(buffer[0], expectedBytes[0]);
-    assert.strictEqual(buffer[0], resultBuffer[0]);
-    assert.strictEqual(v, 4);
+
+  test('throws when option.random is too short', () => {
+    const random = Uint8Array.of(16);
+    const buffer = new Uint8Array(16).fill(0);
+    assert.throws(() => {
+      v4({ random }, buffer);
+    });
   });
-  test('v4 UUID generation with insufficient random bytes should match expected bytes', () => {
-    const id = v4({ random: randomBytesFixtureLess });
-    const v = version(id);
-    const buffer = parse(id);
-    assert.deepEqual(buffer[0], expectedBytes[0]);
-    assert.strictEqual(v, 4);
+
+  test('throws when options.rng() is too short', () => {
+    const buffer = new Uint8Array(16);
+    const rng = () => Uint8Array.of(0); // length = 1
+    assert.throws(() => {
+      v4({ rng }, buffer);
+    });
+  });
+
+  test('throws RangeError for out-of-range indexes', () => {
+    const buf15 = new Uint8Array(15);
+    const buf30 = new Uint8Array(30);
+    assert.throws(() => v4({}, buf15));
+    assert.throws(() => v4({}, buf30, -1));
+    assert.throws(() => v4({}, buf30, 15));
   });
 });

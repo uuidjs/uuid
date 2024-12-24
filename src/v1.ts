@@ -1,6 +1,6 @@
-import { UUIDTypes, Version1Options } from './types.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
+import { UUIDTypes, Version1Options } from './types.js';
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -139,11 +139,20 @@ function v1Bytes(
   buf?: Uint8Array,
   offset = 0
 ) {
+  if (rnds.length < 16) {
+    throw new Error('Random bytes length must be >= 16');
+  }
+
   // Defaults
   if (!buf) {
     buf = new Uint8Array(16);
     offset = 0;
+  } else {
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+    }
   }
+
   msecs ??= Date.now();
   nsecs ??= 0;
   clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
