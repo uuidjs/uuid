@@ -14,9 +14,11 @@ function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDT
 
   let rnds = options.random || (options.rng || rng)();
   if (rnds.length < 16) {
-    const newRnds = new Uint8Array(16);
+    const newRnds = rng()
     for (let i = 0; i < 16; i++) {
-      newRnds[i] = rnds[i] ?? Math.floor(Math.random() * 256);
+      if (rnds[i]) {
+        newRnds[i] = rnds[i]
+      }
     }
     rnds = newRnds;
   }
