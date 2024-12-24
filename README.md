@@ -2,7 +2,6 @@
   -- This file is auto-generated from README_js.md. Changes should be made there.
   -->
 
-
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
 
 For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
@@ -117,13 +116,13 @@ Example:
 import { parse as uuidParse } from 'uuid';
 
 // Parse a UUID
-uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ 
-  // Uint8Array(16) [
-  //   110, 192, 189, 127,  17,
-  //   192,  67, 218, 151,  94,
-  //    42, 138, 217, 235, 174,
-  //    11
-  // ]
+uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨
+// Uint8Array(16) [
+//   110, 192, 189, 127,  17,
+//   192,  67, 218, 151,  94,
+//    42, 138, 217, 235, 174,
+//    11
+// ]
 ```
 
 ### uuid.stringify(arr[, offset])
@@ -491,6 +490,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 ## Known issues
 
 <!-- This header is referenced as an anchor in src/rng-browser.ts -->
+
 ### "getRandomValues() not supported"
 
 This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
@@ -507,4 +507,4 @@ import { v4 as uuidv4 } from 'uuid';
 
 ---
 
-Markdown generated from [README_js.md](README_js.md) by <a href="https://github.com/broofa/runmd"><image height="12px" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67" /></a>
+Markdown generated from [README_js.md](README_js.md) by <a href="https://github.com/broofa/runmd"><image height="13" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67" /></a>
