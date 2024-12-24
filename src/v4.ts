@@ -12,7 +12,14 @@ function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDT
 
   options = options || {};
 
-  const rnds = options.random || (options.rng || rng)();
+  let rnds = options.random || (options.rng || rng)();
+  if (rnds.length < 16) {
+    const newRnds = new Uint8Array(16);
+    for (let i = 0; i < 16; i++) {
+      newRnds[i] = rnds[i] ?? Math.floor(Math.random() * 256);
+    }
+    rnds = newRnds;
+  }
 
   // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
   rnds[6] = (rnds[6] & 0x0f) | 0x40;
@@ -20,6 +27,9 @@ function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDT
 
   // Copy bytes to buffer, if provided
   if (buf) {
+    if (buf.length < 16) {
+      throw new Error('The buffer length must not be less than 16');
+    }
     offset = offset || 0;
 
     for (let i = 0; i < 16; ++i) {
