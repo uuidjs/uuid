@@ -18,7 +18,7 @@ jobs:
       - run: npm run lint
       - run: npm run docs:diff
       - name: Run Shellcheck
-        run: find . -name '*.sh' -print0 | xargs -0 shellcheck -x
+        run: find . -type f -name "*.sh" -exec shellcheck {} +
 
   test:
     runs-on: ubuntu-latest
