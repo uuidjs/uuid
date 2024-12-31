@@ -6,19 +6,19 @@ cd "$ROOT" || exit 1
 
 TEST_DIR=$(mktemp -d)
 
-mkdir -p ${TEST_DIR}
+mkdir -p "${TEST_DIR}"
 
-trap 'rm -rf $TEST_DIR' EXIT
+trap 'rm -rf "$TEST_DIR"' EXIT
 
 # Create package tarball
-npm pack --pack-destination=${TEST_DIR}
+npm pack "--pack-destination=${TEST_DIR}"
 
 # Set up a test project in the test directory
-pushd ${TEST_DIR}
+pushd "${TEST_DIR}"
 npm init -y
-cp ${ROOT}/examples/node-commonjs/example.js commonjs.js
-cp ${ROOT}/examples/node-esmodules/example.mjs esmodules.mjs
-cp ${ROOT}/examples/node-esmodules/package.mjs esmodules-package.mjs
+cp "${ROOT}/examples/node-commonjs/example.js" commonjs.js
+cp "${ROOT}/examples/node-esmodules/example.mjs" esmodules.mjs
+cp "${ROOT}/examples/node-esmodules/package.mjs" esmodules-package.mjs
 
 # Install the tarball
 npm install uuid*.tgz

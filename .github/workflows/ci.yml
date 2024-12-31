@@ -17,6 +17,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run docs:diff
+      - name: Run Shellcheck
+        run: find . -type f -name "*.sh" -exec shellcheck {} +
 
   test:
     runs-on: ubuntu-latest
