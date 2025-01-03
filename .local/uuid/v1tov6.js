@@ -1,1 +1,1 @@
-.../../v1tov6.js
+dev/cc/v1tov6.js
