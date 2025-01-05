@@ -1,5 +1,14 @@
 # Change Log
 
+## [11.0.4](https://github.com/uuidjs/uuid/compare/v11.0.3...v11.0.4) (2025-01-05)
+
+
+### Bug Fixes
+
+* **docs:** insure -&gt; ensure ([#843](https://github.com/uuidjs/uuid/issues/843)) ([d2a61e1](https://github.com/uuidjs/uuid/commit/d2a61e154d861e58549466e753bb9e4d5bfffb68))
+* exclude tests from published package ([#840](https://github.com/uuidjs/uuid/issues/840)) ([f992ff4](https://github.com/uuidjs/uuid/commit/f992ff4780937089b0134195fa22e76e2e1cb3a7))
+* Test for invalid byte array sizes and ranges in `v1()`, `v4()`, and `v7()` ([#845](https://github.com/uuidjs/uuid/issues/845)) ([e0ee900](https://github.com/uuidjs/uuid/commit/e0ee90051ebd13475bbcff4d371330aa4f9bd1dd))
+
 ## [11.0.3](https://github.com/uuidjs/uuid/compare/v11.0.2...v11.0.3) (2024-11-04)
 
 
