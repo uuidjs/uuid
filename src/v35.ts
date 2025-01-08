@@ -2,7 +2,13 @@ import { UUIDTypes } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 
-export function stringToBytes(str: string) {
+/**
+ * Converts a string to a Uint8Array.
+ *
+ * @param str - The string to convert.
+ * @returns A Uint8Array representing the binary form of the string.
+ */
+export function stringToBytes(str: string): Uint8Array {
   // TODO: Use TextEncoder (see https://stackoverflow.com/a/48762658/109538)
   str = unescape(encodeURIComponent(str));
 
@@ -20,6 +26,17 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 type HashFunction = (bytes: Uint8Array) => Uint8Array;
 
+/**
+ * Generates a version 3 or 5 UUID based on the provided parameters.
+ *
+ * @param version - The UUID version (0x30 for v3, 0x50 for v5).
+ * @param hash - The hash function to use.
+ * @param value - The value to hash.
+ * @param namespace - The namespace UUID.
+ * @param buf - Optional buffer to write the UUID into.
+ * @param offset - Optional offset in the buffer.
+ * @returns A string representation of the UUID or a Uint8Array if a buffer is provided.
+ */
 export default function v35(
   version: 0x30 | 0x50,
   hash: HashFunction,
@@ -27,7 +44,7 @@ export default function v35(
   namespace: UUIDTypes,
   buf?: Uint8Array,
   offset?: number
-) {
+): string | Uint8Array {
   const valueBytes: Uint8Array = typeof value === 'string' ? stringToBytes(value) : value;
   const namespaceBytes: Uint8Array = typeof namespace === 'string' ? parse(namespace) : namespace;
 
