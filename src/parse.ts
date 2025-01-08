@@ -1,11 +1,18 @@
 import validate from './validate.js';
 
-function parse(uuid: string) {
+/**
+ * Parses a UUID string into a Uint8Array.
+ *
+ * @param uuid - The UUID string to parse.
+ * @returns A Uint8Array representing the binary form of the UUID.
+ * @throws TypeError if the UUID is invalid.
+ */
+function parse(uuid: string): Uint8Array {
   if (!validate(uuid)) {
     throw TypeError('Invalid UUID');
   }
 
-  let v;
+  let v: number;
   return Uint8Array.of(
     (v = parseInt(uuid.slice(0, 8), 16)) >>> 24,
     (v >>> 16) & 0xff,
