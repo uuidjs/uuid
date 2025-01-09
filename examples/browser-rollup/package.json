@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
+    "build": "npm install --no-package-lock && rm -rf dist && rollup -c",
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
-    "uuid": "file:../../.local/uuid"
+    "uuid": "file:../../.build/uuid.tgz"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",

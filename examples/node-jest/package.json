@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "pretest": "npm install --no-package-lock",
     "test": "jest"
   },
   "dependencies": {
-    "uuid": "file:../../.local/uuid"
+    "uuid": "file:../../.build/uuid.tgz"
   },
   "devDependencies": {
     "jest": "^29.7.0",
