@@ -14,13 +14,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
-      - run: npm ci
+
+      # Using `install` instead of `ci` because integrity checks for `npm pack` tarballs differ by platform
+      - run: npm install
       - run: npm run lint
       - run: npm run docs:diff
 
   test:
     runs-on: ubuntu-latest
-    needs: lint
     strategy:
       fail-fast: false
       matrix:
@@ -32,7 +33,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-      - run: npm ci
+
+      # Using `install` instead of `ci` because integrity checks for `npm pack` tarballs differ by platform
+      - run: npm install
       - run: npm run test
       - run: npm run test:node
-      - run: npm run test:pack

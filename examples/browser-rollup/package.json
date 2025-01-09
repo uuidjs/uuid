@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
+    "build": "npm install && rm -rf dist && rollup -c",
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {

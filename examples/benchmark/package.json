@@ -5,6 +5,7 @@
   "scripts": {
     "build": "true",
     "start": "npm run build && npx http-server . -o",
+    "pretest": "HUSKY=0 npm install",
     "test": "node node.js"
   },
   "dependencies": {

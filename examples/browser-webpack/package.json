@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && webpack",
+    "build": "npm install && rm -rf dist && webpack",
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
