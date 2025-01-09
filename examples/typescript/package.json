@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "uuid": "file:../../.build/uuid.tgz"
+  },
+  "scripts": {
+    "pretest": "rm -fr node_modules && npm install --no-package-lock",
+    "test": "npx -y --package=typescript@5.0.4 -- tsc --noEmit"
+  }
+}

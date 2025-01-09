@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "npm install --no-package-lock && rm -rf dist && webpack",
+    "build": "rm -fr node_modules && npm install --no-package-lock && rm -rf dist && webpack",
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {

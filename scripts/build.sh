@@ -63,8 +63,8 @@ done
 if [ "${1-}" != "--no-pack" ]; then
   # Prep tarball dir
   BUILD_DIR="$ROOT/.build"
+  rm -rf "$BUILD_DIR"
   mkdir -p "$BUILD_DIR"
-  rm -rf "$BUILD_DIR/uuid-*.tgz"
 
   # Create tarball for local installation (in tests and examples)
   echo "Packing tarball"
