@@ -68,7 +68,7 @@
     "release-please": "16.15.0",
     "runmd": "1.4.1",
     "standard-version": "9.5.0",
-    "typescript": "5.7.2",
+    "typescript": "5.0.4",
     "typescript-eslint": "8.18.2"
   },
   "optionalDevDependencies": {
@@ -92,13 +92,14 @@
     "examples:node:commonjs:test": "cd examples/node-commonjs && npm test",
     "examples:node:esmodules:test": "cd examples/node-esmodules && npm test",
     "examples:node:jest:test": "cd examples/node-jest && npm test",
+    "examples:node:typescript:test": "cd examples/typescript && npm test",
     "lint": "npm run eslint:check && npm run prettier:check",
     "md": "runmd --watch --output=README.md README_js.md",
     "prepack": "npm run build -- --no-pack",
     "prepare": "husky",
     "prepublishOnly": "npm run build",
     "pretest:benchmark": "npm run build",
-    "pretest:browser": "./scripts/iodd && npm run build && npm-run-all examples:browser:**",
+    "pretest:browser": "./scripts/iodd && npm run build && npm-run-all --parallel examples:browser:**",
     "pretest:node": "npm run build",
     "pretest": "npm run build",
     "prettier:check": "prettier --check .",
@@ -106,7 +107,7 @@
     "release": "standard-version --no-verify",
     "test:benchmark": "cd examples/benchmark && npm test",
     "test:browser": "wdio run ./wdio.conf.js",
-    "test:node": "npm-run-all examples:node:**",
+    "test:node": "npm-run-all --parallel examples:node:**",
     "test:watch": "node --test --enable-source-maps --watch dist/esm/test/*.js",
     "test": "node --test --enable-source-maps dist/esm/test/*.js"
   },
