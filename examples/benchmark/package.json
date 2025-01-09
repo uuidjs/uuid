@@ -5,7 +5,7 @@
   "scripts": {
     "build": "true",
     "start": "npm run build && npx http-server . -o",
-    "pretest": "HUSKY=0 npm install",
+    "pretest": "HUSKY=0 npm install --no-package-lock",
     "test": "node node.js"
   },
   "dependencies": {

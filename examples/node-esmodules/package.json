@@ -5,7 +5,7 @@
   "scripts": {
     "test:package": "( node --version | grep -vq 'v16' ) || ( node --experimental-json-modules package.mjs )",
     "test:example": "node example.mjs",
-    "pretest": "npm install",
+    "pretest": "npm install --no-package-lock",
     "test": "npm-run-all test:*"
   },
   "dependencies": {

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && webpack",
-    "pretest": "npm install",
+    "pretest": "npm install --no-package-lock",
     "test": "npm run build && node dist/v1.js && node dist/v4.js && node dist/v7.js && node dist/all.js"
   },
   "dependencies": {

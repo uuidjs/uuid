@@ -5,3 +5,4 @@ dist/
 local.log
 logs/
 node_modules/
+examples/**/package-lock.json
