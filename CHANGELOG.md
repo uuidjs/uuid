@@ -1,5 +1,12 @@
 # Change Log
 
+## [11.0.5](https://github.com/uuidjs/uuid/compare/v11.0.4...v11.0.5) (2025-01-09)
+
+
+### Bug Fixes
+
+* add TS unit test, pin to typescript@5.0.4 ([#860](https://github.com/uuidjs/uuid/issues/860)) ([24ac2fd](https://github.com/uuidjs/uuid/commit/24ac2fd067e5bab97a5ccea3f6f365a64c01d140))
+
 ## [11.0.4](https://github.com/uuidjs/uuid/compare/v11.0.3...v11.0.4) (2025-01-05)
 
 
