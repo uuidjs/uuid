@@ -8,7 +8,7 @@
     "test": "node node.js"
   },
   "dependencies": {
-    "uuid": "file:../../.local/uuid"
+    "uuid": "file:../../.build/uuid.tgz"
   },
   "devDependencies": {
     "benchmark": "^2.1.4"

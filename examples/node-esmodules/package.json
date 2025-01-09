@@ -8,6 +8,6 @@
     "test": "npm-run-all test:*"
   },
   "dependencies": {
-    "uuid": "file:../../.local/uuid"
+    "uuid": "file:../../.build/uuid.tgz"
   }
 }

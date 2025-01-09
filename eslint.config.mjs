@@ -33,6 +33,6 @@ export default [
     },
   },
   {
-    ignores: ['eslint.config.cjs', '.local/', '**/dist/', 'node_modules/'],
+    ignores: ['eslint.config.cjs', '**/dist/', 'node_modules/'],
   },
 ];

@@ -7,7 +7,7 @@
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
-    "uuid": "file:../../.local/uuid"
+    "uuid": "file:../../.build/uuid.tgz"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",

@@ -7,7 +7,7 @@
     "start": "npm run build && npx http-server . -o"
   },
   "dependencies": {
-    "uuid": "file:../../.local/uuid"
+    "uuid": "file:../../.build/uuid.tgz"
   },
   "devDependencies": {
     "webpack": "5.93.0",
