@@ -10,26 +10,18 @@ body:
       options:
         - label: I have searched the existing issues
           required: true
-        - label: I am not using version 13.x of node  (if so, please upgrade)
+        - label: My issue title is descriptive and specific to the problem (i.e. search-engine friendly)
+          required: true
+        - label: I understand what an "MRE" is, and why providing one is important.  (If not, [read this](https://stackoverflow.com/help/minimal-reproducible-example))
           required: true
 
   - type: textarea
     attributes:
-      label: Description of the problem
-    validations:
-      required: false
-
-  - type: textarea
-    attributes:
-      label: Recipe for reproducing
-      description: '**IMPORTANT**: Failure to provide a [Minimal, Complete, and Verifiable](https://stackoverflow.com/help/minimal-reproducible-example) example will result in this issue being closed without further review.'
+      label: MRE and Description
+      description: '**IMPORTANT**: Failure to provide an MRE is likely to result in your issue being closed without comment.'
       render: bash
     validations:
       required: false
-
-  - type: textarea
-    attributes:
-      label: Additional information
 
   - type: textarea
     attributes:
