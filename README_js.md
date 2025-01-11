@@ -17,24 +17,24 @@ require('crypto').randomFillSync = function (a) {
 require('crypto').randomUUID = undefined;
 ```
 
-# uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ABrowser)
+# uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions/workflows/browser.yml)
 
-For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formally [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
+For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formerly [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
 - **Complete** - Support for all RFC9562 UUID versions
 - **Cross-platform** - Support for...
   - ESM & Common JS
-  - [Chrome, Safari, Firefox, Edge browsers](#support)
+  - [Typescript](#support)
+  - [Chrome, Safari, Firefox, and Edge](#support)
   - [NodeJS](#support)
   - [React Native / Expo](#react-native--expo)
-- **Secure** - Cryptographically-strong random values
-- **Compact** - No dependencies, [tree-shakable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
-- **CLI** - Includes the [`uuid` command line](#command-line) utility
-- **Typescript** - Types now included
+- **Secure** - Uses modern `crypto` API for random values
+- **Compact** - Zero-dependency, [tree-shakable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
+- **CLI** - [`uuid` command line](#command-line) utility
 
 <!-- prettier-ignore -->
 > [!NOTE]
-w> `uuid@11` is now available:  See the [CHANGELOG](./CHANGELOG.md) for details. TL;DR:
+> `uuid@11` is now available:  See the [CHANGELOG](./CHANGELOG.md) for details. TL;DR:
 > * TypeScript support is now included  (remove `@types/uuid` from your dependencies)
 > * Subtle changes to how the `options` arg is interpreted for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
 > * Binary UUIDs are now `Uint8Array`s.  (May impact callers of `parse()`, `stringify()`,  or that pass an `option#buf` argument to `v1()`-`v7()`.)
@@ -189,7 +189,7 @@ Create an RFC version 1 (timestamp) UUID
 | [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
 | [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
-| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`buffer`] | `Uint8Array` If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 | _throws_ | `Error` if more than 10M UUIDs/sec are requested |
@@ -253,7 +253,7 @@ Create an RFC version 4 (random) UUID
 | [`options`] | `Object` with one or more of the following properties: |
 | [`options.random`] | `Array` of 16 random bytes (0-255) |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
-| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`buffer`] | `Uint8Array` If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
@@ -301,7 +301,7 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 | --- | --- |
 | `name` | `String \| Array` |
 | `namespace` | `String \| Array[16]` Namespace UUID |
-| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`buffer`] | `Uint8Array` If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
@@ -376,7 +376,7 @@ Create an RFC version 7 (random) UUID
 | [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`options.seq = (random)`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help ensure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
-| [`buffer`] | `Array \| Buffer` If specified, uuid will be written here in byte-form, starting at `offset` |
+| [`buffer`] | `Uint8Array` If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
