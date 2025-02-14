@@ -20,14 +20,14 @@ export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 type HashFunction = (bytes: Uint8Array) => Uint8Array;
 
-export default function v35(
+export default function v35<TBuf extends Uint8Array = Uint8Array>(
   version: 0x30 | 0x50,
   hash: HashFunction,
   value: string | Uint8Array,
   namespace: UUIDTypes,
-  buf?: Uint8Array,
+  buf?: TBuf,
   offset?: number
-) {
+): UUIDTypes<TBuf> {
   const valueBytes: Uint8Array = typeof value === 'string' ? stringToBytes(value) : value;
   const namespaceBytes: Uint8Array = typeof namespace === 'string' ? parse(namespace) : namespace;
 

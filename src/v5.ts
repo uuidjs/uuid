@@ -10,13 +10,18 @@ function v5(
   buf?: undefined,
   offset?: number
 ): string;
-function v5(
+function v5<TBuf extends Uint8Array = Uint8Array>(
   value: string | Uint8Array,
   namespace: UUIDTypes,
-  buf: Uint8Array,
+  buf: TBuf,
   offset?: number
-): Uint8Array;
-function v5(value: string | Uint8Array, namespace: UUIDTypes, buf?: Uint8Array, offset?: number) {
+): TBuf;
+function v5<TBuf extends Uint8Array = Uint8Array>(
+  value: string | Uint8Array,
+  namespace: UUIDTypes,
+  buf?: TBuf,
+  offset?: number
+): UUIDTypes<TBuf> {
   return v35(0x50, sha1, value, namespace, buf, offset);
 }
 

@@ -1,4 +1,4 @@
-export type UUIDTypes = string | Uint8Array;
+export type UUIDTypes<TBuf extends Uint8Array = Uint8Array> = string | TBuf;
 
 export type Version1Options = {
   node?: Uint8Array;

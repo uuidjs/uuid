@@ -25,8 +25,16 @@ type V1State = {
 const _state: V1State = {};
 
 function v1(options?: Version1Options, buf?: undefined, offset?: number): string;
-function v1(options: Version1Options | undefined, buf: Uint8Array, offset?: number): Uint8Array;
-function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDTypes {
+function v1<Buf extends Uint8Array = Uint8Array>(
+  options: Version1Options | undefined,
+  buf: Buf,
+  offset?: number
+): Buf;
+function v1<TBuf extends Uint8Array = Uint8Array>(
+  options?: Version1Options,
+  buf?: TBuf,
+  offset?: number
+): UUIDTypes<TBuf> {
   let bytes: Uint8Array;
 
   // Extract _v6 flag from options, clearing options if appropriate
@@ -73,7 +81,7 @@ function v1(options?: Version1Options, buf?: Uint8Array, offset?: number): UUIDT
     );
   }
 
-  return buf ? bytes : unsafeStringify(bytes);
+  return buf ?? unsafeStringify(bytes);
 }
 
 // (Private!)  Do not use.  This method is only exported for testing purposes
