@@ -4,8 +4,16 @@ import v1 from './v1.js';
 import v1ToV6 from './v1ToV6.js';
 
 function v6(options?: Version6Options, buf?: undefined, offset?: number): string;
-function v6(options: Version6Options | undefined, buf: Uint8Array, offset?: number): Uint8Array;
-function v6(options?: Version6Options, buf?: Uint8Array, offset?: number): UUIDTypes {
+function v6<TBuf extends Uint8Array = Uint8Array>(
+  options: Version6Options | undefined,
+  buf: TBuf,
+  offset?: number
+): TBuf;
+function v6<TBuf extends Uint8Array = Uint8Array>(
+  options?: Version6Options,
+  buf?: TBuf,
+  offset?: number
+): UUIDTypes<TBuf> {
   options ??= {};
   offset ??= 0;
 

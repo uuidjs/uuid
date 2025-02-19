@@ -4,8 +4,16 @@ import { unsafeStringify } from './stringify.js';
 import { UUIDTypes, Version4Options } from './types.js';
 
 function v4(options?: Version4Options, buf?: undefined, offset?: number): string;
-function v4(options: Version4Options | undefined, buf: Uint8Array, offset?: number): Uint8Array;
-function v4(options?: Version4Options, buf?: Uint8Array, offset?: number): UUIDTypes {
+function v4<TBuf extends Uint8Array = Uint8Array>(
+  options: Version4Options | undefined,
+  buf: TBuf,
+  offset?: number
+): TBuf;
+function v4<TBuf extends Uint8Array = Uint8Array>(
+  options?: Version4Options,
+  buf?: TBuf,
+  offset?: number
+): UUIDTypes<TBuf> {
   if (native.randomUUID && !buf && !options) {
     return native.randomUUID();
   }
