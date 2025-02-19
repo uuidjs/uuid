@@ -1,6 +1,6 @@
 {
   "name": "uuid",
-  "version": "11.0.5",
+  "version": "11.1.0",
   "description": "RFC9562 UUIDs",
   "type": "module",
   "funding": [
