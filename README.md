@@ -22,7 +22,7 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 > `uuid@11` is now available:  See the [CHANGELOG](./CHANGELOG.md) for details. TL;DR:
 > * TypeScript support is now included  (remove `@types/uuid` from your dependencies)
 > * Subtle changes to how the `options` arg is interpreted for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
-> * Binary UUIDs are now `Uint8Array`s.  (May impact callers of `parse()`, `stringify()`,  or that pass an `option#buf` argument to `v1()`-`v7()`.)
+> * Binary UUIDs are now `Uint8Array`s by default.  (May impact callers of `parse()`, `stringify()`; however, if you pass a Uint8Array derived type like `Buffer` as `buf` argument to `v1()`-`v7()` its type will be preserved.)
 
 ## Quickstart
 
