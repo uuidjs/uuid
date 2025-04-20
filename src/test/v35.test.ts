@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import test, { describe } from 'node:test';
+import * as assert from 'node:assert/strict';
+import { describe, test } from 'node:test';
 import md5 from '../md5.js';
 import sha1 from '../sha1.js';
 import v3 from '../v3.js';

@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import test, { describe } from 'node:test';
+import * as assert from 'node:assert/strict';
+import { describe, test } from 'node:test';
 import parse from '../parse.js';
 import v1, { updateV1State } from '../v1.js';
 

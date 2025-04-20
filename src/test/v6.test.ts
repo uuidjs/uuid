@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import test, { describe } from 'node:test';
+import * as assert from 'node:assert/strict';
+import { describe, test } from 'node:test';
 import v1ToV6 from '../v1ToV6.js';
 import v6 from '../v6.js';
 import v6ToV1 from '../v6ToV1.js';
