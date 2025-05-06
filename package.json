@@ -48,28 +48,27 @@
     "!dist/**/test"
   ],
   "devDependencies": {
-    "@babel/eslint-parser": "7.25.9",
-    "@commitlint/cli": "19.6.1",
-    "@commitlint/config-conventional": "19.6.0",
-    "@eslint/js": "9.17.0",
-    "@types/eslint__js": "8.42.3",
-    "bundlewatch": "0.4.0",
-    "commander": "12.1.0",
-    "eslint": "9.17.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-prettier": "5.2.1",
-    "globals": "15.14.0",
+    "@babel/eslint-parser": "7.27.1",
+    "@commitlint/cli": "19.8.0",
+    "@commitlint/config-conventional": "19.8.0",
+    "@eslint/js": "9.26.0",
+    "bundlewatch": "0.4.1",
+    "commander": "13.1.0",
+    "eslint": "9.26.0",
+    "eslint-config-prettier": "10.1.2",
+    "eslint-plugin-prettier": "5.4.0",
+    "globals": "16.0.0",
     "husky": "9.1.7",
     "jest": "29.7.0",
-    "lint-staged": "15.2.11",
-    "neostandard": "0.12.0",
+    "lint-staged": "15.5.2",
+    "neostandard": "0.12.1",
     "npm-run-all": "4.1.5",
-    "prettier": "3.4.2",
-    "release-please": "16.15.0",
+    "prettier": "3.5.3",
+    "release-please": "17.0.0",
     "runmd": "1.4.1",
     "standard-version": "9.5.0",
-    "typescript": "5.0.4",
-    "typescript-eslint": "8.18.2"
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.32.0"
   },
   "optionalDevDependencies": {
     "@wdio/browserstack-service": "9.2.1",
@@ -128,5 +127,5 @@
       "postchangelog": "prettier --write CHANGELOG.md"
     }
   },
-  "packageManager": "npm@11.0.0"
+  "packageManager": "npm@11.3.0"
 }
