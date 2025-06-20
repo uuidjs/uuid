@@ -483,7 +483,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 **Browsers**: `uuid` [builds are tested](/uuidjs/uuid/blob/main/wdio.conf.js) against the latest version of desktop Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren't currently tested.
 
-**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. `node@18` is in maintainence mode, and `node@22` is the current LTS release. So `uuid` supports `node@16`-`node@22`.
+**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. At the time of this writing `node@20` is the "maintenance" release and `node@24` is the "current" release, so `uuid` supports `node@18`-`node@24`.
 
 **Typescript**: TS versions released within the past two years are supported. [source](https://github.com/microsoft/TypeScript/issues/49088#issuecomment-2468723715)
 

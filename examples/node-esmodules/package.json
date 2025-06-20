@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test:package": "( node --version | grep -vq 'v16' ) || ( node --experimental-json-modules package.mjs )",
+    "test:package": "( node --version | grep -vq 'v18' ) || ( node package.mjs )",
     "test:example": "node example.mjs",
     "pretest": "rm -fr node_modules && npm install --no-package-lock",
     "test": "npm-run-all test:*"
