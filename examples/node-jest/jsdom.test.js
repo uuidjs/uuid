@@ -1,6 +1,5 @@
 /** @jest-environment jsdom */
-
-const uuid = require('uuid');
+import * as uuid from 'uuid';
 
 test('uuidv4()', () => {
   const val = uuid.v4();

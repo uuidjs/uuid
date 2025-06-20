@@ -1,6 +1,7 @@
 *.tgz
 browserstack.err
 dist/
+dist-browser/
 .build/
 local.log
 logs/
