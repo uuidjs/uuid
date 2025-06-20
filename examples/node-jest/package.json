@@ -2,15 +2,16 @@
   "name": "uuid-example-node-jest",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "pretest": "rm -fr node_modules && npm install --no-package-lock",
-    "test": "jest"
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest"
   },
   "dependencies": {
     "uuid": "file:../../.build/uuid.tgz"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "jest": "30.0.2",
+    "jest-environment-jsdom": "30.0.2"
   }
 }
