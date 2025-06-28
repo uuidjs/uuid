@@ -8,7 +8,6 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 
 - **Complete** - Support for all RFC9562 UUID versions
 - **Cross-platform** - Support for...
-  - ESM & Common JS
   - [Typescript](#support)
   - [Chrome, Safari, Firefox, and Edge](#support)
   - [NodeJS](#support)
@@ -19,10 +18,8 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> `uuid@11` is now available:  See the [CHANGELOG](./CHANGELOG.md) for details. TL;DR:
-> * TypeScript support is now included  (remove `@types/uuid` from your dependencies)
-> * Subtle changes to how the `options` arg is interpreted for `v1()`, `v6()`, and `v7()`. [See details](#options-handling-for-timestamp-uuids)
-> * Binary UUIDs are now `Uint8Array`s.  (May impact callers of `parse()`, `stringify()`,  or that pass an `option#buf` argument to `v1()`-`v7()`.)
+>
+> As of `uuid@12` CommonJS is no longer supported.  See [ESM Module FAQ](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
 
 ## Quickstart
 
@@ -34,18 +31,10 @@ npm install uuid
 
 **2. Create a UUID**
 
-ESM-syntax (must use named exports):
-
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
+
 uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-```
-
-... CommonJS:
-
-```javascript
-const { v4: uuidv4 } = require('uuid');
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 ```
 
 For timestamp UUIDs, namespace UUIDs, and other options read on ...
@@ -198,7 +187,7 @@ Example:
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-9bdd-2b0d7b3dcb6d'
+uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-9b5d-ab8dfbbd4bed'
 ```
 
 Example using `options`:
@@ -253,7 +242,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 ```
 
 Example using predefined `random` values:
@@ -329,7 +318,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-uuidv6(); // ⇨ '1e940672-c5ea-64c0-9b5d-ab8dfbbd4bed'
+uuidv6(); // ⇨ '1e940672-c5ea-64c1-9bdd-2b0d7b3dcb6d'
 ```
 
 Example using `options`:
@@ -376,7 +365,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '01695553-c90c-705a-b56d-778dfbbd4bed'
+uuidv7(); // ⇨ '01695553-c90c-745a-b76f-770d7b3dcb6d'
 ```
 
 ### ~~uuid.v8()~~
@@ -483,7 +472,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 **Browsers**: `uuid` [builds are tested](/uuidjs/uuid/blob/main/wdio.conf.js) against the latest version of desktop Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren't currently tested.
 
-**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. `node@18` is in maintainence mode, and `node@22` is the current LTS release. So `uuid` supports `node@16`-`node@22`.
+**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. At the time of this writing `node@20` is the "maintenance" release and `node@24` is the "current" release, so `uuid` supports `node@18`-`node@24`.
 
 **Typescript**: TS versions released within the past two years are supported. [source](https://github.com/microsoft/TypeScript/issues/49088#issuecomment-2468723715)
 
