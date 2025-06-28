@@ -1,8 +1,8 @@
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const terser = require('@rollup/plugin-terser');
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 
 const plugins = [nodeResolve({ browser: true }), terser()];
-module.exports = [
+export default [
   {
     input: './example-all.js',
     output: {
@@ -44,7 +44,7 @@ module.exports = [
     input: './size-v1.js',
     output: {
       file: 'dist/v1-size.js',
-      format: 'cjs',
+      format: 'es',
     },
     plugins,
   },
@@ -52,7 +52,7 @@ module.exports = [
     input: './size-v3.js',
     output: {
       file: 'dist/v3-size.js',
-      format: 'cjs',
+      format: 'es',
     },
     plugins,
   },
@@ -60,7 +60,7 @@ module.exports = [
     input: './size-v4.js',
     output: {
       file: 'dist/v4-size.js',
-      format: 'cjs',
+      format: 'es',
     },
     plugins,
   },
@@ -68,7 +68,7 @@ module.exports = [
     input: './size-v5.js',
     output: {
       file: 'dist/v5-size.js',
-      format: 'cjs',
+      format: 'es',
     },
     plugins,
   },
@@ -76,7 +76,7 @@ module.exports = [
     input: './size-v6.js',
     output: {
       file: 'dist/v6-size.js',
-      format: 'cjs',
+      format: 'es',
     },
     plugins,
   },
@@ -84,7 +84,7 @@ module.exports = [
     input: './size-v7.js',
     output: {
       file: 'dist/v7-size.js',
-      format: 'cjs',
+      format: 'es',
     },
     plugins,
   },
