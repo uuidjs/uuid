@@ -1,5 +1,5 @@
 ```javascript --hide
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 runmd.onRequire = (path) => {
   if (path == 'rng') return fun;

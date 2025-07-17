@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 
 function md5(bytes: Uint8Array) {
   if (Array.isArray(bytes)) {
