@@ -34,7 +34,7 @@ npm install uuid
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+uuidv4(); // ⇨ 'fd0fa6bf-9d33-4ce1-b78b-0f8104dc6d7c'
 ```
 
 For timestamp UUIDs, namespace UUIDs, and other options read on ...
@@ -187,7 +187,7 @@ Example:
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-9b5d-ab8dfbbd4bed'
+uuidv1(); // ⇨ 'dc812a70-7081-11f0-8234-1bfe823645a5'
 ```
 
 Example using `options`:
@@ -242,7 +242,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+uuidv4(); // ⇨ '873319c1-b93f-4613-946b-29ba7416436d'
 ```
 
 Example using predefined `random` values:
@@ -318,7 +318,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-uuidv6(); // ⇨ '1e940672-c5ea-64c1-9bdd-2b0d7b3dcb6d'
+uuidv6(); // ⇨ '1f07081d-c819-6fa0-8528-b28245ce6dfb'
 ```
 
 Example using `options`:
@@ -365,7 +365,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '01695553-c90c-745a-b76f-770d7b3dcb6d'
+uuidv7(); // ⇨ '019870a2-6e9b-77a0-8b90-66e6b5f0c427'
 ```
 
 ### ~~uuid.v8()~~

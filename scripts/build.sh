@@ -1,11 +1,8 @@
 #!/bin/bash -eu
 
-# This script generates 4 builds, as follows:
+# This script generates the following builds:
 # - dist: ESM build for Node.js
 # - dist-browser: ESM build for the Browser
-#
-# Note: that the "preferred" build for testing (local and CI) is the ESM build,
-# except where we specifically test the other builds
 
 set -e # exit on error
 
