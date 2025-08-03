@@ -1,4 +1,5 @@
-// Required for Node.js 18. Can be removed when support for Node.js 18 is dropped.
+// `crypto` import here is required for node@18. Once v18 support is dropped we
+// can switch to `globalThis.crypto` and combine `rng.ts` and `rng-browser.ts`.
 import { webcrypto } from 'node:crypto';
 
 const getRandomValues = webcrypto.getRandomValues.bind(webcrypto);
