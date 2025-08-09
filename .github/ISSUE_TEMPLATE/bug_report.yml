@@ -19,7 +19,6 @@ body:
     attributes:
       label: MRE and Description
       description: '**IMPORTANT**: Failure to provide an MRE is likely to result in your issue being closed without comment.'
-      render: bash
     validations:
       required: false
 
