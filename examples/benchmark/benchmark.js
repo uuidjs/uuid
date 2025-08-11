@@ -60,7 +60,9 @@ export default function benchmark(uuid, Benchmark) {
       .add('uuid.v4() fill existing array', function () {
         uuid.v4(null, array, 0);
       })
-      .add('crypto.randomUUID()', crypto.randomUUID.bind(crypto))
+      .add('crypto.randomUUID()', function () {
+        crypto.randomUUID();
+      })
       .add('uuid.v5()', function () {
         uuid.v5('hello.example.com', uuid.v5.DNS);
       })
