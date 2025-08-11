@@ -1,4 +1,4 @@
-import * as uuid from './node_modules/uuid/dist/esm-browser/index.js';
+import * as uuid from './node_modules/uuid/dist-browser/index.js';
 import './node_modules/lodash/lodash.js';
 import './node_modules/benchmark/benchmark.js';
 

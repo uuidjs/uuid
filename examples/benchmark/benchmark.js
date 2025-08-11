@@ -51,17 +51,17 @@ export default function benchmark(uuid, Benchmark) {
           // (which can happen on modern hardware and modern Node.js versions).
         }
       })
-      .add('uuid.v4()', function () {
+      .add('uuid.v4() using crypto.randomUUID', function () {
         uuid.v4();
+      })
+      .add('uuid.v4() w/out crypto.randomUUID', function () {
+        uuid.v4({}); // passing an object instead of null bypasses native.randomUUID
       })
       .add('uuid.v4() fill existing array', function () {
         uuid.v4(null, array, 0);
       })
-      .add('uuid.v4() without native generation', function () {
-        uuid.v4({}); // passing an object instead of null bypasses native.randomUUID
-      })
-      .add('uuid.v3()', function () {
-        uuid.v3('hello.example.com', uuid.v3.DNS);
+      .add('crypto.randomUUID()', function () {
+        crypto.randomUUID();
       })
       .add('uuid.v5()', function () {
         uuid.v5('hello.example.com', uuid.v5.DNS);

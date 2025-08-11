@@ -1,4 +1,4 @@
-import * as uuid from './node_modules/uuid/dist/esm-browser/index.js';
+import * as uuid from './node_modules/uuid/dist-browser/index.js';
 import {
   MAX as MAX_UUID,
   NIL as NIL_UUID,
@@ -14,7 +14,7 @@ import {
   v6 as uuidv6,
   v6ToV1 as uuidv6ToV1,
   v7 as uuidv7,
-} from './node_modules/uuid/dist/esm-browser/index.js';
+} from './node_modules/uuid/dist-browser/index.js';
 
 // Import attribute syntax is still awaiting finalization.   In the meantime we
 // use dynamic import to allows to specifyg both "assert" and "with" clauses.
