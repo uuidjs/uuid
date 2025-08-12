@@ -51,9 +51,8 @@ function v4<TBuf extends Uint8Array = Uint8Array>(
     return native.randomUUID();
   }
 
-  // Putting tail-code here in a separate function (as opposed to inline in this
-  // function) allows for compiler optimizations in the common case where
-  // we never get this far (i.e. when native.randomUUID() is called, above).
+  // Putting tail-code that could just go inline here in a separate function
+  // allows for compiler optimizations that dramatically improve performance.
   //
   // REF: https://github.com/uuidjs/uuid/issues/892
   return _v4(options, buf, offset);
