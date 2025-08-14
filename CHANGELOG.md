@@ -49,10 +49,10 @@
 
 ### ⚠ BREAKING CHANGES
 
-- refactor v1 internal state and options logic (#780)
-- refactor v7 internal state and options logic, fixes #764 (#779)
-- Port to TypeScript, closes #762 (#763)
-- update node support matrix (only support node 16-20) (#750)
+- refactor v1 internal state and options logic ([#780](https://github.com/uuidjs/uuid/issues/780))
+- refactor v7 internal state and options logic, fixes [#764](https://github.com/uuidjs/uuid/issues/764) ([#779](https://github.com/uuidjs/uuid/issues/779))
+- Port to TypeScript, closes [#762](https://github.com/uuidjs/uuid/issues/762) ([#763](https://github.com/uuidjs/uuid/issues/763))
+- update node support matrix (only support node 16-20) ([#750](https://github.com/uuidjs/uuid/issues/750))
 
 ### Features
 
