@@ -1,5 +1,27 @@
 # Change Log
 
+## [12.0.0](https://github.com/uuidjs/uuid/compare/v11.1.0...v12.0.0) (2025-09-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to typescript@5.2 ([#887](https://github.com/uuidjs/uuid/issues/887))
+* remove CommonJS support ([#886](https://github.com/uuidjs/uuid/issues/886))
+* drop node@16 support ([#883](https://github.com/uuidjs/uuid/issues/883))
+
+### Features
+
+* add node@24 to ci matrix ([#879](https://github.com/uuidjs/uuid/issues/879)) ([42b6178](https://github.com/uuidjs/uuid/commit/42b6178aa21a593257f0a72abacd220f0b7b8a92))
+* drop node@16 support ([#883](https://github.com/uuidjs/uuid/issues/883)) ([0f38cf1](https://github.com/uuidjs/uuid/commit/0f38cf10366ab074f9328ae2021eea04d5f2e530))
+* remove CommonJS support ([#886](https://github.com/uuidjs/uuid/issues/886)) ([ae786e2](https://github.com/uuidjs/uuid/commit/ae786e27265f50bcf7cead196c29f1869297c42f))
+* update to typescript@5.2 ([#887](https://github.com/uuidjs/uuid/issues/887)) ([c7ee405](https://github.com/uuidjs/uuid/commit/c7ee40598ed78584d81ab78dffded9fe5ff20b01))
+
+
+### Bug Fixes
+
+* improve v4() performance ([#894](https://github.com/uuidjs/uuid/issues/894)) ([5fd974c](https://github.com/uuidjs/uuid/commit/5fd974c12718c8848035650b69b8948f12ace197))
+* restore node: prefix ([#889](https://github.com/uuidjs/uuid/issues/889)) ([e1f42a3](https://github.com/uuidjs/uuid/commit/e1f42a354593093ba0479f0b4047dae82d28c507))
+
 ## [11.1.0](https://github.com/uuidjs/uuid/compare/v11.0.5...v11.1.0) (2025-02-19)
 
 
