@@ -20,6 +20,8 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - run: npm run docs:diff
 
   test:
