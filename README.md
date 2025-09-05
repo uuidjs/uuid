@@ -19,7 +19,7 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 <!-- prettier-ignore -->
 > [!NOTE]
 >
-> As of `uuid@12` CommonJS is no longer supported.  See [ESM Module FAQ](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+> Starting with `uuid@12` CommonJS is no longer supported.  See [implications](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and [motivation](https://github.com/uuidjs/uuid/issues/881) for details.
 
 ## Quickstart
 
