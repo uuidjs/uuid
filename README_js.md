@@ -1,22 +1,8 @@
 ```javascript --hide
-import crypto from 'node:crypto';
-
 runmd.onRequire = (path) => {
   if (path == 'rng') return fun;
   return path.replace(/^uuid/, './dist/');
 };
-
-// Shim Date and crypto so generated ids are consistent across doc revisions
-runmd.Date.now = () => 1551914748172;
-
-let seed = 0xdefaced;
-crypto.randomFillSync = function (a) {
-  for (let i = 0; i < a.length; i++) a[i] = (seed = (seed * 0x41a7) & 0x7fffffff) & 0xff;
-  return a;
-};
-
-// Prevent usage of native randomUUID implementation to ensure deterministic UUIDs
-crypto.randomUUID = undefined;
 ```
 
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions/workflows/browser.yml)

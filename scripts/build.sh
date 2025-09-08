@@ -1,8 +1,8 @@
 #!/bin/bash -eu
 
 # This script generates 4 builds, as follows:
-# - dist: ESM build for Node.js
-# - dist-browser: ESM build for the Browser
+# - dist: ESM build for the Browser
+# - dist-node: ESM build for Node.js
 #
 # Note: that the "preferred" build for testing (local and CI) is the ESM build,
 # except where we specifically test the other builds
@@ -13,45 +13,47 @@ set -e # exit on error
 ROOT=$(builtin cd $(pwd)/$(dirname "$0")/..; pwd)
 
 # Prep TS output dir
-NODE_DIST_DIR="$ROOT/dist"
-BROWSER_DIST_DIR="$ROOT/dist-browser"
-echo "Building in $NODE_DIST_DIR and $BROWSER_DIST_DIR"
+DIST_DIR="$ROOT/dist"
+NODE_DIST_DIR="$ROOT/dist-node"
+echo "Building in $DIST_DIR and $NODE_DIST_DIR"
 
 cd "$ROOT" || exit 1
 
-rm -rf "$NODE_DIST_DIR" "$BROWSER_DIST_DIR"
-mkdir -p "$NODE_DIST_DIR"
+# Remove old builds
+rm -rf $DIST_DIR*
 
-# Build each module type
+# Make default dist dir
+mkdir -p "$DIST_DIR"
+
+# Compile typescript
 echo "Compiling TypeScript files to $NODE_DIST_DIR"
-
 tsc -p tsconfig.json
 
-# Clone files for browser builds
-cp -pr "$NODE_DIST_DIR" "$BROWSER_DIST_DIR"
+# Clone files for node builds
+cp -pr "$DIST_DIR" "$NODE_DIST_DIR"
 
-# Remove browser files from non-browser builds
+# Remove browser files in node build
 for FILE in ${NODE_DIST_DIR}/*-browser*; do
   rm -f $FILE
 done
 
-# Move browser files into place for browser builds
+# Move browser files into place for default build
 (
-  # Temporarily cd into BROWSER_DIST_DIR to avoid having to deal with
-  # "-browser" appearing in both the dir name and file name of FILE's full
-  # path
-  cd "$BROWSER_DIST_DIR"
+  cd "$DIST_DIR"
 
   for FILE in *-browser*;do
     mv "$FILE" "${FILE/-browser/}"
   done
+)
 
-  # Remove type definitions
+# Remove type definition files where they're not needed
+(
+  cd "$NODE_DIST_DIR"
   find . -name '*.d.ts' -exec rm -f {} \;
 )
 
-# Copy bin files to dist
-cp -pr "$NODE_DIST_DIR/../src/bin" "$NODE_DIST_DIR"
+# Copy bin files into place
+cp -pr "$ROOT/src/bin" "$NODE_DIST_DIR"
 
 if [ "${1-}" != "--no-pack" ]; then
   # Prep tarball dir
