@@ -71,7 +71,7 @@
     "build": "./scripts/build.sh",
     "build:watch": "tsc --watch -p tsconfig.json",
     "bundlewatch": "npm run pretest:browser && bundlewatch --config bundlewatch.config.json",
-    "docs:diff": "npm run docs && git diff --quiet README.md",
+    "docs:diff": "npm run docs && git diff --quiet -I \"[0-9a-f-]{36}\" README.md",
     "docs": "npm run build && npx runmd --output=README.md README_js.md",
     "eslint:check": "eslint src/ test/ examples/ *.[jt]s",
     "eslint:fix": "eslint --fix src/ test/ examples/ *.[jt]s",
