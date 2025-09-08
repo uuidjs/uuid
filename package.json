@@ -26,8 +26,8 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "default": "./dist/index.js",
-      "node": "./dist-node/index.js"
+      "node": "./dist-node/index.js",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
