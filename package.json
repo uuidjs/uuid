@@ -26,14 +26,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "browser": "./dist-browser/index.js",
-      "default": "./dist/index.js"
+      "default": "./dist/index.js",
+      "node": "./dist-node/index.js"
     },
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
-    "dist-browser",
+    "dist-node",
     "!**/test"
   ],
   "devDependencies": {

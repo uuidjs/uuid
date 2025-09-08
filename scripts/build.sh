@@ -1,8 +1,8 @@
 #!/bin/bash -eu
 
 # This script generates 4 builds, as follows:
-# - dist: ESM build for Node.js
-# - dist-browser: ESM build for the Browser
+# - dist: ESM build for the Browser
+# - dist-node: ESM build for Node.js
 #
 # Note: that the "preferred" build for testing (local and CI) is the ESM build,
 # except where we specifically test the other builds
@@ -13,8 +13,8 @@ set -e # exit on error
 ROOT=$(builtin cd $(pwd)/$(dirname "$0")/..; pwd)
 
 # Prep TS output dir
-NODE_DIST_DIR="$ROOT/dist"
-BROWSER_DIST_DIR="$ROOT/dist-browser"
+NODE_DIST_DIR="$ROOT/dist-node"
+BROWSER_DIST_DIR="$ROOT/dist"
 echo "Building in $NODE_DIST_DIR and $BROWSER_DIST_DIR"
 
 cd "$ROOT" || exit 1
