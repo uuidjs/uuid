@@ -95,8 +95,8 @@
     "test:benchmark": "cd examples/benchmark && npm test",
     "test:browser": "wdio run ./wdio.conf.js",
     "test:node": "npm-run-all --parallel examples:node:**",
-    "test:watch": "node --test --enable-source-maps --watch dist/test/*.js",
-    "test": "node --test --enable-source-maps dist/test/*.js"
+    "test:watch": "node --test --enable-source-maps --watch dist-node/test/*.js",
+    "test": "node --test --enable-source-maps dist-node/test/*.js"
   },
   "repository": {
     "type": "git",
