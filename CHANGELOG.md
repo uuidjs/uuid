@@ -1,5 +1,16 @@
 # Change Log
 
+## [13.0.0](https://github.com/uuidjs/uuid/compare/v12.0.0...v13.0.0) (2025-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* make browser exports the default ([#901](https://github.com/uuidjs/uuid/issues/901))
+
+### Bug Fixes
+
+* make browser exports the default ([#901](https://github.com/uuidjs/uuid/issues/901)) ([bce9d72](https://github.com/uuidjs/uuid/commit/bce9d72a3ae5b9a3dcd8eb21ef6d1820288a427a))
+
 ## [12.0.0](https://github.com/uuidjs/uuid/compare/v11.1.0...v12.0.0) (2025-09-05)
 
 
