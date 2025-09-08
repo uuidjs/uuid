@@ -20,7 +20,7 @@
   ],
   "license": "MIT",
   "bin": {
-    "uuid": "./dist/bin/uuid"
+    "uuid": "./dist-node/bin/uuid"
   },
   "sideEffects": false,
   "types": "./dist/index.d.ts",
