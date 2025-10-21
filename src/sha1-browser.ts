@@ -82,29 +82,30 @@ function sha1(bytes: Uint8Array): Uint8Array {
     H[4] = (H[4] + e) >>> 0;
   }
 
-  // Note: Uint8Array.of() does `& 0xff` for each value
-  return Uint8Array.of(
-    H[0] >> 24,
-    H[0] >> 16,
-    H[0] >> 8,
-    H[0],
-    H[1] >> 24,
-    H[1] >> 16,
-    H[1] >> 8,
-    H[1],
-    H[2] >> 24,
-    H[2] >> 16,
-    H[2] >> 8,
-    H[2],
-    H[3] >> 24,
-    H[3] >> 16,
-    H[3] >> 8,
-    H[3],
-    H[4] >> 24,
-    H[4] >> 16,
-    H[4] >> 8,
-    H[4]
-  );
+  // Note: Uint8Array assignment automatically masks values to 8-bit range
+  const result = new Uint8Array(20);
+  result[0] = H[0] >> 24;
+  result[1] = H[0] >> 16;
+  result[2] = H[0] >> 8;
+  result[3] = H[0];
+  result[4] = H[1] >> 24;
+  result[5] = H[1] >> 16;
+  result[6] = H[1] >> 8;
+  result[7] = H[1];
+  result[8] = H[2] >> 24;
+  result[9] = H[2] >> 16;
+  result[10] = H[2] >> 8;
+  result[11] = H[2];
+  result[12] = H[3] >> 24;
+  result[13] = H[3] >> 16;
+  result[14] = H[3] >> 8;
+  result[15] = H[3];
+  result[16] = H[4] >> 24;
+  result[17] = H[4] >> 16;
+  result[18] = H[4] >> 8;
+  result[19] = H[4];
+
+  return result;
 }
 
 export default sha1;
