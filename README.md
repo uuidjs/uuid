@@ -34,7 +34,7 @@ npm install uuid
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+uuidv4(); // ⇨ '23c37ede-1c09-422a-8da8-42ad65cc33f9'
 ```
 
 For timestamp UUIDs, namespace UUIDs, and other options read on ...
@@ -174,20 +174,12 @@ Create an RFC version 1 (timestamp) UUID
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 | _throws_ | `Error` if more than 10M UUIDs/sec are requested |
 
-<!-- prettier-ignore -->
-> [!NOTE]
-> The default [node id](https://datatracker.ietf.org/doc/html/rfc9562#section-5.1) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
-
-<!-- prettier-ignore -->
-> [!NOTE]
-> `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
-
 Example:
 
 ```javascript
 import { v1 as uuidv1 } from 'uuid';
 
-uuidv1(); // ⇨ '2c5ea4c0-4067-11e9-9b5d-ab8dfbbd4bed'
+uuidv1(); // ⇨ 'a2bfad10-b358-11f0-8d45-6389dd784317'
 ```
 
 Example using `options`:
@@ -242,7 +234,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+uuidv4(); // ⇨ '177fac08-7fee-4a08-abda-72eb3ce87fba'
 ```
 
 Example using predefined `random` values:
@@ -318,7 +310,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-uuidv6(); // ⇨ '1e940672-c5ea-64c1-9bdd-2b0d7b3dcb6d'
+uuidv6(); // ⇨ '1f0b358a-2c04-6950-8ac9-a8f01d2998d6'
 ```
 
 Example using `options`:
@@ -365,7 +357,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '01695553-c90c-745a-b76f-770d7b3dcb6d'
+uuidv7(); // ⇨ '019a26ab-9a66-71a9-a89e-63c35fce4a5a'
 ```
 
 ### ~~uuid.v8()~~
