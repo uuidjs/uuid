@@ -126,7 +126,7 @@ function wordsToMd5(x: Uint32Array, len: number): Uint32Array {
 /*
  * Convert Uint8Array to Uint32 array (little-endian)
  */
-function uint8ToUint32(input: Uint8Array) {
+function uint8ToUint32(input: Uint8Array): Uint32Array {
   const len = input.length;
   const blen = len * 8;
   
