@@ -32,8 +32,8 @@ function uint32ToUint8(input: Uint32Array) {
  */
 function wordsToMd5(x: Uint32Array, len: number): Uint32Array {
   /* append padding */
-  x[len >> 5] |= 0x80 << (len % 32);
-  x[((len + 64 >>> 9) << 4) + 14] = len;
+  x[len >> 5] |= 0x80 << len % 32;
+  x[(((len + 64) >>> 9) << 4) + 14] = len;
 
   let a = 1732584193;
   let b = -271733879;
@@ -129,9 +129,9 @@ function wordsToMd5(x: Uint32Array, len: number): Uint32Array {
 function uint8ToUint32(input: Uint8Array): Uint32Array {
   const len = input.length;
   const blen = len * 8;
-  
+
   const nWords = (((len + 8) >>> 6) << 4) + 16;
-  
+
   const output = new Uint32Array(nWords).fill(0);
 
   for (let i = 0; i < len; i++) {
@@ -166,19 +166,51 @@ function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number
   return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 }
 
-function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5ff(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number
+): number {
   return md5cmn((b & c) | (~b & d), a, b, x, s, t);
 }
 
-function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5gg(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number
+): number {
   return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
 }
 
-function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5hh(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number
+): number {
   return md5cmn(b ^ c ^ d, a, b, x, s, t);
 }
 
-function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5ii(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number
+): number {
   return md5cmn(c ^ (b | ~d), a, b, x, s, t);
 }
 
