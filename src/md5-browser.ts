@@ -1,28 +1,14 @@
 /*
- * Browser-compatible JavaScript MD5
- *
- * Modification of JavaScript MD5
- * https://github.com/blueimp/JavaScript-MD5
- *
- * Copyright 2011, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
- *
- * Based on
- * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
- * Digest Algorithm, as defined in RFC 1321.
- * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
- * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
- * Distributed under the BSD License
- * See http://pajhome.org.uk/crypt/md5 for more info.
+ * Pure TypeScript implementation of MD5
+ * Compatible with Node.js crypto.createHash("md5") and browsers
+ * Based on RFC 1321 and blueimp-md5
  */
-function md5(bytes: Uint8Array) {
+
+export function md5(bytes: Uint8Array): Uint8Array {
   const words = uint8ToUint32(bytes);
 
-  const md5Bytes = wordsToMd5(words, bytes.length * 8);
-  return uint32ToUint8(md5Bytes);
+  const md5Words = wordsToMd5(words, bytes.length * 8);
+  return uint32ToUint8(md5Words);
 }
 
 /*
@@ -41,23 +27,13 @@ function uint32ToUint8(input: Uint32Array) {
   return bytes;
 }
 
-/**
- * Calculate output length with padding and bit length
- */
-function getOutputLength(inputLength8: number) {
-  return (((inputLength8 + 64) >>> 9) << 4) + 14 + 1;
-}
-
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length.
  */
-function wordsToMd5(x: Uint32Array, len: number) {
+function wordsToMd5(x: Uint32Array, len: number): Uint32Array {
   /* append padding */
-  const xpad = new Uint32Array(getOutputLength(len)).fill(0);
-  xpad.set(x);
-  xpad[len >> 5] |= 0x80 << len % 32;
-  xpad[xpad.length - 1] = len;
-  x = xpad;
+  x[len >> 5] |= 0x80 << (len % 32);
+  x[((len + 64 >>> 9) << 4) + 14] = len;
 
   let a = 1732584193;
   let b = -271733879;
@@ -151,14 +127,18 @@ function wordsToMd5(x: Uint32Array, len: number) {
  * Convert Uint8Array to Uint32 array (little-endian)
  */
 function uint8ToUint32(input: Uint8Array) {
-  if (input.length === 0) {
-    return new Uint32Array();
-  }
+  const len = input.length;
+  const blen = len * 8;
+  
+  const nWords = (((len + 8) >>> 6) << 4) + 16;
+  
+  const output = new Uint32Array(nWords).fill(0);
 
-  const output = new Uint32Array(getOutputLength(input.length * 8)).fill(0);
-  for (let i = 0; i < input.length; i++) {
+  for (let i = 0; i < len; i++) {
     output[i >> 2] |= (input[i] & 0xff) << ((i % 4) * 8);
   }
+  output[len >> 2] |= 0x80 << ((len & 3) * 8);
+  output[nWords - 2] = blen;
   return output;
 }
 
@@ -166,7 +146,7 @@ function uint8ToUint32(input: Uint8Array) {
  * Add integers, wrapping at 2^32. This uses 16-bit operations internally
  * to work around bugs in some JS interpreters.
  */
-function safeAdd(x: number, y: number) {
+function safeAdd(x: number, y: number): number {
   const lsw = (x & 0xffff) + (y & 0xffff);
   const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xffff);
@@ -175,30 +155,30 @@ function safeAdd(x: number, y: number) {
 /*
  * Bitwise rotate a 32-bit number to the left.
  */
-function bitRotateLeft(num: number, cnt: number) {
+function bitRotateLeft(num: number, cnt: number): number {
   return (num << cnt) | (num >>> (32 - cnt));
 }
 
 /*
  * These functions implement the four basic operations the algorithm uses.
  */
-function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number) {
+function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number): number {
   return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 }
 
-function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
   return md5cmn((b & c) | (~b & d), a, b, x, s, t);
 }
 
-function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
   return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
 }
 
-function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
   return md5cmn(b ^ c ^ d, a, b, x, s, t);
 }
 
-function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
   return md5cmn(c ^ (b | ~d), a, b, x, s, t);
 }
 
