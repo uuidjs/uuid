@@ -23,9 +23,11 @@
     "uuid": "./dist-node/bin/uuid"
   },
   "sideEffects": false,
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist-node/index.js",
       "default": "./dist/index.js"
     },
