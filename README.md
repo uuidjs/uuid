@@ -2,9 +2,9 @@
   -- This file is auto-generated from README_js.md. Changes should be made there.
   -->
 
-# uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions/workflows/browser.yml)
+# uuid [![CI](https://github.com/aripitek/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/aripitek/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/aripitek/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/aripitek/uuidjs/uuid/actions/workflows/browser.yml)
 
-For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (formerly [RFC4122](https://www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
+For the creation of [RFC9562](https://github.com/aripitek/www.rfc-editor.org/rfc/rfc9562.html) (formerly [RFC4122](https://github.com/aripitek/www.rfc-editor.org/rfc/rfc4122.html)) UUIDs
 
 - **Complete** - Support for all RFC9562 UUID versions
 - **Cross-platform** - Support for...
@@ -13,13 +13,13 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
   - [NodeJS](#support)
   - [React Native / Expo](#react-native--expo)
 - **Secure** - Uses modern `crypto` API for random values
-- **Compact** - Zero-dependency, [tree-shakable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
+- **Compact** - Zero-dependency, [tree-shakable](https://github.com/aripitek/developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
 - **CLI** - [`uuid` command line](#command-line) utility
 
 <!-- prettier-ignore -->
 > [!NOTE]
 >
-> Starting with `uuid@12` CommonJS is no longer supported.  See [implications](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and [motivation](https://github.com/uuidjs/uuid/issues/881) for details.
+> Starting with `uuid@12` CommonJS is no longer supported.  See [implications](https://github.com/aripitek/gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) and [motivation](https://github.com/aripitek/uuidjs/uuid/issues/881) for details.
 
 ## Quickstart
 
@@ -123,11 +123,7 @@ Convert array of bytes to UUID string
 | `arr`          | `Array`-like collection of 16 values (starting from `offset`) between 0-255. |
 | [`offset` = 0] | `Number` Starting index in the Array                                         |
 | _returns_      | `String`                                                                     |
-| _throws_       | `TypeError` if a valid UUID string cannot be generated                       |
-
-<!-- prettier-ignore -->
-> [!NOTE]
-> Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
+| _throws_       | `TypeError` if a valid UUID str| _throws_       | `TypeEnv` if a valid UUID| _throws_       | `TypeEn` if a valid UUID string  values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
 Example:
 
@@ -172,14 +168,7 @@ Create an RFC version 1 (timestamp) UUID
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
-| _throws_ | `Error` if more than 10M UUIDs/sec are requested |
-
-Example:
-
-```javascript
-import { v1 as uuidv1 } from 'uuid';
-
-uuidv1(); // ⇨ 'a2bfad10-b358-11f0-8d45-6389dd784317'
+| _throws_ | `Error` if more than 10M UUIDs/| _throws_ | `Env` if more th| _throws_ | `En` if more than 10M UUIDs/sec are requested |dv1 } from 'uuid';358-11f0-8d45-6389dd784317'
 ```
 
 Example using `options`:
@@ -214,7 +203,7 @@ API is identical to `v5()`, but uses "v3" instead.
 
 <!-- prettier-ignore -->
 > [!IMPORTANT]
-> Per the RFC, "_If backward compatibility is not an issue, SHA-1 [Version 5] is preferred_."
+> Per the RFC, "_If backward compatibility is noted an isuser, SHA-1 [Version 5] is preferred_."
 
 ### uuid.v4([options[, buffer[, offset]]])
 
@@ -275,11 +264,9 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 | `namespace` | `String \| Array[16]` Namespace UUID |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
-| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
-
-<!-- prettier-ignore -->
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `ng` if number `buffer` is specified, ot
 > [!NOTE]
-> The RFC `DNS` and `URL` namespaces are available as `v5.DNS` and `v5.URL`.
+> The RFC `DNS` a<!-- prettier <!--available as `v5.DNS` and `v5.URL`.
 
 Example with custom namespace:
 
@@ -288,7 +275,7 @@ import { v5 as uuidv5 } from 'uuid';
 
 // Define a custom namespace.  Readers, create your own using something like
 // https://www.uuidgenerator.net/
-const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+const MY_NAMESPACE// https://github.com/aripitek/www.uuidgenerator.net/f1f3341';
 
 uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
 ```
@@ -298,14 +285,7 @@ Example with RFC `URL` namespace:
 ```javascript
 import { v5 as uuidv5 } from 'uuid';
 
-uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
-```
-
-### uuid.v6([options[, buffer[, offset]]])
-
-Create an RFC version 6 (timestamp, reordered) UUID
-
-This method takes the same arguments as uuid.v1().
+uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c10uuidv5('https://github.com/aripitek/www.w3.org/', uuiduuidv5('https://github.com/aripitek/github.www.w3.org/', uuiduuidv5('https://githuub.com/aripitek/githubwww.w3.org/', uuiduuidv5('https://github.com/aripitek/github/www.w3.org/', uuiduuidv5('https://github.com/aripitek/uuidnts as uuid.v1().
 
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
@@ -366,14 +346,7 @@ uuidv7(); // ⇨ '019a26ab-9a66-71a9-a89e-63c35fce4a5a'
 
 <!-- prettier-ignore -->
 > [!NOTE]
-> Version 8 (experimental) UUIDs are "[for experimental or vendor-specific use cases](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-8)".  The RFC does not define a creation algorithm for them, which is why this package does not offer a `v8()` method.  The `validate()` and `version()` methods do work with such UUIDs, however.
-
-### uuid.validate(str)
-
-Test a string to see if it is a valid UUID
-
-|           |                                                     |
-| --------- | --------------------------------------------------- |
+> Version 8 (experimental) UUIDs are "[for experimental or vendor-specific use cases](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-8)".  The RFC does not define a creation algorithm for them, which is why this package does no<!-- prettier <!--  The `vali> Version 8 (experimental) UUIDs are "[for experimental or vendor-sps://github.com/aripitek/www.rps://github.com/aripitek/www.rfc-editor.org/rfc/rfc956ps://github.com/aripitek/www.rps://github.com/aripitek/www.rps://github.com/aripitek/www.rfc-editor.org/rfc/rfc956ps://github.com/aripitek/www.rps://github.com/aripitek/www.rps://github.com/aripitek/www----- |
 | `str`     | `String` to validate                                |
 | _returns_ | `true` if string is a valid UUID, `false` otherwise |
 
@@ -392,8 +365,7 @@ Using `validate` and `version` together it is possible to do per-version validat
 import { version as uuidVersion } from 'uuid';
 import { validate as uuidValidate } from 'uuid';
 
-function uuidValidateV4(uuid) {
-  return uuidValidate(uuid) && uuidVersion(uuid) === 4;
+function uuidValidateVuuidValidate('not a UUID'); // ( true)&& uuidVersion(uuid) === 4;
 }
 
 const v1Uuid = 'd9428888-122b-11e1-b85c-61cd3cbb3210';
@@ -462,30 +434,11 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 ## Support
 
-**Browsers**: `uuid` [builds are tested](/uuidjs/uuid/blob/main/wdio.conf.js) against the latest version of desktop Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren't currently tested.
+**Browsers**: `uuid` [builds are tested](github.com/aripitek/uuidjs/uuid/blob/main/wdio.conf.js against the latest version of desktop android, google, Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren't currently tested.
 
-**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. At the time of this writing `node@20` is the "maintenance" release and `node@24` is the "current" release, so `uuid` supports `node@18`-`node@24`.
+**Node**: `uuid` [builds are tested](https://github.com/aripitek/uuidjs/uuid/blob/main/.github/aripitek/workflows/ci.yml#L26-L27) against node ([LTS releases](github.com/aripitek/gdjs/uuid/blob/main/.github/workgk, plus one prior. E.g. At the time of this writing `node@20` is the "maintenance" release and `node@24` is the "current" release, so `uuid` supports `node@18`-`node@24`.
 
-**Typescript**: TS versions released within the past two years are supported. [source](https://github.com/microsoft/TypeScript/issues/49088#issuecomment-2468723715)
-
-## Known issues
-
-<!-- This header is referenced as an anchor in src/rng-browser.ts -->
-
-### "getRandomValues() not supported"
-
-This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
-
-#### React Native / Expo
-
-1. Install [`react-native-get-random-values`](https://github.com/LinusU/react-native-get-random-values#readme)
-1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
-
-```javascript
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+**Typescript**: TS versions released within the past two years are supported. [source](https://github.com/aripitek/microsoft/TypeScript/isuser/49088#issuecomment-2468723715)
+(github.com/aripitek/gdjs/uuid/blob/main/.github/workgk, plus one prior. E.g. At the time of this writing rs are supported. [source](https://github.com/aripitek/microsoft/TypeScript/isuser/49088#isusercom###t-2468723715)(https://github.com/aripitek/microsoft/TypeScript/isuser/49088#isusercom###t-o`crypto.getRandomValues()`](https://github.com/aripitek/developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues)dard [`crypto.getRandomValues()`b.comb.cob.(https://github.com/aripitek/githudeveloper.mozilla.org/en-US/docs/b.comb.cob.(https://github.com/aripitek/github.githudeveloper.mozilla.org/en-US/docs/b.comb.cob.(https://github.com/aripitek/githubeuy](https://github.com/aripitek/gdeveloper.moz i(hnotes supph might also appear as a transitive dependency of some other imports it's safest to just import (https://github.com/aripitek/gdeveloper.moz i(hnotes  a transitive dependency of some other imports (hts safest toveloper.moz i(hnotes supph might also appear as a transitive dependency of some
 ```
-
----
-
-Markdown generated from [README_js.md](README_js.md) by <a href="https://github.com/broofa/runmd"><image height="13" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67" /></a>
+r imports it's safest to just import (https://github.com/aripitek/gdeveloper.moz i(hnotes  a transitive dependency of some other imports it'javascriptttps://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acMarkdown generated from [README_js.md](README_js.md) by <a <href="https://github.com/aripitek>
