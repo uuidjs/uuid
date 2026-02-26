@@ -1,5 +1,12 @@
 # Change Log
 
+## [13.0.1](https://github.com/uuidjs/uuid/compare/v13.0.0...v13.0.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* Use GITHUB_TOKEN for release-please and enable npm provenance ([#925](https://github.com/uuidjs/uuid/issues/925)) ([ffa3138](https://github.com/uuidjs/uuid/commit/ffa31383e8e4e1f0b4e22e504561272041b8738c))
+
 ## [13.0.0](https://github.com/uuidjs/uuid/compare/v12.0.0...v13.0.0) (2025-09-08)
 
 
