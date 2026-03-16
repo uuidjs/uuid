@@ -2,6 +2,9 @@ import { UUIDTypes } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 
+// Workaround for different versions of TypeScript definitions
+type NonSharedArrayBuffer = ReturnType<typeof Uint8Array.of>;
+
 /**
  * Convert a v1 UUID to a v6 UUID
  *
@@ -10,8 +13,8 @@ import { unsafeStringify } from './stringify.js';
  * (string or Uint8Array)
  */
 export default function v1ToV6(uuid: string): string;
-export default function v1ToV6(uuid: Uint8Array): Uint8Array;
-export default function v1ToV6(uuid: string | Uint8Array): UUIDTypes {
+export default function v1ToV6(uuid: Uint8Array): NonSharedArrayBuffer;
+export default function v1ToV6(uuid: string | Uint8Array): UUIDTypes<NonSharedArrayBuffer> {
   const v1Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
   const v6Bytes = _v1ToV6(v1Bytes);
@@ -20,7 +23,7 @@ export default function v1ToV6(uuid: string | Uint8Array): UUIDTypes {
 }
 
 // Do the field transformation needed for v1 -> v6
-function _v1ToV6(v1Bytes: Uint8Array) {
+function _v1ToV6(v1Bytes: Uint8Array): NonSharedArrayBuffer {
   return Uint8Array.of(
     ((v1Bytes[6] & 0x0f) << 4) | ((v1Bytes[7] >> 4) & 0x0f),
     ((v1Bytes[7] & 0x0f) << 4) | ((v1Bytes[4] & 0xf0) >> 4),

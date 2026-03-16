@@ -41,6 +41,7 @@
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
     "@eslint/js": "9.26.0",
+    "@types/node": "25.5.0",
     "bundlewatch": "0.4.1",
     "commander": "13.1.0",
     "eslint": "9.26.0",
@@ -56,8 +57,8 @@
     "release-please": "17.0.0",
     "runmd": "1.4.1",
     "standard-version": "9.5.0",
-    "typescript": "5.2.2",
-    "typescript-eslint": "8.32.0"
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.57.1"
   },
   "optionalDevDependencies": {
     "@wdio/browserstack-service": "9.2.1",

@@ -1,6 +1,9 @@
 import validate from './validate.js';
 
-function parse(uuid: string) {
+// Workaround for different versions of TypeScript definitions
+type NonSharedArrayBuffer = ReturnType<typeof Uint8Array.of>;
+
+function parse(uuid: string): NonSharedArrayBuffer {
   if (!validate(uuid)) {
     throw TypeError('Invalid UUID');
   }
