@@ -1,9 +1,6 @@
-import { UUIDTypes } from './types.js';
+import { UUIDTypes, NonSharedArrayBuffer } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
-
-// Workaround for different versions of TypeScript definitions
-type NonSharedArrayBuffer = ReturnType<typeof Uint8Array.of>;
 
 /**
  * Convert a v1 UUID to a v6 UUID

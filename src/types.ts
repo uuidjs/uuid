@@ -23,3 +23,6 @@ export type Version7Options = {
   seq?: number;
   rng?: () => Uint8Array;
 };
+
+// Workaround for different versions of TypeScript definitions
+export type NonSharedArrayBuffer = ReturnType<typeof Uint8Array.of>;

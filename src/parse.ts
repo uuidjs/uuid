@@ -1,7 +1,5 @@
+import { NonSharedArrayBuffer } from './types.js';
 import validate from './validate.js';
-
-// Workaround for different versions of TypeScript definitions
-type NonSharedArrayBuffer = ReturnType<typeof Uint8Array.of>;
 
 function parse(uuid: string): NonSharedArrayBuffer {
   if (!validate(uuid)) {

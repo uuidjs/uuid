@@ -57,7 +57,7 @@
     "release-please": "17.0.0",
     "runmd": "1.4.1",
     "standard-version": "9.5.0",
-    "typescript": "5.9.3",
+    "typescript": "5.4.3",
     "typescript-eslint": "8.57.1"
   },
   "optionalDevDependencies": {
