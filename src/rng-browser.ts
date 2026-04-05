@@ -11,7 +11,7 @@ export default function rng() {
   if (!getRandomValues) {
     if (typeof crypto === 'undefined' || !crypto.getRandomValues) {
       throw new Error(
-        'crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported'
+        'crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported',
       );
     }
 

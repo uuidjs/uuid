@@ -9,7 +9,7 @@ describe('validate()', () => {
       assert.strictEqual(
         validate(value),
         expectedValidate,
-        `validate(${value}) should be ${expectedValidate}`
+        `validate(${value}) should be ${expectedValidate}`,
       );
     }
   });

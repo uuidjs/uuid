@@ -1,6 +1,6 @@
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
-import { UUIDTypes, Version1Options } from './types.js';
+import type { UUIDTypes, Version1Options } from './types.js';
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -24,16 +24,20 @@ type V1State = {
 
 const _state: V1State = {};
 
-function v1(options?: Version1Options, buf?: undefined, offset?: number): string;
+function v1(
+  options?: Version1Options,
+  buf?: undefined,
+  offset?: number,
+): string;
 function v1<Buf extends Uint8Array = Uint8Array>(
   options: Version1Options | undefined,
   buf: Buf,
-  offset?: number
+  offset?: number,
 ): Buf;
 function v1<TBuf extends Uint8Array = Uint8Array>(
   options?: Version1Options,
   buf?: TBuf,
-  offset?: number
+  offset?: number,
 ): UUIDTypes<TBuf> {
   let bytes: Uint8Array;
 
@@ -55,7 +59,7 @@ function v1<TBuf extends Uint8Array = Uint8Array>(
       options.clockseq,
       options.node,
       buf,
-      offset
+      offset,
     );
   } else {
     // Without options: Make UUID from internal state
@@ -77,7 +81,7 @@ function v1<TBuf extends Uint8Array = Uint8Array>(
       isV6 ? undefined : _state.clockseq,
       isV6 ? undefined : _state.node,
       buf,
-      offset
+      offset,
     );
   }
 
@@ -145,7 +149,7 @@ function v1Bytes(
   clockseq?: number,
   node?: Uint8Array,
   buf?: Uint8Array,
-  offset = 0
+  offset = 0,
 ) {
   if (rnds.length < 16) {
     throw new Error('Random bytes length must be >= 16');
@@ -157,7 +161,9 @@ function v1Bytes(
     offset = 0;
   } else {
     if (offset < 0 || offset + 16 > buf.length) {
-      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+      throw new RangeError(
+        `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
+      );
     }
   }
 

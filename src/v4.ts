@@ -1,12 +1,12 @@
 import native from './native.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
-import { UUIDTypes, Version4Options } from './types.js';
+import type { UUIDTypes, Version4Options } from './types.js';
 
 function _v4<TBuf extends Uint8Array = Uint8Array>(
   options?: Version4Options,
   buf?: TBuf,
-  offset?: number
+  offset?: number,
 ): UUIDTypes<TBuf> {
   options = options || {};
 
@@ -23,7 +23,9 @@ function _v4<TBuf extends Uint8Array = Uint8Array>(
   if (buf) {
     offset = offset || 0;
     if (offset < 0 || offset + 16 > buf.length) {
-      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+      throw new RangeError(
+        `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
+      );
     }
 
     for (let i = 0; i < 16; ++i) {
@@ -36,16 +38,20 @@ function _v4<TBuf extends Uint8Array = Uint8Array>(
   return unsafeStringify(rnds);
 }
 
-function v4(options?: Version4Options, buf?: undefined, offset?: number): string;
+function v4(
+  options?: Version4Options,
+  buf?: undefined,
+  offset?: number,
+): string;
 function v4<TBuf extends Uint8Array = Uint8Array>(
   options: Version4Options | undefined,
   buf: TBuf,
-  offset?: number
+  offset?: number,
 ): TBuf;
 function v4<TBuf extends Uint8Array = Uint8Array>(
   options?: Version4Options,
   buf?: TBuf,
-  offset?: number
+  offset?: number,
 ): UUIDTypes<TBuf> {
   if (native.randomUUID && !buf && !options) {
     return native.randomUUID();

@@ -2,7 +2,8 @@ const PORT = 9000;
 const PROJECT = process.env.GITHUB_REPOSITORY || 'node-uuid';
 const GITHUB_SHA = process.env.GITHUB_SHA || '';
 const GITHUB_REF = process.env.GITHUB_REF || '';
-const BUILD = GITHUB_SHA || GITHUB_REF ? `${GITHUB_REF} ${GITHUB_SHA}` : 'manual build';
+const BUILD =
+  GITHUB_SHA || GITHUB_REF ? `${GITHUB_REF} ${GITHUB_SHA}` : 'manual build';
 
 const commonCapabilities = {
   projectName: PROJECT,

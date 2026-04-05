@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "ms-vscode.vscode-typescript-next",
-    "esbenp.prettier-vscode"
-  ]
+  "recommendations": ["biomejs.biome", "ms-vscode.vscode-typescript-next"]
 }
