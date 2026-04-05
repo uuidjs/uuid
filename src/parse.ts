@@ -1,6 +1,7 @@
+import type { NonSharedArrayBuffer } from './types.js';
 import validate from './validate.js';
 
-function parse(uuid: string) {
+function parse(uuid: string): NonSharedArrayBuffer {
   if (!validate(uuid)) {
     throw TypeError('Invalid UUID');
   }

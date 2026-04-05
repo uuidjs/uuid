@@ -4,6 +4,6 @@
   },
   "scripts": {
     "pretest": "rm -fr node_modules && npm install --no-package-lock",
-    "test": "npx -y --package=typescript@5.0.4 -- tsc --noEmit"
+    "test": "npx -y --package=typescript@5.4.3 -- tsc --noEmit"
   }
 }

@@ -51,7 +51,7 @@
     "release-please": "17.3.0",
     "runmd": "1.4.1",
     "standard-version": "9.5.0",
-    "typescript": "5.2.2"
+    "typescript": "5.4.3"
   },
   "optionalDevDependencies": {
     "@wdio/browserstack-service": "9.2.1",
