@@ -5,7 +5,15 @@
     "indentWidth": 2
   },
   "files": {
-    "includes": ["**", "!**/dist"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/dist-node",
+
+      // We have to ignore this file because node 18 requires the "assert { type:
+      // 'json' }" syntax which is not supported by Biome's parser yet.
+      "!examples/node-esmodules/package.mjs"
+    ]
   },
   "javascript": {
     "formatter": {
