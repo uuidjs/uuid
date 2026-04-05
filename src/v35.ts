@@ -1,6 +1,6 @@
-import { UUIDTypes } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
+import type { UUIDTypes } from './types.js';
 
 export function stringToBytes(str: string) {
   // TODO: Use TextEncoder (see https://stackoverflow.com/a/48762658/109538)
@@ -26,17 +26,21 @@ export default function v35<TBuf extends Uint8Array = Uint8Array>(
   value: string | Uint8Array,
   namespace: UUIDTypes,
   buf?: TBuf,
-  offset?: number
+  offset?: number,
 ): UUIDTypes<TBuf> {
-  const valueBytes: Uint8Array = typeof value === 'string' ? stringToBytes(value) : value;
-  const namespaceBytes: Uint8Array = typeof namespace === 'string' ? parse(namespace) : namespace;
+  const valueBytes: Uint8Array =
+    typeof value === 'string' ? stringToBytes(value) : value;
+  const namespaceBytes: Uint8Array =
+    typeof namespace === 'string' ? parse(namespace) : namespace;
 
   if (typeof namespace === 'string') {
     namespace = parse(namespace);
   }
 
   if (namespace?.length !== 16) {
-    throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
+    throw TypeError(
+      'Namespace must be array-like (16 iterable integer values, 0-255)',
+    );
   }
 
   // Compute hash of namespace and value, Per 4.3

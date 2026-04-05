@@ -36,7 +36,7 @@ const RFC_RANDOM = Uint8Array.of(
   RFC_OPTIONS.clockseq & 0xff,
 
   // node
-  ...RFC_OPTIONS.node
+  ...RFC_OPTIONS.node,
 );
 
 // Compare v1 timestamp fields chronologically
@@ -69,13 +69,25 @@ describe('v1', () => {
   });
 
   test('v1(options)', () => {
-    assert.equal(v1({ msecs: RFC_OPTIONS.msecs, random: RFC_RANDOM }), RFC_V1, 'minimal options');
+    assert.equal(
+      v1({ msecs: RFC_OPTIONS.msecs, random: RFC_RANDOM }),
+      RFC_V1,
+      'minimal options',
+    );
     assert.equal(v1(RFC_OPTIONS), RFC_V1, 'full options');
   });
 
   test('v1(options) equality', () => {
-    assert.notEqual(v1({ msecs: TIME }), v1({ msecs: TIME }), 'UUIDs with minimal options differ');
-    assert.equal(v1(RFC_OPTIONS), v1(RFC_OPTIONS), 'UUIDs with full options are identical');
+    assert.notEqual(
+      v1({ msecs: TIME }),
+      v1({ msecs: TIME }),
+      'UUIDs with minimal options differ',
+    );
+    assert.equal(
+      v1(RFC_OPTIONS),
+      v1(RFC_OPTIONS),
+      'UUIDs with full options are identical',
+    );
   });
 
   test('fills one UUID into a buffer as expected', () => {
@@ -165,7 +177,11 @@ describe('v1', () => {
       },
     ];
     for (const { title, state, now, expected } of tests) {
-      assert.deepStrictEqual(updateV1State(state, now, RFC_RANDOM), expected, `Failed: ${title}`);
+      assert.deepStrictEqual(
+        updateV1State(state, now, RFC_RANDOM),
+        expected,
+        `Failed: ${title}`,
+      );
     }
   });
 

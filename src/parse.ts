@@ -1,4 +1,4 @@
-import { NonSharedArrayBuffer } from './types.js';
+import type { NonSharedArrayBuffer } from './types.js';
 import validate from './validate.js';
 
 function parse(uuid: string): NonSharedArrayBuffer {
@@ -6,7 +6,7 @@ function parse(uuid: string): NonSharedArrayBuffer {
     throw TypeError('Invalid UUID');
   }
 
-  let v;
+  let v: number;
   return Uint8Array.of(
     (v = parseInt(uuid.slice(0, 8), 16)) >>> 24,
     (v >>> 16) & 0xff,
@@ -32,7 +32,7 @@ function parse(uuid: string): NonSharedArrayBuffer {
     (v >>> 24) & 0xff,
     (v >>> 16) & 0xff,
     (v >>> 8) & 0xff,
-    v & 0xff
+    v & 0xff,
   );
 }
 

@@ -31,16 +31,18 @@ describe('v6', () => {
     0x3c,
     0xbb,
     0x32,
-    0x10
+    0x10,
   );
 
   test('default behavior', () => {
     // Verify explicit options produce expected id
     const id = v6();
     assert.ok(
-      /[0-9a-f]{8}-[0-9a-f]{4}-6[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/.test(id),
+      /[0-9a-f]{8}-[0-9a-f]{4}-6[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/.test(
+        id,
+      ),
 
-      'id is valid v6 UUID'
+      'id is valid v6 UUID',
     );
   });
 

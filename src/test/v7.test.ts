@@ -2,7 +2,7 @@ import * as assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import parse from '../parse.js';
 import stringify from '../stringify.js';
-import { Version7Options } from '../types.js';
+import type { Version7Options } from '../types.js';
 import v7, { updateV7State } from '../v7.js';
 
 // Fixture values for testing with the rfc v7 UUID example:
@@ -31,7 +31,7 @@ const RFC_RANDOM = Uint8Array.of(
   0x0c,
   0x07,
   0x39,
-  0x8f
+  0x8f,
 );
 
 describe('v7', () => {
@@ -74,7 +74,7 @@ describe('v7', () => {
         msecs: RFC_MSECS,
         seq: RFC_SEQ,
       },
-      buffer
+      buffer,
     );
     stringify(buffer);
 
@@ -92,7 +92,7 @@ describe('v7', () => {
         seq: RFC_SEQ,
       },
       buffer,
-      0
+      0,
     );
     v7(
       {
@@ -101,7 +101,7 @@ describe('v7', () => {
         seq: RFC_SEQ,
       },
       buffer,
-      16
+      16,
     );
     const expected = new Uint8Array(32);
     expected.set(RFC_V7_BYTES);
@@ -114,8 +114,8 @@ describe('v7', () => {
   //
 
   test('lexicographical sorting is preserved', () => {
-    let id;
-    let prior;
+    let id: string;
+    let prior: string | undefined;
     let msecs = RFC_MSECS;
     for (let i = 0; i < 20000; ++i) {
       if (i % 1500 === 0) {
@@ -218,16 +218,22 @@ describe('v7', () => {
       },
     ];
     for (const { title, state, now, expected } of tests) {
-      assert.deepStrictEqual(updateV7State(state, now, RFC_RANDOM), expected, `Failed: ${title}`);
+      assert.deepStrictEqual(
+        updateV7State(state, now, RFC_RANDOM),
+        expected,
+        `Failed: ${title}`,
+      );
     }
   });
 
   test('flipping bits changes the result', () => {
     // convert uint8array to BigInt (BE)
-    const asBigInt = (buf: Uint8Array) => buf.reduce((acc, v) => (acc << 8n) | BigInt(v), 0n);
+    const asBigInt = (buf: Uint8Array) =>
+      buf.reduce((acc, v) => (acc << 8n) | BigInt(v), 0n);
 
     // convert the given number of bits (LE) to number
-    const asNumber = (bits: number, data: bigint) => Number(BigInt.asUintN(bits, data));
+    const asNumber = (bits: number, data: bigint) =>
+      Number(BigInt.asUintN(bits, data));
 
     // flip the nth bit (BE) in a BigInt
     const flip = (data: bigint, n: number) => data ^ (1n << BigInt(127 - n));
@@ -262,7 +268,7 @@ describe('v7', () => {
       assert.strictEqual(
         asBigInt(v7(optionsFrom(flipped), buf)).toString(16),
         flipped.toString(16),
-        `Unequal uuids at bit ${i}`
+        `Unequal uuids at bit ${i}`,
       );
       assert.notStrictEqual(stringify(buf), id);
     }

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/dist-node",
+
+      // We have to ignore this file because node 18 requires the "assert { type:
+      // 'json' }" syntax which is not supported by Biome's parser yet.
+      "!examples/node-esmodules/package.mjs"
+    ]
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all"
+    }
+  },
+  "linter": {
+    "rules": {
+      "a11y": { "useHtmlLang": "off" },
+      "complexity": { "useArrowFunction": "off" },
+      "suspicious": { "noAssignInExpressions": "off" }
+    }
+  }
+}

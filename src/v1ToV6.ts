@@ -1,6 +1,6 @@
-import { UUIDTypes, NonSharedArrayBuffer } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
+import type { NonSharedArrayBuffer, UUIDTypes } from './types.js';
 
 /**
  * Convert a v1 UUID to a v6 UUID
@@ -11,7 +11,9 @@ import { unsafeStringify } from './stringify.js';
  */
 export default function v1ToV6(uuid: string): string;
 export default function v1ToV6(uuid: Uint8Array): NonSharedArrayBuffer;
-export default function v1ToV6(uuid: string | Uint8Array): UUIDTypes<NonSharedArrayBuffer> {
+export default function v1ToV6(
+  uuid: string | Uint8Array,
+): UUIDTypes<NonSharedArrayBuffer> {
   const v1Bytes = typeof uuid === 'string' ? parse(uuid) : uuid;
 
   const v6Bytes = _v1ToV6(v1Bytes);
@@ -40,6 +42,6 @@ function _v1ToV6(v1Bytes: Uint8Array): NonSharedArrayBuffer {
     v1Bytes[12],
     v1Bytes[13],
     v1Bytes[14],
-    v1Bytes[15]
+    v1Bytes[15],
   );
 }

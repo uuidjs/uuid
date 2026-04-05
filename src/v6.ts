@@ -1,18 +1,22 @@
-import { UUIDTypes, Version6Options } from './types.js';
 import { unsafeStringify } from './stringify.js';
+import type { UUIDTypes, Version6Options } from './types.js';
 import v1 from './v1.js';
 import v1ToV6 from './v1ToV6.js';
 
-function v6(options?: Version6Options, buf?: undefined, offset?: number): string;
+function v6(
+  options?: Version6Options,
+  buf?: undefined,
+  offset?: number,
+): string;
 function v6<TBuf extends Uint8Array = Uint8Array>(
   options: Version6Options | undefined,
   buf: TBuf,
-  offset?: number
+  offset?: number,
 ): TBuf;
 function v6<TBuf extends Uint8Array = Uint8Array>(
   options?: Version6Options,
   buf?: TBuf,
-  offset?: number
+  offset?: number,
 ): UUIDTypes<TBuf> {
   options ??= {};
   offset ??= 0;
