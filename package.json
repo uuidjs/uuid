@@ -51,8 +51,7 @@
     "release-please": "17.0.0",
     "runmd": "1.4.1",
     "standard-version": "9.5.0",
-    "typescript": "5.2.2",
-    "typescript-eslint": "8.32.0"
+    "typescript": "5.2.2"
   },
   "optionalDevDependencies": {
     "@wdio/browserstack-service": "9.2.1",
