@@ -171,14 +171,6 @@ Create an RFC version 1 (timestamp) UUID
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 | _throws_ | `Error` if more than 10M UUIDs/sec are requested |
 
-<!-- prettier-ignore -->
-> [!NOTE]
-> The default [node id](https://datatracker.ietf.org/doc/html/rfc9562#section-5.1) (the last 12 digits in the UUID) is generated once, randomly, on process startup, and then remains unchanged for the duration of the process.
-
-<!-- prettier-ignore -->
-> [!NOTE]
-> `options.random` and `options.rng` are only meaningful on the very first call to `v1()`, where they may be passed to initialize the internal `node` and `clockseq` fields.
-
 Example:
 
 ```javascript --run

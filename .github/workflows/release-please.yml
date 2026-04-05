@@ -23,7 +23,7 @@ jobs:
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.UUID_RELEASE_PLEASE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
 
       - run: echo "Release created?... ${{ steps.release.outputs.release_created }}"
@@ -43,5 +43,5 @@ jobs:
       - run: npm test
         if: ${{ steps.release.outputs.release_created }}
 
-      - run: npm publish
+      - run: npm publish --provenance
         if: ${{ steps.release.outputs.release_created }}
