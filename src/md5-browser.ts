@@ -55,7 +55,7 @@ function wordsToMd5(x: Uint32Array, len: number) {
   /* append padding */
   const xpad = new Uint32Array(getOutputLength(len)).fill(0);
   xpad.set(x);
-  xpad[len >> 5] |= 0x80 << len % 32;
+  xpad[len >> 5] |= 0x80 << (len % 32);
   xpad[xpad.length - 1] = len;
   x = xpad;
 
@@ -182,23 +182,62 @@ function bitRotateLeft(num: number, cnt: number) {
 /*
  * These functions implement the four basic operations the algorithm uses.
  */
-function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number) {
+function md5cmn(
+  q: number,
+  a: number,
+  b: number,
+  x: number,
+  s: number,
+  t: number,
+) {
   return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 }
 
-function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5ff(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+) {
   return md5cmn((b & c) | (~b & d), a, b, x, s, t);
 }
 
-function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5gg(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+) {
   return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
 }
 
-function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5hh(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+) {
   return md5cmn(b ^ c ^ d, a, b, x, s, t);
 }
 
-function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
+function md5ii(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+) {
   return md5cmn(c ^ (b | ~d), a, b, x, s, t);
 }
 

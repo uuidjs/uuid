@@ -1,6 +1,6 @@
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
-import { UUIDTypes, Version7Options } from './types.js';
+import type { UUIDTypes, Version7Options } from './types.js';
 
 type V7State = {
   msecs?: number; // time, milliseconds
@@ -9,16 +9,20 @@ type V7State = {
 
 const _state: V7State = {};
 
-function v7(options?: Version7Options, buf?: undefined, offset?: number): string;
+function v7(
+  options?: Version7Options,
+  buf?: undefined,
+  offset?: number,
+): string;
 function v7<TBuf extends Uint8Array = Uint8Array>(
   options: Version7Options | undefined,
   buf: TBuf,
-  offset?: number
+  offset?: number,
 ): TBuf;
 function v7<TBuf extends Uint8Array = Uint8Array>(
   options?: Version7Options,
   buf?: TBuf,
-  offset?: number
+  offset?: number,
 ): UUIDTypes<TBuf> {
   let bytes: Uint8Array;
 
@@ -29,7 +33,7 @@ function v7<TBuf extends Uint8Array = Uint8Array>(
       options.msecs,
       options.seq,
       buf,
-      offset
+      offset,
     );
   } else {
     // No options: Use internal state
@@ -69,7 +73,13 @@ export function updateV7State(state: V7State, now: number, rnds: Uint8Array) {
   return state;
 }
 
-function v7Bytes(rnds: Uint8Array, msecs?: number, seq?: number, buf?: Uint8Array, offset = 0) {
+function v7Bytes(
+  rnds: Uint8Array,
+  msecs?: number,
+  seq?: number,
+  buf?: Uint8Array,
+  offset = 0,
+) {
   if (rnds.length < 16) {
     throw new Error('Random bytes length must be >= 16');
   }
@@ -79,7 +89,9 @@ function v7Bytes(rnds: Uint8Array, msecs?: number, seq?: number, buf?: Uint8Arra
     offset = 0;
   } else {
     if (offset < 0 || offset + 16 > buf.length) {
-      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+      throw new RangeError(
+        `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
+      );
     }
   }
 

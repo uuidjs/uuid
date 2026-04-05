@@ -44,7 +44,7 @@ function sha1(bytes: Uint8Array): Uint8Array {
     M[i] = arr;
   }
 
-  M[N - 1][14] = ((bytes.length - 1) * 8) / Math.pow(2, 32);
+  M[N - 1][14] = ((bytes.length - 1) * 8) / 2 ** 32;
   M[N - 1][14] = Math.floor(M[N - 1][14]);
   M[N - 1][15] = ((bytes.length - 1) * 8) & 0xffffffff;
 
@@ -103,7 +103,7 @@ function sha1(bytes: Uint8Array): Uint8Array {
     H[4] >> 24,
     H[4] >> 16,
     H[4] >> 8,
-    H[4]
+    H[4],
   );
 }
 

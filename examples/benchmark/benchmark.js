@@ -9,8 +9,8 @@ export default function benchmark(uuid, Benchmark) {
     });
 
     const BYTES = [
-      0x0f, 0x5a, 0xbc, 0xd1, 0xc1, 0x94, 0x47, 0xf3, 0x90, 0x5b, 0x2d, 0xf7, 0x26, 0x3a, 0x08,
-      0x4b,
+      0x0f, 0x5a, 0xbc, 0xd1, 0xc1, 0x94, 0x47, 0xf3, 0x90, 0x5b, 0x2d, 0xf7,
+      0x26, 0x3a, 0x08, 0x4b,
     ];
 
     suite
@@ -76,15 +76,13 @@ export default function benchmark(uuid, Benchmark) {
         uuid.v7(null, array, 0);
       })
       .add('uuid.v7() with defined time', function () {
-        uuid.v7({
-          msecs: 1645557742000,
-        });
+        uuid.v7({ msecs: 1645557742000 });
       })
       .on('cycle', function (event) {
         console.log(event.target.toString());
       })
       .on('complete', function () {
-        console.log('Fastest is ' + this.filter('fastest').map('name'));
+        console.log(`Fastest is ${this.filter('fastest').map('name')}`);
         console.log('---\n');
       })
       .run();

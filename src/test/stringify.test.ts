@@ -18,18 +18,24 @@ const BYTES = Uint8Array.of(
   0x26,
   0x3a,
   0x08,
-  0x4b
+  0x4b,
 );
 
 describe('stringify', () => {
   test('Stringify Array (unsafe)', () => {
-    assert.equal(unsafeStringify(BYTES), '0f5abcd1-c194-47f3-905b-2df7263a084b');
+    assert.equal(
+      unsafeStringify(BYTES),
+      '0f5abcd1-c194-47f3-905b-2df7263a084b',
+    );
   });
 
   test('Stringify w/ offset (unsafe)', () => {
     const bytes = new Uint8Array(19).fill(0);
     bytes.set(BYTES, 3);
-    assert.equal(unsafeStringify(bytes, 3), '0f5abcd1-c194-47f3-905b-2df7263a084b');
+    assert.equal(
+      unsafeStringify(bytes, 3),
+      '0f5abcd1-c194-47f3-905b-2df7263a084b',
+    );
   });
 
   test('Stringify Array (safe)', () => {

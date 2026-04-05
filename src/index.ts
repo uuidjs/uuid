@@ -1,8 +1,8 @@
-export type * from './types.js';
 export { default as MAX } from './max.js';
 export { default as NIL } from './nil.js';
 export { default as parse } from './parse.js';
 export { default as stringify } from './stringify.js';
+export type * from './types.js';
 export { default as v1 } from './v1.js';
 export { default as v1ToV6 } from './v1ToV6.js';
 export { default as v3 } from './v3.js';

@@ -19,7 +19,7 @@ const randomBytesFixture = Uint8Array.of(
   0x67,
   0x1c,
   0x58,
-  0x36
+  0x36,
 );
 
 const expectedBytes = Uint8Array.of(
@@ -38,7 +38,7 @@ const expectedBytes = Uint8Array.of(
   103,
   28,
   88,
-  54
+  54,
 );
 
 describe('v4', () => {

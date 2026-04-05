@@ -1,6 +1,6 @@
-import { UUIDTypes } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
+import type { UUIDTypes } from './types.js';
 
 /**
  * Convert a v1 UUID to a v6 UUID
@@ -40,6 +40,6 @@ function _v1ToV6(v1Bytes: Uint8Array) {
     v1Bytes[12],
     v1Bytes[13],
     v1Bytes[14],
-    v1Bytes[15]
+    v1Bytes[15],
   );
 }
