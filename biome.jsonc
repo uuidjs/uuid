@@ -23,15 +23,9 @@
   },
   "linter": {
     "rules": {
-      "a11y": {
-        "useHtmlLang": "off"
-      },
-      "complexity": {
-        "useArrowFunction": "off"
-      },
-      "suspicious": {
-        "noAssignInExpressions": "off"
-      }
+      "a11y": { "useHtmlLang": "off" },
+      "complexity": { "useArrowFunction": "off" },
+      "suspicious": { "noAssignInExpressions": "off" }
     }
   }
 }
