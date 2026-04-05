@@ -34,7 +34,7 @@ npm install uuid
 ```javascript
 import { v4 as uuidv4 } from "uuid";
 
-uuidv4(); // ⇨ '59c892bd-28b3-430e-a180-b02548346331'
+uuidv4(); // ⇨ 'd02fd2bc-0baa-4a06-ae2f-fde2bbaff694'
 ```
 
 For timestamp UUIDs, namespace UUIDs, and other options read on ...
@@ -179,7 +179,7 @@ Example:
 ```javascript
 import { v1 as uuidv1 } from "uuid";
 
-uuidv1(); // ⇨ '8c5dce80-309e-11f1-a247-d30aadaa5579'
+uuidv1(); // ⇨ '56eaf9f0-310a-11f1-8b06-cf0bf06de9bb'
 ```
 
 Example using `options`:
@@ -234,7 +234,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from "uuid";
 
-uuidv4(); // ⇨ '6aa50eb9-7f3b-4931-99c3-96153026c3a1'
+uuidv4(); // ⇨ 'c3d46383-7242-4b80-973b-eb3c66ad8d9e'
 ```
 
 Example using predefined `random` values:
@@ -310,7 +310,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from "uuid";
 
-uuidv6(); // ⇨ '1f1309e8-c5e6-6ac0-8f36-0cb5e9b3126a'
+uuidv6(); // ⇨ '1f1310a5-6eb9-6630-bf43-2b49087aab53'
 ```
 
 Example using `options`:
@@ -357,7 +357,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from "uuid";
 
-uuidv7(); // ⇨ '019d5ba8-fb6d-76e6-b431-ed99f3c6e608'
+uuidv7(); // ⇨ '019d5e6b-6713-7339-951f-6e19a533527d'
 ```
 
 ### ~~uuid.v8()~~
@@ -464,7 +464,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 **Browsers**: `uuid` [builds are tested](/uuidjs/uuid/blob/main/wdio.conf.js) against the latest version of desktop Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren't currently tested.
 
-**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. At the time of this writing `node@20` is the "maintenance" release and `node@24` is the "current" release, so `uuid` supports `node@18`-`node@24`.
+**Node**: `uuid` [builds are tested](https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27) against node ([LTS releases](https://github.com/nodejs/Release)), plus one prior. E.g. At the time of this writing `node@20` is the "maintenance" release and `node@24` is the "current" release, so `uuid` supports `node@20`-`node@24`.
 
 **Typescript**: TS versions released within the past two years are supported. [source](https://github.com/microsoft/TypeScript/issues/49088#issuecomment-2468723715)
 
