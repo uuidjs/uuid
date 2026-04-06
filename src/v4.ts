@@ -1,7 +1,14 @@
-import native from './native.js';
 import rng from './rng.js';
 import { unsafeStringify } from './stringify.js';
 import type { UUIDTypes, Version4Options } from './types.js';
+
+let nativeRandomUUID =
+  typeof crypto !== 'undefined' && crypto.randomUUID?.bind?.(crypto);
+
+// Not part of the public API - may change or disappear without warning.
+export function testingOnlySetNativeRandomUUID(fn: typeof crypto.randomUUID) {
+  nativeRandomUUID = fn;
+}
 
 function _v4<TBuf extends Uint8Array = Uint8Array>(
   options?: Version4Options,
@@ -53,8 +60,8 @@ function v4<TBuf extends Uint8Array = Uint8Array>(
   buf?: TBuf,
   offset?: number,
 ): UUIDTypes<TBuf> {
-  if (native.randomUUID && !buf && !options) {
-    return native.randomUUID();
+  if (nativeRandomUUID && !buf && !options) {
+    return nativeRandomUUID();
   }
 
   // Putting tail-code that could just go inline here in a separate function
