@@ -1,6 +1,6 @@
 import * as assert from 'node:assert/strict';
-import { describe, mock, test } from 'node:test';
-import v4, { testingOnlySetNativeRandomUUID } from '../v4.js';
+import { describe, test } from 'node:test';
+import v4 from '../v4.js';
 
 const randomBytesFixture = Uint8Array.of(
   0x10,
@@ -48,26 +48,24 @@ describe('v4', () => {
     assert.ok(id1 !== id2);
   });
 
-  test('should uses native randomUUID() if no option is passed', async () => {
-    const mockRandomUUID = mock.fn<typeof crypto.randomUUID>();
-    testingOnlySetNativeRandomUUID(mockRandomUUID);
+  test('should uses native randomUUID() if no option is passed', async (t) => {
+    const mocked = t.mock.method(crypto, 'randomUUID', () => 'mocked-uuid');
 
-    assert.equal(mockRandomUUID.mock.callCount(), 0);
+    assert.equal(mocked.mock.callCount(), 0);
     v4();
-    assert.equal(mockRandomUUID.mock.callCount(), 1);
+    assert.equal(mocked.mock.callCount(), 1);
 
-    mock.restoreAll();
+    t.mock.reset();
   });
 
-  test('should not use native randomUUID() if an option is passed', async () => {
-    const mockRandomUUID = mock.fn<typeof crypto.randomUUID>();
-    testingOnlySetNativeRandomUUID(mockRandomUUID);
+  test('should not use native randomUUID() if an option is passed', async (t) => {
+    const mocked = t.mock.method(crypto, 'randomUUID', () => 'mocked-uuid');
 
-    assert.equal(mockRandomUUID.mock.callCount(), 0);
+    assert.equal(mocked.mock.callCount(), 0);
     v4({});
-    assert.equal(mockRandomUUID.mock.callCount(), 0);
+    assert.equal(mocked.mock.callCount(), 0);
 
-    mock.restoreAll();
+    t.mock.reset();
   });
 
   test('explicit options.random produces expected result', () => {
