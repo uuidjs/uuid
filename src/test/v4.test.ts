@@ -48,7 +48,7 @@ describe('v4', () => {
     assert.ok(id1 !== id2);
   });
 
-  test('should uses native randomUUID() if no option is passed', async (t) => {
+  test('should use native randomUUID() if no option is passed', async (t) => {
     const mocked = t.mock.method(crypto, 'randomUUID', () => 'mocked-uuid');
 
     assert.equal(mocked.mock.callCount(), 0);
