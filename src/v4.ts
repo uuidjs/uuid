@@ -17,7 +17,7 @@ function v4<TBuf extends Uint8Array = Uint8Array>(
   buf?: TBuf,
   offset?: number,
 ): UUIDTypes<TBuf> {
-  if (!buf && !options) {
+  if (!buf && !options && crypto.randomUUID) {
     return crypto.randomUUID();
   }
 

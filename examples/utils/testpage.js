@@ -33,6 +33,7 @@ export default function test(callback) {
   function done() {
     const div = document.createElement('h2');
     div.id = 'done';
+    div.innerHTML = 'Done';
     document.body.appendChild(div);
   }
 
