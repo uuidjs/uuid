@@ -55,7 +55,12 @@ export default function v35<TBuf extends Uint8Array = Uint8Array>(
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
   if (buf) {
-    offset = offset || 0;
+    offset ??= 0;
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(
+        `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
+      );
+    }
 
     for (let i = 0; i < 16; ++i) {
       buf[offset + i] = bytes[i];

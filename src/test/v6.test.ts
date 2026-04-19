@@ -80,6 +80,14 @@ describe('v6', () => {
     assert.deepEqual(buffer, expectedBuf);
   });
 
+  test('throws RangeError for out-of-range indexes', () => {
+    const buf15 = new Uint8Array(15);
+    const buf30 = new Uint8Array(30);
+    assert.throws(() => v6({}, buf15), RangeError);
+    assert.throws(() => v6({}, buf30, -1), RangeError);
+    assert.throws(() => v6({}, buf30, 15), RangeError);
+  });
+
   test('v1 -> v6 conversion', () => {
     const id = v1ToV6(V1_ID);
     assert.equal(id, V6_ID);
