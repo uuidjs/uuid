@@ -57,7 +57,7 @@ const capabilities = [
     'bstack:options': {
       ...commonCapabilities,
       os: 'OS X',
-      osVersion: 'Monterey',
+      osVersion: 'Tahoe',
     },
   },
 ];

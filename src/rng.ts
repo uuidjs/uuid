@@ -1,12 +1,7 @@
-import { randomFillSync } from 'node:crypto';
-
-const rnds8Pool = new Uint8Array(256); // # of random values to pre-allocate
-let poolPtr = rnds8Pool.length;
-
+// RNG values for use in UUID generation. This *must* use a high-quality source
+// of entropy, such as `crypto.getRandomValues()`.  And we reuse an array for
+// performance.
+const rnds8 = new Uint8Array(16);
 export default function rng() {
-  if (poolPtr > rnds8Pool.length - 16) {
-    randomFillSync(rnds8Pool);
-    poolPtr = 0;
-  }
-  return rnds8Pool.slice(poolPtr, (poolPtr += 16));
+  return crypto.getRandomValues(rnds8);
 }

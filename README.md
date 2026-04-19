@@ -34,7 +34,7 @@ npm install uuid
 ```javascript
 import { v4 as uuidv4 } from "uuid";
 
-uuidv4(); // ⇨ 'd02fd2bc-0baa-4a06-ae2f-fde2bbaff694'
+uuidv4(); // ⇨ 'ab16e731-6cee-424d-81a0-5929e9bdb0cc'
 ```
 
 For timestamp UUIDs, namespace UUIDs, and other options read on ...
@@ -179,7 +179,7 @@ Example:
 ```javascript
 import { v1 as uuidv1 } from "uuid";
 
-uuidv1(); // ⇨ '56eaf9f0-310a-11f1-8b06-cf0bf06de9bb'
+uuidv1(); // ⇨ '4d9d2960-31d0-11f1-aba8-29728d41eeed'
 ```
 
 Example using `options`:
@@ -234,7 +234,7 @@ Example:
 ```javascript
 import { v4 as uuidv4 } from "uuid";
 
-uuidv4(); // ⇨ 'c3d46383-7242-4b80-973b-eb3c66ad8d9e'
+uuidv4(); // ⇨ '7934256a-bc92-4b69-b240-f9e463881aea'
 ```
 
 Example using predefined `random` values:
@@ -310,7 +310,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from "uuid";
 
-uuidv6(); // ⇨ '1f1310a5-6eb9-6630-bf43-2b49087aab53'
+uuidv6(); // ⇨ '1f131d04-d9dc-65a0-9516-5be66631ce97'
 ```
 
 Example using `options`:
@@ -357,7 +357,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from "uuid";
 
-uuidv7(); // ⇨ '019d5e6b-6713-7339-951f-6e19a533527d'
+uuidv7(); // ⇨ '019d637c-c6fb-74e9-8b9d-2f1d459a4201'
 ```
 
 ### ~~uuid.v8()~~
@@ -470,7 +470,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 ## Known issues
 
-<!-- This header is referenced as an anchor in src/rng-browser.ts -->
+<!-- This header is referenced as an anchor in src/rng.ts -->
 
 ### "getRandomValues() not supported"
 
