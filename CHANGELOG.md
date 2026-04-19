@@ -3,6 +3,11 @@
 ## [14.0.0](https://github.com/uuidjs/uuid/compare/v13.0.0...v14.0.0) (2026-04-19)
 
 
+### Security
+
+* Fixes [GHSA-w5hq-g745-h8pq](https://github.com/uuidjs/uuid/security/advisories/GHSA-w5hq-g745-h8pq): `v3()`, `v5()`, and `v6()` did not validate that writes would remain within the bounds of a caller-supplied buffer, allowing out-of-bounds writes when an invalid `offset` was provided. A `RangeError` is now thrown if `offset < 0` or `offset + 16 > buf.length`.
+
+
 ### ⚠ BREAKING CHANGES
 
 * expect `crypto` to be global everywhere (requires node@20+) ([#935](https://github.com/uuidjs/uuid/issues/935))
