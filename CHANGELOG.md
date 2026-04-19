@@ -16,6 +16,7 @@
 ### Features
 
 * drop node@18 support ([#934](https://github.com/uuidjs/uuid/issues/934)) ([dc4ddb8](https://github.com/uuidjs/uuid/commit/dc4ddb87272ed2843faccd130bcc41d492688bd3))
+* upgrade minimum supported TypeScript version to 5.4.3, in keeping with the project's policy of supporting TypeScript versions released within the last two years
 
 
 ### Bug Fixes
