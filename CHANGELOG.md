@@ -1,5 +1,19 @@
 # Change Log
 
+## [14.0.0](https://github.com/uuidjs/uuid/compare/v13.0.0...v14.0.0) (2026-04-19)
+
+
+### Security
+
+* Fixes [GHSA-w5hq-g745-h8pq](https://github.com/uuidjs/uuid/security/advisories/GHSA-w5hq-g745-h8pq): `v3()`, `v5()`, and `v6()` did not validate that writes would remain within the bounds of a caller-supplied buffer, allowing out-of-bounds writes when an invalid `offset` was provided. A `RangeError` is now thrown if `offset < 0` or `offset + 16 > buf.length`.
+
+
+### ⚠ BREAKING CHANGES
+
+* `crypto` is now expected to be globally defined (requires node@20+) ([#935](https://github.com/uuidjs/uuid/issues/935))
+* drop node@18 support ([#934](https://github.com/uuidjs/uuid/issues/934))
+* upgrade minimum supported TypeScript version to 5.4.3, in keeping with the project's policy of supporting TypeScript versions released within the last two years
+
 ## [13.0.0](https://github.com/uuidjs/uuid/compare/v12.0.0...v13.0.0) (2025-09-08)
 
 
