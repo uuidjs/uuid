@@ -1,5 +1,23 @@
 # Change Log
 
+## [14.0.0](https://github.com/uuidjs/uuid/compare/v13.0.0...v14.0.0) (2026-04-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* expect `crypto` to be global everywhere (requires node@20+) ([#935](https://github.com/uuidjs/uuid/issues/935))
+* drop node@18 support ([#934](https://github.com/uuidjs/uuid/issues/934))
+
+### Features
+
+* drop node@18 support ([#934](https://github.com/uuidjs/uuid/issues/934)) ([dc4ddb8](https://github.com/uuidjs/uuid/commit/dc4ddb87272ed2843faccd130bcc41d492688bd3))
+
+
+### Bug Fixes
+
+* expect `crypto` to be global everywhere (requires node@20+) ([#935](https://github.com/uuidjs/uuid/issues/935)) ([f2c235f](https://github.com/uuidjs/uuid/commit/f2c235f93059325fa43e1106e624b5291bb523c4))
+* Use GITHUB_TOKEN for release-please and enable npm provenance ([#925](https://github.com/uuidjs/uuid/issues/925)) ([ffa3138](https://github.com/uuidjs/uuid/commit/ffa31383e8e4e1f0b4e22e504561272041b8738c))
+
 ## [13.0.0](https://github.com/uuidjs/uuid/compare/v12.0.0...v13.0.0) (2025-09-08)
 
 
