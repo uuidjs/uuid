@@ -161,6 +161,14 @@ describe('v35', () => {
     assert.throws(() => v3('hello.example.com', null, new Uint8Array(16)));
   });
 
+  test('v3 throws RangeError for out-of-range indexes', () => {
+    const buf15 = new Uint8Array(15);
+    const buf30 = new Uint8Array(30);
+    assert.throws(() => v3('hello.example.com', v3.DNS, buf15), RangeError);
+    assert.throws(() => v3('hello.example.com', v3.DNS, buf30, -1), RangeError);
+    assert.throws(() => v3('hello.example.com', v3.DNS, buf30, 15), RangeError);
+  });
+
   test('v5', () => {
     // Expect to get the same results as http://tools.adjet.org/uuid-v5
     assert.strictEqual(
@@ -267,6 +275,14 @@ describe('v35', () => {
     assert.throws(() => v5('hello.example.com', undefined));
     // @ts-expect-error testing invalid input
     assert.throws(() => v5('hello.example.com', null, new Uint8Array(16)));
+  });
+
+  test('v5 throws RangeError for out-of-range indexes', () => {
+    const buf15 = new Uint8Array(15);
+    const buf30 = new Uint8Array(30);
+    assert.throws(() => v5('hello.example.com', v5.DNS, buf15), RangeError);
+    assert.throws(() => v5('hello.example.com', v5.DNS, buf30, -1), RangeError);
+    assert.throws(() => v5('hello.example.com', v5.DNS, buf30, 15), RangeError);
   });
 
   test('v3/v5 constants', () => {
