@@ -32,32 +32,32 @@ npm install uuid
 **2. Create a UUID**
 
 ```javascript
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ 'ab16e731-6cee-424d-81a0-5929e9bdb0cc'
+uuidv4(); // ⇨ 'b18794e8-5d0d-417c-b361-ba38e78411b4'
 ```
 
 For timestamp UUIDs, namespace UUIDs, and other options read on ...
 
 ## API Summary
 
-|                                                    |                                                 |                   |
-| -------------------------------------------------- | ----------------------------------------------- | ----------------- |
-| [`uuid.NIL`](#uuidnil)                             | The nil UUID string (all zeros)                 | New in `uuid@8.3` |
-| [`uuid.MAX`](#uuidmax)                             | The max UUID string (all ones)                  | New in `uuid@9.1` |
-| [`uuid.parse()`](#uuidparsestr)                    | Convert UUID string to array of bytes           | New in `uuid@8.3` |
-| [`uuid.stringify()`](#uuidstringifyarr-offset)     | Convert array of bytes to UUID string           | New in `uuid@8.3` |
-| [`uuid.v1()`](#uuidv1options-buffer-offset)        | Create a version 1 (timestamp) UUID             |                   |
-| [`uuid.v1ToV6()`](#uuidv1tov6uuid)                 | Create a version 6 UUID from a version 1 UUID   | New in `uuid@10`  |
-| [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID      |                   |
-| [`uuid.v4()`](#uuidv4options-buffer-offset)        | Create a version 4 (random) UUID                |                   |
-| [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID    |                   |
-| [`uuid.v6()`](#uuidv6options-buffer-offset)        | Create a version 6 (timestamp, reordered) UUID  | New in `uuid@10`  |
-| [`uuid.v6ToV1()`](#uuidv6tov1uuid)                 | Create a version 1 UUID from a version 6 UUID   | New in `uuid@10`  |
-| [`uuid.v7()`](#uuidv7options-buffer-offset)        | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10`  |
-| ~~[`uuid.v8()`](#uuidv8)~~                         | "Intentionally left blank"                      |                   |
-| [`uuid.validate()`](#uuidvalidatestr)              | Test a string to see if it is a valid UUID      | New in `uuid@8.3` |
-| [`uuid.version()`](#uuidversionstr)                | Detect RFC version of a UUID                    | New in `uuid@8.3` |
+|  |  |  |
+| --- | --- | --- |
+| [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.3` |
+| [`uuid.MAX`](#uuidmax) | The max UUID string (all ones) | New in `uuid@9.1` |
+| [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
+| [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
+| [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
+| [`uuid.v1ToV6()`](#uuidv1tov6uuid) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
+| [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
+| [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
+| [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
+| [`uuid.v6()`](#uuidv6options-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
+| [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
+| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
+| ~~[`uuid.v8()`](#uuidv8)~~ | "Intentionally left blank" |  |
+| [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
+| [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
 
 ## API
 
@@ -68,7 +68,7 @@ The nil UUID string (all zeros).
 Example:
 
 ```javascript
-import { NIL as NIL_UUID } from "uuid";
+import { NIL as NIL_UUID } from 'uuid';
 
 NIL_UUID; // ⇨ '00000000-0000-0000-0000-000000000000'
 ```
@@ -80,7 +80,7 @@ The max UUID string (all ones).
 Example:
 
 ```javascript
-import { MAX as MAX_UUID } from "uuid";
+import { MAX as MAX_UUID } from 'uuid';
 
 MAX_UUID; // ⇨ 'ffffffff-ffff-ffff-ffff-ffffffffffff'
 ```
@@ -102,10 +102,10 @@ Convert UUID string to array of bytes
 Example:
 
 ```javascript
-import { parse as uuidParse } from "uuid";
+import { parse as uuidParse } from 'uuid';
 
 // Parse a UUID
-uuidParse("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"); // ⇨
+uuidParse('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨
 // Uint8Array(16) [
 //   110, 192, 189, 127,  17,
 //   192,  67, 218, 151,  94,
@@ -132,7 +132,7 @@ Convert array of bytes to UUID string
 Example:
 
 ```javascript
-import { stringify as uuidStringify } from "uuid";
+import { stringify as uuidStringify } from 'uuid';
 
 const uuidBytes = Uint8Array.of(
   0x6e,
@@ -150,7 +150,7 @@ const uuidBytes = Uint8Array.of(
   0xd9,
   0xeb,
   0xae,
-  0x0b,
+  0x0b
 );
 
 uuidStringify(uuidBytes); // ⇨ '6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'
@@ -160,37 +160,37 @@ uuidStringify(uuidBytes); // ⇨ '6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'
 
 Create an RFC version 1 (timestamp) UUID
 
-|                                    |                                                                                                                                        |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| [`options`]                        | `Object` with one or more of the following properties:                                                                                 |
-| [`options.node = (random)` ]       | RFC "node" field as an `Array[6]` of byte values (per 4.1.6)                                                                           |
-| [`options.clockseq = (random)`]    | RFC "clock sequence" as a `Number` between 0 - 0x3fff                                                                                  |
-| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch)                                                                           |
-| [`options.nsecs = 0`]              | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000)                                                  |
-| [`options.random = (random)`]      | `Array` of 16 random bytes (0-255) used to generate other fields, above                                                                |
-| [`options.rng`]                    | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255)                                       |
-| [`buffer`]                         | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
-| [`offset` = 0]                     | `Number` Index to start writing UUID bytes in `buffer`                                                                                 |
-| _returns_                          | UUID `String` if no `buffer` is specified, otherwise returns `buffer`                                                                  |
-| _throws_                           | `Error` if more than 10M UUIDs/sec are requested                                                                                       |
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.node = (random)` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
+| [`options.clockseq = (random)`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
+| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
+| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
+| _throws_ | `Error` if more than 10M UUIDs/sec are requested |
 
 Example:
 
 ```javascript
-import { v1 as uuidv1 } from "uuid";
+import { v1 as uuidv1 } from 'uuid';
 
-uuidv1(); // ⇨ '4d9d2960-31d0-11f1-aba8-29728d41eeed'
+uuidv1(); // ⇨ '57fd0000-c7d3-11ef-841d-514d2167fc5b'
 ```
 
 Example using `options`:
 
 ```javascript
-import { v1 as uuidv1 } from "uuid";
+import { v1 as uuidv1 } from 'uuid';
 
 const options = {
   node: Uint8Array.of(0x01, 0x23, 0x45, 0x67, 0x89, 0xab),
   clockseq: 0x1234,
-  msecs: new Date("2011-11-01").getTime(),
+  msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
 uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
@@ -201,9 +201,9 @@ uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
 Convert a UUID from version 1 to version 6
 
 ```javascript
-import { v1ToV6 } from "uuid";
+import { v1ToV6 } from 'uuid';
 
-v1ToV6("92f62d9e-22c4-11ef-97e9-325096b39f47"); // ⇨ '1ef22c49-2f62-6d9e-97e9-325096b39f47'
+v1ToV6('92f62d9e-22c4-11ef-97e9-325096b39f47'); // ⇨ '1ef22c49-2f62-6d9e-97e9-325096b39f47'
 ```
 
 ### uuid.v3(name, namespace[, buffer[, offset]])
@@ -220,27 +220,27 @@ API is identical to `v5()`, but uses "v3" instead.
 
 Create an RFC version 4 (random) UUID
 
-|                    |                                                                                                                                        |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| [`options`]        | `Object` with one or more of the following properties:                                                                                 |
-| [`options.random`] | `Array` of 16 random bytes (0-255)                                                                                                     |
-| [`options.rng`]    | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255)                                       |
-| [`buffer`]         | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
-| [`offset` = 0]     | `Number` Index to start writing UUID bytes in `buffer`                                                                                 |
-| _returns_          | UUID `String` if no `buffer` is specified, otherwise returns `buffer`                                                                  |
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.random`] | `Array` of 16 random bytes (0-255) |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
 Example:
 
 ```javascript
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
-uuidv4(); // ⇨ '7934256a-bc92-4b69-b240-f9e463881aea'
+uuidv4(); // ⇨ 'b18794e8-5d0d-417c-b361-ba38e78411b4'
 ```
 
 Example using predefined `random` values:
 
 ```javascript
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 const v4options = {
   random: Uint8Array.of(
@@ -259,7 +259,7 @@ const v4options = {
     0x67,
     0x1c,
     0x58,
-    0x36,
+    0x36
   ),
 };
 uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
@@ -269,13 +269,13 @@ uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
 
 Create an RFC version 5 (namespace w/ SHA-1) UUID
 
-|                |                                                                                                                                        |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`         | `String \| Array`                                                                                                                      |
-| `namespace`    | `String \| Array[16]` Namespace UUID                                                                                                   |
-| [`buffer`]     | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
-| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer`                                                                                 |
-| _returns_      | UUID `String` if no `buffer` is specified, otherwise returns `buffer`                                                                  |
+|  |  |
+| --- | --- |
+| `name` | `String \| Array` |
+| `namespace` | `String \| Array[16]` Namespace UUID |
+| [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
 <!-- prettier-ignore -->
 > [!NOTE]
@@ -284,21 +284,21 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 Example with custom namespace:
 
 ```javascript
-import { v5 as uuidv5 } from "uuid";
+import { v5 as uuidv5 } from 'uuid';
 
 // Define a custom namespace.  Readers, create your own using something like
 // https://www.uuidgenerator.net/
-const MY_NAMESPACE = "1b671a64-40d5-491e-99b0-da01ff1f3341";
+const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
 
-uuidv5("Hello, World!", MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
+uuidv5('Hello, World!', MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
 ```
 
 Example with RFC `URL` namespace:
 
 ```javascript
-import { v5 as uuidv5 } from "uuid";
+import { v5 as uuidv5 } from 'uuid';
 
-uuidv5("https://www.w3.org/", uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
+uuidv5('https://www.w3.org/', uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
 ```
 
 ### uuid.v6([options[, buffer[, offset]]])
@@ -308,20 +308,20 @@ Create an RFC version 6 (timestamp, reordered) UUID
 This method takes the same arguments as uuid.v1().
 
 ```javascript
-import { v6 as uuidv6 } from "uuid";
+import { v6 as uuidv6 } from 'uuid';
 
-uuidv6(); // ⇨ '1f131d04-d9dc-65a0-9516-5be66631ce97'
+uuidv6(); // ⇨ '1efc7d35-7fd0-6000-841d-504d2167fc5b'
 ```
 
 Example using `options`:
 
 ```javascript
-import { v6 as uuidv6 } from "uuid";
+import { v6 as uuidv6 } from 'uuid';
 
 const options = {
   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
   clockseq: 0x1234,
-  msecs: new Date("2011-11-01").getTime(),
+  msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
 };
 uuidv6(options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
@@ -332,32 +332,32 @@ uuidv6(options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
 Convert a UUID from version 6 to version 1
 
 ```javascript
-import { v6ToV1 } from "uuid";
+import { v6ToV1 } from 'uuid';
 
-v6ToV1("1ef22c49-2f62-6d9e-97e9-325096b39f47"); // ⇨ '92f62d9e-22c4-11ef-97e9-325096b39f47'
+v6ToV1('1ef22c49-2f62-6d9e-97e9-325096b39f47'); // ⇨ '92f62d9e-22c4-11ef-97e9-325096b39f47'
 ```
 
 ### uuid.v7([options[, buffer[, offset]]])
 
 Create an RFC version 7 (random) UUID
 
-|                                    |                                                                                                                                                                                        |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`options`]                        | `Object` with one or more of the following properties:                                                                                                                                 |
-| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch)                                                                                                                           |
-| [`options.random = (random)`]      | `Array` of 16 random bytes (0-255) used to generate other fields, above                                                                                                                |
-| [`options.rng`]                    | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255)                                                                                       |
-| [`options.seq = (random)`]         | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help ensure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
-| [`buffer`]                         | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset`                                                 |
-| [`offset` = 0]                     | `Number` Index to start writing UUID bytes in `buffer`                                                                                                                                 |
-| _returns_                          | UUID `String` if no `buffer` is specified, otherwise returns `buffer`                                                                                                                  |
+|  |  |
+| --- | --- |
+| [`options`] | `Object` with one or more of the following properties: |
+| [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
+| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.seq = (random)`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help ensure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
+| [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
+| [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
+| _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
 
 Example:
 
 ```javascript
-import { v7 as uuidv7 } from "uuid";
+import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '019d637c-c6fb-74e9-8b9d-2f1d459a4201'
+uuidv7(); // ⇨ '01941f29-7c00-75f4-a310-744d2167fc5b'
 ```
 
 ### ~~uuid.v8()~~
@@ -380,24 +380,24 @@ Test a string to see if it is a valid UUID
 Example:
 
 ```javascript
-import { validate as uuidValidate } from "uuid";
+import { validate as uuidValidate } from 'uuid';
 
-uuidValidate("not a UUID"); // ⇨ false
-uuidValidate("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"); // ⇨ true
+uuidValidate('not a UUID'); // ⇨ false
+uuidValidate('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ true
 ```
 
 Using `validate` and `version` together it is possible to do per-version validation, e.g. validate for only v4 UUIds.
 
 ```javascript
-import { version as uuidVersion } from "uuid";
-import { validate as uuidValidate } from "uuid";
+import { version as uuidVersion } from 'uuid';
+import { validate as uuidValidate } from 'uuid';
 
 function uuidValidateV4(uuid) {
   return uuidValidate(uuid) && uuidVersion(uuid) === 4;
 }
 
-const v1Uuid = "d9428888-122b-11e1-b85c-61cd3cbb3210";
-const v4Uuid = "109156be-c4fb-41ea-b1b4-efe1671c5836";
+const v1Uuid = 'd9428888-122b-11e1-b85c-61cd3cbb3210';
+const v4Uuid = '109156be-c4fb-41ea-b1b4-efe1671c5836';
 
 uuidValidateV4(v4Uuid); // ⇨ true
 uuidValidateV4(v1Uuid); // ⇨ false
@@ -416,10 +416,10 @@ Detect RFC version of a UUID
 Example:
 
 ```javascript
-import { version as uuidVersion } from "uuid";
+import { version as uuidVersion } from 'uuid';
 
-uuidVersion("45637ec4-c85f-11ea-87d0-0242ac130003"); // ⇨ 1
-uuidVersion("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"); // ⇨ 4
+uuidVersion('45637ec4-c85f-11ea-87d0-0242ac130003'); // ⇨ 1
+uuidVersion('6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'); // ⇨ 4
 ```
 
 <!-- prettier-ignore -->
@@ -482,10 +482,10 @@ This error occurs in environments where the standard [`crypto.getRandomValues()`
 1. Import it _before_ `uuid`. Since `uuid` might also appear as a transitive dependency of some other imports it's safest to just import `react-native-get-random-values` as the very first thing in your entry point:
 
 ```javascript
-import "react-native-get-random-values";
-import { v4 as uuidv4 } from "uuid";
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 ```
 
 ---
 
-Markdown generated from [README_js.md](README_js.md) by <a href="https://github.com/broofa/runmd"><image height="13" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67" /></a>
+Generated from [README_js.md](README_js.md) by [`runmd`](https://github.com/broofa/runmd)

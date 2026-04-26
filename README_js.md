@@ -1,8 +1,40 @@
-```javascript --hide
-runmd.onRequire = (path) => {
-  if (path == 'rng') return fun;
-  return path.replace(/^uuid/, './dist/');
+```javascript --run
+runmd.importMap = {
+  imports: {
+    uuid: './dist/index.js',
+  },
 };
+
+// DOCS ONLY! Monkey patch for repeatable Date APIs
+(function () {
+  Date.now = () => new Date('2025-1-1Z').getTime();
+})();
+
+// DOCS ONLY! Monkey patch for repeatable crypto APIs
+(function () {
+  // mulberry32 rng
+  let seed = 0xfeedface;
+  function rng() {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 0x100000000;
+  }
+
+  crypto.getRandomValues = function (arr) {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = Math.floor(rng() * 0x100);
+    }
+
+    return arr;
+  };
+
+  crypto.randomUUID = function () {
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c) =>
+      (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+    );
+  };
+})();
 ```
 
 # uuid [![CI](https://github.com/uuidjs/uuid/workflows/CI/badge.svg)](https://github.com/uuidjs/uuid/actions?query=workflow%3ACI) [![Browser](https://github.com/uuidjs/uuid/workflows/Browser/badge.svg)](https://github.com/uuidjs/uuid/actions/workflows/browser.yml)
@@ -468,6 +500,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 ## Known issues
 
 <!-- This header is referenced as an anchor in src/rng.ts -->
+
 ### "getRandomValues() not supported"
 
 This error occurs in environments where the standard [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) API is not supported. This issue can be resolved by adding an appropriate polyfill:
