@@ -8,9 +8,12 @@ on:
   push:
     branches:
       - main
+      - 12.x
+      - 13.x
 
 permissions:
   contents: write
+  id-token: write
   pull-requests: write
 
 name: release-please
@@ -19,11 +22,13 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@v5
         id: release
         with:
-          token: ${{ secrets.UUID_RELEASE_PLEASE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
+          target-branch: ${{ github.ref_name }}
+          versioning-strategy: ${{ (github.ref_name == '12.x' || github.ref_name == '13.x') && 'always-bump-patch' || 'default' }}
 
       - run: echo "Release created?... ${{ steps.release.outputs.release_created }}"
 
@@ -32,7 +37,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
 
@@ -42,7 +47,5 @@ jobs:
       - run: npm test
         if: ${{ steps.release.outputs.release_created }}
 
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.UUID_NPM_RELEASE_TOKEN}}
+      - run: npm publish --provenance
         if: ${{ steps.release.outputs.release_created }}
