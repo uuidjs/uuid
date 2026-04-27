@@ -1,5 +1,5 @@
-import { UUIDTypes, Version6Options } from './types.js';
 import { unsafeStringify } from './stringify.js';
+import { UUIDTypes, Version6Options } from './types.js';
 import v1 from './v1.js';
 import v1ToV6 from './v1ToV6.js';
 
@@ -27,6 +27,10 @@ function v6<TBuf extends Uint8Array = Uint8Array>(
 
   // Return as a byte array if requested
   if (buf) {
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+    }
+
     for (let i = 0; i < 16; i++) {
       buf[offset + i] = bytes[i];
     }

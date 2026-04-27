@@ -87,4 +87,13 @@ describe('v6', () => {
     const id = v6ToV1(V6_ID);
     assert.equal(id, V1_ID);
   });
+
+  test('throws RangeError for out-of-range indexes', () => {
+    const buf15 = new Uint8Array(15);
+    const buf30 = new Uint8Array(30);
+
+    assert.throws(() => v6({}, buf15), RangeError);
+    assert.throws(() => v6({}, buf30, -1), RangeError);
+    assert.throws(() => v6({}, buf30, 15), RangeError);
+  });
 });

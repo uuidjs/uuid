@@ -1,6 +1,6 @@
-import { UUIDTypes } from './types.js';
 import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
+import { UUIDTypes } from './types.js';
 
 export function stringToBytes(str: string) {
   // TODO: Use TextEncoder (see https://stackoverflow.com/a/48762658/109538)
@@ -52,6 +52,10 @@ export default function v35<TBuf extends Uint8Array = Uint8Array>(
 
   if (buf) {
     offset = offset || 0;
+
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+    }
 
     for (let i = 0; i < 16; ++i) {
       buf[offset + i] = bytes[i];
