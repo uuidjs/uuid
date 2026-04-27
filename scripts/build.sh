@@ -7,7 +7,7 @@
 # Note: that the "preferred" build for testing (local and CI) is the ESM build,
 # except where we specifically test the other builds
 
-set -e # exit on error
+set -euo pipefail
 
 # Change to project root
 ROOT=$(builtin cd $(pwd)/$(dirname "$0")/..; pwd)

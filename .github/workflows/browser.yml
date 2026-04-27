@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  HUSKY: 0
+  LEFTHOOK: 0
 
 jobs:
   browser:

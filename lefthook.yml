@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    lint-staged:
+      run: npx --no-install lint-staged
+
+commit-msg:
+  commands:
+    commitlint:
+      run: npx --no-install commitlint --edit {1}
