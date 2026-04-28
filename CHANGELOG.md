@@ -1,5 +1,12 @@
 # Change Log
 
+## [13.0.1](https://github.com/uuidjs/uuid/compare/v13.0.0...v13.0.1) (2026-04-27)
+
+
+### Bug Fixes
+
+* backport fix for GHSA-w5hq-g745-h8pq ([9d27ddf](https://github.com/uuidjs/uuid/commit/9d27ddf7046ce496ef39569ff84d948eeff9cb2a))
+
 ## [13.0.0](https://github.com/uuidjs/uuid/compare/v12.0.0...v13.0.0) (2025-09-08)
 
 
