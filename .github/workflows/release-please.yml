@@ -47,5 +47,13 @@ jobs:
       - run: npm test
         if: ${{ steps.release.outputs.release_created }}
 
-      - run: npm publish --provenance
+      - name: Publish to npm
         if: ${{ steps.release.outputs.release_created }}
+        run: |
+          if [[ "$GITHUB_REF_NAME" == "main" ]]; then
+            npm publish --provenance
+          else
+            npm publish --provenance --tag "v${GITHUB_REF_NAME%%.x}"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.UUID_NPM_RELEASE_TOKEN }}
