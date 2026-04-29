@@ -53,7 +53,7 @@ jobs:
           if [[ "$GITHUB_REF_NAME" == "main" ]]; then
             npm publish --provenance
           else
-            npm publish --provenance --tag "legacy-v${GITHUB_REF_NAME%%.x}"
+            npm publish --provenance --tag "legacy-${GITHUB_REF_NAME%%.x}"
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.UUID_NPM_RELEASE_TOKEN }}
