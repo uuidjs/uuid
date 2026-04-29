@@ -8,8 +8,7 @@ on:
   push:
     branches:
       - main
-      - 12.x
-      - 13.x
+      - '*.x'
 
 permissions:
   contents: write
@@ -28,7 +27,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
           target-branch: ${{ github.ref_name }}
-          versioning-strategy: ${{ (github.ref_name == '12.x' || github.ref_name == '13.x') && 'always-bump-patch' || 'default' }}
+            versioning-strategy: ${{ endsWith(github.ref_name, '.x') && 'always-bump-patch' || 'default' }}
 
       - run: echo "Release created?... ${{ steps.release.outputs.release_created }}"
 
