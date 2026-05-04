@@ -1,5 +1,12 @@
 # Change Log
 
+## [13.0.2](https://github.com/uuidjs/uuid/compare/v13.0.1...v13.0.2) (2026-05-04)
+
+
+### Bug Fixes
+
+* rerelease to fix provenance. ([49ccb35](https://github.com/uuidjs/uuid/commit/49ccb35f78c0c4ce1409dd2f1d89f83caadba10b))
+
 ## [13.0.1](https://github.com/uuidjs/uuid/compare/v13.0.0...v13.0.1) (2026-04-27)
 
 
