@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
           target-branch: ${{ github.ref_name }}
-            versioning-strategy: ${{ endsWith(github.ref_name, '.x') && 'always-bump-patch' || 'default' }}
+          versioning-strategy: ${{ endsWith(github.ref_name, '.x') && 'always-bump-patch' || 'default' }}
 
       - run: echo "Release created?... ${{ steps.release.outputs.release_created }}"
 
