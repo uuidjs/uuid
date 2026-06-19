@@ -27,6 +27,8 @@ For the creation of [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) (form
 
 ```shell
 npm install uuid
+# or
+deno install uuid
 ```
 
 **2. Create a UUID**
