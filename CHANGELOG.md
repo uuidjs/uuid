@@ -6,7 +6,6 @@
 ### Bug Fixes
 
 * add types condition to node export for moduleResolution bundler ([#961](https://github.com/uuidjs/uuid/issues/961)) ([27ffae5](https://github.com/uuidjs/uuid/commit/27ffae5e867823b8c7db255975d65358fbdb1a7e))
-* **ci:** checkout PR head commit in browser workflow ([#957](https://github.com/uuidjs/uuid/issues/957)) ([d729016](https://github.com/uuidjs/uuid/commit/d729016037c4e1b09a522f4854a96f4f4add9047))
 
 ## [14.0.0](https://github.com/uuidjs/uuid/compare/v13.0.0...v14.0.0) (2026-04-19)
 
