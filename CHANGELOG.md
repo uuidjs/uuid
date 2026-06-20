@@ -1,5 +1,12 @@
 # Change Log
 
+## [14.0.1](https://github.com/uuidjs/uuid/compare/v14.0.0...v14.0.1) (2026-06-20)
+
+
+### Bug Fixes
+
+* add types condition to node export for moduleResolution bundler ([#961](https://github.com/uuidjs/uuid/issues/961)) ([27ffae5](https://github.com/uuidjs/uuid/commit/27ffae5e867823b8c7db255975d65358fbdb1a7e))
+
 ## [14.0.0](https://github.com/uuidjs/uuid/compare/v13.0.0...v14.0.0) (2026-04-19)
 
 
