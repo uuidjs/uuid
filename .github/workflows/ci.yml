@@ -21,6 +21,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run docs:diff
+      - run: npx -y publint --strict
 
   test:
     runs-on: ubuntu-latest
