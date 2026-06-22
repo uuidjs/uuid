@@ -297,4 +297,41 @@ describe('v7', () => {
     assert.throws(() => v7({}, buf30, -1), RangeError);
     assert.throws(() => v7({}, buf30, 15), RangeError);
   });
+
+  test('default seq (no explicit seq option) is consistent with updateV7State formula', () => {
+    // When v7() is called with random bytes and msecs but no explicit seq, the
+    // default seq should use the same formula as updateV7State() –
+    // (rnds[6] << 23) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9].
+    //
+    // Regression: the formula was `(rnds[6] * 0x7f) << 24`, which overflows
+    // for even values of rnds[6] (e.g. rnds[6]=0x02 gives 0xFE000000, a
+    // negative 32-bit integer), producing a seq inconsistent with
+    // updateV7State.
+    const rnds = Uint8Array.of(
+      0x02,
+      0x91,
+      0x56,
+      0xbe,
+      0xc4,
+      0xfb,
+      0x02,
+      0xc3,
+      0x18,
+      0xc4,
+      0x6c,
+      0x0c,
+      0x0c,
+      0x07,
+      0x39,
+      0x8f,
+    );
+    const state = updateV7State({}, RFC_MSECS, rnds);
+    const uuidWithExplicitSeq = v7({
+      random: rnds,
+      msecs: RFC_MSECS,
+      seq: state.seq,
+    });
+    const uuidWithDefaultSeq = v7({ random: rnds, msecs: RFC_MSECS });
+    assert.strictEqual(uuidWithDefaultSeq, uuidWithExplicitSeq);
+  });
 });

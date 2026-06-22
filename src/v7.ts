@@ -97,7 +97,7 @@ function v7Bytes(
 
   // Defaults
   msecs ??= Date.now();
-  seq ??= ((rnds[6] * 0x7f) << 24) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
+  seq ??= (rnds[6] << 23) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
 
   // byte 0-5: timestamp (48 bits)
   buf[offset++] = (msecs / 0x10000000000) & 0xff;
