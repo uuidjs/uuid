@@ -173,7 +173,7 @@ describe('v7', () => {
         now: 2,
         expected: {
           msecs: 2, // time interval should update
-          seq: 0x6c318c4, // sequence should be randomized
+          seq: 0xcc318c4, // sequence should be randomized
         },
       },
       {
@@ -301,11 +301,10 @@ describe('v7', () => {
   test('default seq (no explicit seq option) is consistent with updateV7State formula', () => {
     // When v7() is called with random bytes and msecs but no explicit seq, the
     // default seq should use the same formula as updateV7State() –
-    // (rnds[6] << 23) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9].
+    // ((rnds[6] & 0x7f) << 24) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9].
     //
-    // Regression: the formula was `(rnds[6] * 0x7f) << 24`, which overflows
-    // for even values of rnds[6] (e.g. rnds[6]=0x02 gives 0xFE000000, a
-    // negative 32-bit integer), producing a seq inconsistent with
+    // Regression: the formula was `(rnds[6] * 0x7f) << 24`, which should have
+    // been `(rnds[6] & 0x7f) << 24`, producing a seq inconsistent with
     // updateV7State.
     const rnds = Uint8Array.of(
       0x02,
