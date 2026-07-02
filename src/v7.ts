@@ -56,7 +56,7 @@ export function updateV7State(state: V7State, now: number, rnds: Uint8Array) {
 
   if (now > state.msecs) {
     // Time has moved on! Pick a new random sequence number
-    state.seq = (rnds[6] << 23) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
+    state.seq = v7Sequence(rnds);
     state.msecs = now;
   } else {
     // Bump sequence counter w/ 32-bit rollover
@@ -97,7 +97,7 @@ function v7Bytes(
 
   // Defaults
   msecs ??= Date.now();
-  seq ??= ((rnds[6] * 0x7f) << 24) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
+  seq ??= v7Sequence(rnds);
 
   // byte 0-5: timestamp (48 bits)
   buf[offset++] = (msecs / 0x10000000000) & 0xff;
@@ -130,6 +130,10 @@ function v7Bytes(
   buf[offset++] = rnds[15];
 
   return buf;
+}
+
+function v7Sequence(rnds: Uint8Array) {
+  return ((rnds[6] & 0x7f) << 24) | (rnds[7] << 16) | (rnds[8] << 8) | rnds[9];
 }
 
 export default v7;
