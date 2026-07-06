@@ -90,7 +90,6 @@
     "pretest:browser": "./scripts/iodd && npm run build && npm-run-all --parallel examples:browser:**",
     "pretest:node": "npm run build",
     "pretest": "npm run build",
-    "publint": "publint --strict",
     "release": "standard-version --no-verify",
     "test:benchmark": "cd examples/benchmark && npm test",
     "test:browser": "wdio run ./wdio.conf.js",
