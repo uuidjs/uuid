@@ -41,23 +41,23 @@ For timestamp UUIDs, namespace UUIDs, and other options read on ...
 
 ## API Summary
 
-|  |  |  |
-| --- | --- | --- |
-| [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) | New in `uuid@8.3` |
-| [`uuid.MAX`](#uuidmax) | The max UUID string (all ones) | New in `uuid@9.1` |
-| [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes | New in `uuid@8.3` |
-| [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string | New in `uuid@8.3` |
-| [`uuid.v1()`](#uuidv1options-buffer-offset) | Create a version 1 (timestamp) UUID |  |
-| [`uuid.v1ToV6()`](#uuidv1tov6uuid) | Create a version 6 UUID from a version 1 UUID | New in `uuid@10` |
-| [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Create a version 3 (namespace w/ MD5) UUID |  |
-| [`uuid.v4()`](#uuidv4options-buffer-offset) | Create a version 4 (random) UUID |  |
-| [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Create a version 5 (namespace w/ SHA-1) UUID |  |
-| [`uuid.v6()`](#uuidv6options-buffer-offset) | Create a version 6 (timestamp, reordered) UUID | New in `uuid@10` |
-| [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Create a version 1 UUID from a version 6 UUID | New in `uuid@10` |
-| [`uuid.v7()`](#uuidv7options-buffer-offset) | Create a version 7 (Unix Epoch time-based) UUID | New in `uuid@10` |
-| ~~[`uuid.v8()`](#uuidv8)~~ | "Intentionally left blank" |  |
-| [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID | New in `uuid@8.3` |
-| [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID | New in `uuid@8.3` |
+|  |  |
+| --- | --- |
+| [`uuid.NIL`](#uuidnil) | The nil UUID string (all zeros) |
+| [`uuid.MAX`](#uuidmax) | The max UUID string (all ones) |
+| [`uuid.parse()`](#uuidparsestr) | Convert UUID string to array of bytes |
+| [`uuid.stringify()`](#uuidstringifyarr-offset) | Convert array of bytes to UUID string |
+| [`uuid.v1()`](#uuidv1options-buffer-offset) | Generate a version 1 (timestamp) UUID |
+| [`uuid.v1ToV6()`](#uuidv1tov6uuid) | Convert a version 1 UUID to version 6 |
+| [`uuid.v3()`](#uuidv3name-namespace-buffer-offset) | Generate a version 3 (namespace w/ MD5) UUID |
+| [`uuid.v4()`](#uuidv4options-buffer-offset) | Generate a version 4 (random) UUID |
+| [`uuid.v5()`](#uuidv5name-namespace-buffer-offset) | Generate a version 5 (namespace w/ SHA-1) UUID |
+| [`uuid.v6()`](#uuidv6options-buffer-offset) | Generate a version 6 (timestamp, reordered) UUID |
+| [`uuid.v6ToV1()`](#uuidv6tov1uuid) | Convert a version 6 UUID to version 1 |
+| [`uuid.v7()`](#uuidv7options-buffer-offset) | Generate a version 7 (Unix Epoch time-based) UUID |
+| ~~[`uuid.v8()`](#uuidv8)~~ | "Intentionally left blank" |
+| [`uuid.validate()`](#uuidvalidatestr) | Test a string to see if it is a valid UUID |
+| [`uuid.version()`](#uuidversionstr) | Detect RFC version of a UUID |
 
 ## API
 
@@ -357,7 +357,7 @@ Example:
 ```javascript
 import { v7 as uuidv7 } from 'uuid';
 
-uuidv7(); // ⇨ '01941f29-7c00-75f4-a310-744d2167fc5b'
+uuidv7(); // ⇨ '01941f29-7c00-73e4-a310-744d2167fc5b'
 ```
 
 ### ~~uuid.v8()~~
