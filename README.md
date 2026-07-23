@@ -129,6 +129,10 @@ Convert array of bytes to UUID string
 > [!NOTE]
 > Ordering of values in the byte arrays used by `parse()` and `stringify()` follows the left &Rarr; right order of hex-pairs in UUID strings. As shown in the example below.
 
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> Unlike `v3()` / `v5()` namespace arrays (any 16 bytes), `stringify()` requires the bytes to form an RFC-valid UUID string (correct version and variant fields). Arbitrary 16-byte arrays will throw.
+
 Example:
 
 ```javascript
@@ -272,7 +276,7 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 |  |  |
 | --- | --- |
 | `name` | `String \| Array` |
-| `namespace` | `String \| Array[16]` Namespace UUID |
+| `namespace` | `String \| Array[16]` Namespace UUID. A `String` must be a valid UUID. An `Array[16]` may be any 16 bytes (0-255); it is not required to be an RFC-valid UUID. |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
@@ -376,6 +380,10 @@ Test a string to see if it is a valid UUID
 | --------- | --------------------------------------------------- |
 | `str`     | `String` to validate                                |
 | _returns_ | `true` if string is a valid UUID, `false` otherwise |
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> `validate()` only accepts UUID strings. To check whether a 16-byte array is an RFC-valid UUID, use `stringify()` (it throws a `TypeError` if the bytes are not valid). This differs from `v3()` / `v5()` namespaces, which accept any 16-byte array.
 
 Example:
 
