@@ -46,6 +46,30 @@ function compareV1TimeField(a: string, b: string) {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
+// A `msecs` value for which `msecs * 10000` lands within 10000 (100-nanosecond
+// intervals) of a `time_low` overflow, so that `nsecs` values >= CARRY_NSECS
+// carry out of `time_low` and into `time_mid`.  Such a `msecs` occurs roughly
+// every 430 seconds.
+const CARRY_TIME = 1321645585614; // 2011-11-18 11:46:25.614-08:00
+const CARRY_NSECS = 4384;
+
+// Extract the 60-bit RFC 9562 timestamp from a v1 UUID
+// https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1
+function v1Timestamp(uuid: string) {
+  const [timeLow, timeMid, timeHighAndVersion] = uuid.split('-');
+  return (
+    ((BigInt(`0x${timeHighAndVersion}`) & 0x0fffn) << 48n) |
+    (BigInt(`0x${timeMid}`) << 32n) |
+    BigInt(`0x${timeLow}`)
+  );
+}
+
+// The timestamp `v1Timestamp()` should find: 100-nanosecond intervals since the
+// Gregorian epoch
+function expectedTimestamp(msecs: number, nsecs: number) {
+  return (BigInt(msecs) + 12219292800000n) * 10000n + BigInt(nsecs);
+}
+
 describe('v1', () => {
   test('v1 sort order (default)', () => {
     const ids = [v1(), v1(), v1(), v1(), v1()];
@@ -62,6 +86,31 @@ describe('v1', () => {
       v1({ msecs: TIME }),
       v1({ msecs: TIME + 1 }),
       v1({ msecs: TIME + 28 * 24 * 3600 * 1000 }),
+    ];
+
+    const sorted = [...ids].sort(compareV1TimeField);
+    assert.deepEqual(ids, sorted);
+  });
+
+  // `nsecs` is added to the low 32 bits of the timestamp, so it can carry into
+  // the high 28 bits.
+  test('v1 timestamp carries nsecs into time_mid', () => {
+    for (const nsecs of [0, CARRY_NSECS - 1, CARRY_NSECS, 9999]) {
+      assert.equal(
+        v1Timestamp(v1({ msecs: CARRY_TIME, nsecs })),
+        expectedTimestamp(CARRY_TIME, nsecs),
+        `msecs = ${CARRY_TIME}, nsecs = ${nsecs}`,
+      );
+    }
+  });
+
+  // Verify ordering of v1 ids that straddle a `time_low` overflow
+  test('v1 sort order (time_low overflow)', () => {
+    const ids = [
+      v1({ msecs: CARRY_TIME, nsecs: CARRY_NSECS - 2 }),
+      v1({ msecs: CARRY_TIME, nsecs: CARRY_NSECS - 1 }),
+      v1({ msecs: CARRY_TIME, nsecs: CARRY_NSECS }),
+      v1({ msecs: CARRY_TIME, nsecs: CARRY_NSECS + 1 }),
     ];
 
     const sorted = [...ids].sort(compareV1TimeField);

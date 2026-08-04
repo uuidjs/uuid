@@ -68,6 +68,14 @@ describe('v6', () => {
     assert.deepEqual(ids, ids.slice().sort());
   });
 
+  test('sort by creation time (time_low overflow)', () => {
+    // The timestamp is assembled from a low and a high half, and `nsecs` can
+    // carry from one into the other.  See "v1 sort order (time_low overflow)".
+    const msecs = 1321645585614;
+    const ids = [4382, 4383, 4384, 4385].map((nsecs) => v6({ msecs, nsecs }));
+    assert.deepEqual(ids, ids.slice().sort());
+  });
+
   test('creating at array offset', () => {
     const buffer = new Uint8Array(32);
     v6(fullOptions, buffer, 0);

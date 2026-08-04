@@ -176,15 +176,24 @@ function v1Bytes(
   // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-1
   msecs += 12219292800000;
 
+  // The timestamp is `msecs * 10000 + nsecs`, which needs more precision than a
+  // JS number has, so it is computed as a 32-bit low half and a 28-bit high
+  // half.  `msecs` is split at bit 28, because `0x10000000 * 10000` is exactly
+  // `625 * 0x100000000`: its high bits then contribute only to the high half of
+  // the timestamp, and its low bits only to the low half.
+  const t = (msecs & 0xfffffff) * 10000 + nsecs;
+
   // `time_low`
-  const tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  const tl = t >>> 0;
   buf[offset++] = (tl >>> 24) & 0xff;
   buf[offset++] = (tl >>> 16) & 0xff;
   buf[offset++] = (tl >>> 8) & 0xff;
   buf[offset++] = tl & 0xff;
 
-  // `time_mid`
-  const tmh = ((msecs / 0x100000000) * 10000) & 0xfffffff;
+  // `time_mid`.  Note that adding `nsecs`, above, may have carried out of
+  // `time_low`, so `t`'s own high bits have to be folded in here.
+  const tmh =
+    (((msecs / 0x10000000) | 0) * 625 + ((t / 0x100000000) | 0)) & 0xfffffff;
   buf[offset++] = (tmh >>> 8) & 0xff;
   buf[offset++] = tmh & 0xff;
 
