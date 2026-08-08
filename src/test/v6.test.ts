@@ -1,5 +1,6 @@
 import * as assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
+import parse from '../parse.js';
 import v1ToV6 from '../v1ToV6.js';
 import v6 from '../v6.js';
 import v6ToV1 from '../v6ToV1.js';
@@ -94,6 +95,17 @@ describe('v6', () => {
     assert.throws(() => v6({}, buf15), RangeError);
     assert.throws(() => v6({}, buf30, -1), RangeError);
     assert.throws(() => v6({}, buf30, 15), RangeError);
+  });
+
+  test('random node has multicast bit set', () => {
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
+    for (let i = 0; i < 100; i++) {
+      assert.ok(parse(v6())[10] & 0x01, 'v6() node multicast bit');
+      assert.ok(
+        parse(v6({ msecs: fullOptions.msecs }))[10] & 0x01,
+        'v6({msecs}) node multicast bit',
+      );
+    }
   });
 
   test('v1 -> v6 conversion', () => {

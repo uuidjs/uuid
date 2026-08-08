@@ -170,7 +170,13 @@ function v1Bytes(
   msecs ??= Date.now();
   nsecs ??= 0;
   clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
-  node ??= rnds.slice(10, 16);
+  if (node == null) {
+    node = rnds.slice(10, 16);
+
+    // Set multicast bit
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
+    node[0] |= 0x01;
+  }
 
   // Offset to Gregorian epoch
   // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-1

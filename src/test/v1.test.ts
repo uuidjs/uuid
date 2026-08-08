@@ -234,6 +234,17 @@ describe('v1', () => {
     }
   });
 
+  test('random node has multicast bit set', () => {
+    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
+    for (let i = 0; i < 100; i++) {
+      assert.ok(parse(v1())[10] & 0x01, 'v1() node multicast bit');
+      assert.ok(
+        parse(v1({ msecs: TIME }))[10] & 0x01,
+        'v1(options) node multicast bit',
+      );
+    }
+  });
+
   test('throws when option.random is too short', () => {
     const random = Uint8Array.of(16);
     const buffer = new Uint8Array(16).fill(0);
