@@ -1,5 +1,14 @@
 # Change Log
 
+## [14.0.2](https://github.com/uuidjs/uuid/compare/v14.0.1...v14.0.2) (2026-08-18)
+
+
+### Bug Fixes
+
+* **v1:** carry nsecs overflow into the timestamp's high bits ([#972](https://github.com/uuidjs/uuid/issues/972)) ([6adcc1d](https://github.com/uuidjs/uuid/commit/6adcc1d81bfaeb653c49d9b7ca7b0579244ae60c))
+* **v1:** set the multicast bit on v1Bytes's own randomly-generated node ([#973](https://github.com/uuidjs/uuid/issues/973)) ([b1da338](https://github.com/uuidjs/uuid/commit/b1da338815af4d919295eacb33aae340e372232a))
+* **v7:** align default seq formula in v7Bytes with updateV7State ([#965](https://github.com/uuidjs/uuid/issues/965)) ([a67db57](https://github.com/uuidjs/uuid/commit/a67db57f7ae169e97c2573fd9d852b8364f89bf8))
+
 ## [14.0.1](https://github.com/uuidjs/uuid/compare/v14.0.0...v14.0.1) (2026-06-20)
 
 
