@@ -40,20 +40,20 @@
     "!**/test"
   ],
   "devDependencies": {
-    "@biomejs/biome": "2.4.10",
-    "@commitlint/cli": "20.5.0",
-    "@commitlint/config-conventional": "20.5.0",
-    "bundlewatch": "0.4.1",
-    "commander": "14.0.3",
-    "globals": "17.4.0",
-    "jest": "30.3.0",
-    "lefthook": "1.11.13",
-    "lint-staged": "16.4.0",
+    "@biomejs/biome": "2.5.13",
+    "@commitlint/cli": "21.2.2",
+    "@commitlint/config-conventional": "21.2.2",
+    "bundlewatch": "0.4.2",
+    "commander": "15.0.0",
+    "globals": "17.12.0",
+    "jest": "30.5.1",
+    "lefthook": "2.1.12",
+    "lint-staged": "17.5.1",
     "neostandard": "0.13.0",
-    "npm-run-all2": "8.0.4",
-    "prettier": "3.8.3",
-    "publint": "0.3.21",
-    "release-please": "17.3.0",
+    "npm-run-all2": "9.0.3",
+    "prettier": "3.9.6",
+    "publint": "0.3.24",
+    "release-please": "17.11.2",
     "runmd": "2.1.1",
     "standard-version": "9.5.0",
     "typescript": "5.4.3"
@@ -111,5 +111,5 @@
       "postchangelog": "biome format --write CHANGELOG.md"
     }
   },
-  "packageManager": "npm@11.12.1"
+  "packageManager": "npm@12.0.2"
 }
