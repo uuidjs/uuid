@@ -53,8 +53,13 @@ function _v4<TBuf extends Uint8Array = Uint8Array>(
       );
     }
 
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
+    if (buf.set) {
+      // set() preserves unread source bytes when the input and output overlap.
+      buf.set(rnds.length === 16 ? rnds : rnds.slice(0, 16), offset);
+    } else {
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
     }
 
     return buf;
