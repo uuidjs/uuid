@@ -171,7 +171,7 @@ function v1Bytes(
   nsecs ??= 0;
   clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
   if (node == null) {
-    node = rnds.slice(10, 16);
+    node = new Uint8Array(rnds.subarray(10, 16));
 
     // Set multicast bit
     // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
