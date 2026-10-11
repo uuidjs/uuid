@@ -1,5 +1,12 @@
 # Change Log
 
+## [14.0.3](https://github.com/uuidjs/uuid/compare/v14.0.2...v14.0.3) (2026-10-09)
+
+
+### Bug Fixes
+
+* fix CITGM [#1154](https://github.com/uuidjs/uuid/issues/1154) ([#981](https://github.com/uuidjs/uuid/issues/981)) ([b44f159](https://github.com/uuidjs/uuid/commit/b44f159d5a4af4eb7a144ab35dcabcfd58ef0aac))
+
 ## [14.0.2](https://github.com/uuidjs/uuid/compare/v14.0.1...v14.0.2) (2026-08-18)
 
 
