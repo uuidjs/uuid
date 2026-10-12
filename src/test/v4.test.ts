@@ -1,4 +1,5 @@
 import * as assert from 'node:assert/strict';
+import { Buffer } from 'node:buffer';
 import { describe, test } from 'node:test';
 import v4 from '../v4.js';
 
@@ -96,6 +97,54 @@ describe('v4', () => {
     expectedBuf.set(expectedBytes, 16);
 
     assert.deepEqual(buffer, expectedBuf);
+  });
+
+  test('fills overlapping buffers without corrupting random bytes', () => {
+    const factories = [
+      (length: number) => new Uint8Array(length),
+      (length: number) => Buffer.alloc(length),
+    ];
+
+    for (const createBuffer of factories) {
+      for (const randomLength of [16, 20]) {
+        for (const offset of [3, 4, 5, 20]) {
+          for (const useRng of [false, true]) {
+            const backing = createBuffer(64).fill(0xa5);
+            const random = backing.subarray(8, 8 + randomLength);
+            random.set(randomBytesFixture);
+            const buffer = backing.subarray(4, 60);
+            const expected = Uint8Array.from(backing);
+            expected.set(expectedBytes, 8);
+            expected.set(expectedBytes, 4 + offset);
+            let calls = 0;
+            const options = useRng
+              ? {
+                  rng: () => {
+                    calls++;
+                    return random;
+                  },
+                }
+              : { random };
+
+            assert.strictEqual(v4(options, buffer, offset), buffer);
+            assert.deepEqual(Uint8Array.from(backing), expected);
+            assert.equal(calls, useRng ? 1 : 0);
+          }
+        }
+      }
+    }
+  });
+
+  test('fills buffers backed by distinct wrappers of shared memory', () => {
+    const shared = new SharedArrayBuffer(17);
+    const random = new Uint8Array(shared, 0, 16);
+    random.set(randomBytesFixture);
+    const buffer = new Uint8Array(structuredClone(shared));
+    assert.notStrictEqual(random.buffer, buffer.buffer);
+
+    assert.strictEqual(v4({ random }, buffer, 1), buffer);
+    assert.deepEqual(buffer.subarray(1), expectedBytes);
+    assert.equal(buffer[0], randomBytesFixture[0]);
   });
 
   test('throws when option.random is too short', () => {
