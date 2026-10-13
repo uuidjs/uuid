@@ -1,7 +1,7 @@
 import validate from './validate.js';
 
-function version(uuid: string) {
-  if (!validate(uuid)) {
+function version(uuid: unknown) {
+  if (typeof uuid !== 'string' || !validate(uuid)) {
     throw TypeError('Invalid UUID');
   }
 
