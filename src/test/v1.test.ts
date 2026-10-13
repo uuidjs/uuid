@@ -2,6 +2,7 @@ import * as assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import parse from '../parse.js';
 import v1, { updateV1State } from '../v1.js';
+import v6 from '../v6.js';
 
 // Verify ordering of v1 ids created with explicit times
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
@@ -242,6 +243,49 @@ describe('v1', () => {
         parse(v1({ msecs: TIME }))[10] & 0x01,
         'v1(options) node multicast bit',
       );
+    }
+  });
+
+  test('does not mutate random bytes when generating a node', () => {
+    const factories = [
+      (length: number) => Buffer.alloc(length),
+      (length: number) => new Uint8Array(length),
+    ];
+    for (const generate of [v1, v6]) {
+      for (const createBuffer of factories) {
+        for (const useRng of [false, true]) {
+          const backing = createBuffer(32).fill(0x22);
+          const random = backing.subarray(8, 24);
+          const before = Uint8Array.from(backing);
+          const options = useRng ? { rng: () => random } : { random };
+          const uuid = generate({ ...options, msecs: TIME });
+
+          assert.deepEqual(Uint8Array.from(backing), before);
+          assert.deepEqual(
+            parse(uuid).subarray(10),
+            Uint8Array.of(0x23, 0x22, 0x22, 0x22, 0x22, 0x22),
+          );
+          assert.equal(generate({ ...options, msecs: TIME }), uuid);
+
+          const node = random.subarray(10);
+          const explicit = generate({ ...options, msecs: TIME, node });
+          assert.deepEqual(parse(explicit).subarray(10), Uint8Array.from(node));
+          assert.deepEqual(Uint8Array.from(backing), before);
+
+          const output = createBuffer(24).fill(0xa5);
+          assert.strictEqual(
+            generate({ ...options, msecs: TIME }, output, 4),
+            output,
+          );
+          assert.deepEqual(
+            Uint8Array.from(output.subarray(4, 20)),
+            parse(uuid),
+          );
+          assert.ok(output.subarray(0, 4).every((byte) => byte === 0xa5));
+          assert.ok(output.subarray(20).every((byte) => byte === 0xa5));
+          assert.deepEqual(Uint8Array.from(backing), before);
+        }
+      }
     }
   });
 
