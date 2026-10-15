@@ -117,4 +117,17 @@ describe('v6', () => {
     const id = v6ToV1(V6_ID);
     assert.equal(id, V1_ID);
   });
+
+  test('conversions accept 16-byte arrays', () => {
+    assert.deepEqual(v1ToV6(parse(V1_ID)), parse(V6_ID));
+    assert.deepEqual(v6ToV1(parse(V6_ID)), parse(V1_ID));
+  });
+
+  test('conversions throw on byte arrays that are not 16 bytes', () => {
+    for (const length of [0, 1, 15, 17, 32]) {
+      const bytes = new Uint8Array(length);
+      assert.throws(() => v1ToV6(bytes), TypeError, `v1ToV6 length ${length}`);
+      assert.throws(() => v6ToV1(bytes), TypeError, `v6ToV1 length ${length}`);
+    }
+  });
 });
