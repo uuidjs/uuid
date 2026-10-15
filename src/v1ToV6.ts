@@ -23,6 +23,10 @@ export default function v1ToV6(
 
 // Do the field transformation needed for v1 -> v6
 function _v1ToV6(v1Bytes: Uint8Array): NonSharedArrayBuffer {
+  if (v1Bytes.length !== 16) {
+    throw new TypeError('UUID byte array must have length 16');
+  }
+
   return Uint8Array.of(
     ((v1Bytes[6] & 0x0f) << 4) | ((v1Bytes[7] >> 4) & 0x0f),
     ((v1Bytes[7] & 0x0f) << 4) | ((v1Bytes[4] & 0xf0) >> 4),
