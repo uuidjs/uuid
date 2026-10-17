@@ -33,11 +33,7 @@ export default function v35<TBuf extends Uint8Array = Uint8Array>(
   const namespaceBytes: Uint8Array =
     typeof namespace === 'string' ? parse(namespace) : namespace;
 
-  if (typeof namespace === 'string') {
-    namespace = parse(namespace);
-  }
-
-  if (namespace?.length !== 16) {
+  if (namespaceBytes?.length !== 16) {
     throw TypeError(
       'Namespace must be array-like (16 iterable integer values, 0-255)',
     );
