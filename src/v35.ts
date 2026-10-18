@@ -3,13 +3,23 @@ import { unsafeStringify } from './stringify.js';
 import type { UUIDTypes } from './types.js';
 
 export function stringToBytes(str: string) {
-  // TODO: Use TextEncoder (see https://stackoverflow.com/a/48762658/109538)
-  str = unescape(encodeURIComponent(str));
+  let encoded: string;
 
-  const bytes = new Uint8Array(str.length);
+  try {
+    encoded = unescape(encodeURIComponent(str));
+  } catch {
+    // encodeURIComponent rejects unpaired surrogates, but UTF-8 encoders replace them.
+    const wellFormed = str.replace(
+      /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g,
+      (surrogate) => (surrogate.length === 2 ? surrogate : '\uFFFD'),
+    );
+    encoded = unescape(encodeURIComponent(wellFormed));
+  }
 
-  for (let i = 0; i < str.length; ++i) {
-    bytes[i] = str.charCodeAt(i);
+  const bytes = new Uint8Array(encoded.length);
+
+  for (let i = 0; i < encoded.length; ++i) {
+    bytes[i] = encoded.charCodeAt(i);
   }
 
   return bytes;

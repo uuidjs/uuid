@@ -112,6 +112,19 @@ describe('v35', () => {
     assert.ok(v3('hello.example.com', new Uint8Array(16).fill(0)));
   });
 
+  test('unpaired surrogates are encoded as the replacement character', () => {
+    const replacement = Uint8Array.of(0xef, 0xbf, 0xbd);
+
+    assert.deepEqual(stringToBytes('\uD800'), replacement);
+    assert.deepEqual(stringToBytes('\uDC00'), replacement);
+    assert.deepEqual(
+      stringToBytes('\uD83D\uDE00'),
+      Uint8Array.of(0xf0, 0x9f, 0x98, 0x80),
+    );
+    assert.equal(v3('\uD800', v3.DNS), v3('\uFFFD', v3.DNS));
+    assert.equal(v5('\uDC00', v5.DNS), v5('\uFFFD', v5.DNS));
+  });
+
   test('v3 fill buffer', () => {
     let buf = new Uint8Array(16);
 
