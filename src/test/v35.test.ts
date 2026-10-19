@@ -4,19 +4,20 @@ import md5 from '../md5.js';
 import sha1 from '../sha1.js';
 import v3 from '../v3.js';
 import v5 from '../v5.js';
-import { stringToBytes } from '../v35.js';
+
+const encoder = new TextEncoder();
 
 describe('v35', () => {
   const HASH_SAMPLES = [
     {
-      input: stringToBytes(''),
+      input: encoder.encode(''),
       sha1: 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
       md5: 'd41d8cd98f00b204e9800998ecf8427e',
     },
 
     // Extended ascii chars
     {
-      input: stringToBytes(
+      input: encoder.encode(
         '\t\b\f  !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u00A1\u00A2\u00A3\u00A4\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA\u00AB\u00AC\u00AE\u00AF\u00B0\u00B1\u00B2\u00B3\u00B4\u00B5\u00B6\u00B7\u00B8\u00B9\u00BA\u00BB\u00BC\u00BD\u00BE\u00BF\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4\u00D5\u00D6\u00D7\u00D8\u00D9\u00DA\u00DB\u00DC\u00DD\u00DE\u00DF\u00E0\u00E1\u00E2\u00E3\u00E4\u00E5\u00E6\u00E7\u00E8\u00E9\u00EA\u00EB\u00EC\u00ED\u00EE\u00EF\u00F0\u00F1\u00F2\u00F3\u00F4\u00F5\u00F6\u00F7\u00F8\u00F9\u00FA\u00FB\u00FC\u00FD\u00FE\u00FF',
       ),
       sha1: 'ca4a426a3d536f14cfd79011e79e10d64de950a0',
@@ -25,7 +26,7 @@ describe('v35', () => {
 
     // A sampling from the Unicode BMP
     {
-      input: stringToBytes(
+      input: encoder.encode(
         '\u00A5\u0104\u018F\u0256\u02B1o\u0315\u038E\u0409\u0500\u0531\u05E1\u05B6\u0920\u0903\u09A4\u0983\u0A20\u0A02\u0AA0\u0A83\u0B06\u0C05\u0C03\u1401\u16A0',
       ),
       sha1: 'f2753ebc390e5f637e333c2a4179644a93ae9f65',
@@ -115,10 +116,10 @@ describe('v35', () => {
   test('unpaired surrogates are encoded as the replacement character', () => {
     const replacement = Uint8Array.of(0xef, 0xbf, 0xbd);
 
-    assert.deepEqual(stringToBytes('\uD800'), replacement);
-    assert.deepEqual(stringToBytes('\uDC00'), replacement);
+    assert.deepEqual(encoder.encode('\uD800'), replacement);
+    assert.deepEqual(encoder.encode('\uDC00'), replacement);
     assert.deepEqual(
-      stringToBytes('\uD83D\uDE00'),
+      encoder.encode('\uD83D\uDE00'),
       Uint8Array.of(0xf0, 0x9f, 0x98, 0x80),
     );
     assert.equal(v3('\uD800', v3.DNS), v3('\uFFFD', v3.DNS));

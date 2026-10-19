@@ -2,33 +2,12 @@ import parse from './parse.js';
 import { unsafeStringify } from './stringify.js';
 import type { UUIDTypes } from './types.js';
 
-export function stringToBytes(str: string) {
-  let encoded: string;
-
-  try {
-    encoded = unescape(encodeURIComponent(str));
-  } catch {
-    // encodeURIComponent rejects unpaired surrogates, but UTF-8 encoders replace them.
-    const wellFormed = str.replace(
-      /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g,
-      (surrogate) => (surrogate.length === 2 ? surrogate : '\uFFFD'),
-    );
-    encoded = unescape(encodeURIComponent(wellFormed));
-  }
-
-  const bytes = new Uint8Array(encoded.length);
-
-  for (let i = 0; i < encoded.length; ++i) {
-    bytes[i] = encoded.charCodeAt(i);
-  }
-
-  return bytes;
-}
+type HashFunction = (bytes: Uint8Array) => Uint8Array;
 
 export const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
 export const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
-type HashFunction = (bytes: Uint8Array) => Uint8Array;
+const encoder = new TextEncoder();
 
 export default function v35<TBuf extends Uint8Array = Uint8Array>(
   version: 0x30 | 0x50,
@@ -39,7 +18,7 @@ export default function v35<TBuf extends Uint8Array = Uint8Array>(
   offset?: number,
 ): UUIDTypes<TBuf> {
   const valueBytes: Uint8Array =
-    typeof value === 'string' ? stringToBytes(value) : value;
+    typeof value === 'string' ? encoder.encode(value) : value;
   const namespaceBytes: Uint8Array =
     typeof namespace === 'string' ? parse(namespace) : namespace;
 
