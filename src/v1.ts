@@ -171,6 +171,16 @@ function v1Bytes(
   nsecs ??= 0;
   clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
 
+  // Capture node bytes before output writes, which may overlap the input.
+  // Set the multicast bit only for generated nodes, without modifying input.
+  // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
+  const node0 = node == null ? rnds[10] | 0x01 : node[0];
+  const node1 = node == null ? rnds[11] : node[1];
+  const node2 = node == null ? rnds[12] : node[2];
+  const node3 = node == null ? rnds[13] : node[3];
+  const node4 = node == null ? rnds[14] : node[4];
+  const node5 = node == null ? rnds[15] : node[5];
+
   // Offset to Gregorian epoch
   // https://www.rfc-editor.org/rfc/rfc9562.html#section-5.1-1
   msecs += 12219292800000;
@@ -207,18 +217,12 @@ function v1Bytes(
   buf[offset++] = clockseq & 0xff;
 
   // `node`
-  if (node == null) {
-    node = rnds.subarray(10, 16);
-
-    // Set multicast bit without modifying the random input
-    // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
-    buf[offset++] = node[0] | 0x01;
-  } else {
-    buf[offset++] = node[0];
-  }
-  for (let n = 1; n < 6; ++n) {
-    buf[offset++] = node[n];
-  }
+  buf[offset++] = node0;
+  buf[offset++] = node1;
+  buf[offset++] = node2;
+  buf[offset++] = node3;
+  buf[offset++] = node4;
+  buf[offset++] = node5;
 
   return buf;
 }
