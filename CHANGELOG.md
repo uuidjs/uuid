@@ -1,5 +1,12 @@
 # Change Log
 
+## [14.0.4](https://github.com/uuidjs/uuid/compare/v14.0.3...v14.0.4) (2026-10-23)
+
+
+### Bug Fixes
+
+* **v35:** handle unpaired surrogates ([#988](https://github.com/uuidjs/uuid/issues/988)) ([3b70ec2](https://github.com/uuidjs/uuid/commit/3b70ec29ef9067be33384a16dcd48dc77a0efdf4))
+
 ## [14.0.3](https://github.com/uuidjs/uuid/compare/v14.0.2...v14.0.3) (2026-10-09)
 
 
