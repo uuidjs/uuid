@@ -166,13 +166,12 @@ Create an RFC version 1 (timestamp) UUID
 | [`options.node = (random)` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
 | [`options.clockseq = (random)`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
 | [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
-| [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of nanoseconds to add to `msecs`, should be 0-10,000) |
+| [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of 100-nanosecond intervals to add to `msecs`, should be 0-9,999) |
 | [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
 | [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
-| _throws_ | `Error` if more than 10M UUIDs/sec are requested |
 
 Example:
 
@@ -310,7 +309,7 @@ This method takes the same arguments as uuid.v1().
 ```javascript
 import { v6 as uuidv6 } from 'uuid';
 
-uuidv6(); // ⇨ '1efc7d35-7fd0-6000-841d-504d2167fc5b'
+uuidv6(); // ⇨ '1efc7d35-7fd0-6000-841d-514d2167fc5b'
 ```
 
 Example using `options`:
@@ -319,7 +318,7 @@ Example using `options`:
 import { v6 as uuidv6 } from 'uuid';
 
 const options = {
-  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  node: Uint8Array.of(0x01, 0x23, 0x45, 0x67, 0x89, 0xab),
   clockseq: 0x1234,
   msecs: new Date('2011-11-01').getTime(),
   nsecs: 5678,
@@ -339,7 +338,7 @@ v6ToV1('1ef22c49-2f62-6d9e-97e9-325096b39f47'); // ⇨ '92f62d9e-22c4-11ef-97e9-
 
 ### uuid.v7([options[, buffer[, offset]]])
 
-Create an RFC version 7 (random) UUID
+Create an RFC version 7 (Unix Epoch time-based) UUID
 
 |  |  |
 | --- | --- |
@@ -446,6 +445,7 @@ Usage:
   uuid v3 <name> <namespace uuid>
   uuid v4
   uuid v5 <name> <namespace uuid>
+  uuid v6
   uuid v7
   uuid --help
 
@@ -464,7 +464,7 @@ Prior to `uuid@11`, it was possible for `options` state to interfere with the in
 
 **Browsers**: `uuid` [builds are tested](/uuidjs/uuid/blob/main/wdio.conf.js) against the latest version of desktop Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren't currently tested.
 
-**Node**: `uuid` releases are tested against [Node LTS versions](https://github.com/nodejs/Release), plus one prior.  (E.g. At the time of this writing the oldest LTS version of Node is `node@22`, so `uuid` would support back to `node@20`)
+**Node**: `uuid` releases are tested against [Node LTS versions](https://github.com/nodejs/Release), plus one prior. (E.g. At the time of this writing the oldest LTS version of Node is `node@22`, so `uuid` would support back to `node@20`)
 
 **Typescript**: TS versions released within the past two years are supported. [source](https://github.com/microsoft/TypeScript/issues/49088#issuecomment-2468723715)
 
