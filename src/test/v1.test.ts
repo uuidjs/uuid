@@ -2,6 +2,7 @@ import * as assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import parse from '../parse.js';
 import v1, { updateV1State } from '../v1.js';
+import v6 from '../v6.js';
 
 // Verify ordering of v1 ids created with explicit times
 const TIME = 1321644961388; // 2011-11-18 11:36:01.388-08:00
@@ -243,6 +244,116 @@ describe('v1', () => {
         'v1(options) node multicast bit',
       );
     }
+  });
+
+  test('does not mutate random bytes when generating a node', () => {
+    const factories = [
+      (length: number) => Buffer.alloc(length),
+      (length: number) => new Uint8Array(length),
+    ];
+    for (const generate of [v1, v6]) {
+      for (const createBuffer of factories) {
+        for (const useRng of [false, true]) {
+          const backing = createBuffer(32).fill(0x22);
+          const random = backing.subarray(8, 24);
+          const before = Uint8Array.from(backing);
+          const options = useRng ? { rng: () => random } : { random };
+          const uuid = generate({ ...options, msecs: TIME });
+
+          assert.deepEqual(Uint8Array.from(backing), before);
+          assert.deepEqual(
+            parse(uuid).subarray(10),
+            Uint8Array.of(0x23, 0x22, 0x22, 0x22, 0x22, 0x22),
+          );
+          assert.equal(generate({ ...options, msecs: TIME }), uuid);
+
+          const node = random.subarray(10);
+          const explicit = generate({ ...options, msecs: TIME, node });
+          assert.deepEqual(parse(explicit).subarray(10), Uint8Array.from(node));
+          assert.deepEqual(Uint8Array.from(backing), before);
+
+          const output = createBuffer(24).fill(0xa5);
+          assert.strictEqual(
+            generate({ ...options, msecs: TIME }, output, 4),
+            output,
+          );
+          assert.deepEqual(
+            Uint8Array.from(output.subarray(4, 20)),
+            parse(uuid),
+          );
+          assert.ok(output.subarray(0, 4).every((byte) => byte === 0xa5));
+          assert.ok(output.subarray(20).every((byte) => byte === 0xa5));
+          assert.deepEqual(Uint8Array.from(backing), before);
+        }
+      }
+    }
+  });
+
+  for (const generate of [v1, v6]) {
+    for (const useRng of [false, true]) {
+      test(`${generate.name} accepts ordinary-array ${useRng ? 'rng' : 'random'} inputs`, () => {
+        const random = Array.from({ length: 16 }, (_, i) => i * 2);
+        const before = random.slice();
+        const source = useRng ? { rng: () => random } : { random };
+        // Ordinary arrays are documented JS inputs, outside the TS option type.
+        const options = source as unknown as Parameters<typeof v1>[0];
+        const expected = generate({
+          random: Uint8Array.from(random),
+          msecs: TIME,
+        });
+        assert.equal(generate({ ...options, msecs: TIME }), expected);
+        assert.deepEqual(random, before);
+      });
+    }
+
+    for (const createBuffer of [
+      (length: number) => Buffer.alloc(length),
+      (length: number) => new Uint8Array(length),
+    ]) {
+      for (const useRng of [false, true]) {
+        for (const outputOffset of [0, 4, 10, 14, 24]) {
+          test(`${generate.name} preserves overlapping ${createBuffer(0).constructor.name} ${useRng ? 'rng' : 'random'} at ${outputOffset}`, () => {
+            const backing = createBuffer(48);
+            for (let i = 0; i < backing.length; i++) backing[i] = i * 3 + 2;
+            const random = backing.subarray(8, 24);
+            const before = Uint8Array.from(backing);
+            const expected = parse(
+              generate({ random: Uint8Array.from(random), msecs: TIME }),
+            );
+            const options = useRng ? { rng: () => random } : { random };
+            assert.strictEqual(
+              generate({ ...options, msecs: TIME }, backing, outputOffset),
+              backing,
+            );
+            assert.deepEqual(
+              Uint8Array.from(
+                backing.subarray(outputOffset, outputOffset + 16),
+              ),
+              expected,
+            );
+            assert.deepEqual(
+              Uint8Array.from(backing.subarray(0, outputOffset)),
+              before.subarray(0, outputOffset),
+            );
+            assert.deepEqual(
+              Uint8Array.from(backing.subarray(outputOffset + 16)),
+              before.subarray(outputOffset + 16),
+            );
+          });
+        }
+      }
+    }
+  }
+
+  test('snapshots explicit node bytes before overlapping output writes', () => {
+    const backing = Uint8Array.from({ length: 32 }, (_, i) => i * 2);
+    const node = backing.subarray(10, 16);
+    const random = new Uint8Array(16).fill(0x22);
+    const expected = parse(
+      v1({ random, node: Uint8Array.from(node), msecs: TIME }),
+    );
+    v1({ random, node, msecs: TIME }, backing, 4);
+    assert.deepEqual(backing.subarray(4, 20), expected);
   });
 
   test('throws when option.random is too short', () => {
