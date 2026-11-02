@@ -89,6 +89,41 @@ describe('v7', () => {
     assert.strictEqual(buffer, result);
   });
 
+  for (const [randomOffset, outputOffset] of [
+    [0, 1],
+    [0, 4],
+    [4, 0],
+    [2, 3],
+    [0, 0],
+    [0, 20],
+  ]) {
+    test(`preserves random bytes while writing from ${randomOffset} to ${outputOffset}`, () => {
+      const buffer = new Uint8Array(40).fill(0xaa);
+      buffer.set(RFC_RANDOM, randomOffset);
+      const before = buffer.slice();
+      const random = buffer.subarray(randomOffset, randomOffset + 16);
+      const result = v7(
+        { random, msecs: RFC_MSECS, seq: RFC_SEQ },
+        buffer,
+        outputOffset,
+      );
+
+      assert.strictEqual(result, buffer);
+      assert.deepEqual(
+        buffer.subarray(outputOffset, outputOffset + 16),
+        RFC_V7_BYTES,
+      );
+      assert.deepEqual(
+        buffer.subarray(0, outputOffset),
+        before.subarray(0, outputOffset),
+      );
+      assert.deepEqual(
+        buffer.subarray(outputOffset + 16),
+        before.subarray(outputOffset + 16),
+      );
+    });
+  }
+
   test('fills two UUIDs into a buffer as expected', () => {
     const buffer = new Uint8Array(32);
 
