@@ -99,6 +99,14 @@ function v7Bytes(
   msecs ??= Date.now();
   seq ??= v7Sequence(rnds);
 
+  // Read the random suffix before writes can overwrite an overlapping input.
+  const random10 = rnds[10];
+  const random11 = rnds[11];
+  const random12 = rnds[12];
+  const random13 = rnds[13];
+  const random14 = rnds[14];
+  const random15 = rnds[15];
+
   // byte 0-5: timestamp (48 bits)
   buf[offset++] = (msecs / 0x10000000000) & 0xff;
   buf[offset++] = (msecs / 0x100000000) & 0xff;
@@ -120,14 +128,14 @@ function v7Bytes(
   buf[offset++] = (seq >>> 6) & 0xff;
 
   // byte 10: sequence bits 0-5 (6 bits) | random (2 bits)
-  buf[offset++] = ((seq << 2) & 0xff) | (rnds[10] & 0x03);
+  buf[offset++] = ((seq << 2) & 0xff) | (random10 & 0x03);
 
   // bytes 11-15: random (40 bits)
-  buf[offset++] = rnds[11];
-  buf[offset++] = rnds[12];
-  buf[offset++] = rnds[13];
-  buf[offset++] = rnds[14];
-  buf[offset++] = rnds[15];
+  buf[offset++] = random11;
+  buf[offset++] = random12;
+  buf[offset++] = random13;
+  buf[offset++] = random14;
+  buf[offset++] = random15;
 
   return buf;
 }
