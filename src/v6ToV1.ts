@@ -21,6 +21,10 @@ export default function v6ToV1(uuid: UUIDTypes): UUIDTypes {
 
 // Do the field transformation needed for v6 -> v1
 function _v6ToV1(v6Bytes: Uint8Array) {
+  if (v6Bytes.length !== 16) {
+    throw new TypeError('UUID byte array must have length 16');
+  }
+
   return Uint8Array.of(
     ((v6Bytes[3] & 0x0f) << 4) | ((v6Bytes[4] >> 4) & 0x0f),
     ((v6Bytes[4] & 0x0f) << 4) | ((v6Bytes[5] & 0xf0) >> 4),
