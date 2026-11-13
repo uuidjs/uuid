@@ -192,12 +192,12 @@ Create an RFC version 1 (timestamp) UUID
 |  |  |
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
-| [`options.node = (random)` ] | RFC "node" field as an `Array[6]` of byte values (per 4.1.6) |
+| [`options.node = (random)` ] | RFC "node" field as a `Uint8Array[6]` of byte values (per 4.1.6) |
 | [`options.clockseq = (random)`] | RFC "clock sequence" as a `Number` between 0 - 0x3fff |
 | [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
 | [`options.nsecs = 0`] | RFC "timestamp" field (`Number` of 100-nanosecond intervals to add to `msecs`, should be 0-9,999) |
-| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
-| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.random = (random)`] | `Uint8Array` of 16 random bytes (0-255) used to generate other fields, above |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns a `Uint8Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
@@ -251,8 +251,8 @@ Create an RFC version 4 (random) UUID
 |  |  |
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
-| [`options.random`] | `Array` of 16 random bytes (0-255) |
-| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.random`] | `Uint8Array` of 16 random bytes (0-255) |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns a `Uint8Array` of 16 random bytes (0-255) |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
@@ -299,8 +299,8 @@ Create an RFC version 5 (namespace w/ SHA-1) UUID
 
 |  |  |
 | --- | --- |
-| `name` | `String \| Array` |
-| `namespace` | `String \| Array[16]` Namespace UUID |
+| `name` | `String \| Uint8Array` |
+| `namespace` | `String \| Uint8Array[16]` Namespace UUID |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
 | _returns_ | UUID `String` if no `buffer` is specified, otherwise returns `buffer` |
@@ -373,8 +373,8 @@ Create an RFC version 7 (Unix Epoch time-based) UUID
 | --- | --- |
 | [`options`] | `Object` with one or more of the following properties: |
 | [`options.msecs = (current time)`] | RFC "timestamp" field (`Number` of milliseconds, unix epoch) |
-| [`options.random = (random)`] | `Array` of 16 random bytes (0-255) used to generate other fields, above |
-| [`options.rng`] | Alternative to `options.random`, a `Function` that returns an `Array` of 16 random bytes (0-255) |
+| [`options.random = (random)`] | `Uint8Array` of 16 random bytes (0-255) used to generate other fields, above |
+| [`options.rng`] | Alternative to `options.random`, a `Function` that returns a `Uint8Array` of 16 random bytes (0-255) |
 | [`options.seq = (random)`] | 32-bit sequence `Number` between 0 - 0xffffffff. This may be provided to help ensure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value. |
 | [`buffer`] | `Uint8Array` or `Uint8Array` subtype (e.g. Node.js `Buffer`). If provided, binary UUID is written into the array, starting at `offset` |
 | [`offset` = 0] | `Number` Index to start writing UUID bytes in `buffer` |
