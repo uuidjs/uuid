@@ -170,6 +170,13 @@ function v1Bytes(
   msecs ??= Date.now();
   nsecs ??= 0;
   clockseq ??= ((rnds[8] << 8) | rnds[9]) & 0x3fff;
+  if (!Number.isInteger(clockseq) || clockseq < 0 || clockseq > 0x3fff) {
+    // README documents clockseq as a Number between 0 - 0x3fff.  Without this
+    // check an out-of-range value silently produced an invalid UUID, e.g.
+    // clockseq 0xffff yielded a '...-ffff-...' clock_seq field whose variant
+    // bits fail validate().  v6() delegates to v1(), so it is covered too.
+    throw new RangeError('clockseq must be an integer between 0 and 0x3fff');
+  }
   if (node == null) {
     node = rnds.slice(10, 16);
 

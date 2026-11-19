@@ -268,4 +268,21 @@ describe('v1', () => {
     assert.throws(() => v1({}, buf30, -1), RangeError);
     assert.throws(() => v1({}, buf30, 15), RangeError);
   });
+
+  test('throws RangeError for out-of-range clockseq', () => {
+    // README documents clockseq as a Number between 0 - 0x3fff.  Without this
+    // check v1() silently returned an invalid UUID, e.g. clockseq 0xffff
+    // produced '...-ffff-...' which validate() rejects.
+    const node = Uint8Array.of(0x9f, 0x68, 0xde, 0xce, 0xd8, 0x46);
+    for (const clockseq of [0x4000, 0xffff, -1, 1.5, Number.NaN]) {
+      assert.throws(() => v1({ msecs: TIME, clockseq, node }), RangeError);
+    }
+  });
+
+  test('accepts clockseq at the documented boundaries', () => {
+    const node = Uint8Array.of(0x9f, 0x68, 0xde, 0xce, 0xd8, 0x46);
+    for (const clockseq of [0, 0x3fff]) {
+      assert.doesNotThrow(() => v1({ msecs: TIME, clockseq, node }));
+    }
+  });
 });
