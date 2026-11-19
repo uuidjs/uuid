@@ -97,6 +97,12 @@ describe('v6', () => {
     assert.throws(() => v6({}, buf30, 15), RangeError);
   });
 
+  test('throws RangeError for out-of-range clockseq', () => {
+    // v6() delegates to v1(), so the documented 0 - 0x3fff clockseq range
+    // applies here too.
+    assert.throws(() => v6({ ...fullOptions, clockseq: 0x4000 }), RangeError);
+  });
+
   test('random node has multicast bit set', () => {
     // https://www.rfc-editor.org/rfc/rfc9562.html#section-6.10-3
     for (let i = 0; i < 100; i++) {
