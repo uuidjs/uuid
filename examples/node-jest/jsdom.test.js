@@ -1,5 +1,8 @@
 /** @jest-environment jsdom */
+import { TextEncoder } from 'node:util';
 import * as uuid from 'uuid';
+
+globalThis.TextEncoder ??= TextEncoder;
 
 test('uuidv4()', () => {
   const val = uuid.v4();

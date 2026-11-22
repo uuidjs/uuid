@@ -66,6 +66,13 @@ describe('v7', () => {
     assert.strictEqual(id.indexOf('017f22e2'), 0);
   });
 
+  test('preserves an explicit Unix epoch timestamp', () => {
+    assert.strictEqual(
+      v7({ random: RFC_RANDOM, msecs: 0, seq: RFC_SEQ }),
+      '00000000-0000-7cc3-98c4-dc0c0c07398f',
+    );
+  });
+
   test('fills one UUID into a buffer as expected', () => {
     const buffer = new Uint8Array(16);
     const result = v7(
