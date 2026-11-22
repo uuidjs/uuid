@@ -88,7 +88,7 @@ function v7Bytes(
     buf = new Uint8Array(16);
     offset = 0;
   } else {
-    if (offset < 0 || offset + 16 > buf.length) {
+    if (!Number.isInteger(offset) || offset < 0 || offset + 16 > buf.length) {
       throw new RangeError(
         `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
       );

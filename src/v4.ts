@@ -46,8 +46,8 @@ function _v4<TBuf extends Uint8Array = Uint8Array>(
 
   // Copy bytes to buffer, if provided
   if (buf) {
-    offset = offset || 0;
-    if (offset < 0 || offset + 16 > buf.length) {
+    offset ??= 0;
+    if (!Number.isInteger(offset) || offset < 0 || offset + 16 > buf.length) {
       throw new RangeError(
         `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
       );

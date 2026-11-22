@@ -45,7 +45,7 @@ export default function v35<TBuf extends Uint8Array = Uint8Array>(
 
   if (buf) {
     offset ??= 0;
-    if (offset < 0 || offset + 16 > buf.length) {
+    if (!Number.isInteger(offset) || offset < 0 || offset + 16 > buf.length) {
       throw new RangeError(
         `UUID byte range ${offset}:${offset + 15} is out of buffer bounds`,
       );
